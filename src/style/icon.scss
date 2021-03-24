@@ -1,0 +1,121 @@
+// /* 头部左边返回图标 */
+// .ic-back {
+//     background: url('../assets/image/icon/light/ic_public_back.png') center/cover;
+// }
+// /* 头部右边更多图标 */
+// .ic-more {
+//     background: url('../assets/image/icon/light/ic_public_more.png') center/cover;
+// }
+// /* 头部提示图标 */
+// .ic-err {
+//     background: url('../assets/image/icon/light/err_icon.png') center/cover;
+// }
+// /* loading图标 */
+// .ic-loading {
+//     background: url('../assets/image/icon/light/loading.png') center/cover;
+// }
+// /* 收起图标 */
+// .ic-shouqi {
+//     background: url('../assets/image/icon/light/ic_public_shouqi.png') center/cover;
+// }
+// /* 首页产品图 */
+// .ic-product {
+//     background: url('../assets/image/product/product.png') center/cover;
+// }
+// /* 首页logo */
+// .ic-logo {
+//     background: url('../assets/image/product/logo.png') center/cover;
+// }
+// .ic-switch-on {
+//     background: url('../assets/image/icon/light/switch_on.png') center/cover;
+// }
+// .ic-switch-off {
+//     background: url('../assets/image/icon/light/switch_off.png') center/cover;
+// }
+// 头部左侧箭头
+.iconLeft_header {
+    background: url("../assets/image/icon/light/ic_public_back.png") 100% no-repeat;
+}
+// 电池
+.cell1 {
+    background-image: url('../assets/image/icon/light/cell1.png')
+}
+
+.cell2 {
+    background-image: url('../assets/image/icon/light/cell2.png')
+}
+
+.cell3 {
+    background-image: url('../assets/image/icon/light/cell3.png')
+}
+
+.cell4 {
+    background-image: url('../assets/image/icon/light/cell4.png')
+}
+
+.cell5 {
+    background-image: url('../assets/image/icon/light/cell5.png')
+}
+
+.cell6 {
+    background-image: url('../assets/image/icon/light/cell6.png')
+}
+//
+.time {
+    background-image: url('../assets/image/icon/light/time.png');
+}
+// 刷牙选配
+.pattern {
+    background-image: url('../assets/image/icon/light/pattern.png');
+}
+// 设置
+.set {
+    background-image: url('../assets/image/icon/light/set.png');
+}
+// 首页刷牙记录
+.log_right {
+    background-image: url('../assets/image/icon/light/log_right.png');
+}
+.theme-dark {
+    // 电池
+    .cell1 {
+        background-image: url('../assets/image/icon/dark/cell1.png')
+    }
+    .cell2 {
+        background-image: url('../assets/image/icon/dark/cell2.png')
+    }
+    .cell3 {
+        background-image: url('../assets/image/icon/dark/cell3.png')
+    }
+    .cell4 {
+        background-image: url('../assets/image/icon/dark/cell4.png')
+    }
+    .cell5 {
+        background-image: url('../assets/image/icon/dark/cell5.png')
+    }
+    .cell6 {
+        background-image: url('../assets/image/icon/dark/cell6.png')
+   }
+    // .ic-back {
+    //     background: url('../assets/image/icon/dark/ic_public_back.png') center/cover;
+    // }
+    // .ic-more {
+    //     background: url('../assets/image/icon/dark/ic_public_more.png') center/cover;
+    // }
+    // .ic-err {
+    //     background: url('../assets/image/icon/dark/err_icon.png') center/cover;
+    // }
+    // .ic-loading {
+    //     background: url('../assets/image/icon/dark/loading.png') center/cover;
+    // }
+    // /* 收起图标 */
+    // .ic-shouqi {
+    //     background: url('../assets/image/icon/dark/ic_public_shouqi.png') center/cover;
+    // }
+    // .ic-switch-on {
+    //     background: url('../assets/image/icon/dark/switch_on.png') center/cover;
+    // }
+    // .ic-switch-off {
+    //     background: url('../assets/image/icon/dark/switch_off.png') center/cover;
+    // }
+}
