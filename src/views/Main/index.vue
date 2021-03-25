@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-24 16:50:15
+ * @LastEditTime: 2021-03-25 10:37:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -18,15 +18,15 @@
     <!-- logo -->
     <div :class="$i18n.locale === 'zh' ? 'logo':'logo_en'"></div>
     <!-- 连接状态 -->
-    <div class="connectState flexR" v-show="!isflage">
+    <div class="connectState flexR" v-show="isflage">
         <div>{{ $t('index.noConnect') }}</div>
         <div>{{ $t('index.again') }}</div>
     </div>
-    <div class="connectState flexR" v-show="isflage">
+    <div class="connectState flexR" v-show="!isflage && !isConnect">
         <div>{{ $t('index.connect') }}</div>
         <div><img src="@/assets/image/icon/light/loading.png" class="loading_icon"></div>
     </div>
-    <div class="connectState flexR" v-show="!isflage">
+    <div class="connectState flexR" v-show="!isflage && isConnect">
         <div>{{ $t('index.connected') }}</div>
         <div>
             <!-- 电池 -->
@@ -48,7 +48,7 @@
           </div>
         </div>
          <!-- 刷牙剩余 -->
-        <div>
+        <div @click="remain">
           <span>52天</span>
           <div class="text_margin">
               <span>刷牙剩余</span>
@@ -58,13 +58,13 @@
      <!-- second -->
      <div class="flexR contentList">
          <!-- 刷牙模式 -->
-         <div class="itemPlay flexR rightM">
-            <div @click="remain">
+         <div class="itemPlay flexR rightM"  style="position: relative;"  @click="brushModeClick">
+            <div>
                 <span>{{ $t('index.brushLen') }}</span><br />
                 <div class="text_color">
-                    <span v-if="isPattern == '1'">{{ $t('index.cleaning')}}</span>
-                    <span v-if="isPattern == '0'">{{ $t('index.cleaning')}}</span>
+                    <span>{{modeDisplay}}</span>
                 </div>
+                <HiCardShift class="mt8 cardP" :shiftList="patterns" v-show="isMode" @eventClick="modeClick"></HiCardShift>
             </div>
             <div class="icon_width">
                 <div class="pattern patternCommon"></div>
@@ -134,8 +134,9 @@ export default {
   data() {
     return {
        isflage:true,
+       isConnect:true,
        battery:0,
-       isPattern:0,
+      // isPattern:0,
        brushTime:'00',
        isSeat:'1',
        shiftTest: [
@@ -143,15 +144,32 @@ export default {
           { name: '2.5分钟', selected: false },
           { name: '3分钟', selected: true }
         ],
+        patterns: [
+          { name: '清洁', selected: false },
+          { name: '舒适', selected: false },
+          { name: '按摩', selected: true },
+          { name: '强劲', selected: false }
+        ],
        isTime:false,
-       timeLen:'2分钟'
+       isMode:false,
+       timeLen:'2分钟',
+       modeDisplay:'清洁'
     };
   },
   mounted() {
-    this.$dialog.show()
-   if(this.bleConnected){   //true
-      console.log(3)
-   }
+    setTimeout(() => { //连接中
+       this.isflage = false
+       this.isConnect = false
+            }, 500);
+    setTimeout(() => { //连接超时
+        this.isflage = true
+        this.isConnect = true
+        //this.$dialog.show()
+    }, 60 * 1000);
+
+  //  if(this.bleConnected){   //true
+  //     console.log(3)
+  //  }
   },
   computed: {
       ...mapState(['bleConnected']),
@@ -163,12 +181,19 @@ export default {
  
   },
   methods: {
-     brushTimeClick(val){
+     brushTimeClick(){
        this.isTime = !this.isTime
      },
-     timeClick(val){
+      timeClick(val){
        this.timeLen = val.name
      },
+     brushModeClick(){
+       this.isMode = !this.isMode
+     },
+     modeClick(val){
+      this.modeDisplay = val.name
+     },
+    
      // 设置---跳转
     setting() {
         this.$router.push("Setting");
@@ -196,10 +221,10 @@ export default {
     .index_main{
       width: 100%;
       flex: 1;
-       // overflow: hidden;
+        overflow: hidden;
         .content{
           flex: 1;
-          overflow-y: auto;
+        //  overflow-y: auto;
           padding: 0 16px;
         }
         .itemPlay {

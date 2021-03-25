@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-30 10:13:38
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 17:16:30
+ * @LastEditTime: 2021-03-25 10:29:27
  */
 const zh = {
     Header: {
@@ -14,6 +14,7 @@ const zh = {
         noConnect: '未连接',
         connect: '连接中',
         connected: '已连接',
+        again:'重新连接',
         brushModule: '刷头选配',
         miniBrush: '迷你刷头',
         uBrush: 'U型刷头',

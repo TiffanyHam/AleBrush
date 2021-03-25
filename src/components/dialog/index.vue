@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-12-23 10:05:44
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 17:17:29
+ * @LastEditTime: 2021-03-25 09:50:57
 -->
 <template>
 
@@ -26,11 +26,11 @@
                 <slot>{{$t('Hint.tipText3')}}</slot>
             </div>
             <div class="dialog_footer fb">
-                <span class="btn btn_left" @click.stop="cancle">
+                <span class="btn btn_left" @click="show = false">
                     <slot name="cancle">{{$t('Hint.sure')}}</slot>
                 </span>
                 <span class="line"></span>
-                <span class="btn" @click.stop="sure">
+                <span class="btn" @click="handleClick()">
                     <slot name="sure btn_right">{{$t('Hint.conn')}}</slot>
                 </span>
             </div>
@@ -48,10 +48,9 @@ export default {
     },
     created() { },
     methods: {
-        close() {
-            this.show = false
-            // window.hilink.openBluetoothAdapter();
-        },
+        handleClick (item, index) {
+            this.$emit('connectClick', item, index);
+        }
     },
 }
 </script>
