@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 16:05:39
+ * @LastEditTime: 2021-03-25 18:16:47
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -15,8 +15,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "index",
-      component: () => import("../views/Main/index.vue")
+      name: "Main",
+      component: () => import("../views/Main/Main.vue")
     },
     {
       path: "/Setting",
@@ -42,6 +42,11 @@ export default new Router({
       path: "/RemainTime",
       name: "RemainTime",
       component: () => import("../views/RemainTime/RemainTime.vue")
+    },
+    {
+      path: "/BrushPosition",
+      name: "BrushPosition",
+      component: () => import("../views/BrushPosition/BrushPosition.vue")
     },
   ]
 });

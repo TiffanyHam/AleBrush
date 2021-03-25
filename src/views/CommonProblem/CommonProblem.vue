@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-11-11 11:14:05
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 15:46:36
+ * @LastEditTime: 2021-03-25 11:28:23
 -->
 <!--  -->
 <template>
@@ -53,6 +53,21 @@ export default {
                 {
                     tip: this.$t('CommonProbl.tip3'),
                     subtip: this.$t('CommonProbl.subtip3'),
+                    img: "",
+                },
+                {
+                    tip: this.$t('CommonProbl.tip4'),
+                    subtip: this.$t('CommonProbl.subtip4'),
+                    img: "",
+                },
+                {
+                    tip: this.$t('CommonProbl.tip5'),
+                    subtip: this.$t('CommonProbl.subtip5'),
+                    img: "",
+                },
+                {
+                    tip: this.$t('CommonProbl.tip6'),
+                    subtip: this.$t('CommonProbl.subtip6'),
                     img: "",
                 },
             ],

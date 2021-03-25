@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-23 17:21:03
+ * @LastEditTime: 2021-03-25 17:29:03
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -85,9 +85,6 @@ export default {
 // @import url("../../style/icon.scss");
 // @import url('../../style/color.scss');
 /* 过渡 */
-body {
-    background-color: #f7f7f7;
-}
 .a {
     width: 100%;
     height: 100%;
