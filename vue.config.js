@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:45:50
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-23 17:42:26
+ * @LastEditTime: 2021-03-26 11:18:38
  */
 "use strict";
 const path = require("path");
@@ -16,9 +16,9 @@ function resolve(dir) {
 }
 module.exports = {
   publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
-  //  assetsDir: "static",
+  assetsDir: "static",
   // 输出文件目录
-  outputDir: "dist",
+  outputDir: "h5_001",
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,
   devServer: {

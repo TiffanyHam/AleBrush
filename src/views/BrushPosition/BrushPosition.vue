@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 15:38:13
- * @LastEditTime: 2021-03-25 18:48:01
+ * @LastEditTime: 2021-03-26 10:13:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\BrushPosition\BrushPosition.vue
@@ -9,10 +9,10 @@
 <template>
     <div class="positionBg" :style="{backgroundImage:'url('+ bgImg +')'}">
         <div class="header" @click="headerClick"></div>
-        <div class="top_left" @click="changeClick('top_left')"></div>
-        <div class="top_right" @click="changeClick('top_right')"></div>
-        <div class="bottom_left" @click="changeClick('bottom_left')"></div>
-        <div class="bottom_right" @click="changeClick('bottom_right')"></div>
+        <div class="top_left" @click="changeClick('0')"></div>
+        <div class="top_right" @click="changeClick('1')"></div>
+        <div class="bottom_left" @click="changeClick('2')"></div>
+        <div class="bottom_right" @click="changeClick('3')"></div>
          <!-- 头部start -->
         <!-- <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
             <span slot="headerTitle">{{$t('position.header')}}</span>
@@ -40,8 +40,7 @@ export default {
  
     },
     mounted(){
-        let code = this.$route.params.val;
-        console.log(code)
+        this.changeClick(this.initPosition)
         
     },
     methods:{
@@ -54,25 +53,23 @@ export default {
         changeClick(val){
             switch(val)
             {
-                case 'top_left' :
-                    this.positionName = '左上区',
-                    this.bgImg = require("../../assets/image/product/light/top_left.png")
+                case '0':
+                    this.positionName = '0',
+                    this.bgImg = require("../../assets/image/product/light/top_left.png")  //左上区
                     break;
-                case 'top_right' :
-                     this.positionName = '右上区',
-                     this.bgImg = require('../../assets/image/product/light/top_right.png')
+                case '1':
+                     this.positionName = '1',
+                     this.bgImg = require('../../assets/image/product/light/top_right.png')  //右上区
                     break;
-                case 'bottom_left' :
-                     this.positionName = '左下区',
-                     this.bgImg = require('../../assets/image/product/light/bottom_left.png')
+                case '2':
+                     this.positionName = '2',
+                     this.bgImg = require('../../assets/image/product/light/bottom_left.png')  //左下区
                     break;
-                case 'bottom_right' :
-                     this.positionName = '右下区',
-                     this.bgImg = require('../../assets/image/product/light/bottom_right.png')
+                case '3':
+                     this.positionName = '3',
+                     this.bgImg = require('../../assets/image/product/light/bottom_right.png')  //右下区
                     break;
             }
-           // console.log(this.positionName)
-           // this.$store.dispatch('resetVuex')
             this.call_update_initPosition(this.positionName)
         }
 

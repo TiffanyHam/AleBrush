@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-25 18:43:02
+ * @LastEditTime: 2021-03-26 14:33:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -9,7 +9,7 @@
 <!--  -->
 <template>
   <div class="page bg_F7F7F7">
-  <div class="index_main">
+  <div class="index_main"  ref="wrapper">
     <div class="content"  :class="dialogTip == true ? 'marginTop':''">
     <!-- 产品图 -->
     <div class="banner">
@@ -82,11 +82,11 @@
      <!-- third -->
      <div class="flexR contentList">
          <!-- 起始位置 -->
-         <div class="itemPlay flexR rightM" @click="toPosition(initPosition)">
+         <div class="itemPlay flexR rightM" @click="toPosition">
             <div>
                 <span>{{ $t('index.inPosition') }}</span><br />
                 <div class="text_color" v-if="isflage !== isConnect">
-                    <span>{{initPosition}}</span>
+                    <span>{{initPosition | formatStata}}</span>
                 </div>
             </div>
             <div class="icon_width">
@@ -144,6 +144,7 @@
 
 <script>
 import { mapState } from "vuex";
+import BScroll from "better-scroll";
 export default {
   data() {
     return {
@@ -219,6 +220,18 @@ export default {
         ]
     };
   },
+   filters:{
+      // 状态显示转换
+      formatStata(status) {
+        const statusMap = {
+          0: "左上区",
+          1: "右上区",
+          2: "左下区",
+          3: "右下区"
+        }
+        return statusMap[status]
+      }
+    },
   mounted() {
     console.log(this.initPosition)
    // this.dialogTip = true  //电量低
@@ -239,6 +252,12 @@ export default {
   //  if(this.bleConnected){   //true
   //     console.log(3)
   //  }
+  this.$nextTick(() => {
+            let bs = new BScroll(this.$refs.wrapper, {
+                click: true,
+                scrollbar: false,
+            });
+        });
   },
   computed: {
       ...mapState(['bleConnected','initPosition']),
@@ -271,7 +290,7 @@ export default {
       this.$router.push("RemainTime");
     },
     toPosition(val){
-      this.$router.push({name: 'BrushPosition', params:{val} });
+      this.$router.push({name: 'BrushPosition'});
     }
   }
 };
@@ -279,7 +298,10 @@ export default {
 
 <style scoped lang="scss">
 .page {
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 80px 0 0 0;
     display: flex;
     flex-direction: column;
     .mt8 {
@@ -291,13 +313,14 @@ export default {
         left: 0%;
     }
     .index_main{
-      width: 100%;
-      flex: 1;
-       // overflow: hidden;
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
         .content{
-          flex: 1;
-          overflow-y: auto;
+          width: 100%;
           padding: 0 16px;
+          flex: 1;
+          overflow: hidden;
         }
         .marginTop {
             margin-top: 48px;
@@ -314,7 +337,7 @@ export default {
         .itemPlay1 {
           flex: 1;
           height: 64px;
-          padding: 0 24px;
+         // padding: 0 24px;
           border-radius: 8px;
           font-size: 16px;
           color: rgba(0, 0, 0, .9);
@@ -322,12 +345,12 @@ export default {
     .moreLog {
         //background-color: #fff;
         width: 100%;
-        height: 230px;
+        height: auto;
         border-radius: 8px;
         flex: 1;
         margin-bottom: 8px;
         .logHistory{
-           padding: 0 24px;
+         //  padding: 0 24px;
            line-height: 1.77;
            font-size: 0.388rem;
            .log_arr{
@@ -386,7 +409,6 @@ export default {
       justify-content: space-between;
     }
     .banner{
-      padding: 80px 0 0 0;
       .productI {
         width: 252px;
         height: 252px;

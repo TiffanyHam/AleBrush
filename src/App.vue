@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 17:29:03
+ * @LastEditTime: 2021-03-26 10:08:31
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -48,7 +48,18 @@ export default {
         // 设置语言
         this.$i18n.locale = getLanguage();
         // 获取手机模式  
-        this.getSystemInfo()    
+        this.getSystemInfo()   
+
+        //在页面加载时读取sessionStorage里的状态信息
+        if (localStorage.getItem("store") ) {
+        this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(localStorage.getItem("store"))));
+        localStorage.removeItem('store');
+        }
+    
+        //在页面刷新时将vuex里的信息保存到sessionStorage里
+        window.addEventListener("beforeunload",()=>{
+        localStorage.setItem("store",JSON.stringify(this.$store.state))
+        })
   },
   methods: {
     /*

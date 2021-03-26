@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 18:16:47
+ * @LastEditTime: 2021-03-26 15:41:36
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -17,6 +17,11 @@ export default new Router({
       path: "/",
       name: "Main",
       component: () => import("../views/Main/Main.vue")
+    },
+    {
+      path: "/animations2",
+      name: "animations2",
+      component: () => import("../views/Main/animations2.vue")
     },
     {
       path: "/Setting",

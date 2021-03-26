@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-03-25 17:56:27
+ * @LastEditTime: 2021-03-26 09:47:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -16,7 +16,7 @@ export default new Vuex.Store({
   namespaced: true,//开启命名空间
   state: {
     bleConnected: false, // 监听设备蓝牙连接结果
-    initPosition:null
+    initPosition:''
   },
   mutations: {
     UPDATED_BLECONNECTED(state,payload) {
