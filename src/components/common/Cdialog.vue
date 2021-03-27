@@ -2,36 +2,58 @@
  * @Descripttion: 
  * @version: 
  * @Author: Tiffany
- * @Date: 2020-12-23 10:05:44
+ * @Date: 2021-01-10 10:11:13
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 09:50:57
+ * @LastEditTime: 2021-03-25 11:09:38
+-->
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Tiffany
+ * @Date: 2020-12-23 10:05:44
+ * @LastEditors: Tiffany
+ * @LastEditTime: 2020-12-24 14:23:01
 -->
 <template>
-
-    <div class="bleDialog">
+        <!-- <div class="flex">
+            <span class="warn"></span>
+            <span class="text">{{$t('Reconnection.index')}}</span>
+        </div>
+        <span v-if="syncMessage" class="syncMessage">同步信息</span>
+        <span v-else></span> -->
+   <div class="bleDialog" v-show="isAppear">
         <!-- 蒙版 -->
-        <div class="mask animate__animated animate__fadeIn" key="1" @click="show = false" v-if="show" @touchmove.prevent>
+        <div class="mask animate__animated animate__fadeIn" key="1" @click="close" v-if="show" @touchmove.prevent>
         </div>
         <div class="dialog" v-show="show" key="2">
             <div class="dialogTitle">
-                <slot name="title">{{$t('Hint.tipTitle')}}</slot>
+                <slot name="title" v-if ="isChange">{{$t('Hint.tipTitle')}}</slot>
+                <slot name="title" v-else>{{$t('Hint.tipTitle1')}}</slot>
             </div>
             <div class="dialogContent">
-                <slot>{{$t('Hint.tipText')}}</slot>
-                <br />
-                <slot>{{$t('Hint.tipText1')}} </slot>
-                <br />
-                <slot>{{$t('Hint.tipText2')}}</slot>
-                <br />
-                <slot>{{$t('Hint.tipText3')}}</slot>
+                <div v-if="isChange">
+                    <slot>{{$t('Hint.tipText')}}</slot>
+                    <br />
+                    <slot>{{$t('Hint.tipText1')}} </slot>
+                    <br />
+                    <slot>{{$t('Hint.tipText2')}}</slot>
+                    <br />
+                    <slot>{{$t('Hint.tipText3')}}</slot>
+                </div>
+                <div v-else>
+                    <slot>{{$t('Hint.tipText4')}}</slot>
+                </div>
+                
             </div>
             <div class="dialog_footer fb">
-                <span class="btn btn_left" @click="show = false">
-                    <slot name="cancle">{{$t('Hint.sure')}}</slot>
+                <span class="btn btn_left" @click="close">
+                    <slot name="cancle" v-if="isChange">{{$t('Hint.sure')}}</slot>
+                    <slot v-else>{{$t('Hint.change')}}</slot>
                 </span>
                 <span class="line"></span>
-                <span class="btn" @click="handleClick()">
-                    <slot name="sure btn_right">{{$t('Hint.conn')}}</slot>
+                <span class="btn" @click="isChange ? handleClick() : close()">
+                    <slot name="sure btn_right" v-if="isChange">{{$t('Hint.conn')}}</slot>
+                    <slot v-else>{{$t('Hint.close')}}</slot>
                 </span>
             </div>
         </div>
@@ -40,18 +62,29 @@
 </template>
 <script>
 export default {
-    name: 'Popup',
-    data() {
-        return {
-            show: false
-        }
-    },
-    created() { },
-    methods: {
-        handleClick (item, index) {
-            this.$emit('connectClick', item, index);
-        }
-    },
+  name: 'Cdialog',
+  data(){
+      return{
+         isAppear:true,
+         show: true
+      }
+  },
+  props: {
+    isChange:{
+      type: Boolean,
+      required: true,
+      default: false,
+    }
+  },
+  methods:{
+      handleClick(){
+          console.log(33)
+      },
+      close(){
+          this.show = false
+      }
+  }
+
 }
 </script>
 <style lang="scss" scoped>

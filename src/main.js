@@ -27,10 +27,6 @@ Vue.prototype.GLOBAL = globalData; //修改原型
 // echarts
 import * as echarts from 'echarts'
 Vue.prototype.$echarts = echarts;
-
-// 蓝牙未连接弹窗
-import dialog from "./components/dialog/index"
- Vue.prototype.$dialog = dialog
 // 路由守卫
 import g from './utils/index'
 g.overallSituation(router)

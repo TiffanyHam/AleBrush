@@ -41,7 +41,6 @@ export default {
     },
     mounted(){
         this.changeClick(this.initPosition)
-        
     },
     methods:{
          ...mapActions({

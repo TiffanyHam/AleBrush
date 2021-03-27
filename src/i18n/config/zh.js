@@ -12,7 +12,7 @@ const zh = {
     },
     index: {
         noConnect: '未连接',
-        connect: '连接中',
+        connect: '正在连接',
         connected: '已连接',
         again:'重新连接',
         brushModule: '刷头选配',
@@ -239,12 +239,16 @@ const zh = {
     },
     Hint: {
         tipTitle: '连接超时',
+        tipTitle1: '刷头更换',
         tipText: '请尝试一下操作：',
         tipText1: '1. 请确认牙刷电量充足，并处于关机状态；',
         tipText2: '2. 将牙刷靠近要连接的手机（10米以内）；',
         tipText3: '3. 关闭手机蓝牙，再重新开启（尤其是安卓设备）。',
+        tipText4: '您的智能牙刷刷头已使用超过60天，请立即更换刷头。',
         sure: '继续使用',
-        conn:'立即连接'
+        conn:'立即连接',
+        change:'已更换',
+        close:'关闭'
     },
     guide1: {
         header_inner: '实时引导',
@@ -288,6 +292,7 @@ const zh = {
     },
     Reconnection: {
         index: '电量较低，请及时充电',
+        index1: '刷头使用天数不足{days}天，请及时更换',
     }
 }
 export default zh;

@@ -10,6 +10,7 @@
 <template>
   <div class="page bg_F7F7F7">
   <div class="index_main"  ref="wrapper">
+    
     <div class="content"  :class="dialogTip == true ? 'marginTop':''">
     <!-- 产品图 -->
     <div class="banner">
@@ -40,7 +41,7 @@
     </div>
      <!-- one -->
     <div class="hi-card bg_card">
-        <div class="item" :class="{line: index !== 0}" v-for="(item, index) in cardData" :key="index">
+        <div class="item" :class="{line: index !== 0}" v-for="(item, index) in cardData" :key="index" @click="index !== 0 ? remain() : ''">
             <div class="top">
                 <div class="num c_90">{{item.num}}</div>
                 <div class="unit c_60" v-if="item.unit">{{item.unit}}</div>
@@ -138,7 +139,11 @@
     </div>
     </div>
     <!-- 充电提示 -->
-      <msg :dialogTip="dialogTip" :syncMessage="false"></msg>
+    <hi-errtip :tip="tips" v-show="dialogTip"></hi-errtip>
+    <!-- 天数不足提示 -->
+    <hi-errtip :tip="tips1" v-show="dialogTip1"></hi-errtip>
+    <!-- 弹窗提示 -->
+    <Cdialog v-show="isDialog" :isChange ="isChange"></Cdialog>
   </div>
 </template>
 
@@ -150,14 +155,20 @@ export default {
     return {
        isflage:true,
        isConnect:true,
-       battery:0,
+       isDialog:true,  //弹窗
+       isChange:false,  //true 连接超时  false 刷头更换提示
+       battery:5,
        dialogTip: false,
-      // isPattern:0,
+       dialogTip1: false,
+       isOver:'1',
+       tips:this.$t("Reconnection.index"),
+       tips1:this.$t("Reconnection.index1",{days:'8'}),
+       isDays:'9',
        brushTime:'00',
        isSeat:'1',
        shiftTest: [
           { name: '2分钟', selected: false },
-          { name: '2.5分钟', selected: false },
+          { name: '2分钟30秒', selected: false },
           { name: '3分钟', selected: true }
         ],
         patterns: [
@@ -233,8 +244,7 @@ export default {
       }
     },
   mounted() {
-    console.log(this.initPosition)
-   // this.dialogTip = true  //电量低
+  //  this.dialogTip = true
     setTimeout(() => { //连接中
        this.isflage = false
        this.isConnect = false
@@ -242,13 +252,19 @@ export default {
     setTimeout(() => { //连接超时
         this.isflage = true
         this.isConnect = true
-        //this.$dialog.show()
+      //  this.isDialog = true
     }, 1 * 1000);
     setTimeout(() => { //已连接
         this.isflage = false
         this.isConnect = true
     }, 2 * 1000);
-
+   //刷牙天数不足
+   if(this.isDays <10){
+     this.dialogTip1 = true
+     if(this.isDays <= -1){
+        this.isChange = false
+     }
+   }
   //  if(this.bleConnected){   //true
   //     console.log(3)
   //  }
@@ -265,6 +281,9 @@ export default {
   watch:{
     bleConnected(status){
       console.log('蓝牙状态：',status)
+    },
+    initPosition(val){
+      console.log('起始位置：',val)
     }
  
   },
@@ -286,9 +305,11 @@ export default {
     setting() {
         this.$router.push("Setting");
     },
+    //天数
     remain(){
       this.$router.push("RemainTime");
     },
+    //起始位置
     toPosition(val){
       this.$router.push({name: 'BrushPosition'});
     }

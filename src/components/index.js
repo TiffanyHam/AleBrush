@@ -17,6 +17,7 @@ let install = Vue =>{
     requireComponents.keys().forEach(fileName => {
         // 组件实例
         let com = requireComponents(fileName);
+        //console.log(com)
         // 组件名字首字母大写
         let comName = firstCharToUpper(fileName.match(/\/(\w*)\.vue/)[1]);
         // 注册组件
