@@ -13,6 +13,8 @@
         <div class="top_right" @click="changeClick('1')"></div>
         <div class="bottom_left" @click="changeClick('2')"></div>
         <div class="bottom_right" @click="changeClick('3')"></div>
+        <DialogTime>
+        </DialogTime>
          <!-- 头部start -->
         <!-- <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
             <span slot="headerTitle">{{$t('position.header')}}</span>

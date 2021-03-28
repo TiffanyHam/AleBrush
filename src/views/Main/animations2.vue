@@ -12,47 +12,15 @@
                 <div class="bottom font16">下</div>
                 <div class="position_center left font16">左</div>
                 <div class="right font16">右</div>
-                <div class="area font12">{{areas[index-1]}}</div>
+                <!-- <div class="area font12">{{areas[index-1]}}</div> -->
                 <!-- 左下 -->
-                <div v-if="2 == index" class="left_down_out posiImg animate opcity_animate"></div>
-                <!-- <div v-if="1 == index" class="b_left_down_out width_out posiImg animate"></div>
-                <div v-if="2 == index" class="left_down_on posiImg animate opcity_animate"></div>
-                <div v-if="2 == index" class="b_left_down_on width_on posiImg animate"></div>
-                <div v-if="3 == index" class="left_down_in posiImg animate opcity_animate"></div>
-                <div v-if="3 == index" class="b_left_down_in width_in posiImg animate"></div> -->
-                <!-- 下外 -->
-                <!-- <div v-if="4 == index" class="down_out posiImg animate opcity_animate"></div>
-                <div v-if="4 == index" class="b_down_out width_up posiImg animate"></div> -->
-                <!-- 下内 -->
-                <!-- <div v-if="5 == index" class="down_in posiImg animate opcity_animate"></div>
-                <div v-if="5 == index" class="b_down_in width_up posiImg animate"></div> -->
+                <div v-if="1 == index" class="left_down_out posiImg animate opcity_animate"></div>
                 <!-- 右下 -->
-                <div v-if="4 == index" class="right_down_out posiImg animate opcity_animate"></div>
-                <!-- <div v-if="6 == index" class="b_right_down_out width_out posiImg animate"></div>
-                <div v-if="7 == index" class="right_down_on posiImg animate opcity_animate"></div>
-                <div v-if="7 == index" class="b_right_down_on width_on posiImg animate"></div>
-                <div v-if="8 == index" class="right_down_in posiImg animate opcity_animate"></div>
-                <div v-if="8 == index" class="b_right_down_in width_in posiImg animate"></div> -->
+                <div v-if="2 == index" class="right_down_out posiImg animate opcity_animate"></div>
                 <!-- 右上 -->
                 <div v-if="3 == index" class="right_up_out posiImg animate opcity_animate"></div>
-                <!-- <div v-if="9 == index" class="b_right_up_out width_out posiImg animate"></div>
-                <div v-if="10 == index" class="right_up_on posiImg animate opcity_animate"></div>
-                <div v-if="10 == index" class="b_right_up_on width_on posiImg animate"></div>
-                <div v-if="11 == index" class="right_up_in posiImg animate opcity_animate"></div>
-                <div v-if="11 == index" class="b_right_up_in width_in posiImg animate"></div> -->
-                <!-- 上外 -->
-                <!-- <div v-if="12 == index" class="up_out posiImg animate opcity_animate"></div>
-                <div v-if="12 == index" class="b_up_out width_up posiImg animate"></div> -->
-                <!-- 上内 -->
-                <!-- <div v-if="13 == index" class="up_in posiImg animate opcity_animate"></div>
-                <div v-if="13 == index" class="b_up_in width_up posiImg animate"></div> -->
                 <!-- 左上 -->
-                <div v-if="1 == index" class="left_up_out posiImg animate opcity_animate"></div>
-                <!-- <div v-if="14 == index" class="b_left_up_out width_out posiImg animate"></div>
-                <div v-if="15 == index" class="left_up_on posiImg animate opcity_animate"></div>
-                <div v-if="15 == index" class="b_left_up_on width_on posiImg animate"></div>
-                <div v-if="16 == index" class="left_up_in posiImg animate opcity_animate"></div>
-                <div v-if="16 == index" class="b_left_up_in width_in posiImg animate"></div> -->
+                <div v-if="4 == index" class="left_up_out posiImg animate opcity_animate"></div>
                 <!-- 中心时间卷 -->
                 <div class="circle">
                     <svg
@@ -166,9 +134,9 @@ export default {
             tatolsetVal: null,
             animatesetVal: null,
             // 牙齿的六个面
-            sixFace: 6,
+            sixFace: 4,
             // 中间区域 20s 时间
-            second20: 20,
+            second20: 30,
             // 中间总时间
             toal: "00:00",
             // music 图标的属性设置
@@ -224,26 +192,26 @@ export default {
             // 动画区域
             areas: [
                 "左下区：外侧",
-                "左下区：咬合面",
-                "左下区：内侧",
+                // "左下区：咬合面",
+                // "左下区：内侧",
 
-                "中下区：外侧",
-                "中下区：内侧",
+                // "中下区：外侧",
+                // "中下区：内侧",
 
                 "右下区：外侧",
-                "右下区：咬合面",
-                "右下区：内侧",
+                // "右下区：咬合面",
+                // "右下区：内侧",
 
                 "右上区：外侧",
-                "右上区：咬合面",
-                "右上区：内侧",
+                // "右上区：咬合面",
+                // "右上区：内侧",
 
-                "中上区：外侧",
-                "中上区：内侧",
+                // "中上区：外侧",
+                // "中上区：内侧",
 
                 "左上区：外侧",
-                "左上区：咬合面",
-                "左上区：内侧",
+                // "左上区：咬合面",
+                // "左上区：内侧",
             ],
         };
     },
@@ -270,16 +238,18 @@ export default {
         let svgY = r * Math.sin((Math.PI / 180) * 60);
         this.rotate = [
             { x: centerX - r, y: centerY },
-            { x: centerX - svgX, y: centerY + svgY },
+            // { x: centerX - svgX, y: centerY + svgY },
             { x: centerX + svgX, y: centerY + svgY },
             { x: centerX + r, y: centerY },
-            { x: centerX + svgX, y: centerY - svgY },
+            // { x: centerX + svgX, y: centerY - svgY },
             { x: centerX - svgX, y: centerY - svgY },
         ];
+        console.log(this.rotate)
         this.startX = this.rotate[0].x;
         this.startY = this.rotate[0].y;
         this.endX = this.rotate[1].x;
         this.endY = this.rotate[1].y;
+        console.log(this.startX,this.startY,this.endX,this.endY)
     },
 
     mounted(e) {
@@ -312,42 +282,13 @@ export default {
          * @param {Object} e 鼠标事件源
          * @return {*}
          */
-        movestart(e) {
-            // 记录 ref=img 元素的起始位置
-            this.offset.x = this.$refs.img.offsetLeft;
-            this.offset.y = this.$refs.img.offsetTop;
-            this.diff.x = e.changedTouches[0].clientX;
-            this.diff.y = e.changedTouches[0].clientY;
-        },
-
-        /**
-         * @description: 鼠标移动事件
-         * @param {Object} e 鼠标事件源
-         * @return {*}
-         */
-        move(e) {
-            let x = this.offset.x + e.changedTouches[0].clientX - this.diff.x; // 计算新的元素left值
-            let y = this.offset.y + e.changedTouches[0].clientY - this.diff.y;
-            if (x < 0) {
-                x = 0;
-            } else if (x > 322) {
-                x = 322;
-            }
-            if (y < 0) {
-                y = 0;
-            } else if (y > 667) {
-                y = 667;
-            }
-            this.bindX = x + "px";
-            this.bindY = y + "px";
-        },
-
-        /**
-         * @description: 鼠标抬起事件
-         * @param {Object} e 鼠标事件源
-         * @return {*}
-         */
-        movend(e) {},
+        // movestart(e) {
+        //     // 记录 ref=img 元素的起始位置
+        //     this.offset.x = this.$refs.img.offsetLeft;
+        //     this.offset.y = this.$refs.img.offsetTop;
+        //     this.diff.x = e.changedTouches[0].clientX;
+        //     this.diff.y = e.changedTouches[0].clientY;
+        // },
 
         /**
          * @description: 刷牙时间 区域 20S 倒计时
@@ -360,15 +301,15 @@ export default {
             let len = this.rotate.length;
             let time = _.second20;
             _.areasetVal = setInterval(() => {
-                if (time == 20) {
+                if (time == 30) {
                     _.startX = _.rotate[len - count]["x"];
                     _.startY = _.rotate[len - count]["y"];
                     _.endX =
-                        _.rotate[len + 1 - count == 6 ? 0 : len + 1 - count][
+                        _.rotate[len + 1 - count == 4 ? 0 : len + 1 - count][
                             "x"
                         ];
                     _.endY =
-                        _.rotate[len + 1 - count == 6 ? 0 : len + 1 - count][
+                        _.rotate[len + 1 - count == 4 ? 0 : len + 1 - count][
                             "y"
                         ];
                 }
@@ -382,7 +323,7 @@ export default {
                     return false;
                 }
                 if (time == 0) {
-                    time = 20;
+                    time = 30;
                     _.second20 = time;
                     _.boothTipIndex = _.rand();
                     count--;
@@ -421,24 +362,24 @@ export default {
          * @param {Object} val 下发的值
          * @return {*}
          */
-        sendData(val) {
-            let args = arguments;
-            if (args[0] == 0) {
-                // 无电弹窗
-                this.nopower_dialog_show = false;
-                return true;
-            }
-            if (args[0] == 1) {
-                // 频繁刷牙
-                this.sitcom_dialog_show = false;
-                return true;
-            }
-            if (args[0] == 2) {
-                // 刷牙时间不足
-                this.shortage_dialog_show = false;
-                return true;
-            }
-        },
+        // sendData(val) {
+        //     let args = arguments;
+        //     if (args[0] == 0) {
+        //         // 无电弹窗
+        //         this.nopower_dialog_show = false;
+        //         return true;
+        //     }
+        //     if (args[0] == 1) {
+        //         // 频繁刷牙
+        //         this.sitcom_dialog_show = false;
+        //         return true;
+        //     }
+        //     if (args[0] == 2) {
+        //         // 刷牙时间不足
+        //         this.shortage_dialog_show = false;
+        //         return true;
+        //     }
+        // },
         /**
          * @description: 各个区域动画显示
          * @param {*}
@@ -450,14 +391,17 @@ export default {
             let area = _.sixFace;
             _.animatesetVal = setInterval(() => {
                 let s = count.toString();
-                if (area == 5 || area == 2) {
-                    s == "10" || s == "20" ? _.index++ : "";
-                } else {
-                    s == "7" || s == "13" || s == "20" ? _.index++ : "";
-                }
+                // if (area == 5 || area == 2) {
+                //     s == "10" || s == "20" ? _.index++ : "";
+                // } else {
+                //     s == "7" || s == "13" || s == "20" ? _.index++ : "";
+                // }
+                if (area) {
+                    s == "30" ? _.index++ : "";
+                } 
                 count--;
                 if (count == 0) {
-                    count = 20;
+                    count = 30;
                     area--;
                     if (area == 0) {
                         clearInterval(_.animatesetVal);

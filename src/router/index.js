@@ -19,6 +19,11 @@ export default new Router({
       component: () => import("../views/Main/Main.vue")
     },
     {
+      path: "/animations1",
+      name: "animations1",
+      component: () => import("../views/Main/animations1.vue")
+    },
+    {
       path: "/animations2",
       name: "animations2",
       component: () => import("../views/Main/animations2.vue")
@@ -52,6 +57,6 @@ export default new Router({
       path: "/BrushPosition",
       name: "BrushPosition",
       component: () => import("../views/BrushPosition/BrushPosition.vue")
-    },
+    }
   ]
 });

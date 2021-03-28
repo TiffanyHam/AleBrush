@@ -239,16 +239,24 @@ const zh = {
     },
     Hint: {
         tipTitle: '连接超时',
-        tipTitle1: '刷头更换',
         tipText: '请尝试一下操作：',
         tipText1: '1. 请确认牙刷电量充足，并处于关机状态；',
         tipText2: '2. 将牙刷靠近要连接的手机（10米以内）；',
         tipText3: '3. 关闭手机蓝牙，再重新开启（尤其是安卓设备）。',
-        tipText4: '您的智能牙刷刷头已使用超过60天，请立即更换刷头。',
         sure: '继续使用',
         conn:'立即连接',
+
+        tipTitle1: '刷头更换',
+        tipText4: '您的智能牙刷刷头已使用超过60天，请立即更换刷头。',
         change:'已更换',
-        close:'关闭'
+        close:'关闭',
+
+        tipTitle2: '暂停倒计时',
+        tipText5: '重新启动牙刷可继续刷牙',
+        tipText6: '还没达到您设置的时间哦',
+        tipText7: '倒计时结束后，退出页面',
+        quit:'退出实时引导',
+        
     },
     guide1: {
         header_inner: '实时引导',

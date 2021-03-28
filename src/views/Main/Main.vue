@@ -155,8 +155,8 @@ export default {
     return {
        isflage:true,
        isConnect:true,
-       isDialog:true,  //弹窗
-       isChange:false,  //true 连接超时  false 刷头更换提示
+       isDialog:false,  //弹窗
+       isChange:true,  //true 连接超时  false 刷头更换提示
        battery:5,
        dialogTip: false,
        dialogTip1: false,
