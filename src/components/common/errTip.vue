@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-03-29 09:12:02
+ * @LastEditTime: 2021-03-29 15:51:28
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \AleBrush\src\components\common\errTip.vue
+-->
 <template>
     <div class="hi-errTip">
         <div class="icon ic-err"></div>
@@ -32,7 +40,7 @@ export default {
     .msg {
         flex: 1;
         white-space: nowrap;
-        overflow: hidden;
+       // overflow: hidden;
         text-overflow: ellipsis;
     }
     .icon {

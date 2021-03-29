@@ -17,12 +17,12 @@ export default {
         realValue: {
             type: Number,
             required: true,
-            default: 75,
+            default: 25,
         },
         MAX: {
             type: Number,
             required: false,
-            default: 90,
+            default: 60,
         },
     },
     name: "Cprogress",
@@ -40,9 +40,9 @@ export default {
     computed: {
         colors() {
             let colors = [
-                { start: "#FF4545", end: "#FFD554" },
-                { start: "#ADDBFF", end: "#7335FF" },
-                { start: "#86E5F3", end: "#007DFF" },
+                { start: "#007DFF", end: "#007DFF" },
+                { start: "#007DFF", end: "#007DFF" },
+                { start: "#007DFF", end: "#007DFF" },
             ];
             if (this.realValue > 50) {
                 return { ...colors[2] };
@@ -131,6 +131,7 @@ export default {
                                 //上层圆环，显示数据
                                 value: this.realValue, // 圆环实际值
                                 itemStyle: {
+                                  //  color:red,
                                     color: {
                                         //图形渐变颜色方法，四个数字分别代表，右，下，左，上，offset表示0%到100%
                                         type: "linear",

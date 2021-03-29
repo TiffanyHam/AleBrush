@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 16:19:11
+ * @LastEditTime: 2021-03-29 17:02:10
 -->
 <!--  -->
 <template>
@@ -23,6 +23,7 @@
             <div v-if="show_realValue" class="doctorWord">
                 {{$t("RemainTime.doctorWord")}}
             </div>
+            <div class="proposal"> {{$t("RemainTime.proposal")}}</div>
 
             <!-- 刷头start -->
             <div class="footer flexC">
@@ -47,7 +48,7 @@ export default {
             selfB: true,
             backC: window.isDark ? '#000' : '#fff',
             // 实际天数
-            realValue: 1,
+            realValue: 60,
             // 模式选择
             brushHeader: "0",
             show_realValue: true
@@ -177,6 +178,13 @@ export default {
             font-size: 14px;
             color: rgba(0, 0, 0, 0.9);
             margin-top: 32px;
+            margin-bottom: 25px;
+        }
+        .proposal {
+            margin: 0 16px;
+            line-height: 20px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.9);
         }
         .footer {
             width: 100%;
@@ -224,10 +232,7 @@ button :focus {
         background-color: #000;
         .main {
             background-color: #000;
-            .progress {
-                //height: 220px;
-            }
-            .doctorWord {
+            .doctorWord,.proposal {
                 color: rgba(255, 255, 255, 0.86);
             }
             .footer {

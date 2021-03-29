@@ -4,39 +4,28 @@
  * @Author: HeZhen
  * @Date: 2020-10-30 10:13:38
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 14:19:10
+ * @LastEditTime: 2021-03-29 16:59:47
  */
 const zh = {
-    Header: {
-        headerTitle: '爱伟杰音乐智能电动牙刷',
-    },
+    // Header: {
+    //     headerTitle: '爱伟杰音乐智能电动牙刷',
+    // },
     index: {
         noConnect: '未连接',
         connect: '正在连接',
         connected: '已连接',
         again:'重新连接',
-        brushModule: '刷头选配',
-        miniBrush: '迷你刷头',
-        uBrush: 'U型刷头',
-        brushLen: '刷牙模式',
-        cleaning:'清洁',
-        inPosition:'起始位置',
-        leftD:'左下区',
-        MoreSet:'更多设置',
-        day: '天',
-        brushDay: '刷头天数',
-        restDay: '刷头剩余天数',
-        lastScore: '上次刷牙得分',
         score: '分',
-        music: '音乐',
-        open: '已开启',
+        day: '天',
+        lastScore: '上次刷牙评分',
+        restDay: '刷牙剩余',
+        brushmode: '刷牙模式',
+        brushLen:'刷牙时长',
+        inPosition:'起始位置',
+        MoreSet:'更多设置',
         brushLog: '刷牙记录',
         more: '更多',
-        setting: '更多设置',
-        greem: '已关闭',
-        newest: '最新',
         Log: {
-            header: '刷牙记录',
             year: '年',
             month: '月',
             date: '日',
@@ -63,8 +52,6 @@ const zh = {
             },
             brushLen: '刷牙时长',
             tip: '仅保留最近3个月的刷牙记录',
-            the:"第",
-            times:'次'
         },
 
 
@@ -104,6 +91,7 @@ const zh = {
         header: '刷头剩余使用时间',
         day: '天',
         doctorWord: '牙医建议: 每2-3个月更换一次刷头',
+        proposal:'每次刷牙时间超过30秒即被记录为一次有效刷牙次数，每只刷头可用120次（每天两次可用60天），超过使用天数及时更换刷头',
         rest: '刷头剩余',
         please: '请选择正在使用的刷头',
         resetDay: '重置时间',

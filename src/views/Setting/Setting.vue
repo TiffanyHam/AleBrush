@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 15:52:21
+ * @LastEditTime: 2021-03-29 16:25:00
 -->
 <template>
     <div class="setting flexC">
@@ -15,16 +15,16 @@
         <!-- 头部end -->
         <!-- 内容设置start -->
         <div :class="bleConnected ? 'setting_main flexC': 'setting_main flexC disabled'">
-            <div :class="openMachine ? 'splash flex disabled' : 'splash flex'">
+            <!-- <div :class="openMachine ? 'splash flex disabled' : 'splash flex'">
                 <div class="splash_left">
-                    <div class="setting_title">
+                     <div class="setting_title">
                         <span>{{$t('setting.options.set1.title')}}</span>
-                    </div>
+                    </div> 
                 </div>
-                <div class="splash_right">
+              <div class="splash_right">
                     <VSwitch :isOn="isOn" @afterChange="getChange"></VSwitch>
-                </div>
-            </div>
+                </div> 
+            </div> -->
 
             <div class="other_setting">
                 <div @click="gotoBrushMethod(item.code)" v-for="(item,index) in settingGuide" :key="index" :class=" index < settingGuide.length-1 ? 'common com_border flex':'common flex'">
@@ -113,18 +113,18 @@ export default {
          * @param {Object} val 组件派发数据
          * @return {type}
          */
-        getChange(val) {
-            this.isOn = val;
-            let isOnData = "";
-            if (val) {
-                isOnData = "1";
-            } else {
-                isOnData = "0";
-            }
+        // getChange(val) {
+        //     this.isOn = val;
+        //     let isOnData = "";
+        //     if (val) {
+        //         isOnData = "1";
+        //     } else {
+        //         isOnData = "0";
+        //     }
           //  let srcData = scale.hextoBin(this.binData.substr(4, 2));
            // let setData = scale.checkData(3, isOnData, srcData);
            // g.setQueue(setData);
-        },
+        //},
 
         /**
          * @description: 设置页面点击跳转刷牙方法

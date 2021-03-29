@@ -3,8 +3,8 @@
  * @version:
  * @Author: Tiffany
  * @Date: 2020-11-11 18:42:29
- * @LastEditors: Tiffany
- * @LastEditTime: 2021-01-12 14:23:16
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-03-29 17:14:34
  */
 export const getLanguage = () => {
   let language;
@@ -41,3 +41,24 @@ export const format = (date, fmt) => {
   }
   return fmt;
 };
+export const brushingHistory = {
+  /**
+   * @description: 计算得分颜色
+   * @param {number} s 刷牙得分
+   * @return {*}
+   */
+  getColor: (s) => {
+      let colors = window.isDark
+          ? ["#ba5500", "#007aac", "#4e7700"]
+          : ["#ff7600", "#007dff", "#8cd600"];
+      let color = "";
+      if (s >= 80) {
+          color = colors[2];
+      } else if (s >= 60 && s < 79) {
+          color = colors[1];
+      } else {
+          color = colors[0];
+      }
+      return color;
+  }
+}

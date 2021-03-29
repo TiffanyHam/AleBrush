@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-29 15:13:25
+ * @LastEditTime: 2021-03-29 17:41:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -55,7 +55,7 @@
          <!-- 刷牙模式 -->
          <div class="itemPlay flexR rightM"  style="position: relative;"  @click="brushModeClick">
             <div>
-                <span>{{ $t('index.brushLen') }}</span><br />
+                <span>{{ $t('index.brushmode') }}</span><br />
                 <div class="text_color" v-if="isflage !== isConnect">
                     <span>{{modeDisplay}}</span>
                 </div>
@@ -68,7 +68,7 @@
         <!-- 刷牙时长 -->
         <div class="itemPlay flexR" style="position: relative;" @click="brushTimeClick">
           <div>
-              <span>{{ $t('index.Log.brushLen') }}</span>
+              <span>{{ $t('index.brushLen') }}</span>
               <div class="text_color" v-if="isflage !== isConnect">
                   <span>{{timeLen}}</span>
               </div>
@@ -121,7 +121,7 @@
             <p>{{item.days}}</p>
             <div class="hi-timeitem" v-for="(itemA, index) in item.historyArr" :key="index">
               <div class="hi-timeitem">
-                <div class="grade">{{itemA.score}}</div>
+                <div class="grade"  :style="{'backgroundColor':brushingHistory(itemA.score)}">{{itemA.score}}</div>
                 <div class="timeitemMain">
                   <span class="size16 c_90">{{itemA.brushLens}}</span>
                   <span class="size14 c_60">{{itemA.time}}</span>
@@ -146,10 +146,10 @@
     <Cdialog v-show="isDialog" :isChange ="isChange"></Cdialog>
   </div>
 </template>
-
 <script>
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
+import { brushingHistory } from "../../utils/tool";
 export default {
   inject: ['isDarks'],
   data() {
@@ -185,7 +185,7 @@ export default {
        cardData: [
           {
               name: '上次刷牙评分',
-              unit: '岁',
+              unit: '分',
               num: '21',
           },
           {
@@ -202,10 +202,10 @@ export default {
                 score:'99',
                 brushLens: '刷牙时长',
                 time: '08:00:76',
-                seconds:'1分55秒'
+                seconds:'1分55秒',
                 },
                 {
-                score:'88',
+                score:'28',
                 brushLens: '刷牙时长',
                 time: '08:00:76',
                 seconds:'1分55秒'
@@ -216,13 +216,13 @@ export default {
               days: '今天 星期二',
               historyArr:[
                 {
-                score:'99',
+                score:'12',
                 brushLens: '刷牙时长',
                 time: '08:00:76',
                 seconds:'1分55秒'
                 },
                 {
-                score:'88',
+                score:'61',
                 brushLens: '刷牙时长',
                 time: '08:00:76',
                 seconds:'1分55秒'
@@ -289,6 +289,10 @@ export default {
  
   },
   methods: {
+    // 获取颜色值
+    brushingHistory(val){
+        return brushingHistory.getColor(val);
+    },
      brushTimeClick(){
        this.isTime = !this.isTime
      },
@@ -394,7 +398,7 @@ export default {
               margin-right: 19px;
               font-size: 16px;
               color: #fff;
-              background: red;
+             // background: red;
               }
             .timeitemMain {
                 display: flex;
