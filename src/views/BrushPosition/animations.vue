@@ -12,15 +12,20 @@
                 <div class="bottom font16">下</div>
                 <div class="position_center left font16">左</div>
                 <div class="right font16">右</div>
-                <!-- <div class="area font12">{{areas[index-1]}}</div> -->
                 <!-- 左下 -->
-                <div v-if="1 == index" class="left_down_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 1" class="left_down_out posiImg animate opcity_animate"></div>
+                <div v-if="index != 1" class="left_down_out posiImg"></div>
                 <!-- 右下 -->
-                <div v-if="2 == index" class="right_down_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 2" class="right_down_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 0 || index == 3 || index == 4" class="right_down_out posiImg"></div>
                 <!-- 右上 -->
-                <div v-if="3 == index" class="right_up_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 3" class="right_up_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 0 || index == 4" class="right_up_out posiImg"></div>
                 <!-- 左上 -->
-                <div v-if="4 == index" class="left_up_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 4" class="left_up_out posiImg animate opcity_animate"></div>
+                <div v-if="index == 0">
+                     <div v-if="index == 0 || index == 1 || index == 2 " class="left_up_out posiImg"></div>
+                </div>
                 <!-- 中心时间卷 -->
                 <div class="circle">
                     <svg
@@ -34,7 +39,7 @@
                             cx="47.5"
                             cy="47.5"
                             r="42.5"
-                            stroke-width="10"
+                            stroke-width="7"
                             stroke="#66b4fe"
                             stroke-linejoin="round"
                             stroke-linecap="round"
@@ -42,7 +47,7 @@
                         />
                         <path
                             id="path1"
-                            stroke-width="11"
+                            stroke-width="7"
                             fill="none"
                             :d="`M${startX} ${startY} A42.5 42.5 1 0 0 ${endX} ${endY}`"
                             stroke="#fff"
@@ -76,49 +81,6 @@
           <div>请暂停牙刷后退出页面</div>
           <div>手动返回或后台运行会造成刷牙数据丢失</div>
         </div>
-        
-        <!-- 电量不足20%的提示 -->
-        <!-- <div :class="percent20 ? 'footer low_backC' : 'footer'">
-            <span v-if="percent20" class="low_bettery">
-                <span>牙刷电量不足20%了哦，萌小牛红灯闪烁</span>
-                <span>提醒您该充电啦</span>
-            </span>
-            <span v-else class="low_bettery">
-                <span>{{boothTip[boothTipIndex].title}}</span>
-                <span v-if="boothTip[boothTipIndex].subtitle">{{boothTip[boothTipIndex].subtitle}}</span>
-            </span>
-        </div> -->
-        <!-- 无电弹窗start -->
-        <!-- <Dialog :dialog_show="nopower_dialog_show" @sendData="sendData(0,arguments)">
-            <template slot="title"></template>
-            <template slot="tipText">牙刷无电，请充电。</template>
-            <template slot="self">好&nbsp;&nbsp;&nbsp;&nbsp;的</template>
-        </Dialog> -->
-        <!-- 频繁刷牙弹窗start -->
-        <!-- <Dialog
-            :dialog_show="sitcom_dialog_show"
-            :selfBtn="sitcom_selfBtn"
-            @sendData="sendData(1,arguments)"
-        >
-            <template slot="title">萌小牛温馨提示：</template>
-            <template slot="tipText">您已连续使用牙刷刷牙两次以上，频繁过度刷牙会对牙龈健康有影响哦。</template>
-            <template slot="cancle">继续刷牙</template>
-            <template slot="sure">结束刷牙</template>
-        </Dialog> -->
-        <!-- 刷牙时间不足弹窗 -->
-        <!-- <Dialog
-            :svg="svg"
-            :dialog_show="shortage_dialog_show"
-            :selfBtn="shortage_selfBtn"
-            @sendData="sendData(2,arguments)"
-        >
-            <template slot="title">暂停倒计时</template>
-            <template v-if="shortage31" slot="tipText">你的刷牙时间还没有达到45秒</template>
-            <template v-else slot="tipText">刷牙时间不足30秒，数据不予保存</template>
-            <template slot="subtipText">启动牙刷可继续刷牙</template>
-            <template slot="cancle">继续刷牙</template>
-            <template slot="sure">结束刷牙</template>
-        </Dialog> -->
     </div>
 </template>
 
@@ -133,54 +95,20 @@ export default {
             areasetVal: null,
             tatolsetVal: null,
             animatesetVal: null,
-            // 牙齿的六个面
+            // 牙齿的4个面
             sixFace: 4,
-            // 中间区域 20s 时间
+            // 中间区域 30s 时间
             second20: 30,
             // 中间总时间
             toal: "00:00",
-            // music 图标的属性设置
-            bindX: 200,
-            bindY: 80,
-            offset: {
-                x: 0,
-                y: 0,
-            },
-            diff: {
-                x: 0,
-                y: 0,
-            },
-            // 音乐开关
-            open: false,
+            flag:false,
             // 弹窗无电传值设置
             nopower_dialog_show: false,
             // 弹窗频繁刷牙传值设置
             sitcom_dialog_show: false,
-            sitcom_selfBtn: true,
             // 刷牙不足30秒弹窗
             shortage_dialog_show: false,
-            shortage_selfBtn: true,
             svg: true,
-            // 暂停刷牙大于30秒
-            shortage31: false,
-            //  电量是否低于20%
-            percent20: false,
-            // 正常电量显示的提示语
-            boothTip: [
-                { title: "小萌牛为您的牙齿保驾护航", subtitle: "" },
-                { title: "保护牙齿，从小开始", subtitle: "" },
-                { title: "小萌牛提醒您，记得早晚刷牙哦", subtitle: "" },
-                { title: "小朋友，一定要认真刷牙哦", subtitle: "" },
-                {
-                    title: "如要退出请先暂停刷牙",
-                    subtitle: "直接返回或后台运行会造成刷牙数据丢失",
-                },
-            ],
-            // 正常电量显示的提示语下标
-            boothTipIndex: 0,
-            // 是否连续刷牙确认
-            sureSitcom: false,
-
             // svg 的旋转角度
             rotate: null,
             startX: 5,
@@ -188,30 +116,13 @@ export default {
             endX: 0,
             endY: 0,
             // 动画下标
-            index: 0,
+            index: null,
             // 动画区域
             areas: [
                 "左下区：外侧",
-                // "左下区：咬合面",
-                // "左下区：内侧",
-
-                // "中下区：外侧",
-                // "中下区：内侧",
-
                 "右下区：外侧",
-                // "右下区：咬合面",
-                // "右下区：内侧",
-
                 "右上区：外侧",
-                // "右上区：咬合面",
-                // "右上区：内侧",
-
-                // "中上区：外侧",
-                // "中上区：内侧",
-
-                "左上区：外侧",
-                // "左上区：咬合面",
-                // "左上区：内侧",
+                "左上区：外侧"
             ],
         };
     },
@@ -220,36 +131,24 @@ export default {
 
     computed: {},
     watch: {
-        nopower_dialog_show(n,o){
-            this.init()
-        },
-        sitcom_dialog_show(n,o){
-            this.init()
-        },
-        shortage_dialog_show(n,o){
-            this.init()
-        },
+     
     },
     created() {
         let r = 42.5;
         let centerX = 47.5;
         let centerY = 47.5;
-        let svgX = r * Math.cos((Math.PI / 180) * 60);
-        let svgY = r * Math.sin((Math.PI / 180) * 60);
+        let svgX = r * Math.cos((Math.PI / 180) * 90);
+        let svgY = r * Math.sin((Math.PI / 180) * 90);
         this.rotate = [
             { x: centerX - r, y: centerY },
-            // { x: centerX - svgX, y: centerY + svgY },
             { x: centerX + svgX, y: centerY + svgY },
             { x: centerX + r, y: centerY },
-            // { x: centerX + svgX, y: centerY - svgY },
             { x: centerX - svgX, y: centerY - svgY },
         ];
-        console.log(this.rotate)
         this.startX = this.rotate[0].x;
         this.startY = this.rotate[0].y;
         this.endX = this.rotate[1].x;
         this.endY = this.rotate[1].y;
-        console.log(this.startX,this.startY,this.endX,this.endY)
     },
 
     mounted(e) {
@@ -278,20 +177,7 @@ export default {
             this.showAnimate();
         },
         /**
-         * @description: 鼠标按下事件
-         * @param {Object} e 鼠标事件源
-         * @return {*}
-         */
-        // movestart(e) {
-        //     // 记录 ref=img 元素的起始位置
-        //     this.offset.x = this.$refs.img.offsetLeft;
-        //     this.offset.y = this.$refs.img.offsetTop;
-        //     this.diff.x = e.changedTouches[0].clientX;
-        //     this.diff.y = e.changedTouches[0].clientY;
-        // },
-
-        /**
-         * @description: 刷牙时间 区域 20S 倒计时
+         * @description: 刷牙时间 区域 30S 倒计时
          * @param {*}
          * @return {*}
          */
@@ -325,7 +211,6 @@ export default {
                 if (time == 0) {
                     time = 30;
                     _.second20 = time;
-                    _.boothTipIndex = _.rand();
                     count--;
                     _.sixFace = count;
                 }
@@ -358,29 +243,6 @@ export default {
             }, 1000);
         },
         /**
-         * @description: Dialog 弹窗下发事件
-         * @param {Object} val 下发的值
-         * @return {*}
-         */
-        // sendData(val) {
-        //     let args = arguments;
-        //     if (args[0] == 0) {
-        //         // 无电弹窗
-        //         this.nopower_dialog_show = false;
-        //         return true;
-        //     }
-        //     if (args[0] == 1) {
-        //         // 频繁刷牙
-        //         this.sitcom_dialog_show = false;
-        //         return true;
-        //     }
-        //     if (args[0] == 2) {
-        //         // 刷牙时间不足
-        //         this.shortage_dialog_show = false;
-        //         return true;
-        //     }
-        // },
-        /**
          * @description: 各个区域动画显示
          * @param {*}
          * @return {*}
@@ -409,20 +271,9 @@ export default {
                 }
             }, 1000);
         },
-        /**
-         * @description: 随机产生 0-4整数
-         * @param {*}
-         * @return {res} 0-4整数
-         */
-        rand() {
-            return parseInt(Math.random() * 5);
-        },
     },
 };
 </script>
-
-
-
 
 <style lang='scss' scoped>
 .brushing_other {

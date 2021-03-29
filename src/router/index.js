@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-26 15:41:36
+ * @LastEditTime: 2021-03-29 10:24:14
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -17,16 +17,6 @@ export default new Router({
       path: "/",
       name: "Main",
       component: () => import("../views/Main/Main.vue")
-    },
-    {
-      path: "/animations1",
-      name: "animations1",
-      component: () => import("../views/Main/animations1.vue")
-    },
-    {
-      path: "/animations2",
-      name: "animations2",
-      component: () => import("../views/Main/animations2.vue")
     },
     {
       path: "/Setting",
@@ -57,6 +47,16 @@ export default new Router({
       path: "/BrushPosition",
       name: "BrushPosition",
       component: () => import("../views/BrushPosition/BrushPosition.vue")
-    }
+    },
+    {
+      path: "/animations1",
+      name: "animations1",
+      component: () => import("../views/BrushPosition/animations1.vue")
+    },
+    {
+      path: "/animations",
+      name: "animations",
+      component: () => import("../views/BrushPosition/animations.vue")
+    },
   ]
 });

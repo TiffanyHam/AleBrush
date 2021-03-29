@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-26 14:33:48
+ * @LastEditTime: 2021-03-29 15:13:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -11,7 +11,7 @@
   <div class="page bg_F7F7F7">
   <div class="index_main"  ref="wrapper">
     
-    <div class="content"  :class="dialogTip == true ? 'marginTop':''">
+    <div class="content"  :class="dialogTip || dialogTip1 == true ? 'marginTop':''">
     <!-- 产品图 -->
     <div class="banner">
         <div class="productI"></div>
@@ -25,7 +25,7 @@
     </div>
     <div class="connectState flexR" v-show="!isflage && !isConnect">
         <div>{{ $t('index.connect') }}</div>
-        <div><img src="@/assets/image/icon/light/loading.png" class="loading_icon"></div>
+        <div class="loading_icon"></div>
     </div>
     <div class="connectState flexR" v-show="!isflage && isConnect">
         <div>{{ $t('index.connected') }}</div>
@@ -127,7 +127,7 @@
                   <span class="size14 c_60">{{itemA.time}}</span>
                 </div>
               </div>
-              <div>{{itemA.seconds}}</div>
+              <div class="seconds">{{itemA.seconds}}</div>
             </div>
 
               
@@ -151,6 +151,7 @@
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
 export default {
+  inject: ['isDarks'],
   data() {
     return {
        isflage:true,
@@ -284,7 +285,7 @@ export default {
     },
     initPosition(val){
       console.log('起始位置：',val)
-    }
+    },
  
   },
   methods: {
@@ -408,6 +409,9 @@ export default {
                     font-size: 0.388rem;
                 }
             }
+            .seconds{
+              color: rgba(0, 0, 0, .6);
+            }
          }
        .logTab {height: 48px;}
        .fontStyle {
@@ -454,6 +458,8 @@ export default {
     .loading_icon{
        width: 40px;
        height: 40px;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
       -webkit-animation:load 1.5s linear infinite;
       animation: load 1.5s linear infinite;
     }
@@ -557,10 +563,52 @@ export default {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    height: 40/36rem;
+    height: 40px;
     width: 1px;
-    border-left: 0.25/36rem solid rgba(0, 0, 0, .2);
+    border-left: 0.00694rem solid rgba(0, 0, 0, .2);
 }
  }
+}
+// 暗黑模式
+.theme-dark {
+  .index_main{
+    .itemPlay,.connectState {
+          background-color: #262626;
+          color: rgba(255, 255, 255, 0.86);
+    }
+    .itemPlay1 {
+          color: rgba(255, 255, 255, 0.86);
+    }
+    .contentList{
+     .text_color {
+          color: #3f97e9;
+        }
+    }
+    .line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 40px;
+    width: 1px;
+    border-left: 0.00694rem solid rgba(255, 255, 255, 0.2);
+   }
+   .moreLog {
+     .fontStyle{color: rgba(255, 255, 255, 0.66);}
+     .hi-timeitem{
+        border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
+        .seconds{
+            color:rgba(255, 255, 255, 0.6)
+            }
+       }
+     }
+    .banner{
+      .productI {
+        opacity: .86;
+       }
+    }
+  }
+  
 }
 </style>

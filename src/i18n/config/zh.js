@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-30 10:13:38
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 15:39:57
+ * @LastEditTime: 2021-03-29 14:19:10
  */
 const zh = {
     Header: {
@@ -65,8 +65,6 @@ const zh = {
             tip: '仅保留最近3个月的刷牙记录',
             the:"第",
             times:'次'
-            
-
         },
 
 

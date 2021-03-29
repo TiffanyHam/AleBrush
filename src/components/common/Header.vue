@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-22 11:43:57
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-22 17:31:56
+ * @LastEditTime: 2021-03-29 11:40:32
 -->
 <template>
     <div class="header" :style="{backgroundColor:headerC,paddingTop: top}">
@@ -190,7 +190,6 @@ export default {
         height: 24px;
     }
 }
-
 .theme-dark {
     .header {
         width: 100%;

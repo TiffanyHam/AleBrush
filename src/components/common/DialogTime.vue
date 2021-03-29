@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2021-01-10 10:11:13
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 11:09:38
+ * @LastEditTime: 2021-03-29 15:17:32
 -->
 <!--
  * @Descripttion: 
@@ -28,8 +28,8 @@
                 <br />
                 <div>
                     <svg class="svg" width="64px" height="64px" viewBox="0 0 64 64">
-                        <circle class="progress" cx="32" cy="32" r="30" stroke-width="3" stroke="#007dff" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="188.8px" stroke-dashoffset="0px" />
-                        <text class="text" x="32" y="-32" fill="#007DFF">
+                        <circle class="progress" cx="32" cy="32" r="30" stroke-width="3" :stroke="isDarks == false ? '#007dff' : '#3F97E9'" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="188.8px" stroke-dashoffset="0px" />
+                        <text class="text" x="32" y="-32" :fill="isDarks == false ? '#007dff' : '#3F97E9'">
                             <tspan font-size="20px">{{time}}</tspan>&nbsp;
                             <tspan class="tspan" font-size="12px">{{this.$t('Dialog.seconds')}}</tspan>
                         </text>
@@ -51,6 +51,7 @@
 <script>
 export default {
   name: 'DialogTime',
+  inject: ['isDarks'],
   data(){
       return{
          isAppear:true,
@@ -243,9 +244,7 @@ export default {
             color: rgba(255, 255, 255, .86);
         }
         .dialog_footer {
-            .cancle {
                 color: #3F97E9;
-            }
         }
     }
 }
