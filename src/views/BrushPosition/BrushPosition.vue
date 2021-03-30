@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 15:38:13
- * @LastEditTime: 2021-03-26 10:13:02
+ * @LastEditTime: 2021-03-30 09:38:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\BrushPosition\BrushPosition.vue
@@ -13,8 +13,6 @@
         <div class="top_right" @click="changeClick('1')"></div>
         <div class="bottom_left" @click="changeClick('2')"></div>
         <div class="bottom_right" @click="changeClick('3')"></div>
-        <DialogTime>
-        </DialogTime>
          <!-- 头部start -->
         <!-- <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
             <span slot="headerTitle">{{$t('position.header')}}</span>

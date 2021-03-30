@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-29 17:41:07
+ * @LastEditTime: 2021-03-30 17:46:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -49,9 +49,9 @@
             <div class="name c_60">{{item.name}}</div>
         </div>
     </div>
-    <div :class="isflage == isConnect ? 'opacityVal' : ''">
+    <div>
      <!-- second -->
-     <div class="flexR contentList">
+     <div class="flexR contentList"  :class="isflage == isConnect ? 'opacityVal' : ''">
          <!-- 刷牙模式 -->
          <div class="itemPlay flexR rightM"  style="position: relative;"  @click="brushModeClick">
             <div>
@@ -83,7 +83,7 @@
      <!-- third -->
      <div class="flexR contentList">
          <!-- 起始位置 -->
-         <div class="itemPlay flexR rightM" @click="toPosition">
+         <div class="itemPlay flexR rightM" @click="toPosition"  :class="isflage == isConnect ? 'opacityVal' : ''">
             <div>
                 <span>{{ $t('index.inPosition') }}</span><br />
                 <div class="text_color" v-if="isflage !== isConnect">
@@ -151,7 +151,6 @@ import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
 export default {
-  inject: ['isDarks'],
   data() {
     return {
        isflage:true,
@@ -163,7 +162,7 @@ export default {
        dialogTip1: false,
        isOver:'1',
        tips:this.$t("Reconnection.index"),
-       tips1:this.$t("Reconnection.index1",{days:'8'}),
+       //tips1:this.$t("Reconnection.index1",{days:'8'}),
        isDays:'9',
        brushTime:'00',
        isSeat:'1',
@@ -184,13 +183,13 @@ export default {
        modeDisplay:'清洁',
        cardData: [
           {
-              name: '上次刷牙评分',
-              unit: '分',
+              name: this.$t("index.lastScore"),
+              unit: this.$t("index.score"),
               num: '21',
           },
           {
-              name: '刷牙剩余',
-              unit: '天',
+              name: this.$t("index.restDay"),
+              unit: this.$t("index.day"),
               num: '52',
           }
             ],
@@ -278,6 +277,9 @@ export default {
   },
   computed: {
       ...mapState(['bleConnected','initPosition']),
+      tips1(){
+        return this.$t("Reconnection.index1",{days:this.isDays})
+      }
   },
   watch:{
     bleConnected(status){

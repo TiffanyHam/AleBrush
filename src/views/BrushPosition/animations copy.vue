@@ -58,7 +58,7 @@
                             x="39.5"
                             y="40.5"
                             style="dominant-baseline:middle;text-anchor:middle;"
-                        >{{seconds}}</text>
+                        >{{second20}}</text>
                         <text
                             class="font16 second"
                             fill="rgba(255,255,255,0.9)"
@@ -72,7 +72,7 @@
                             x="47.5"
                             y="65.5"
                             style="dominant-baseline:middle;text-anchor:middle;"
-                        >{{total}}</text>
+                        >{{toal}}</text>
                     </svg>
                 </div>
             </div>
@@ -95,17 +95,27 @@ export default {
             // 初始化变量
             initFun: null,
             // 动画和时间走动用到的定时器
+            areasetVal: null,
+            tatolsetVal: null,
+            animatesetVal: null,
             timer:null,
             timer1:null,
             timer2:null,
             // 牙齿的4个面
             sixFace: 4,
             // 中间区域 30s 时间
-            seconds: 30,
+            second20: 30,
             isEnough:false,  //30S
-            isShow:true,
+            isShow:false,
             // 中间总时间
-            total: "00:00",
+            toal: "00:00",
+            flag:false,
+            // 弹窗无电传值设置
+            nopower_dialog_show: false,
+            // 弹窗频繁刷牙传值设置
+            sitcom_dialog_show: false,
+            // 刷牙不足30秒弹窗
+            shortage_dialog_show: false,
             svg: true,
             // svg 的旋转角度
             rotate: null,
@@ -115,6 +125,13 @@ export default {
             endY: 0,
             // 动画下标
             index: null,
+            // 动画区域
+            areas: [
+                "左下区：外侧",
+                "右下区：外侧",
+                "右上区：外侧",
+                "左上区：外侧"
+            ],
             brushOn:1,//1开；0关
         };
     },
@@ -123,7 +140,7 @@ export default {
 
     computed: {},
     watch: {
-       
+     
     },
     created() {
         let r = 42.5;
@@ -140,24 +157,16 @@ export default {
         this.startX = this.rotate[0].x;
         this.startY = this.rotate[0].y;
         this.endX = this.rotate[1].x;
-        this.endY = this.rotate[1].y; 
+        this.endY = this.rotate[1].y;
+
+      
     },
 
-    mounted() {
+    mounted(e) {
         this.init();
     },
 
     methods: {
-        /**
-         * @description: 清除定时器
-         * @param {*}
-         * @return {*}
-         */        
-        clearInter(){
-            clearInterval(this.timer)
-            clearInterval(this.timer1)
-            clearInterval(this.timer2)
-        },
         /**
          * @description: 正常进入页面
          * @param {*}
@@ -165,7 +174,7 @@ export default {
          */
         init() {
             if (this.brushOn == 0) { //关
-               this.clearInter()
+                this.isShow = true
                 clearInterval(this.timer)
                 clearInterval(this.timer1)
                 clearInterval(this.timer2)
@@ -173,12 +182,19 @@ export default {
             }else{
                 setTimeout(() => {
                     this.brushOn = 0
+                   clearInterval(this.timer)
+                   clearInterval(this.timer1)
+                   clearInterval(this.timer2)
                  },3000)
                 
-                 this.totalTime(true);
+                 this.totalTime();
                  this.countDown();
-                 this.showAnimate();
+                 this.showAnimate1();
             }
+
+        //       if(this.second20 < 30){
+        //       this.isEnough = true
+        // }
         },
         
         /**
@@ -189,23 +205,23 @@ export default {
         countDown(){
            const TIME_COUNT = 30;
              if (!this.timer) {
-                 this.seconds = TIME_COUNT;
+                 this.second20 = TIME_COUNT;
                  let count = this.sixFace;
                  let len = this.rotate.length;
                  this.timer = setInterval(() => {
-                     if (this.seconds > 0 && this.seconds <= TIME_COUNT) {
+                     if (this.second20 > 0 && this.second20 <= TIME_COUNT) {
                          this.startX =  this.rotate[len - count]["x"];
                          this.startY =  this.rotate[len - count]["y"];
                          this.endX =this.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
                          this.endY = this.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
-                         this.seconds--;
-                        if(this.seconds == 0){
-                             this.seconds = 30
+                         this.second20--;
+                        if(this.second20 == 0){
+                             this.second20 = 30
                              count--;
                              this.sixFace = count;
                         }
-                        if (this.total == "02:00") {
-                            this.seconds = 0;
+                        if (this.toal == "02:00") {
+                            this.second20 = 0;
                             this.index = 0;
                             clearInterval(this.timer);
                             return false;
@@ -218,49 +234,104 @@ export default {
                  }
              },
         /**
+         * @description: 刷牙时间 区域 30S 倒计时
+         * @param {*}
+         * @return {*}
+         */
+        // areaTime() {
+        //     let that = this;
+        //     let count = that.sixFace;
+        //     let len = this.rotate.length;
+        //     let time = that.second20;
+        //     that.areasetVal = setInterval(() => {
+        //         if (time == 30) {
+        //             that.startX = that.rotate[len - count]["x"];
+        //             that.startY = that.rotate[len - count]["y"];
+        //             that.endX =
+        //                 that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count][
+        //                     "x"
+        //                 ];
+        //             that.endY =
+        //                 that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count][
+        //                     "y"
+        //                 ];
+        //         }
+        //         time--;
+        //         that.second20 = time;
+        //         if (that.toal == "02:00") {
+        //             time = 0;
+        //             that.second20 = 0;
+        //             that.index = 0;
+        //             clearInterval(that.areasetVal);
+        //             return false;
+        //         }
+        //         if (time == 0) {
+        //             time = 30;
+        //             that.second20 = time;
+        //             count--;
+        //             that.sixFace = count;
+        //         }
+        //     }, 1000);
+        // },
+        /**
          * @description: 刷牙总时间
          * @param {*}
          * @return {*}
          */        
-        totalTime (bolean) {
+        totalTime () {
             let that = this
             let  minute, second
             minute = second = 0
-             if (bolean === true) {
-                that.timer1 = setInterval(function () {
-                    if (second >= 0) {
-                        second = second + 1
-                    }
-                    if (second >= 60) {
-                        second = 0
-                        minute = minute + 1
-                    }
-                    if (minute >= 60) {
-                        minute = 0
-                    }
-                    if(second < 10){
-                        that.total = '0'+ minute + ':'+ '0' + second
-                    }else{
-                        that.total = '0'+ minute + ':' + second
-                    }
-                    //不超过30s弹窗
-                    // let _minus = that.total.substr(1,1) 
-                    // let _second = that.total.substr(3,2)
-                    // this.isShow = true
-                    //  if(_minus < 1 && _second < 30){
-                    //     this.isEnough = false
-                    // }else{
-                    //     this.isEnough = true
-                    // }
-                    if(that.total === "02:00"){
-                        window.clearInterval(that.timer1)
-                    }
-                    }, 1000)
-                 }
+            that.timer1 = setInterval(function () {
+                if (second >= 0) {
+                    second = second + 1
+                }
+                if (second >= 60) {
+                    second = 0
+                    minute = minute + 1
+                }
+                if (minute >= 60) {
+                    minute = 0
+                }
+                if(second < 10){
+                    that.toal = '0'+ minute + ':'+ '0' + second
+                }else{
+                    that.toal = '0'+ minute + ':' + second
+                }
+                if(that.toal === "02:00"){
+                    window.clearInterval(that.timer1)
+                }
+                }, 1000)
              },
-        showAnimate(){
+
+        /**
+         * @description: 刷牙时间总计
+         * @param {*}
+         * @return {*}
+         */
+        // tatolTime() {
+        //     let s0 = parseInt(this.toal.substr(4, 1)),
+        //         s1 = parseInt(this.toal.substr(3, 1)),
+        //         m1 = parseInt(this.toal.substr(1, 1));
+        //     this.tatolsetVal = setInterval(() => {
+        //         s0++;
+        //         if (s0 > 9) {
+        //             s0 = 0;
+        //             s1 += 1;
+        //         }
+        //         if (s1 > 5) {
+        //             s1 = 0;
+        //             m1 += 1;
+        //         }
+        //         this.toal = `0${m1}:${s1}${s0}`;
+        //         if (this.toal === "02:00") {
+        //             clearInterval(this.tatolsetVal);
+        //         }
+        //     }, 1000);
+        // },
+        showAnimate1(){
             let that = this
-            let count = this.seconds;
+            let count = this.second20;
             let area = this.sixFace;
             that.timer2 = setInterval(() => {
                 if (area) {
@@ -276,18 +347,36 @@ export default {
                 }
             },1000)
         },
+
         /**
-         * @description: 重置
+         * @description: 各个区域动画显示
          * @param {*}
          * @return {*}
-         */        
-        Reset()
-        {
-            window.clearInterval(this.totalTime(false))
-          //  minute=second = 0
-            this.total = '00:00'
-        }
-    }
+         */
+        // showAnimate() {
+        //     let count = this.second20;
+        //     let area = this.sixFace;
+        //     this.animatesetVal = setInterval(() => {
+        //         let s = count.toString();
+        //         // if (area == 5 || area == 2) {
+        //         //     s == "10" || s == "20" ? _.index++ : "";
+        //         // } else {
+        //         //     s == "7" || s == "13" || s == "20" ? _.index++ : "";
+        //         // }
+        //         if (area) {
+        //             s == "30" ? this.index++ : "";
+        //         } 
+        //         count--;
+        //         if (count == 0) {
+        //             count = 30;
+        //             area--;
+        //             if (area == 0) {
+        //                 clearInterval(this.animatesetVal);
+        //             }
+        //         }
+        //     }, 1000);
+        // },
+    },
 };
 </script>
 
@@ -330,6 +419,7 @@ export default {
         position: relative;
         justify-content: center;
         align-items: center;
+
         .centerImg {
             width: 288px;
             height: 451.14px;
@@ -545,6 +635,10 @@ export default {
         .footer {
             background-color: #000000;
             color: rgba(255, 255, 255, 0.86);
+            .low_bettery {
+                span {
+                }
+            }
         }
         .low_backC {
             color: #e64548;

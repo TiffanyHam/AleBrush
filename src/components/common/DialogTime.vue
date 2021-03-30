@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2021-01-10 10:11:13
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 15:17:32
+ * @LastEditTime: 2021-03-30 17:21:03
 -->
 <!--
  * @Descripttion: 
@@ -27,17 +27,18 @@
                 <p>{{$t('Hint.tipText5')}}</p>
                 <br />
                 <div>
-                    <svg class="svg" width="64px" height="64px" viewBox="0 0 64 64">
-                        <circle class="progress" cx="32" cy="32" r="30" stroke-width="3" :stroke="isDarks == false ? '#007dff' : '#3F97E9'" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="188.8px" stroke-dashoffset="0px" />
-                        <text class="text" x="32" y="-32" :fill="isDarks == false ? '#007dff' : '#3F97E9'">
+                    <svg class="svg" width="84px" height="84px" viewBox="0 0 84 84">
+                        <circle class="progress" cx="42" cy="42" r="40" stroke-width="3" :stroke="window.isDark ? '#007dff' : '#3F97E9'" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="251.2px" stroke-dashoffset="0px" />
+                        <text class="text" x="42" y="-42" :fill="window.isDark ? '#007dff' : '#3F97E9'">
                             <tspan font-size="20px">{{time}}</tspan>&nbsp;
                             <tspan class="tspan" font-size="12px">{{this.$t('Dialog.seconds')}}</tspan>
                         </text>
                   </svg>
                 </div>
-                <slot>{{$t('Hint.tipText6')}} </slot>
+                <slot v-if="isEnough">{{$t('Hint.tipText6')}} </slot> 
+                <slot v-else>{{$t('Hint.tipText7')}}</slot>  <!-- 30s -->
                 <br />
-                <slot>{{$t('Hint.tipText7')}}</slot>
+                <slot>{{$t('Hint.tipText8')}}</slot>
             </div>
             <div class="dialog_footer fb">
                 <span class="btn" @click="close">
@@ -51,7 +52,6 @@
 <script>
 export default {
   name: 'DialogTime',
-  inject: ['isDarks'],
   data(){
       return{
          isAppear:true,
@@ -61,10 +61,10 @@ export default {
       }
   },
   props: {
-    isChange:{
+    isEnough:{
       type: Boolean,
       required: true,
-      default: true,
+      default: true,  //30S
     },
     countDown: {
             type: String,

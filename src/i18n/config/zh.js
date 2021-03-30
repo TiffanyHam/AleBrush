@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-30 10:13:38
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 16:59:47
+ * @LastEditTime: 2021-03-30 16:54:48
  */
 const zh = {
     // Header: {
@@ -131,25 +131,14 @@ const zh = {
         lockTip: '锁定后设备无法进行档位更换',
         lockBtn: '档位锁定'
     },
+    //更多设置
     setting: {
         header: '更多设置',
-        other: '其他',
-        options: {
-            set1: {
-                title: '刷牙时动画引导',
-                subTitle: '开启时，可防止刷头上的水渍、牙膏意外甩出',
-                on: ''
-            },
-            set2: {
-                title: '固件升级',
-                subTitle: '',
-                on: '1.0'
-            }
-        },
         otherOptions: {
             methodsU: '刷牙步骤',
             methodsI: '使用方法',
             title2: '常见问题',
+            see:'查看',
         }
     },
     position:{
@@ -240,7 +229,8 @@ const zh = {
         tipTitle2: '暂停倒计时',
         tipText5: '重新启动牙刷可继续刷牙',
         tipText6: '还没达到您设置的时间哦',
-        tipText7: '倒计时结束后，退出页面',
+        tipText7: '时间不足30S，数据不予保存',
+        tipText8: '倒计时结束后，退出页面',
         quit:'退出实时引导',
         
     },
