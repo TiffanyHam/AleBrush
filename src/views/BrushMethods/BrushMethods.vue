@@ -1,11 +1,3 @@
-<!--
- * @Description: 
- * @version: 
- * @Author: HeZhen
- * @Date: 2020-11-11 10:03:15
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 15:56:46
--->
 <template>
     <div class="brushMethods flexC">
         <!-- 头部start -->
@@ -21,7 +13,7 @@
                     <div class="title">{{item.tip}}</div>
                     <div class="subtitle">{{item.subtip}}</div>
                     <div class="img">
-                        <span class="back_img" :style="{backgroundImage: 'url(' +require('../../assets/image/product/light/'+item.img)+ ')'}"></span>
+                        <span v-if="index < text_cur.length-1" class="back_img" :style="{backgroundImage: 'url(' +require('../../assets/image/product/light/'+item.img)+ ')'}"></span>
                     </div>
                 </div>
             </div>
@@ -31,69 +23,44 @@
 
 <script>
 import BS from "better-scroll";
-// import g from "../../Util/global";
-// import { scale } from "../../Util/tool";
 export default {
     name: "BrushMethods",
     data() {
         return {
             header_rightIcon: false,
             mode: null,
-            text_I: [
-                {
-                    tip: this.$t("brushMethods.tip"),
-                    subtip: this.$t("brushMethods.subtip"),
-                    img: "I_1.png",
-                },
-                {
-                    tip: this.$t("brushMethods.tip2"),
-                    subtip: this.$t("brushMethods.subtip2"),
-                    img: "I_2.png",
-                },
-                {
-                    tip: this.$t("brushMethods.tip3"),
-                    subtip: this.$t("brushMethods.subtip3"),
-                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png",
-                },
-                {
-                    tip: "",
-                    subtip: this.$t("brushMethods.subtip4"),
-                    img: this.$i18n.locale === "zh" ? "I_4.png" : "I_4en.png",
-                },
-                {
-                    tip: this.$t("brushMethods.tip5"),
-                    subtip: this.$t("brushMethods.subtip5"),
-                    img: "I_5.png",
-                },
-            ],
-            text_U: [
-                {
-                    tip: this.$t("brushMethods.tip6"),
-                    subtip: this.$t("brushMethods.subtip6"),
-                    img: "U_1.png",
-                },
+            text_cur: [
                 {
                     tip: this.$t("brushMethods.tip7"),
                     subtip: this.$t("brushMethods.subtip7"),
-                    img: "U_2.png",
+                    img: "I_1.png",
                 },
                 {
                     tip: this.$t("brushMethods.tip8"),
                     subtip: this.$t("brushMethods.subtip8"),
-                    img: this.$i18n.locale === 'zh' ? "U_3.png":"U_3_en.png",
+                    img: "I_2.png",
                 },
                 {
-                    tip: this.$t("brushMethods.tip9"),
                     subtip: this.$t("brushMethods.subtip9"),
-                    img: "U_4.png",
+                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png",
                 },
+                {
+                    subtip: this.$t("brushMethods.subtip10"),
+                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png",
+                },
+                {
+                    subtip: this.$t("brushMethods.subtip11"),
+                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png",
+                },
+                {
+                    subtip: this.$t("brushMethods.subtip12"),
+                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png"
+                }
+               
             ],
-            text_cur: null,
-            scroll: null,
+            scroll: null
         };
     },
-    created() { },
-
     mounted() {
         this.$nextTick(() => {
             this.scroll = new BS(this.$refs.scroll, {
@@ -102,34 +69,6 @@ export default {
                 scrollY: true,
             });
         });
-        this.initPages()
-    },
-    computed: {
-        bleConnected() {
-            return this.$store.state.BleStatus.bleConnected;
-        },
-        binData() {
-            return this.$store.state.BleStatus.binData;
-        },
-    },
-    watch: {
-        bleConnected(n, o) {
-            this.initPages()
-        },
-        binData(n, o) {
-        },
-    },
-
-    methods: {
-        /**
-         * @description: 初始化页面
-         * @param {*}
-         * @return {*}
-         */
-        initPages() {
-            this.mode = this.$route.params.type === 'U' ? '0' : '1';
-            this.text_cur = this.mode === "0" ? this.text_U : this.text_I;
-        },
     },
 };
 </script>

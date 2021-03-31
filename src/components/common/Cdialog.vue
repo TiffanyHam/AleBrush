@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2021-01-10 10:11:13
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 11:09:38
+ * @LastEditTime: 2021-03-31 11:38:29
 -->
 <!--
  * @Descripttion: 
@@ -203,9 +203,7 @@ export default {
             color: rgba(255, 255, 255, .86);
         }
         .dialog_footer {
-            .cancle {
-                color: #3F97E9;
-            }
+            color: #3F97E9;
         }
     }
 }

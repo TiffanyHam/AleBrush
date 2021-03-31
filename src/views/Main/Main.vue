@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-30 17:46:18
+ * @LastEditTime: 2021-03-31 15:59:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -87,7 +87,7 @@
             <div>
                 <span>{{ $t('index.inPosition') }}</span><br />
                 <div class="text_color" v-if="isflage !== isConnect">
-                    <span>{{initPosition | formatStata}}</span>
+                    <span>{{initPosition | formatStata(te)}}</span>
                 </div>
             </div>
             <div class="icon_width">
@@ -118,8 +118,8 @@
         </span>
         <div class="logHistory">
           <div class="log_arr" v-for="(item, index) in logArr" :key="index">
-            <p>{{item.days}}</p>
-            <div class="hi-timeitem" v-for="(itemA, index) in item.historyArr" :key="index">
+            <p class="days">{{item.days}}</p>
+            <div v-for="(itemA, index) in item.historyArr" :key="index" :class="index < item.historyArr.length - 1  ? 'detail_bor hi-timeitem' : 'hi-timeitem'">
               <div class="hi-timeitem">
                 <div class="grade"  :style="{'backgroundColor':brushingHistory(itemA.score)}">{{itemA.score}}</div>
                 <div class="timeitemMain">
@@ -167,15 +167,15 @@ export default {
        brushTime:'00',
        isSeat:'1',
        shiftTest: [
-          { name: '2分钟', selected: false },
-          { name: '2分钟30秒', selected: false },
-          { name: '3分钟', selected: true }
+          { name: this.$t("BrushTeethLen.length1"), selected: false },
+          { name: this.$t("BrushTeethLen.length2"), selected: false },
+          { name: this.$t("BrushTeethLen.length3"), selected: true }
         ],
         patterns: [
-          { name: '清洁', selected: false },
-          { name: '舒适', selected: false },
-          { name: '按摩', selected: true },
-          { name: '强劲', selected: false }
+          { name: this.$t("BrushTeethModel.level1"), selected: false },
+          { name: this.$t("BrushTeethModel.level2"), selected: false },
+          { name: this.$t("BrushTeethModel.level3"), selected: true },
+          { name: this.$t("BrushTeethModel.level4"), selected: false }
         ],
        isTime:false,
        isMode:false,
@@ -232,13 +232,13 @@ export default {
     };
   },
    filters:{
-      // 状态显示转换
-      formatStata(status) {
+      // 区域状态显示转换
+      formatStata(status,te) {
         const statusMap = {
-          0: "左上区",
-          1: "右上区",
-          2: "左下区",
-          3: "右下区"
+          0: te("BrushTeethPosition.position1"),
+          1: te("BrushTeethPosition.position2"),
+          2: te("BrushTeethPosition.position3"),
+          3: te("BrushTeethPosition.position4")
         }
         return statusMap[status]
       }
@@ -252,7 +252,7 @@ export default {
     setTimeout(() => { //连接超时
         this.isflage = true
         this.isConnect = true
-      //  this.isDialog = true
+        //this.isDialog = true
     }, 1 * 1000);
     setTimeout(() => { //已连接
         this.isflage = false
@@ -291,6 +291,15 @@ export default {
  
   },
   methods: {
+    //过滤器中i18n
+    te(arg) {
+      const hasKey = this.$te(arg)
+      if (hasKey) {
+        const result = this.$t(arg)
+        return result
+      }
+      return arg
+    },
     // 获取颜色值
     brushingHistory(val){
         return brushingHistory.getColor(val);
@@ -377,6 +386,14 @@ export default {
         border-radius: 8px;
         flex: 1;
         margin-bottom: 8px;
+        .log_arr{
+              margin-bottom: 15px;
+              .days{
+                color:rgba(0, 0, 0, 0.86);
+                margin-top: 4px;
+                font-size: 14px;
+              }
+           }
         .logHistory{
          //  padding: 0 24px;
            line-height: 1.77;
@@ -385,12 +402,17 @@ export default {
               margin-bottom: 15px;
            }
         }
+        .detail_bor {
+                      padding-bottom: 11px;
+                      border-bottom: 0.00694rem solid
+                          rgba(0, 0, 0, 0.2);
+                  }
         .hi-timeitem {
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 1.77rem;
-            border-bottom: 0.00694rem solid rgba(0, 0, 0, 0.2);
+          //  border-bottom: 0.00694rem solid rgba(0, 0, 0, 0.2);
             .grade {
               width: 40px;
               height: 40px;
@@ -603,12 +625,21 @@ export default {
    .moreLog {
      .fontStyle{color: rgba(255, 255, 255, 0.66);}
      .hi-timeitem{
-        border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
+      //  border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
         .seconds{
             color:rgba(255, 255, 255, 0.6)
             }
        }
+       .detail_bor {
+          border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
+                  }
+      .log_arr{
+            .days{
+              color:rgba(255, 255, 255, 0.6)
+            }
+          }
      }
+    
     .banner{
       .productI {
         opacity: .86;

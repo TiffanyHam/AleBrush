@@ -1,11 +1,3 @@
-<!--
- * @Description: 弹窗
- * @version: 
- * @Author: HeZhen
- * @Date: 2020-10-22 11:43:57
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 16:07:19
--->
 <template>
     <div v-if="visiableCom" class="dialog_main" @click="visiableDialog">
         <!-- 遮罩层start -->
@@ -24,11 +16,11 @@
                 </div>
                 <div class="dialog_footer fb">
                     <span class="btn btn_left" @click.stop="cancle">
-                        <slot name="cancle">{{$t('Dialog.cancle')}}</slot>
+                        <slot name="cancle">{{$t('RemainTime.cancle')}}</slot>
                     </span>
                     <span class="line"></span>
                     <span class="btn" @click.stop="sure">
-                        <slot name="sure btn_right">{{$t('Dialog.sure')}}</slot>
+                        <slot name="sure btn_right">{{$t('RemainTime.sure')}}</slot>
                     </span>
                 </div>
             </div>

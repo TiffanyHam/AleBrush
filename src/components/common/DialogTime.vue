@@ -1,19 +1,3 @@
-<!--
- * @Descripttion: 
- * @version: 
- * @Author: Tiffany
- * @Date: 2021-01-10 10:11:13
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-30 17:21:03
--->
-<!--
- * @Descripttion: 
- * @version: 
- * @Author: Tiffany
- * @Date: 2020-12-23 10:05:44
- * @LastEditors: Tiffany
- * @LastEditTime: 2020-12-24 14:23:01
--->
 <template>
    <div class="bleDialog" v-show="isAppear">
         <!-- 蒙版 -->
@@ -24,12 +8,11 @@
                 <slot name="title">{{$t('Hint.tipTitle2')}}</slot>
             </div>
             <div class="dialogContent">
-                <p>{{$t('Hint.tipText5')}}</p>
-                <br />
+                <p class="magBot">{{$t('Hint.tipText5')}}</p>
                 <div>
                     <svg class="svg" width="84px" height="84px" viewBox="0 0 84 84">
-                        <circle class="progress" cx="42" cy="42" r="40" stroke-width="3" :stroke="window.isDark ? '#007dff' : '#3F97E9'" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="251.2px" stroke-dashoffset="0px" />
-                        <text class="text" x="42" y="-42" :fill="window.isDark ? '#007dff' : '#3F97E9'">
+                        <circle class="progress" cx="42" cy="42" r="40" stroke-width="2" :stroke="isBg" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="251.2px" stroke-dashoffset="0px" />
+                        <text class="text" x="42" y="-42" :fill="isBg">
                             <tspan font-size="20px">{{time}}</tspan>&nbsp;
                             <tspan class="tspan" font-size="12px">{{this.$t('Dialog.seconds')}}</tspan>
                         </text>
@@ -58,6 +41,7 @@ export default {
          show: true,
          time: 30,
          setl: null,
+         isBg: window.isDark ? '#3F97E9' : '#007dff'
       }
   },
   props: {
@@ -99,7 +83,7 @@ export default {
     },
   methods:{
       close(){
-           this.$router.push("/");
+           this.$router.push({ path: '/' })
       },
        /**
          * @description:  js 添加动画
@@ -193,6 +177,9 @@ export default {
             line-height: 24px;
             color: rgba(0, 0, 0, .9);
             text-align: center;
+            .magBot{
+                margin-bottom: 16px;
+            }
             // letter-spacing: 1px;                   
             svg {
                 transform: rotate(-90deg);

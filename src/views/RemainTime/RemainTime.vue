@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 17:02:10
+ * @LastEditTime: 2021-03-31 15:47:58
 -->
 <!--  -->
 <template>
@@ -27,7 +27,7 @@
 
             <!-- 刷头start -->
             <div class="footer flexC">
-                <button @click="resetime" class='btn'>{{$t('RemainTime.reset')}}</button>
+                <button @click="resetime" class='btn'>{{$t('RemainTime.resetDay')}}</button>
             </div>
         </div>
         <Dialog :visiable="dialogVisiable" @sendData='getDialogData'></Dialog>

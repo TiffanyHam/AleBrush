@@ -1,10 +1,3 @@
-<!--
- * @Description: 圆形进度条
- * @version: 
- * @Author: HeZhen
- * @Date: 2020-10-26 11:05:31
- * @LastEditors: Please set LastEditors
- -->
 <template>
     <div class="container flex">
         <div class="chart" ref="chart" style="width:100%;height:100%"></div>

@@ -1,12 +1,3 @@
-<!--
- * @Description: 
- * @version: 
- * @Author: HeZhen
- * @Date: 2020-11-11 11:14:05
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-25 11:28:23
--->
-<!--  -->
 <template>
     <div class="commonProblem flexC">
         <!-- 头部start -->
@@ -22,6 +13,7 @@
                 <div v-for="(item,index) in problems" :key="index" class="methods_item">
                     <div class="title">{{item.tip}}</div>
                     <div class="subtitle">{{item.subtip}}</div>
+                    <div class="subtitle" v-if="index == 3">{{item.subtipMore}}</div>
                 </div>
             </div>
         </div>
@@ -40,47 +32,33 @@ export default {
             problems: [
                 {
                     tip: this.$t('CommonProbl.tip'),
-                    subtip:
-                        this.$t('CommonProbl.subtip'),
-                    img: "",
+                    subtip:this.$t('CommonProbl.subtip')
                 },
                 {
                     tip: this.$t('CommonProbl.tip2'),
-                    subtip:
-                        this.$t('CommonProbl.subtip2'),
-                    img: "",
+                    subtip:this.$t('CommonProbl.subtip2')
                 },
                 {
                     tip: this.$t('CommonProbl.tip3'),
-                    subtip: this.$t('CommonProbl.subtip3'),
-                    img: "",
+                    subtip: this.$t('CommonProbl.subtip3')
                 },
                 {
                     tip: this.$t('CommonProbl.tip4'),
                     subtip: this.$t('CommonProbl.subtip4'),
-                    img: "",
+                    subtipMore:this.$t('CommonProbl.subtipMore')
                 },
                 {
                     tip: this.$t('CommonProbl.tip5'),
-                    subtip: this.$t('CommonProbl.subtip5'),
-                    img: "",
+                    subtip: this.$t('CommonProbl.subtip5')
                 },
                 {
                     tip: this.$t('CommonProbl.tip6'),
-                    subtip: this.$t('CommonProbl.subtip6'),
-                    img: "",
+                    subtip: this.$t('CommonProbl.subtip6')
                 },
             ],
             scroll: null,
         };
     },
-
-    components: {},
-
-    computed: {},
-
-    created() { },
-
     mounted() {
         this.$nextTick(() => {
             this.scroll = new BS(this.$refs.scroll, {

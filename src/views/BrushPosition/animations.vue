@@ -1,17 +1,16 @@
 
 <template>
     <div class="brushing_other flexC">
-        <div class="header">
-            <div class="header_inner">实时引导</div>
-        </div>
-        <div class="subheader">超过30s即被记录为一次有效时间</div>
-        <!-- 刷牙引导 -->
+        <!-- <div class="header"> -->
+        <div class="header_inner">{{$t('brushing.header')}}</div>
+        <!-- </div> -->
+        <div class="subheader">{{$t('brushing.tipTextI30')}}</div>
         <div class="banner flex">
             <div class="centerImg posiImg position_center">
-                <div class="top font16">上</div>
-                <div class="bottom font16">下</div>
-                <div class="position_center left font16">左</div>
-                <div class="right font16">右</div>
+                <div class="top font16">{{$t('brushing.top')}}</div>
+                <div class="bottom font16">{{$t('brushing.bottom')}}</div>
+                <div class="position_center left font16">{{$t('brushing.left')}}</div>
+                <div class="right font16">{{$t('brushing.right')}}</div>
                 <!-- 左下 -->
                 <div v-if="index == 1" :class="brushOn == 1 ? 'left_down_out posiImg animate opcity_animate':''"></div>
                 <div v-if="index != 1" class="left_down_out posiImg"></div>
@@ -40,7 +39,7 @@
                             cy="47.5"
                             r="42.5"
                             stroke-width="7"
-                            stroke="#66b4fe"
+                            stroke="#519cce"
                             stroke-linejoin="round"
                             stroke-linecap="round"
                             fill="none"
@@ -77,9 +76,10 @@
                 </div>
             </div>
         </div>
+        <div class="stopB">{{$t('brushing.stop')}}</div>
         <div class="brushing">
-          <div>请暂停牙刷后退出页面</div>
-          <div>手动返回或后台运行会造成刷牙数据丢失</div>
+          <div>{{$t('brushing.charge')}}</div>
+          <div style="margin-top:4px">{{$t('brushing.tipText')}}</div>
         </div>
         <!-- 倒计时弹窗 -->
          <DialogTime :isEnough="isEnough" v-show="isShow">
@@ -102,8 +102,8 @@ export default {
             sixFace: 4,
             // 中间区域 30s 时间
             seconds: 30,
-            isEnough:false,  //30S
-            isShow:true,
+            isEnough:true,  //30S
+            isShow:false,
             // 中间总时间
             total: "00:00",
             svg: true,
@@ -171,9 +171,9 @@ export default {
                 clearInterval(this.timer2)
                 return true;
             }else{
-                setTimeout(() => {
-                    this.brushOn = 0
-                 },3000)
+                // setTimeout(() => {
+                //     this.brushOn = 0
+                //  },3000)
                 
                  this.totalTime(true);
                  this.countDown();
@@ -253,7 +253,7 @@ export default {
                     //     this.isEnough = true
                     // }
                     if(that.total === "02:00"){
-                        window.clearInterval(that.timer1)
+                        clearInterval(that.timer1)
                     }
                     }, 1000)
                  }
@@ -283,7 +283,7 @@ export default {
          */        
         Reset()
         {
-            window.clearInterval(this.totalTime(false))
+            clearInterval(this.totalTime(false))
           //  minute=second = 0
             this.total = '00:00'
         }
@@ -297,26 +297,37 @@ export default {
     height: 100%;
     background-color: #62bffc;
     position: relative;
+    .stopB{
+        color: #fff;
+        text-align: center;
+        border-radius: 20px;
+        background: #519cce;
+        width: 160px;
+        height: 36px;
+        line-height: 36px;
+        margin: 0 auto;
+        font-size: 12px;
+    }
     .brushing{
         color: #fff;
-        height: 40px;
-        line-height: 20px;
+      //  height: 40px;
+       // line-height: 20px;
         font-size: 12px;
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 38px;
+        margin-top: 14px;
     }
-    .header {
-        height: 80px;
-        position: relative;
+    // .header {
+    //     height: 80px;
+    //     position: relative;
         .header_inner {
-            position: absolute;
-            bottom: 14px;
             width: 100%;
             color: #fff;
             font-size: 12px;
             text-align: center;
+            padding-top: 38px;
         }
-    }
+    //}
     .subheader {
         width: 100%;
         color: #fff;
