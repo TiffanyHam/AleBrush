@@ -3,8 +3,6 @@ node_modules/
 /public
 /h5_001
 favicon.ico
-.gitignore
-
 # local env files
 .env.local
 .env.*.local
