@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 10:24:14
+ * @LastEditTime: 2021-03-31 17:34:49
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -49,9 +49,9 @@ export default new Router({
       component: () => import("../views/BrushPosition/BrushPosition.vue")
     },
     {
-      path: "/animations1",
-      name: "animations1",
-      component: () => import("../views/BrushPosition/animations1.vue")
+      path: "/animations37",
+      name: "animations37",
+      component: () => import("../views/BrushPosition/animations37.vue")
     },
     {
       path: "/animations",
