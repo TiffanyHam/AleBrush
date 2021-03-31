@@ -41,11 +41,11 @@ export default {
                 {
                     subtip: this.$t("brushMethods.subtip3"),
                     subtip1:this.$t("brushMethods.subtipMore"),
-                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png",
+                    img: "I_3.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip4"),
-                    img: this.$i18n.locale === "zh" ? "I_4.png" : "I_4en.png",
+                    img: "I_4.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip5"),
@@ -53,7 +53,7 @@ export default {
                 },
                 {
                     subtip: this.$t("brushMethods.subtip6"),
-                    img: "I_5.png",
+                    img: "I_6.png",
                 },
             ],
             scroll: null,
