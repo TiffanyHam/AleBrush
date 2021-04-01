@@ -32,29 +32,29 @@ export default {
             text_cur: [
                 {
                     subtip: this.$t("brushMethods.subtip"),
-                    img: "I_1.png",
+                    img: "U_1.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip2"),
-                    img: "I_2.png",
+                    img: "U_2.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip3"),
                     subtip1:this.$t("brushMethods.subtipMore"),
-                    img: "I_3.png",
+                    img: "U_3.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip4"),
-                    img: "I_4.png",
+                    img: "U_4.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip5"),
-                    img: "I_5.png",
+                    img: "U_5.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip6"),
-                    img: "I_6.png",
-                },
+                    img: "U_6.png",
+                }
             ],
             scroll: null,
         };

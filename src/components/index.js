@@ -1,5 +1,13 @@
 /*
  * @Author: your name
+ * @Date: 2021-03-25 09:25:35
+ * @LastEditTime: 2021-04-01 11:45:11
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \AleBrush\src\components\index.js
+ */
+/*
+ * @Author: your name
  * @Date: 2021-03-22 17:06:40
  * @LastEditTime: 2021-03-24 10:59:42
  * @LastEditors: Please set LastEditors

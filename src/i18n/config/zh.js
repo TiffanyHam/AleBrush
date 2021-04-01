@@ -165,6 +165,26 @@ const zh = {
         index: '电量较低，请及时充电',
         index1: '刷头使用天数不足{days}天，请及时更换',
     },
+    history: {
+        titleName: '历史记录',
+        day: "日",
+        week: "周",
+        month: "月",
+        delete: "删除",
+        exerciseTimes: "运动次数",
+        currentCaloriesBurned: "当前消耗热量",
+        abdomenTimes: "收腹次数",
+        burnCalories: "消耗热量",
+        exerciseUnit: "个",
+        statistics: "数据统计",
+        historyData: "历史记录",
+        deleteRecord: "您确定要删除本条记录吗？",
+        noRecord: "暂无记录",
+        emptyRecord: "或数据已清空",
+        startTraining: "开始一次训练吧！",
+        average: "平均",
+        point: "分"
+    },
     //历史记录
     Log: {
         header: '刷牙记录',
@@ -198,13 +218,6 @@ const zh = {
     },
     //评分
     LogDetail: {
-        tip1: '小朋友，请认真刷牙哦',
-        tip2: '太遗憾了，下次继续加油',
-        tip3: '不错，请继续保持！',
-        header: '刷牙详情',
-        minute: '分',
-        brushLen: '刷牙时长：',
-        brushTime: '刷牙时间：',
         range: '刷牙得分参考范围',
         level: {
             low: {

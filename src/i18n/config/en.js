@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-31 16:04:13
+ * @LastEditTime: 2021-04-01 14:16:27
  */
 const en = {
     index: {
@@ -172,6 +172,24 @@ const en = {
     Reconnection: {
         index: '电量较低，请及时充电',
         index1: '刷头使用天数不足{days}天，请及时更换',
+    },
+    history: {
+        titleName: 'history record',
+        tabs: ["day","week","month"],
+        delete: "delete",
+        day: "day",
+        week: "week",
+        month: "month",
+        exerciseTimes: "Workouts",
+        exerciseUnit: "X",
+        statistics: "statistics",
+        historyData: "history data",
+        deleteRecord: "Are you sure you want to delete this record?",
+        noRecord: "No records",
+        emptyRecord: "Or data has been emptied",
+        startTraining: "Start a training session!",
+        average: "average",
+        point: "point"
     },
     //历史记录
     Log: {

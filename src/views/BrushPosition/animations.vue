@@ -331,7 +331,7 @@ export default {
 .brushing_other {
     width: 100%;
     height: 100%;
-    background-color: #62bffc;
+    background-color: #3f97e9;
     position: relative;
     .stopB{
         color: #fff;
