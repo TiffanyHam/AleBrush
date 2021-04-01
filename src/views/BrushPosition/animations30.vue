@@ -101,7 +101,7 @@ export default {
             // 牙齿的4个面
             sixFace: 4,
             // 中间区域 30s 时间
-            seconds: 7,
+            seconds: 30,
             isEnough:true,  //30S
             isShow:false,
             // 中间总时间
@@ -116,7 +116,6 @@ export default {
             // 动画下标
             index: null,
             brushOn:1,//1开；0关
-            flag:false
         };
     },
 
@@ -188,37 +187,32 @@ export default {
          * @return {*}
          */        
         countDown(){
-            let that = this
-            const TIME_COUNT = 7;
-             if (!that.timer) {
-                that.seconds = TIME_COUNT;
-                 let count =that.sixFace;
-                 let len = that.rotate.length;
-                that.timer = setInterval(() => {
-                     if ((that.seconds > 0 && that.seconds <= TIME_COUNT) || (that.seconds == 9 || that.seconds == 8)) {
-                         that.startX = that.rotate[len - count]["x"];
-                         that.startY = that.rotate[len - count]["y"];
-                         that.endX = that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
-                         that.endY = that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
-                         that.seconds--;
-                        if(that.seconds == 0){
-                            if(that.flag == true){
-                             that.seconds = 9
-                            }else{
-                             that.seconds = 7
-                            }
+           const TIME_COUNT = 30;
+             if (!this.timer) {
+                 this.seconds = TIME_COUNT;
+                 let count = this.sixFace;
+                 let len = this.rotate.length;
+                 this.timer = setInterval(() => {
+                     if (this.seconds > 0 && this.seconds <= TIME_COUNT) {
+                         this.startX =  this.rotate[len - count]["x"];
+                         this.startY =  this.rotate[len - count]["y"];
+                         this.endX =this.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
+                         this.endY = this.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
+                         this.seconds--;
+                        if(this.seconds == 0){
+                             this.seconds = 30
                              count--;
-                             that.sixFace = count;
+                             this.sixFace = count;
                         }
-                        if (that.total == "00:30") {
-                            that.seconds = 0;
-                            that.index = 0;
-                            clearInterval(that.timer);
+                        if (this.total == "02:00") {
+                            this.seconds = 0;
+                            this.index = 0;
+                            clearInterval(this.timer);
                             return false;
                             }
                       } else {
-                          clearInterval(that.timer);
-                          that.timer = null;
+                          clearInterval(this.timer);
+                          this.timer = null;
                               }
                       }, 1000)
                  }
@@ -258,30 +252,22 @@ export default {
                     // }else{
                     //     this.isEnough = true
                     // }
-                    if(that.total === "00:30"){
+                    if(that.total === "02:00"){
                         clearInterval(that.timer1)
                     }
                     }, 1000)
                  }
              },
-        /**
-         * @description: 动画
-         * @param {*}
-         * @return {*}
-         */        
         showAnimate(){
             let that = this
             let count = this.seconds;
             let area = this.sixFace;
             that.timer2 = setInterval(() => {
                 if (area) {
-                      count == "7" ? that.index++ : "";
-                      if(this.index == 3){
-                          this.flag = true
-                      }
-                      count--;
+                    count == "30" ? that.index++ : "";
+                    count--;
                     if(count == 0){
-                        count = 7
+                        count = 30
                         area--;
                     }
                 }

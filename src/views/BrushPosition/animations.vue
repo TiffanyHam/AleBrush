@@ -101,7 +101,7 @@ export default {
             // 牙齿的4个面
             sixFace: 4,
             // 中间区域 30s 时间
-            seconds: 30,
+            seconds: null,
             isEnough:true,  //30S
             isShow:false,
             // 中间总时间
@@ -116,6 +116,9 @@ export default {
             // 动画下标
             index: null,
             brushOn:1,//1开；0关
+            setTotalTime:'',
+            setAreas:'3',
+            setOriginNum:null
         };
     },
 
@@ -144,10 +147,33 @@ export default {
     },
 
     mounted() {
+        this.globalT(this.setAreas)
         this.init();
     },
 
     methods: {
+        /**
+         * @description: 时间设定
+         * @param {*} val
+         * @return {*}
+         */        
+        globalT(val){
+                switch(val)
+                {
+                    case '1':
+                        this.setTotalTime = '02:00',
+                        this.setOriginNum = 30
+                        break;
+                    case '2':
+                        this.setTotalTime = '02:30',
+                        this.setOriginNum = 37
+                        break;
+                    case '3':
+                        this.setTotalTime = '03:00',
+                        this.setOriginNum = 45
+                        break;
+                }
+        },
         /**
          * @description: 清除定时器
          * @param {*}
@@ -187,32 +213,37 @@ export default {
          * @return {*}
          */        
         countDown(){
-           const TIME_COUNT = 30;
-             if (!this.timer) {
-                 this.seconds = TIME_COUNT;
-                 let count = this.sixFace;
-                 let len = this.rotate.length;
-                 this.timer = setInterval(() => {
-                     if (this.seconds > 0 && this.seconds <= TIME_COUNT) {
-                         this.startX =  this.rotate[len - count]["x"];
-                         this.startY =  this.rotate[len - count]["y"];
-                         this.endX =this.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
-                         this.endY = this.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
-                         this.seconds--;
-                        if(this.seconds == 0){
-                             this.seconds = 30
+            let that = this
+            const TIME_COUNT = that.setOriginNum;
+             if (!that.timer) {
+                that.seconds = TIME_COUNT;
+                 let count =that.sixFace;
+                 let len = that.rotate.length;
+                that.timer = setInterval(() => {
+                     if (that.seconds > 0 && that.seconds <= TIME_COUNT + 2) {
+                         that.startX = that.rotate[len - count]["x"];
+                         that.startY = that.rotate[len - count]["y"];
+                         that.endX = that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
+                         that.endY = that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
+                         that.seconds--;
+                        if(that.seconds == 0){
+                            if(that.setAreas == 1 && that.index == 3){
+                                that.seconds = that.setOriginNum + 2
+                            }else{
+                                that.seconds = that.setOriginNum
+                            }
                              count--;
-                             this.sixFace = count;
+                             that.sixFace = count;
                         }
-                        if (this.total == "02:00") {
-                            this.seconds = 0;
-                            this.index = 0;
-                            clearInterval(this.timer);
+                        if (that.total === that.setTotalTime) {
+                            that.seconds = 0;
+                            that.index = 0;
+                            clearInterval(that.timer);
                             return false;
                             }
                       } else {
-                          clearInterval(this.timer);
-                          this.timer = null;
+                          clearInterval(that.timer);
+                          that.timer = null;
                               }
                       }, 1000)
                  }
@@ -252,22 +283,27 @@ export default {
                     // }else{
                     //     this.isEnough = true
                     // }
-                    if(that.total === "02:00"){
+                    if(that.total == that.setTotalTime){
                         clearInterval(that.timer1)
                     }
                     }, 1000)
                  }
              },
+        /**
+         * @description: 动画
+         * @param {*}
+         * @return {*}
+         */        
         showAnimate(){
             let that = this
             let count = this.seconds;
             let area = this.sixFace;
             that.timer2 = setInterval(() => {
                 if (area) {
-                    count == "30" ? that.index++ : "";
-                    count--;
+                      count == that.setOriginNum ? that.index++ : "";
+                      count--;
                     if(count == 0){
-                        count = 30
+                        count = that.setOriginNum
                         area--;
                     }
                 }
