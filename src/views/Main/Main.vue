@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-03-31 15:59:16
+ * @LastEditTime: 2021-04-01 16:51:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -111,7 +111,7 @@
       <div class="moreLog">
         <span class="itemPlay1 logTab flexR">
             <span>{{ $t('index.brushLog') }}</span>
-            <div class="fontStyle flexR">
+            <div class="fontStyle flexR" @click="getMore">
                 <span>{{ $t('index.more') }}</span>
                 <div class="log_right"></div>
             </div>
@@ -326,9 +326,14 @@ export default {
       this.$router.push("RemainTime");
     },
     //起始位置
-    toPosition(val){
+    toPosition(){
       this.$router.push({name: 'BrushPosition'});
-    }
+    },
+    //更多
+    getMore(){
+      this.$router.push({name: 'Log'});
+    },
+    
   }
 };
 </script>

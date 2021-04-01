@@ -39,7 +39,7 @@
                             cy="47.5"
                             r="42.5"
                             stroke-width="7"
-                            stroke="#519cce"
+                            stroke="rgba(255,255,255,0.38)"
                             stroke-linejoin="round"
                             stroke-linecap="round"
                             fill="none"
@@ -336,8 +336,9 @@ export default {
     .stopB{
         color: #fff;
         text-align: center;
-        border-radius: 20px;
-        background: #519cce;
+     //   border-radius: 20px;
+      //  background: #1a1a1a;
+      //  opacity: .38;
         width: 160px;
         height: 36px;
         line-height: 36px;
@@ -430,36 +431,36 @@ export default {
             }
             // 阴影
             .left_down_out {
-                width: 54.5px;
-                height: 148.25px;
-                left: 12px;
-                bottom: 42px;
+                width: 100%;
+                height: 100%;
+                left: 0px;
+                bottom: 0px;
                 //transform: translate(-50%, 0);
                 background-image: url("../../assets/image/cut_surface/left_down_out.png");
             }
             .right_down_out {
-                width: 54.5px;
-                height: 148.25px;
-                right: 8px;
-                bottom: 42px;
+                width: 100%;
+                height: 100%;
+                right:0px;
+                bottom:0px;
                 //transform: translate(-50%, 0);
                 background-image: url("../../assets/image/cut_surface/right_down_out.png");
             }
             // 左上
             .left_up_out {
-                width: 54.5px;
-                height: 148.25px;
-                left: 12px;
-                top: 42px;
+                width: 100%;
+                height: 100%;
+                left: 0px;
+                top: 0px;
                 //transform: translate(-50%, 0);
                 background-image: url("../../assets/image/cut_surface/left_up_out.png");
             }
             // 右上
             .right_up_out {
-                width: 54.5px;
-                height: 148.25px;
-                right: 8px;
-                top: 42px;
+                width: 100%;
+                height: 100%;
+                right: 0px;
+                top: 0px;
                 //transform: translate(-50%, 0);
                 background-image: url("../../assets/image/cut_surface/right_up_out.png");
             }

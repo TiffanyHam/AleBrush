@@ -96,7 +96,7 @@
             <hi-card4 class="mt8" :cardData="cardData2"></hi-card4>
           </div>
            <!-- 得分参考 -->
-            <div class="reference flexC">
+            <div  v-if="monthOrWeek === 'week' || monthOrWeek === 'month' " class="reference flexC">
                 <div class="cen8"></div>
                 <div class="scoped">{{$t('LogDetail.range')}}</div>
                 <div class="scoped_point">
