@@ -13,15 +13,19 @@
                 <div class="right font16">{{$t('brushing.right')}}</div>
                 <!-- 左下 -->
                 <div v-if="index == 1" :class="brushOn == 1 ? 'left_down_out posiImg animate opcity_animate':''"></div>
+                <div v-if="index == 1" class="currentA currrent_bottom"><div class="fingle fingle_left"></div><div>当前区域</div></div>
                 <div v-if="index != 1" class="left_down_out posiImg"></div>
                 <!-- 右下 -->
                 <div v-if="index == 2" :class="brushOn == 1 ? 'right_down_out posiImg animate opcity_animate':''"></div>
+                <div v-if="index == 2" class="currentA currrent_bottom"><div>当前区域</div><div class="fingle fingle_right"></div></div>
                 <div v-if="index == 0 || index == 3 || index == 4" class="right_down_out posiImg"></div>
                 <!-- 右上 -->
                 <div v-if="index == 3" :class="brushOn == 1 ? 'right_up_out posiImg animate opcity_animate':''"></div>
+                <div v-if="index == 3" class="currentA currrent_top"><div>当前区域</div><div class="fingle fingle_right1"></div></div>
                 <div v-if="index == 0 || index == 4" class="right_up_out posiImg"></div>
                 <!-- 左上 -->
                 <div v-if="index == 4" :class="brushOn == 1 ? 'left_up_out posiImg animate opcity_animate':''"></div>
+                <div v-if="index == 4" class="currentA currrent_top"><div class="fingle fingle_left1"></div><div>当前区域</div></div>
                 <div v-if="index == 0">
                      <div v-if="index == 0 || index == 1 || index == 2 " class="left_up_out posiImg"></div>
                 </div>
@@ -117,7 +121,7 @@ export default {
             index: null,
             brushOn:1,//1开；0关
             setTotalTime:'',
-            setAreas:'3',
+            setAreas:'2',
             setOriginNum:null
         };
     },
@@ -165,8 +169,8 @@ export default {
                         this.setOriginNum = 30
                         break;
                     case '2':
-                        this.setTotalTime = '02:30',
-                        this.setOriginNum = 37
+                        this.setTotalTime = '00:30',
+                        this.setOriginNum = 7
                         break;
                     case '3':
                         this.setTotalTime = '03:00',
@@ -227,7 +231,7 @@ export default {
                          that.endY = that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
                          that.seconds--;
                         if(that.seconds == 0){
-                            if(that.setAreas == 1 && that.index == 3){
+                            if(that.setAreas == 2 && that.index == 3){
                                 that.seconds = that.setOriginNum + 2
                             }else{
                                 that.seconds = that.setOriginNum
@@ -235,7 +239,7 @@ export default {
                              count--;
                              that.sixFace = count;
                         }
-                        if (that.total === that.setTotalTime) {
+                        if (that.total == that.setTotalTime) {
                             that.seconds = 0;
                             that.index = 0;
                             clearInterval(that.timer);
@@ -383,12 +387,12 @@ export default {
             height: 451.14px;
             background-image: url("../../assets/image/cut_surface/booth.png");
             .left {
-                left: 12%;
+                left: 7%;
                 color: rgba(255, 255, 255, 0.9);
             }
             .right {
                 position: absolute;
-                right: 12%;
+                right: 3%;
                 top: 50%;
                 transform: translate(-50%, -50%);
                 color: rgba(255, 255, 255, 0.9);
@@ -396,13 +400,13 @@ export default {
             .top {
                 position: absolute;
                 left: 50%;
-                top: -2%;
+                top: -5%;
                 transform: translate(-50%, -50%);
                 color: rgba(255, 255, 255, 0.9);
             }
             .bottom {
                 position: absolute;
-                bottom: -2%;
+                bottom: -5%;
                 left: 50%;
                 color: rgba(255, 255, 255, 0.9);
             }
@@ -437,6 +441,51 @@ export default {
                 bottom: 0px;
                 //transform: translate(-50%, 0);
                 background-image: url("../../assets/image/cut_surface/left_down_out.png");
+            }
+            .currentA{
+                position: absolute;
+                color: rgba(255, 255, 255, 0.9);;
+                transform: translate(-50%,-50%);
+            }
+            .currrent_top{
+                top: 20%;
+                left: 50%;
+            }
+            .currrent_bottom{
+                bottom: 20%;
+                left: 50%;
+            }
+            .fingle{
+                width: 24px;
+                height: 24px;
+                position: absolute;
+                transform: translate(-50%,-50%);
+            }
+            .fingle_left{
+                top: 4px;
+                right: 38px;
+            }
+            .fingle_right{
+                top: -4px;
+                left: 50px;
+                -webkit-transform: rotate(180deg);
+                 -moz-transform: rotate(180deg);
+                 -o-transform: rotate(180deg);
+                 -ms-transform: rotate(180deg);
+                 transform: rotate(180deg);
+            }
+             .fingle_left1{
+               top: 4px;
+                right: 38px;
+            }
+            .fingle_right1{
+                 top: -4px;
+                left:50px;
+                -webkit-transform: rotate(180deg);
+                 -moz-transform: rotate(180deg);
+                 -o-transform: rotate(180deg);
+                 -ms-transform: rotate(180deg);
+                 transform: rotate(180deg);
             }
             .right_down_out {
                 width: 100%;

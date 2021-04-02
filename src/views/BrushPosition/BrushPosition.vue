@@ -10,9 +10,10 @@
                <span v-for="(item, index) in areaArr"  :key="item.index">
                    <img :src="item.src"  @click="selectArea(item.index)"  :class="[item.classN, selectedIndex == index ? 'opacity01' :'opacity38']" />
                    <i class="posiImg position_center"  :class="selectedIndex == index ? item.classN1 :''"></i>
+                   <!-- 旋转方向 -->
+                   <img :src="selectedIndex == index ? item.src1 : ''" class="posiImg position_center" width="62%"> 
                 </span> 
            </div>
-           <div class="centerImg1 posiImg position_center" :class="selectedIndex == 1 ||  selectedIndex == 3 ? 'centerImg2' :'centerImg1' "></div> <!-- 旋转方向 -->
       </div>
     </div>
 </template>
@@ -34,26 +35,29 @@ export default {
               index:0,  //左下
               classN:'left_down1',
               src: require('../../assets/image/cut_surface/left_down1.png'),
-              classN1:'left_down2'
+              classN1:'left_down2',
+              src1:require('../../assets/image/cut_surface/centerImg1.png'),
           },
           {
               index:1,
               classN:'right_down1',
               src: require('../../assets/image/cut_surface/right_down1.png'),
-              classN1:'right_down2'
-
+              classN1:'right_down2',
+              src1:require('../../assets/image/cut_surface/centerImg2.png'),
           },
           {  
               index:2,  //右上
               classN:'right_up1',
               src: require('../../assets/image/cut_surface/right_up1.png'),
-              classN1:'right_up2'
+              classN1:'right_up2',
+              src1:require('../../assets/image/cut_surface/centerImg1.png'),
           },
           {
               index:3,
               classN:'left_up1',
               src: require('../../assets/image/cut_surface/left_up1.png'),
-              classN1:'left_up2'
+              classN1:'left_up2',
+              src1:require('../../assets/image/cut_surface/centerImg2.png'),
  
           }
           
@@ -116,23 +120,23 @@ export default {
        }
        .right_down2{
             background-image: url("../../assets/image/cut_surface/right_down.png");
-            width: 80px;
-            height: 80px;
+            width: 116px;
+            height: 116px;
        }
        .right_up2{
             background-image: url("../../assets/image/cut_surface/right_up.png");
-            width: 80px;
-            height: 80px;
+            width: 116px;
+            height: 116px;
        }
        .left_up2{
             background-image: url("../../assets/image/cut_surface/left_up.png");
-            width: 80px;
-            height: 80px;
+            width: 116px;
+            height: 116px;
        }
        .left_down2{
             background-image: url("../../assets/image/cut_surface/left_down.png");
-            width: 80px;
-            height: 80px;
+            width: 116px;
+            height: 116px;
        }
        .opacity38{
         opacity: .38;
@@ -145,24 +149,28 @@ export default {
             right: 0px;
             position: absolute;
             bottom: 0px;
+            z-index: 1;
        }
        .right_up1{
             width: 50%;
             right: 0px;
             position: absolute;
             top: 0px;
+            z-index: 1;
        }
        .left_up1{
             width: 50%;
             left: 0px;
             position: absolute;
             top: 0px;
+            z-index: 1;
        }
        .left_down1{
             width: 50%;
             left: 0px;
             position: absolute;
             bottom: 0px;
+            z-index: 1;
        }
        .posiImg {
             background-size: 100% 100%;
