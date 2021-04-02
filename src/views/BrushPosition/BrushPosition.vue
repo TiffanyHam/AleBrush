@@ -1,22 +1,4 @@
-<!--
- * @Author: your name
- * @Date: 2021-03-25 15:38:13
- * @LastEditTime: 2021-03-30 09:38:46
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \AleBrush\src\views\BrushPosition\BrushPosition.vue
--->
 <template>
-    <!-- <div class="positionBg" :style="{backgroundImage:'url('+ bgImg +')'}"> -->
-        <!-- <div class="header" @click="headerClick"></div>
-        <div class="top_left" @click="changeClick('0')"></div>
-        <div class="top_right" @click="changeClick('1')"></div>
-        <div class="bottom_left" @click="changeClick('2')"></div>
-        <div class="bottom_right" @click="changeClick('3')"></div> -->
-         <!-- 头部start -->
-        <!-- <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
-            <span slot="headerTitle">{{$t('position.header')}}</span>
-        </Header> -->
     <div class="wrapper">
     <!-- 头部start -->
       <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
@@ -25,16 +7,12 @@
       <div class="content">
            <div class="selec">请选择起始位置</div>
            <div class="centerImg posiImg position_center">
-               <div v-for="(item, index) in areaArr" :key="index"  class="posiImg opacity38" :class="item.classN">
-                   <img :src="item.src"  @click="selectArea(item.index)" />
-               </div>
-               <!-- <div class="right_down1 posiImg opacity38"><img src="../../assets/image/cut_surface/right_down1.png" alt=""></div>
-               <div class="right_up1 posiImg opacity38"><img src="../../assets/image/cut_surface/right_up1.png" alt=""></div>
-               <div class="left_up1 posiImg opacity38"><img src="../../assets/image/cut_surface/left_up1.png" alt=""></div>
-               <div class="left_down1 posiImg opacity38"><img src="../../assets/image/cut_surface/left_down1.png" alt=""></div> -->
+               <span v-for="(item, index) in areaArr"  :key="item.index">
+                   <img :src="item.src"  @click="selectArea(item.index)"  :class="[item.classN, selectedIndex == index ? 'opacity01' :'opacity38']" />
+                   <i class="posiImg position_center"  :class="selectedIndex == index ? item.classN1 :''"></i>
+                </span> 
            </div>
-           <div class="centerImg1 posiImg position_center"></div> <!-- 旋转方向 -->
-           <div class="centerImg2 posiImg position_center"></div>
+           <div class="centerImg1 posiImg position_center" :class="selectedIndex == 1 ||  selectedIndex == 3 ? 'centerImg2' :'centerImg1' "></div> <!-- 旋转方向 -->
       </div>
     </div>
 </template>
@@ -46,31 +24,39 @@ export default {
     data(){
         return{
           positionName:'',
+          selectedIndex:'',
           bgImg: '',
           selfB: true,
           backC: window.isDark ? '#3f97e9' : '#3f97e9',
           header_rightIcon: false,
           areaArr:[
-          {
-              index:0,
-              classN:'right_down1',
-              src: require('../../assets/image/cut_surface/right_down1.png') 
+            {
+              index:0,  //左下
+              classN:'left_down1',
+              src: require('../../assets/image/cut_surface/left_down1.png'),
+              classN1:'left_down2'
           },
           {
               index:1,
-              classN:'right_up1',
-              src: require('../../assets/image/cut_surface/right_up1.png') 
+              classN:'right_down1',
+              src: require('../../assets/image/cut_surface/right_down1.png'),
+              classN1:'right_down2'
+
           },
-          {
-              index:2,
-              classN:'left_up1',
-              src: require('../../assets/image/cut_surface/left_up1.png') 
+          {  
+              index:2,  //右上
+              classN:'right_up1',
+              src: require('../../assets/image/cut_surface/right_up1.png'),
+              classN1:'right_up2'
           },
           {
               index:3,
-              classN:'left_down1',
-              src: require('../../assets/image/cut_surface/left_down1.png') 
-          },
+              classN:'left_up1',
+              src: require('../../assets/image/cut_surface/left_up1.png'),
+              classN1:'left_up2'
+ 
+          }
+          
           ]
         }
     },
@@ -84,11 +70,12 @@ export default {
  
     },
     mounted(){
-        this.changeClick(this.initPosition)
+      this.selectedIndex = this.initPosition
     },
     methods:{
         selectArea(val){
-            debugger
+           this.selectedIndex = val;
+           this.call_update_initPosition(this.selectedIndex)
         },
          ...mapActions({
            call_update_initPosition: 'call_update_initPosition'
@@ -96,28 +83,6 @@ export default {
         headerClick(){
             this.$router.push("/");
         },
-        changeClick(val){
-            switch(val)
-            {
-                case '0':
-                    this.positionName = '0',
-                    this.bgImg = require("../../assets/image/product/light/top_left.png")  //左上区
-                    break;
-                case '1':
-                     this.positionName = '1',
-                     this.bgImg = require('../../assets/image/product/light/top_right.png')  //右上区
-                    break;
-                case '2':
-                     this.positionName = '2',
-                     this.bgImg = require('../../assets/image/product/light/bottom_left.png')  //左下区
-                    break;
-                case '3':
-                     this.positionName = '3',
-                     this.bgImg = require('../../assets/image/product/light/bottom_right.png')  //右下区
-                    break;
-            }
-            this.call_update_initPosition(this.positionName)
-        }
 
     }
 }
@@ -140,12 +105,32 @@ export default {
             background-image: url("../../assets/image/cut_surface/booth.png");
        }
        .centerImg1{
-            background-image: url("../../assets/image/cut_surface/circle1.png");
+            background-image: url("../../assets/image/cut_surface/centerImg1.png");
             width: 122.5px;
             height: 275.25px;
        }
        .centerImg2{
+            background-image: url("../../assets/image/cut_surface/centerImg2.png");
+            width: 122.5px;
+            height: 275.25px;
+       }
+       .right_down2{
             background-image: url("../../assets/image/cut_surface/right_down.png");
+            width: 80px;
+            height: 80px;
+       }
+       .right_up2{
+            background-image: url("../../assets/image/cut_surface/right_up.png");
+            width: 80px;
+            height: 80px;
+       }
+       .left_up2{
+            background-image: url("../../assets/image/cut_surface/left_up.png");
+            width: 80px;
+            height: 80px;
+       }
+       .left_down2{
+            background-image: url("../../assets/image/cut_surface/left_down.png");
             width: 80px;
             height: 80px;
        }
@@ -155,29 +140,29 @@ export default {
        .opacity01{
         opacity:1;
        }
-       .right_down1 img{  //右下
-            width: 50%;
-            left: 117px;
-            position: relative;
-            bottom: -210px;
-       }
-       .right_up1 img{
-            width: 50%;
-            left: 117px;
-            position: relative;
-            top: 0px;
-       }
-       .left_up1 img{
+       .right_down1{  //右下
             width: 50%;
             right: 0px;
-            position: relative;
-            top: 0px;
+            position: absolute;
+            bottom: 0px;
        }
-       .left_down1 img{
+       .right_up1{
             width: 50%;
             right: 0px;
-            position: relative;
-            bottom: -210px;
+            position: absolute;
+            top: 0px;
+       }
+       .left_up1{
+            width: 50%;
+            left: 0px;
+            position: absolute;
+            top: 0px;
+       }
+       .left_down1{
+            width: 50%;
+            left: 0px;
+            position: absolute;
+            bottom: 0px;
        }
        .posiImg {
             background-size: 100% 100%;

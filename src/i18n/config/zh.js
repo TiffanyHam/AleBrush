@@ -58,10 +58,10 @@ const zh = {
         },
         //起始位置
         BrushTeethPosition:{
-            position1:'左上区',
-            position2:'右上区',
-            position3:'左下区',
-            position4:'右下区',
+            position1:'左下区',
+            position2:'右下区',
+            position3:'右上区',
+            position4:'左上区',
             header:'起始位置'
         },
         //更多设置
