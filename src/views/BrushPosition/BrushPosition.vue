@@ -106,7 +106,7 @@ export default {
        .centerImg {
             width: 232.57px;
             height: 403.14px;
-            background-image: url("../../assets/image/cut_surface/booth.png");
+           // background-image: url("../../assets/image/cut_surface/booth.png");
        }
        .centerImg1{
             background-image: url("../../assets/image/cut_surface/centerImg1.png");
