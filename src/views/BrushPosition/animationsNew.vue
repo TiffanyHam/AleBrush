@@ -6,8 +6,29 @@
         <!-- </div> -->
         <div class="subheader">{{$t('brushing.tipTextI30')}}</div>
         <div class="banner flex">
+            <div class="aniB">
+                <!-- <img src="../../assets/image/cut_surface/booth.png" width="60%" class="bg"> -->
+                <img src="../../assets/image/cut_surface/left_down_out.png" width="60%" class="bg opacity38" 
+                :class="index== 1 ? 'posiImg animate opcity_animate opacity38':'posiImg opacity01'">
+
+                <img src="../../assets/image/cut_surface/right_down_out.png" width="60%" class="bg opacity38"
+                :class="{'posiImg animate opcity_animate opacity38':index == 2,'posiImg opacity01':index == 0 || index == 3 || index == 4 }">
+
+                <img src="../../assets/image/cut_surface/right_up_out.png" width="60%" class="bg opacity38"
+                :class="{'posiImg animate opcity_animate opacity38':index == 3,'posiImg opacity01':index == 0 || index == 4 }">
+
+                <span v-if="index == 0 || index == 4">
+                    <img src="../../assets/image/cut_surface/left_up_out.png" width="60%" class="bg opacity38"
+                :class="{'posiImg animate opcity_animate opacity38':index == 4,'posiImg opacity01':index == 0 || index == 1 ||index == 2 }">
+                </span>
+                <span v-else>
+                     <img src="../../assets/image/cut_surface/left_up_out.png" width="60%" class="bg opacity38">
+                </span>
+                <div class="currentA currrent_bottom"><div class="fingle"><img src="../../assets/image/icon/light/fingle.png" width="100%"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div>
+            </div>
             <div class="centerImg posiImg position_center">
                 <div v-for="(item,index) in posArr" :key="index" :class="['comm',item.class]">{{ item.name }}</div>
+              
                 <!-- <div v-for="(item,index) in areaArr" :key="index">
                     <div v-if="index == item.index">
                          <div v-if="index == item.index" :class="['posiImg animate opcity_animate',item.class]"></div>
@@ -15,23 +36,23 @@
                     </div>
                 </div> -->
                 <!-- 左下 -->
-                <div v-if="index == 1" :class="brushOn == 1 ? 'left_down_out posiImg animate opcity_animate':''"></div>
-                <div v-if="index == 1" class="currentA currrent_bottom"><div class="fingle fingle_left"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div>
-                <div v-if="index != 1" class="left_down_out posiImg"></div>
+                <!-- <div v-if="index == 1" :class="brushOn == 1 ? 'left_down_out posiImg animate opcity_animate':''"></div> -->
+                <!-- <div v-if="index == 1" class="currentA currrent_bottom"><div class="fingle fingle_left"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div> -->
+                <!-- <div v-if="index != 1" class="left_down_out posiImg"></div> -->
                 <!-- 右下 -->
-                <div v-if="index == 2" :class="brushOn == 1 ? 'right_down_out posiImg animate opcity_animate':''"></div>
+                <!-- <div v-if="index == 2" :class="brushOn == 1 ? 'right_down_out posiImg animate opcity_animate':''"></div> -->
                 <div v-if="index == 2" class="currentA currrent_bottom"><div>{{ $t('BrushTeethPosition.current')}}</div><div class="fingle fingle_right"></div></div>
-                <div v-if="index == 0 || index == 3 || index == 4" class="right_down_out posiImg"></div>
+                <!-- <div v-if="index == 0 || index == 3 || index == 4" class="right_down_out posiImg"></div> -->
                 <!-- 右上 -->
-                <div v-if="index == 3" :class="brushOn == 1 ? 'right_up_out posiImg animate opcity_animate':''"></div>
+                <!-- <div v-if="index == 3" :class="brushOn == 1 ? 'right_up_out posiImg animate opcity_animate':''"></div> -->
                 <div v-if="index == 3" class="currentA currrent_top"><div>{{ $t('BrushTeethPosition.current')}}</div><div class="fingle fingle_right1"></div></div>
-                <div v-if="index == 0 || index == 4" class="right_up_out posiImg"></div>
+                <!-- <div v-if="index == 0 || index == 4" class="right_up_out posiImg"></div> -->
                 <!-- 左上 -->
-                <div v-if="index == 4" :class="brushOn == 1 ? 'left_up_out posiImg animate opcity_animate':''"></div>
+                <!-- <div v-if="index == 4" :class="brushOn == 1 ? 'left_up_out posiImg animate opcity_animate':''"></div> -->
                 <div v-if="index == 4" class="currentA currrent_top"><div class="fingle fingle_left1"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div>
-                <div v-if="index == 0">
+                <!-- <div v-if="index == 0">
                      <div v-if="index == 0 || index == 1 || index == 2 " class="left_up_out posiImg"></div>
-                </div>
+                </div> -->
                 <!-- 中心时间卷 -->
                 <div class="circle">
                     <svg
@@ -196,6 +217,7 @@ export default {
     mounted() {
         this.globalT(this.setAreas)
         this.init();
+        this.clearInter()
     },
 
     methods: {
@@ -348,6 +370,7 @@ export default {
             that.timer2 = setInterval(() => {
                 if (area) {
                       count == that.setOriginNum ? that.index++ : "";
+                      console.log(that.index)
                       count--;
                     if(count == 0){
                         count = that.setOriginNum
@@ -380,6 +403,22 @@ export default {
     height: 100%;
     background-color: #3f97e9;
     position: relative;
+    .aniB{
+      width: 100%;
+      position: relative;
+      .bg{
+          position: absolute;
+          transform: translate(-50%, -50%);
+          left: 50%;
+          top: 50%;
+      }
+       .opacity38{
+        opacity: .38;
+       }
+       .opacity01{
+        opacity:1;
+       }
+    }
     .stopB{
         color: #fff;
         text-align: center;
@@ -428,7 +467,7 @@ export default {
         .centerImg {
             width: 288px;
             height: 451.14px;
-            background-image: url("../../assets/image/cut_surface/booth.png");
+           // background-image: url("../../assets/image/cut_surface/booth.png");
             .left {
                 left: 7%;
                 top: 50%;
@@ -474,7 +513,7 @@ export default {
                 left: 0px;
                 bottom: 0px;
                 //transform: translate(-50%, 0);
-                background-image: url("../../assets/image/cut_surface/left_down_out.png");
+              //  background-image: url("../../assets/image/cut_surface/left_down_out.png");
             }
             .currentA{
                 position: absolute;

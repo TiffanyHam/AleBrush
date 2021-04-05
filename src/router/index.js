@@ -49,9 +49,9 @@ export default new Router({
       component: () => import("../views/BrushPosition/BrushPosition.vue")
     },
     {
-      path: "/animations",
-      name: "animations",
-      component: () => import("../views/BrushPosition/animations.vue")
+      path: "/animationsNew",
+      name: "animationsNew",
+      component: () => import("../views/BrushPosition/animationsNew.vue")
     },
     {
       path: "/Log",

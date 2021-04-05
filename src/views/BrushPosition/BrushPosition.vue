@@ -7,9 +7,12 @@
       <div class="content">
            <div class="selec">请选择起始位置</div>
            <div class="centerImg posiImg position_center">
+               <span v-for="(item,index) in poArr" :key="'info2-'+index" :class="['comm',item.class]">{{item.name}}</span>
                <span v-for="(item, index) in areaArr"  :key="item.index">
                    <img :src="item.src"  @click="selectArea(item.index)"  :class="[item.classN, selectedIndex == index ? 'opacity01' :'opacity38']" />
-                   <i class="posiImg position_center"  :class="selectedIndex == index ? item.classN1 :''"></i>
+                   <!-- <i class="posiImg position_center"  :class="selectedIndex == index ? item.classN1 :''"></i> -->
+                   <!-- 中心区域 -->
+                   <img :src="selectedIndex == index ? item.src2 : ''" class="posiImg position_center" width="40%">
                    <!-- 旋转方向 -->
                    <img :src="selectedIndex == index ? item.src1 : ''" class="posiImg position_center" width="62%"> 
                 </span> 
@@ -28,8 +31,26 @@ export default {
           selectedIndex:'',
           bgImg: '',
           selfB: true,
-          backC: window.isDark ? '#3f97e9' : '#3f97e9',
+          backC: window.isDark ? '#007dff' : '#3f97e9',
           header_rightIcon: false,
+          poArr:[
+              {
+                class:'position1',
+                name:this.$t("BrushTeethPosition.top")
+              },
+              {
+                class:'position2',
+                name:this.$t("BrushTeethPosition.bottom")
+              },
+              {
+                class:'position3',
+                name:this.$t("BrushTeethPosition.left") 
+              },
+              {
+                class:'position4',
+                name:this.$t("BrushTeethPosition.right")
+              },
+          ],
           areaArr:[
             {
               index:0,  //左下
@@ -37,6 +58,7 @@ export default {
               src: require('../../assets/image/cut_surface/left_down1.png'),
               classN1:'left_down2',
               src1:require('../../assets/image/cut_surface/centerImg1.png'),
+              src2:require('../../assets/image/cut_surface/left_down.png'),
           },
           {
               index:1,
@@ -44,6 +66,7 @@ export default {
               src: require('../../assets/image/cut_surface/right_down1.png'),
               classN1:'right_down2',
               src1:require('../../assets/image/cut_surface/centerImg2.png'),
+              src2:require('../../assets/image/cut_surface/right_down.png'),
           },
           {  
               index:2,  //右上
@@ -51,6 +74,7 @@ export default {
               src: require('../../assets/image/cut_surface/right_up1.png'),
               classN1:'right_up2',
               src1:require('../../assets/image/cut_surface/centerImg1.png'),
+              src2:require('../../assets/image/cut_surface/right_up.png'),
           },
           {
               index:3,
@@ -58,7 +82,7 @@ export default {
               src: require('../../assets/image/cut_surface/left_up1.png'),
               classN1:'left_up2',
               src1:require('../../assets/image/cut_surface/centerImg2.png'),
- 
+              src2:require('../../assets/image/cut_surface/left_up.png'),
           }
           
           ]
@@ -94,19 +118,41 @@ export default {
 <style scoped lang="scss">
 .wrapper{
     height: 100%;
+    background: #3f97e9;
     .content{
-       background:#3f97e9;
-       position: relative;
-       height: 90%;
+       //position: relative;
        .selec{
            text-align: center;
            color: #fff;
            font-size: 14px;
+           margin-top: 20px;
        }
        .centerImg {
             width: 232.57px;
             height: 403.14px;
            // background-image: url("../../assets/image/cut_surface/booth.png");
+           .comm{
+               position: absolute;
+                transform: translate(-50%, -50%);
+                font-size: 12px;
+                color: #fff;
+           }
+           .position1{
+               left: 50%;
+               top: 30px;
+           }
+           .position2{
+               left: 50%;
+               bottom: 20px;
+           }
+           .position3{
+               top: 50%;
+               left: 15px;
+           }
+           .position4{
+               top: 50%;
+               right: 10px;
+           }
        }
        .centerImg1{
             background-image: url("../../assets/image/cut_surface/centerImg1.png");
@@ -118,26 +164,26 @@ export default {
             width: 122.5px;
             height: 275.25px;
        }
-       .right_down2{
-            background-image: url("../../assets/image/cut_surface/right_down.png");
-            width: 116px;
-            height: 116px;
-       }
-       .right_up2{
-            background-image: url("../../assets/image/cut_surface/right_up.png");
-            width: 116px;
-            height: 116px;
-       }
-       .left_up2{
-            background-image: url("../../assets/image/cut_surface/left_up.png");
-            width: 116px;
-            height: 116px;
-       }
-       .left_down2{
-            background-image: url("../../assets/image/cut_surface/left_down.png");
-            width: 116px;
-            height: 116px;
-       }
+    //    .right_down2{
+    //         background-image: url("../../assets/image/cut_surface/right_down.png");
+    //         width: 116px;
+    //         height: 116px;
+    //    }
+    //    .right_up2{
+    //         background-image: url("../../assets/image/cut_surface/right_up.png");
+    //         width: 116px;
+    //         height: 116px;
+    //    }
+    //    .left_up2{
+    //         background-image: url("../../assets/image/cut_surface/left_up.png");
+    //         width: 116px;
+    //         height: 116px;
+    //    }
+    //    .left_down2{
+    //         background-image: url("../../assets/image/cut_surface/left_down.png");
+    //         width: 116px;
+    //         height: 116px;
+    //    }
        .opacity38{
         opacity: .38;
        }
@@ -186,50 +232,10 @@ export default {
         }
     }
 }
-
-  .positionBg{
-      background-repeat:no-repeat;
-      background-size: cover;
-      height: 100vh;
-      .header{
-          position: absolute;
-          border: 1px solid red;
-          width: 40px;
-          height: 40px;
-          top: 30px;
-          left: 6px;
-      }
-      .top_left{
-          position: absolute;
-          border: 1px solid red;
-          width: 125px;
-          height: 200px;
-          top: 150px;
-          left: 40px;
-      }
-      .top_right{
-          position: absolute;
-          border: 1px solid blue;
-          width: 125px;
-          height: 200px;
-          top: 150px;
-          right: 40px;
-      }
-      .bottom_left{
-          position: absolute;
-          border: 1px solid blue;
-          width: 125px;
-          height: 200px;
-          bottom: 30px;
-          left: 40px;
-      }
-      .bottom_right{
-          position: absolute;
-          border: 1px solid red;
-          width: 125px;
-          height: 200px;
-          bottom: 30px;
-          right: 40px;
-      }
-  }
+// 暗黑模式
+.theme-dark {
+  .wrapper{
+      background: #007dff; 
+  }  
+}
 </style>

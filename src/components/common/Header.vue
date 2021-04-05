@@ -1,14 +1,6 @@
-<!--
- * @Description: 页面头部
- * @version: 
- * @Author: HeZhen
- * @Date: 2020-10-22 11:43:57
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 11:40:32
--->
 <template>
     <div class="header" :style="{backgroundColor:headerC,paddingTop: top}">
-        <div :style="{color: titleColor}" :class="path ? 'iconLeft_header_Log opcity icon':'iconLeft_header icon'" @click="goBack"></div>
+        <div :style="{color: titleColor}" :class="path ? 'iconLeft_header1 icon':'iconLeft_header icon'" @click="goBack"></div>
 
         <div class="title" :style="{color: titleColor}">
             <!-- 头部插槽 -->
@@ -81,7 +73,7 @@ export default {
 
     methods: {
         title() {
-            if (this.$route.path === '/logDetail') {
+            if (this.$route.path === '/BrushPosition') {
                 this.titleColor = window.isDark ? 'rgba(255,255,255,0.86)' : 'rgba(255,255,255,0.9)';
                 this.path = true
             } else {

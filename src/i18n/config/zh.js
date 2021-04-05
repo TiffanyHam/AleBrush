@@ -62,7 +62,12 @@ const zh = {
             position2:'右下区',
             position3:'右上区',
             position4:'左上区',
-            header:'起始位置'
+            header:'起始位置',
+            top:'上颌',
+            bottom:'下颌',
+            left:'左',
+            right:'右',
+            current:'当前区域'
         },
         //更多设置
         setting: {
