@@ -24,7 +24,15 @@
                 <span v-else>
                      <img src="../../assets/image/cut_surface/left_up_out.png" width="60%" class="bg opacity38">
                 </span>
-                <div class="currentA currrent_bottom"><div class="fingle"><img src="../../assets/image/icon/light/fingle.png" width="100%"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div>
+
+                <div class="currentA currrent_bottom">
+                  <span v-if="index == 1"><img src="../../assets/image/icon/light/fingle.png" width="50%" class="fingle1 fingle_left">{{ $t('BrushTeethPosition.current')}}</span>
+                  <span v-if="index == 2"><img src="../../assets/image/icon/light/fingle.png" width="50%" class="fingle1 fingle_right">{{ $t('BrushTeethPosition.current')}}</span>
+                </div>
+                <div class="currentA currrent_top">
+                 <span v-if="index == 3"><img src="../../assets/image/icon/light/fingle.png" width="50%" class="fingle1 fingle_right1">{{ $t('BrushTeethPosition.current')}}</span>
+                 <span v-if="index == 4"><img src="../../assets/image/icon/light/fingle.png" width="50%" class="fingle1 fingle_left1">{{ $t('BrushTeethPosition.current')}}</span>
+                </div>
             </div>
             <div class="centerImg posiImg position_center">
                 <div v-for="(item,index) in posArr" :key="index" :class="['comm',item.class]">{{ item.name }}</div>
@@ -35,24 +43,7 @@
                          <div v-if="index == item.index" class="currentA currrent_bottom"><div :class="['fingle',item.classN]"></div><div>当前区域</div></div>
                     </div>
                 </div> -->
-                <!-- 左下 -->
-                <!-- <div v-if="index == 1" :class="brushOn == 1 ? 'left_down_out posiImg animate opcity_animate':''"></div> -->
-                <!-- <div v-if="index == 1" class="currentA currrent_bottom"><div class="fingle fingle_left"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div> -->
-                <!-- <div v-if="index != 1" class="left_down_out posiImg"></div> -->
-                <!-- 右下 -->
-                <!-- <div v-if="index == 2" :class="brushOn == 1 ? 'right_down_out posiImg animate opcity_animate':''"></div> -->
-                <div v-if="index == 2" class="currentA currrent_bottom"><div>{{ $t('BrushTeethPosition.current')}}</div><div class="fingle fingle_right"></div></div>
-                <!-- <div v-if="index == 0 || index == 3 || index == 4" class="right_down_out posiImg"></div> -->
-                <!-- 右上 -->
-                <!-- <div v-if="index == 3" :class="brushOn == 1 ? 'right_up_out posiImg animate opcity_animate':''"></div> -->
-                <div v-if="index == 3" class="currentA currrent_top"><div>{{ $t('BrushTeethPosition.current')}}</div><div class="fingle fingle_right1"></div></div>
-                <!-- <div v-if="index == 0 || index == 4" class="right_up_out posiImg"></div> -->
-                <!-- 左上 -->
-                <!-- <div v-if="index == 4" :class="brushOn == 1 ? 'left_up_out posiImg animate opcity_animate':''"></div> -->
-                <div v-if="index == 4" class="currentA currrent_top"><div class="fingle fingle_left1"></div><div>{{ $t('BrushTeethPosition.current')}}</div></div>
-                <!-- <div v-if="index == 0">
-                     <div v-if="index == 0 || index == 1 || index == 2 " class="left_up_out posiImg"></div>
-                </div> -->
+            
                 <!-- 中心时间卷 -->
                 <div class="circle">
                     <svg
@@ -66,7 +57,7 @@
                             cx="47.5"
                             cy="47.5"
                             r="42.5"
-                            stroke-width="7"
+                            stroke-width="10"
                             stroke="rgba(255,255,255,0.38)"
                             stroke-linejoin="round"
                             stroke-linecap="round"
@@ -74,7 +65,7 @@
                         />
                         <path
                             id="path1"
-                            stroke-width="7"
+                            stroke-width="10"
                             fill="none"
                             :d="`M${startX} ${startY} A42.5 42.5 1 0 0 ${endX} ${endY}`"
                             stroke="#fff"
@@ -104,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="stopB">{{$t('brushing.stop')}}</div>
+        <div class="stopB">{{$t('brushing.charge')}}</div>
         <div class="brushing">
           <div>{{$t('brushing.charge')}}</div>
           <div style="margin-top:4px">{{$t('brushing.tipText')}}</div>
@@ -172,19 +163,19 @@ export default {
             posArr:[
                 {
                     class:'top',
-                    name:this.$t('brushing.top')
+                    name:this.$t('BrushTeethPosition.top')
                 },
                 {
                     class:'bottom',
-                    name:this.$t('brushing.bottom')
+                    name:this.$t('BrushTeethPosition.bottom')
                 },
                 {
                     class:'left',
-                    name:this.$t('brushing.left')
+                    name:this.$t('BrushTeethPosition.left')
                 },
                 {
                     class:'right',
-                    name:this.$t('brushing.right')
+                    name:this.$t('BrushTeethPosition.right')
                 },
             ]
         };
@@ -217,7 +208,7 @@ export default {
     mounted() {
         this.globalT(this.setAreas)
         this.init();
-        this.clearInter()
+       this.clearInter()
     },
 
     methods: {
@@ -464,30 +455,76 @@ export default {
         position: relative;
         justify-content: center;
         align-items: center;
+         .currentA{
+                position: absolute;
+                color: rgba(255, 255, 255, 0.9);;
+                transform: translate(-50%,-50%);
+            }
+            .currrent_top{
+                bottom: 95px;
+                left: 50%;
+            }
+            .currrent_bottom{
+                left: 50%;
+                top: 95px;
+            }
+           
+         .fingle1{
+                position: absolute;
+                transform: translate(-50%,-50%);
+            }
+        .fingle_left{
+            top: 4px;
+            right: 36px;
+            }
+        .fingle_right{
+            top: -4px;
+            left: 50px;
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    
+        .fingle_right1{
+            top: -4px;
+            left:50px;
+             -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+        .fingle_left1{
+            top: 4px;
+            right: 38px;
+            
+        }
         .centerImg {
             width: 288px;
             height: 451.14px;
            // background-image: url("../../assets/image/cut_surface/booth.png");
             .left {
-                left: 7%;
+                left: 18%;
                 top: 50%;
             }
             .comm{
-                font-size: 16px;
                 position: absolute;
                 transform: translate(-50%, -50%);
                 color: rgba(255, 255, 255, 0.9);
+                font-size: 14px;
             }
-            .right {
-                right: 3%;
+         .right {
+                right: 13%;
                 top: 50%;
             }
             .top {
                 left: 50%;
-                top: -5%;
+                top: 17%;
             }
             .bottom {
-                bottom: -5%;
+                bottom: 15%;
                 left: 50%;
             }
             .width_up {
@@ -515,51 +552,7 @@ export default {
                 //transform: translate(-50%, 0);
               //  background-image: url("../../assets/image/cut_surface/left_down_out.png");
             }
-            .currentA{
-                position: absolute;
-                color: rgba(255, 255, 255, 0.9);;
-                transform: translate(-50%,-50%);
-            }
-            .currrent_top{
-                top: 20%;
-                left: 50%;
-            }
-            .currrent_bottom{
-                bottom: 20%;
-                left: 50%;
-            }
-            .fingle{
-                width: 24px;
-                height: 24px;
-                position: absolute;
-                transform: translate(-50%,-50%);
-            }
-            .fingle_left{
-                top: 4px;
-                right: 38px;
-            }
-            .fingle_right{
-                top: -4px;
-                left: 50px;
-                -webkit-transform: rotate(180deg);
-                 -moz-transform: rotate(180deg);
-                 -o-transform: rotate(180deg);
-                 -ms-transform: rotate(180deg);
-                 transform: rotate(180deg);
-            }
-             .fingle_left1{
-               top: 4px;
-                right: 38px;
-            }
-            .fingle_right1{
-                 top: -4px;
-                left:50px;
-                -webkit-transform: rotate(180deg);
-                 -moz-transform: rotate(180deg);
-                 -o-transform: rotate(180deg);
-                 -ms-transform: rotate(180deg);
-                 transform: rotate(180deg);
-            }
+
             .right_down_out {
                 width: 100%;
                 height: 100%;

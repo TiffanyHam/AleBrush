@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="stopB">{{$t('brushing.stop')}}</div>
+        <div class="stopB">{{$t('brushing.charge')}}</div>
         <div class="brushing">
           <div>{{$t('brushing.charge')}}</div>
           <div style="margin-top:4px">{{$t('brushing.tipText')}}</div>
@@ -151,19 +151,19 @@ export default {
             posArr:[
                 {
                     class:'top',
-                    name:this.$t('brushing.top')
+                    name:this.$t('BrushTeethPosition.top')
                 },
                 {
                     class:'bottom',
-                    name:this.$t('brushing.bottom')
+                    name:this.$t('BrushTeethPosition.bottom')
                 },
                 {
                     class:'left',
-                    name:this.$t('brushing.left')
+                    name:this.$t('BrushTeethPosition.left')
                 },
                 {
                     class:'right',
-                    name:this.$t('brushing.right')
+                    name:this.$t('BrushTeethPosition.right')
                 },
             ]
         };
@@ -426,8 +426,8 @@ export default {
         justify-content: center;
         align-items: center;
         .centerImg {
-            width: 288px;
-            height: 451.14px;
+            width: 248px;
+            height: 431px;
             background-image: url("../../assets/image/cut_surface/booth.png");
             .left {
                 left: 7%;
@@ -445,10 +445,10 @@ export default {
             }
             .top {
                 left: 50%;
-                top: -5%;
+                top: 9%;
             }
             .bottom {
-                bottom: -5%;
+                bottom: 6%;
                 left: 50%;
             }
             .width_up {

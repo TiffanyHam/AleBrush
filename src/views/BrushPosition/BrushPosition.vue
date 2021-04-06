@@ -5,7 +5,7 @@
           <span slot="headerTitle">{{$t('BrushTeethPosition.header')}}</span>
       </Header>
       <div class="content">
-           <div class="selec">请选择起始位置</div>
+           <div class="selec">{{$t('BrushTeethPosition.select')}}</div>
            <div class="centerImg posiImg position_center">
                <span v-for="(item,index) in poArr" :key="'info2-'+index" :class="['comm',item.class]">{{item.name}}</span>
                <span v-for="(item, index) in areaArr"  :key="item.index">

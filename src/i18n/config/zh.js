@@ -67,7 +67,8 @@ const zh = {
             bottom:'下颌',
             left:'左',
             right:'右',
-            current:'当前区域'
+            current:'当前区域',
+            select:'请选择起始位置'
         },
         //更多设置
         setting: {
@@ -164,7 +165,6 @@ const zh = {
         bottom:'下',
         left:'左',
         right:'右',
-        stop:'请暂停牙刷后退出页面'
     },
     //充电提示
     Reconnection: {

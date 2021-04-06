@@ -42,19 +42,19 @@ export default {
                 },
                 {
                     subtip: this.$t("brushMethods.subtip9"),
-                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3en.png",
+                    img: this.$i18n.locale === "zh" ? "I_3.png" : "I_3_en.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip10"),
-                    img: this.$i18n.locale === "zh" ? "I_4.png" : "I_4en.png",
+                    img: "I_4.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip11"),
-                    img: this.$i18n.locale === "zh" ? "I_5.png" : "I_5en.png",
+                    img: "I_5.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip12"),
-                    img: this.$i18n.locale === "zh" ? "I_6.png" : "I_6en.png"
+                    img:"I_6.png"
                 }
                
             ],
