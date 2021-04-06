@@ -6,9 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
  */
-import { mapActions } from 'vuex'
 import store from '@/store'
-import Vue from 'vue'
 import g from './index.js'
 
     function init(){
@@ -23,7 +21,7 @@ import g from './index.js'
          * @return {*}
          */
         function getBluetoothAdapterState() {
-           console.log(3)
+         //  console.log(3)
           window.hilink && window.hilink.getBluetoothAdapterState && window.hilink.getBluetoothAdapterState(
               "getBluetoothAdapterStateCallback"
           );
@@ -43,7 +41,7 @@ import g from './index.js'
          * @return {*}
          */
          function openBluetoothAdapter() {
-          console.log(4)
+          //console.log(4)
           window.hilink && window.hilink.openBluetoothAdapter && window.hilink.openBluetoothAdapter();
       }
 
@@ -73,7 +71,7 @@ import g from './index.js'
          * @return {*}
          */
       function onBLEConnectionStateChange() {
-          console.log(1)
+          //console.log(1)
         window.hilink && window.hilink.onBLEConnectionStateChange && window.hilink.onBLEConnectionStateChange('onBLEConnectionStateChangeCallBack')
         window.onBLEConnectionStateChangeCallBack = res => {
             res = JSON.parse(res)
@@ -97,7 +95,7 @@ import g from './index.js'
          * @return {*}
          */
       function onBluetoothAdapterStateChange() {
-          console.log(2)
+          //console.log(2)
         window.hilink && window.hilink.onBluetoothAdapterStateChange && window.hilink.onBluetoothAdapterStateChange('onBluetoothAdapterStateChangeCallBack')
         window.onBluetoothAdapterStateChangeCallBack = res => {
             res = JSON.parse(res);
