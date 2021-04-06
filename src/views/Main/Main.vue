@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-01 16:51:48
+ * @LastEditTime: 2021-04-06 16:28:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -150,9 +150,13 @@
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
+//import mixin from "@/mixins/bleConnect"; // 引入mixin文件
+
 export default {
+  //mixins: [mixin],
   data() {
     return {
+       deviceId: null,
        isflage:true,
        isConnect:true,
        isDialog:false,  //弹窗
@@ -245,29 +249,43 @@ export default {
     },
   mounted() {
   //  this.dialogTip = true
-    setTimeout(() => { //连接中
-       this.isflage = false
-       this.isConnect = false
-            }, 500);
-    setTimeout(() => { //连接超时
-        this.isflage = true
-        this.isConnect = true
-        //this.isDialog = true
-    }, 1 * 1000);
-    setTimeout(() => { //已连接
-        this.isflage = false
-        this.isConnect = true
-    }, 2 * 1000);
+    // setTimeout(() => { //连接中
+    //    this.isflage = false
+    //    this.isConnect = false
+    //         }, 500);
+    // setTimeout(() => { //连接超时
+    //     this.isflage = true
+    //     this.isConnect = true
+    //     this.isDialog = true
+    // }, 1 * 1000);
+    // setTimeout(() => { //已连接
+    //     this.isflage = false
+    //     this.isConnect = true
+    // }, 2 * 1000);
    //刷牙天数不足
    if(this.isDays <10){
-     this.dialogTip1 = true
+    // this.dialogTip1 = true
      if(this.isDays <= -1){
         this.isChange = false
      }
    }
-  //  if(this.bleConnected){   //true
-  //     console.log(3)
-  //  }
+  //  蓝牙连接状态
+   if(this.bleConnected){   
+      this.isflage = false  //已连接
+      this.isConnect = true
+      this.isDialog = false
+   }else{
+      setTimeout(() => { //连接中
+        this.isflage = false
+        this.isConnect = false
+        }, 500);
+      setTimeout(() => { //连接超时
+          this.isflage = true
+          this.isConnect = true
+          this.isDialog = true
+      }, 30 * 1000);
+
+   }
   this.$nextTick(() => {
             let bs = new BScroll(this.$refs.wrapper, {
                 click: true,
@@ -284,6 +302,23 @@ export default {
   watch:{
     bleConnected(status){
       console.log('蓝牙状态：',status)
+      //  监听蓝牙连接状态
+      if(status){   
+          this.isflage = false  //已连接
+          this.isConnect = true
+          this.isDialog = false
+      }else{
+          setTimeout(() => { //连接中
+            this.isflage = false
+            this.isConnect = false
+            }, 500);
+          setTimeout(() => { //连接超时
+              this.isflage = true
+              this.isConnect = true
+              this.isDialog = true
+          }, 30 * 1000);
+
+      }
     },
     initPosition(val){
       console.log('起始位置：',val)
@@ -291,6 +326,7 @@ export default {
  
   },
   methods: {
+
     //过滤器中i18n
     te(arg) {
       const hasKey = this.$te(arg)

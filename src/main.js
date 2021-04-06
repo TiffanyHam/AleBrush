@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-24 16:51:04
+ * @LastEditTime: 2021-04-06 17:31:46
  */
 import Vue from "vue";
 import App from "./App.vue";
@@ -30,6 +30,9 @@ Vue.prototype.$echarts = echarts;
 // 路由守卫
 import g from './utils/index'
 g.overallSituation(router)
+
+// import bleConnect from './utils/bleConnect'
+// Vue.prototype.BLE = bleConnect
 
 Vue.config.productionTip = false;
 eruda.init(); // eruda初始化

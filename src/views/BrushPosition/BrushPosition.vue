@@ -93,7 +93,7 @@ export default {
      },
     watch:{
         initPosition(val){
-          console.log('蓝牙状态：',val)
+         // console.log('起始位置：',val)
         }
  
     },
