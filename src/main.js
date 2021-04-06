@@ -31,8 +31,8 @@ Vue.prototype.$echarts = echarts;
 import g from './utils/index'
 g.overallSituation(router)
 
-// import bleConnect from './utils/bleConnect'
-// Vue.prototype.BLE = bleConnect
+import bleConnect from './utils/bleConnect'
+Vue.prototype.BLE = bleConnect
 
 Vue.config.productionTip = false;
 eruda.init(); // eruda初始化

@@ -39,6 +39,7 @@ const g = {
   serviceId: "0000ffb0-0000-1000-8000-00805f9b34fb",
   writeCharacteristicId: "0000ffb1-0000-1000-8000-00805f9b34fb",
   readCharacteristicId: "0000ffb2-0000-1000-8000-00805f9b34fb",
+  deviceId : null,
   overallSituation: overallSituation,
 
 }

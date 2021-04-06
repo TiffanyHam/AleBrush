@@ -21,7 +21,7 @@
     <!-- 连接状态 -->
     <div class="connectState flexR" v-show="isflage">
         <div>{{ $t('index.noConnect') }}</div>
-        <div class="c_007DFF again">{{ $t('index.again') }}</div>
+        <div class="c_007DFF again" @click="initData">{{ $t('index.again') }}</div>
     </div>
     <div class="connectState flexR" v-show="!isflage && !isConnect">
         <div>{{ $t('index.connect') }}</div>
@@ -248,6 +248,7 @@ export default {
       }
     },
   mounted() {
+    this.initData()
   //  this.dialogTip = true
     // setTimeout(() => { //连接中
     //    this.isflage = false
@@ -326,7 +327,9 @@ export default {
  
   },
   methods: {
-
+    initData(){
+      this.BLE.init()
+    },
     //过滤器中i18n
     te(arg) {
       const hasKey = this.$te(arg)

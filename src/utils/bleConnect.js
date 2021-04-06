@@ -7,29 +7,23 @@
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
  */
 import { mapActions } from 'vuex'
+import store from '@/store'
 import Vue from 'vue'
+import g from './index.js'
 
-const deviceId = null,
-// const serviceId =  "0000ffb0-0000-1000-8000-00805f9b34fb",
-// const writeCharacteristicId =  "0000ffb1-0000-1000-8000-00805f9b34fb",
-// const readCharacteristicId =  "0000ffb2-0000-1000-8000-00805f9b34fb",
-
-  
     function init(){
-            onBLEConnectionStateChange();
-            onBluetoothAdapterStateChange();
-            getBluetoothAdapterState();
-            openBluetoothAdapter()
-         }
-    //   ...mapActions({
-    //     call_update_bleConnected: 'call_update_bleConnected',
-    //   }),
+        onBLEConnectionStateChange();
+        onBluetoothAdapterStateChange();
+        getBluetoothAdapterState();
+        openBluetoothAdapter()
+    }
        /**
          * @description: 蓝牙连接第一步 获取设备蓝牙模块状态
          * @param {*}
          * @return {*}
          */
         function getBluetoothAdapterState() {
+           console.log(3)
           window.hilink && window.hilink.getBluetoothAdapterState && window.hilink.getBluetoothAdapterState(
               "getBluetoothAdapterStateCallback"
           );
@@ -49,6 +43,7 @@ const deviceId = null,
          * @return {*}
          */
          function openBluetoothAdapter() {
+          console.log(4)
           window.hilink && window.hilink.openBluetoothAdapter && window.hilink.openBluetoothAdapter();
       }
 
@@ -67,8 +62,7 @@ const deviceId = null,
               } else {
                   data = JSON.parse(res)
               }
-              deviceId = data.deviceId;
-              window.devId = data.deviceId;
+              let deviceId = data.deviceId;
               window.hilink && window.hilink.createBLEConnection && window.hilink.createBLEConnection(deviceId)
           }
           window.hilink && window.hilink.getCurrentRegisteredDevice && window.hilink.getCurrentRegisteredDevice('getCurrentRegisteredDeviceCallBack')
@@ -79,11 +73,12 @@ const deviceId = null,
          * @return {*}
          */
       function onBLEConnectionStateChange() {
+          console.log(1)
         window.hilink && window.hilink.onBLEConnectionStateChange && window.hilink.onBLEConnectionStateChange('onBLEConnectionStateChangeCallBack')
         window.onBLEConnectionStateChangeCallBack = res => {
             res = JSON.parse(res)
             if (res.connected) {
-                call_update_bleConnected(true)
+               store.commit('UPDATED_BLECONNECTED',true)
                 // 通知上层
                 onBLEServicesDiscovered()
                 //监听低功耗蓝牙设备的特征值变化
@@ -92,7 +87,7 @@ const deviceId = null,
             } else {
                 // 连接不成功 重新连接
                 searchDevices()
-                call_update_bleConnected(false)
+                store.commit('UPDATED_BLECONNECTED',false)
             }
         }
     }
@@ -102,6 +97,7 @@ const deviceId = null,
          * @return {*}
          */
       function onBluetoothAdapterStateChange() {
+          console.log(2)
         window.hilink && window.hilink.onBluetoothAdapterStateChange && window.hilink.onBluetoothAdapterStateChange('onBluetoothAdapterStateChangeCallBack')
         window.onBluetoothAdapterStateChangeCallBack = res => {
             res = JSON.parse(res);
@@ -144,9 +140,9 @@ const deviceId = null,
             if (data.errCode === 0) {
                 window.t3 = new Date().getTime()
                 status = window.hilink && window.hilink.notifyBLECharacteristicValueChange && window.hilink.notifyBLECharacteristicValueChange(
-                    deviceId,
-                    serviceId,
-                    readCharacteristicId,
+                    g.deviceId,
+                    g.serviceId,
+                    g.readCharacteristicId,
                     true
                 );
                 if (status === 0) {
@@ -183,13 +179,13 @@ const deviceId = null,
           let data;
           if (window.ios) {
               data = _.getIOSDevid(res);
-              if (deviceId == data.deviceId) {  // ios
+              if (g.deviceId == data.deviceId) {  // ios
                   window.hilink && window.hilink.createBLEConnection && window.hilink.createBLEConnection(data.deviceId)
                   window.hilink && window.hilink.stopBluetoothDevicesDiscovery && window.hilink.stopBluetoothDevicesDiscovery()
               }
           } else {
-              if (deviceId == JSON.parse(res)[0].deviceId) {  // 安卓
-                  window.hilink && window.hilink.createBLEConnection && window.hilink.createBLEConnection(deviceId)
+              if (g.deviceId == JSON.parse(res)[0].deviceId) {  // 安卓
+                  window.hilink && window.hilink.createBLEConnection && window.hilink.createBLEConnection(g.deviceId)
                   window.hilink && window.hilink.stopBluetoothDevicesDiscovery && window.hilink.stopBluetoothDevicesDiscovery()
               }
           }
@@ -230,9 +226,9 @@ const deviceId = null,
   // }
   ////console.log('蓝牙设备操控：对蓝牙设备发送数据');
   window.hilink && window.hilink.writeBLECharacteristicValue && window.hilink.writeBLECharacteristicValue(
-      deviceId,
-      serviceId,
-      writeCharacteristicId,
+    g.deviceId,
+    g.serviceId,
+    g.writeCharacteristicId,
       data,
       "writeBLECharacteristicValueCallBack"
   );
@@ -242,7 +238,6 @@ const deviceId = null,
 
 
   }
-//}
 export default {
     init
   }

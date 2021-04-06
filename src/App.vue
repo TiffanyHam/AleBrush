@@ -15,10 +15,10 @@
 </template>
 <script>
 import { getLanguage } from "./utils/tool";
-import mixin from "@/mixins/bleConnect"; // 引入mixin文件
+// import mixin from "@/mixins/bleConnect"; // 引入mixin文件
 
 export default {
-  mixins: [mixin],
+//   mixins: [mixin],
   provide(){
         return {
             reload: this.reload,
