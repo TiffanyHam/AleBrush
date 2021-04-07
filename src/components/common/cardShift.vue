@@ -6,7 +6,7 @@
             v-for="(item, index) in shiftList"
             :key="index"
             class="shiftContent c_90"
-            :class="{ 'bg_007DFF10': selectedIndex === index }"
+            :class="{ 'bg_007DFF10': selectNum == index }"
             @click="handleClick(item, index)"
         >
             <div class="shiftClass" :class="{ 'split-top': index !== 0 }">
@@ -24,7 +24,7 @@ export default {
             type: Array,
             default: () => []
         },
-        selectedIndex: {
+        selectNum: {
             type: Number,
             default: 0
         }
@@ -32,7 +32,7 @@ export default {
     methods: {
         handleClick (item, index) {
             this.$emit('eventClick', item, index);
-            this.selectedIndex = index
+           // this.selectNum = index
         }
     }
 };

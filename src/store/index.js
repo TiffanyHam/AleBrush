@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-04-01 11:47:39
+ * @LastEditTime: 2021-04-07 16:39:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -16,7 +16,8 @@ export default new Vuex.Store({
   namespaced: true,//开启命名空间
   state: {
     bleConnected: false, // 监听设备蓝牙连接结果
-    initPosition:'2'
+    initPosition:'2',
+    data:''
   },
   mutations: {
     UPDATED_BLECONNECTED(state,payload) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     UPDATED_POSITION(state,payload) {
       state.initPosition = payload;
+    },
+    UPDATE_DATA(state,payload){
+      state.data = payload;
     },
     'CHANGETIP' (state, data) {
       state.noMorereminders = data;    
@@ -35,6 +39,9 @@ export default new Vuex.Store({
      },
     call_update_initPosition(content,payload){
     content.commit('UPDATED_POSITION',payload)
+    },
+    call_update_data(content,payload){
+      content.commit('UPDATE_DATA',payload)
     },
     resetVuex({ commit }) {
       commit("UPDATED_POSITION", null);

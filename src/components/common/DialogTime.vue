@@ -14,7 +14,7 @@
                         <circle class="progress" cx="42" cy="42" r="40" stroke-width="2" :stroke="isBg" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="251.2px" stroke-dashoffset="0px" />
                         <text class="text" x="42" y="-42" :fill="isBg">
                             <tspan font-size="20px">{{time}}</tspan>&nbsp;
-                            <tspan class="tspan" font-size="12px">{{this.$t('Dialog.seconds')}}</tspan>
+                            <tspan class="tspan" font-size="12px">{{this.$t('Hint.seconds')}}</tspan>
                         </text>
                   </svg>
                 </div>

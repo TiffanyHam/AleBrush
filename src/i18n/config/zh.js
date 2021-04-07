@@ -1,7 +1,7 @@
 const zh = {
     index: {
         noConnect: '未连接',
-        connect: '正在连接',
+        connect: '连接中',
         connected: '已连接',
         again:'重新连接',
         score: '分',
@@ -153,6 +153,7 @@ const zh = {
         tipText7: '时间不足30S，数据不予保存',
         tipText8: '倒计时结束后，退出页面',
         quit:'退出实时引导',
+        seconds:'秒'
         
     },
     //实时引导

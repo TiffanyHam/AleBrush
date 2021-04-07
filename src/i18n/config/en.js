@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-06 11:33:38
+ * @LastEditTime: 2021-04-07 10:56:46
  */
 const en = {
     index: {
@@ -160,6 +160,7 @@ const en = {
         tipText7: 'time is less than 30 s, the data will not be saved',
         tipText8: 'After the end of the countdown,the exit pages',
         quit:'quit the page',
+        seconds:'seconds'
         
     },
     //实时引导

@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2021-01-10 10:11:13
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-31 11:38:29
+ * @LastEditTime: 2021-04-07 09:11:29
 -->
 <!--
  * @Descripttion: 
@@ -78,7 +78,7 @@ export default {
   },
   methods:{
       handleClick(){
-          console.log(33)
+          this.BLE.init()
       },
       close(){
           this.show = false

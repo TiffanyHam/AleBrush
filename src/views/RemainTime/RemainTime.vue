@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-31 15:47:58
+ * @LastEditTime: 2021-04-07 09:29:51
 -->
 <!--  -->
 <template>
@@ -80,7 +80,7 @@ export default {
     },
     created() {
         this.judgeBoothHeader()
-        this.getCloudData(this.brushHeader)
+      //  this.getCloudData(this.brushHeader)
     },
     mounted() {
     },
@@ -140,10 +140,10 @@ export default {
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
                // reportData.resize(new Date().getTime() + 1000)
-                this.realValue = 90;
-                setTimeout(() => {
-                    this.getCloudData(this.brushHeader)
-                }, 1000);
+                this.realValue = 60;
+                // setTimeout(() => {
+                //     this.getCloudData(this.brushHeader)
+                // }, 1000);
             }
         }
     },
