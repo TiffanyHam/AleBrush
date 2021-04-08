@@ -50,11 +50,6 @@ export default {
       required: true,
       default: true,  //30S
     },
-    countDown: {
-            type: String,
-            required: false,
-            default: 'svg',
-        },
   },
    watch: {
         time(n, o) {
@@ -63,18 +58,21 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            let _ = this;
-            _.addkeyframe(30 * 2 * Math.PI)
-            if (_.countDown === 'svg') {
-                let svg = document.querySelector('.svg');
-                _.setl = setInterval(() => {
-                    _.time--;
-                    if (_.time <= 0) {
-                        _.time = 0;
-                        clearInterval(_.setl);
+            let that = this;
+            that.addkeyframe(30 * 2 * Math.PI)
+                // let svg = document.querySelector('.svg');
+                // //调用前，先销毁定时器实例,初始化实例对象
+                if(that.setl != null){
+                  clearInterval(that.setl);
+                }
+                that.setl = setInterval(() => {
+                    that.time--;
+                    if (that.time == 1) {
+                       // that.time = 0;
+                        clearInterval(that.setl);
+                        that.close()
                     }
                 }, 1000);
-            }
         })
     },
     beforeDestroy() {
@@ -83,7 +81,8 @@ export default {
     },
   methods:{
       close(){
-           this.$router.push({ path: '/' })
+        this.$router.push({ name: "Main" });
+      // console.log(22)
       },
        /**
          * @description:  js 添加动画

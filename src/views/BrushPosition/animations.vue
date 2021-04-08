@@ -14,19 +14,11 @@
         >
           {{ item.name }}
         </div>
-        <!-- <div v-for="(item,index) in areaArr" :key="index">
-                    <div v-if="index == item.index">
-                         <div v-if="index == item.index" :class="['posiImg animate opcity_animate',item.class]"></div>
-                         <div v-if="index == item.index" class="currentA currrent_bottom"><div :class="['fingle',item.classN]"></div><div>当前区域</div></div>
-                    </div>
-                </div> -->
+    
         <!-- 左下 -->
         <div
           v-if="index == 1"
-          :class="
-            brushOn == 1 ? 'left_down_out posiImg animate opcity_animate' : ''
-          "
-        ></div>
+          :class="['00','02'].includes(isOpen) ? 'left_down_out posiImg animate opcity_animate' : ''"></div>
         <div v-if="index == 1" class="currentA currrent_bottom">
           <div class="fingle fingle_left"></div>
           <div>{{ $t("BrushTeethPosition.current") }}</div>
@@ -35,8 +27,7 @@
         <!-- 右下 -->
         <div
           v-if="index == 2"
-          :class="
-            brushOn == 1 ? 'right_down_out posiImg animate opcity_animate' : ''
+          :class="['00','02'].includes(isOpen) ? 'right_down_out posiImg animate opcity_animate' : ''
           "
         ></div>
         <div v-if="index == 2" class="currentA currrent_bottom">
@@ -50,8 +41,7 @@
         <!-- 右上 -->
         <div
           v-if="index == 3"
-          :class="
-            brushOn == 1 ? 'right_up_out posiImg animate opcity_animate' : ''
+          :class="['00','02'].includes(isOpen) ? 'right_up_out posiImg animate opcity_animate' : ''
           "
         ></div>
         <div v-if="index == 3" class="currentA currrent_top">
@@ -62,8 +52,7 @@
         <!-- 左上 -->
         <div
           v-if="index == 4"
-          :class="
-            brushOn == 1 ? 'left_up_out posiImg animate opcity_animate' : ''
+          :class="['00','02'].includes(isOpen) ? 'left_up_out posiImg animate opcity_animate' : ''
           "
         ></div>
         <div v-if="index == 4" class="currentA currrent_top">
@@ -133,7 +122,7 @@
         </div>
       </div>
     </div>
-    <div class="stopB">{{ $t("brushing.charge") }}</div>
+    <div class="stopB" @click="ExitDialog">{{ $t("brushing.charge") }}</div>
     <div class="brushing">
       <div>{{ $t("brushing.charge") }}</div>
       <div style="margin-top: 4px">{{ $t("brushing.tipText") }}</div>
@@ -144,6 +133,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Brushing_other",
   data() {
@@ -159,7 +150,8 @@ export default {
       // 中间区域 30s 时间
       seconds: null,
       isEnough: false, //false 30S
-      isShow: false, //弹窗的显示
+      isShow: true, //弹窗的显示
+      brushLen:'',
       // 中间总时间
       total: "00:00",
       record: "",
@@ -172,9 +164,9 @@ export default {
       endY: 0,
       // 动画下标
       index: null,
-      brushOn: 1, //1开；0关
       setTotalTime: "",
-      setAreas: "2",
+      setAreas: "00",
+      area:0,
       setOriginNum: null,
       areaArr: [
         {
@@ -216,13 +208,30 @@ export default {
           name: this.$t("BrushTeethPosition.right"),
         },
       ],
+      isOpen:'00',
+      flag:false
     };
   },
 
-  components: {},
+  computed: {
+    ...mapState(['timeLength', "data"]),
+  },
+  watch: {
+  //  openStatus(val){
+  //     console.log('开关的值:',val)
+  //     if(val == '01'){
+  //         this.ExitDialog()
+  //     }
+  //  },
+   timeLength(val){
+      console.log('时长wwww:',val)
+   },
+   data(value) {
+      //console.log("數據來了", value);
+      this.acceptData(value);
+    },
 
-  computed: {},
-  watch: {},
+  },
   created() {
     let r = 42.5;
     let centerX = 47.5;
@@ -242,9 +251,10 @@ export default {
   },
 
   mounted() {
-    this.globalT(this.setAreas);
+    console.log('isopen',this.isOpen)
+    console.log('时长:',this.timeLength)
+    this.globalT(this.timeLength);   
     this.init();
-    //this.clearInter()
   },
 
   methods: {
@@ -255,13 +265,13 @@ export default {
      */
     globalT(val) {
       switch (val) {
-        case "1":
+        case "00":
           (this.setTotalTime = "02:00"), (this.setOriginNum = 30);
           break;
-        case "2":
+        case "01":
           (this.setTotalTime = "02:30"), (this.setOriginNum = 37);
           break;
-        case "3":
+        case "02":
           (this.setTotalTime = "03:00"), (this.setOriginNum = 45);
           break;
       }
@@ -282,22 +292,10 @@ export default {
      * @return {*}
      */
     init() {
-      if (this.brushOn == 0) {
-        //关
-        this.clearInter();
-        clearInterval(this.timer);
-        clearInterval(this.timer1);
-        clearInterval(this.timer2);
-        return true;
-      } else {
-        // setTimeout(() => {
-        //     this.brushOn = 0
-        //  },3000)
-
-        this.totalTime(true);
-        this.countDown();
-        this.showAnimate();
-      }
+        // this.totalTime(0,0);
+        // this.countDown();
+        // this.showAnimate();
+      
     },
     //年月日
     formatDate(dd) {
@@ -336,14 +334,19 @@ export default {
      * @return {*}
      */
     countDown() {
-      let that = this;
-      const TIME_COUNT = that.setOriginNum;
-      if (!that.timer) {
-        that.seconds = TIME_COUNT;
+       let that = this;
+    //  const TIME_COUNT = that.setOriginNum;
+     // if (!that.timer) {
+        if(that.flag == true){
+            let Sec1 = parseInt(sessionStorage.getItem('previousSeconds'));
+            that.seconds = Sec1
+        }else{
+            that.seconds = that.setOriginNum;
+        }
         let count = that.sixFace;
         let len = that.rotate.length;
         that.timer = setInterval(() => {
-          if (that.seconds > 0 && that.seconds <= TIME_COUNT + 2) {
+          if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
             that.startX = that.rotate[len - count]["x"];
             that.startY = that.rotate[len - count]["y"];
             that.endX =
@@ -351,6 +354,7 @@ export default {
             that.endY =
               that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
             that.seconds--;
+
             if (that.seconds == 0) {
               if (that.setAreas == 2 && that.index == 3) {
                 that.seconds = that.setOriginNum + 2;
@@ -366,23 +370,25 @@ export default {
               clearInterval(that.timer);
               return false;
             }
+            sessionStorage.removeItem('previousSeconds')
+            sessionStorage.setItem('previousSeconds', that.seconds);
           } else {
             clearInterval(that.timer);
             that.timer = null;
           }
         }, 1000);
-      }
+     // }
     },
     /**
      * @description: 刷牙总时间
      * @param {*}
      * @return {*}
      */
-    totalTime(bolean) {
+    totalTime(minute,second) {
       let that = this;
-      let minute, second;
-      minute = second = 0;
-      if (bolean === true) {
+      // let minute, second;
+      // minute = second = 0;
+      
         that.timer1 = setInterval(function () {
           if (second >= 0) {
             second = second + 1;
@@ -401,38 +407,16 @@ export default {
             that.total = "0" + minute + ":" + second;
             that.record = minute + "分" + second + "秒";
           }
-
-          let times = that.formatDate(Date.parse(new Date())); //当前时间
-          let dayY = times.split(",")[0]; //年月日
-          let timeY = times.split(",")[1]; //时分秒
-          let brushLen =
-            parseInt(that.total.substr(1, 1)) * 60 +
-            parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
-          let setLen =
-            parseInt(that.setTotalTime.substr(1, 1)) * 60 +
-            parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-          let score = parseInt((brushLen / setLen) * 100); //刷牙分数
-          // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
-          if (that.isToday(new Date()) == 0) {
-            console.log(that.dayWeek());
-          } else {
-            console.log(dayY);
-          }
-          console.log(timeY, brushLen, setLen, score, that.record);
-          //不超过30s弹窗
-          if (brushLen < 30) {
-            // that.isShow = true
-            that.isEnough = true;
-          } else {
-            //that.isShow = false
-            that.isEnough = false;
-          }
-
+          sessionStorage.removeItem('previousMi')
+          sessionStorage.removeItem('previousSec')
+          sessionStorage.setItem('previousMi', minute);
+          sessionStorage.setItem('previousSec', second);
+          
           if (that.total == that.setTotalTime) {
-            clearInterval(that.timer1);
+              that.Exit()
+            // clearInterval(that.timer1);
           }
         }, 1000);
-      }
     },
     /**
      * @description: 动画
@@ -442,19 +426,26 @@ export default {
     showAnimate() {
       let that = this;
       let count = this.seconds;
-      let area = this.sixFace;
+      if(that.flag == true){
+         let Sec2 = parseInt(sessionStorage.getItem('previousArea'));
+         that.area = Sec2;
+      }else{
+         that.area = that.sixFace;
+      }
       that.timer2 = setInterval(() => {
-        if (area) {
+        if (that.area) {
           count == that.setOriginNum ? that.index++ : "";
           count--;
           if (count == 0) {
             count = that.setOriginNum;
-            area--;
+            that.area--;
           }
         }
-        if (area == 0) {
+        if (that.area == 0) {
           clearInterval(that.timer2);
         }
+        sessionStorage.removeItem('previousArea')
+        sessionStorage.setItem('previousArea', that.area);
       }, 1000);
     },
     /**
@@ -463,10 +454,143 @@ export default {
      * @return {*}
      */
     Reset() {
-      clearInterval(this.totalTime(false));
-      //  minute=second = 0
-      this.total = "00:00";
+      this.globalT(this.$store.state.timeLength);
     },
+     // 数据解析
+    acceptData(data) {
+      if (data.indexOf("F55F070401") == 0) {
+          this.isOpen = data.substr(10, 2)
+          console.log('开启状态：',this.isOpen)
+          if(this.isOpen == '01'){ 
+            //this.init()
+          }
+           if(this.isOpen == '01'){ 
+              this.ExitDialog()  //暂停  弹窗出现
+              
+           }
+           if(this.isOpen == '02'){
+              this.isShow = false  //恢复  弹窗关闭
+
+              let Mi = parseInt(sessionStorage.getItem('previousMi'));
+              let Sec = parseInt(sessionStorage.getItem('previousSec'));
+              this.totalTime(Mi,Sec);
+              
+              this.flag = true
+              this.countDown()
+
+              this.showAnimate()
+           }
+           if(this.isOpen == '03'){  //结束
+              this.Exit()
+           }
+      }
+    },
+    /**
+     * @description: 不超过30s弹窗
+     * @param {*}
+     * @return {*}
+     */    
+    ExitDialog(){
+        if (this.brushLen < 30) {
+          this.isShow = true
+          this.isEnough = true;
+        } else {
+          this.isShow = true
+          this.isEnough = false;
+
+        }
+        this.clearInter()
+        clearInterval(this.timer1);
+    },
+
+    /**
+     * @description: 退出
+     * @param {*}
+     * @return {*}
+     */    
+    Exit(){
+      if (this.$route.path == '/animations') {
+          this.clearInter()
+          this.$router.push({ name: "Main" });
+      } else {
+          console.log('')
+      }
+    },
+    /**
+     * @description: 历史数据
+     * @param {*}
+     * @return {*}
+     */    
+    historyData(){
+       var that = this
+       var times = that.formatDate(Date.parse(new Date())); //当前时间
+          var dayY = times.split(",")[0]; //年月日
+          var timeY = times.split(",")[1]; //时分秒
+          that.brushLen =
+            parseInt(that.total.substr(1, 1)) * 60 +
+            parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
+          var setLen =
+            parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+            parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+          var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+          // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
+          if (that.isToday(new Date()) == 0) {
+           // console.log(that.dayWeek());
+          } else {
+          //  console.log(dayY);
+          }
+         // console.log(timeY, this.brushLen, setLen, score, that.record);
+         
+      var historyArr = {
+          score:score,
+          brushLens:that.brushLen,
+          time:timeY,
+          seconds:setLen,
+        }
+      var logArr = {
+
+        historyArr:historyArr
+      }
+      //logArr.push(historyArr)
+      //       logArr: [
+      //   {
+      //     days: "今天 星期三",
+      //     historyArr: [
+      //       {
+      //         score: "99",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //       {
+      //         score: "28",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     days: "今天 星期二",
+      //     historyArr: [
+      //       {
+      //         score: "12",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //       {
+      //         score: "61",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //     ],
+      //   },
+      // ],
+
+
+    }
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-07 20:28:09
+ * @LastEditTime: 2021-04-08 15:17:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -104,7 +104,7 @@
               <div>
                 <span>{{ $t("index.brushLen") }}</span>
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ timeLen | brushLength(te) }}</span>
+                  <span>{{ timeLength | brushLength(te) }}</span>
                 </div>
               </div>
               <div class="icon_width">
@@ -214,10 +214,7 @@
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
-//import mixin from "@/mixins/bleConnect"; // 引入mixin文件
-
 export default {
-  //mixins: [mixin],
   data() {
     return {
       deviceId: null,
@@ -228,11 +225,8 @@ export default {
       battery: "05",
       dialogTip: false, //低电量
       dialogTip1: false, //天数不足
-      isOver: "1",
       tips: this.$t("Reconnection.index"),
       isDays: "9",
-      brushTime: "00",
-      isSeat: "1",
       selectIndex:0,
       selectIndex1:0,
       shiftTest: [
@@ -248,7 +242,7 @@ export default {
       ],
       isTime: false,
       isMode: false,
-      timeLen: "00",
+      timeLen: "",
       modeDisplay: "00", //刷牙模式
       cardData: [
         {
@@ -331,6 +325,8 @@ export default {
       return statusMap[status];
     },
   },
+  created(){
+  },
   mounted() {
     this.initData();
 
@@ -367,7 +363,7 @@ export default {
     });
   },
   computed: {
-    ...mapState(["bleConnected", "initPosition", "data"]),
+    ...mapState(["bleConnected", "initPosition", "data",'timeLength']),
     tips1() {
       return this.$t("Reconnection.index1", { days: this.isDays - 1 });
     },
@@ -409,20 +405,24 @@ export default {
     },
     // 数据解析
     acceptData(data) {
-      if (data.indexOf("F55F070201") == 0) {
-      //  console.log('模式:',data.substr(10, 2)); //刷牙模式
+      if (data.indexOf("F55F07100100") == 0) {
+         console.log('设置成功')
+      }
+      if (data.indexOf("F55F070201") == 0) { //刷牙模式
        this.modeDisplay = data.substr(10, 2)
       }
       if (data.indexOf("F55F070301") == 0) {
-        this.battery = String(data.substr(10, 2));
-      //  console.log('電量:',data.substr(10, 2)); //電量
+        this.battery = String(data.substr(10, 2)); //電量
         //电量不足
         if (this.battery == "00") {
           this.dialogTip = true;
         }
       }
-      if (data.indexOf("F55F070401") == 0) {
-        console.log('工作状态:',data.substr(10, 2));
+      if (data.indexOf("F55F070401") == 0) {  //工作状态
+          let openStatus = data.substr(10, 2)
+          if(openStatus == '00' || openStatus == '02'){  //开始
+              this.$router.push({ name: "animations" });
+          }
       }
     },
     //过滤器中i18n
@@ -464,14 +464,15 @@ export default {
                 last = '5E'
                 break;
           }
-        
+        console.log('选择',this.timeLen)
+        this.$store.dispatch('save_time',this.timeLen)
         let param = 'F55F060101'+ mode + last
-      //  console.log(param)
         this.BLE.writeData(param)
     },
     brushModeClick() {
       this.isMode = !this.isMode;
     },
+    //模式选择
     modeClick(val) {
       let index = val.index
       this.selectIndex = index
@@ -502,7 +503,6 @@ export default {
         }
         
         let param = 'F55F060201'+ mode + last
-      //  console.log(param)
         this.BLE.writeData(param)
     },
 
