@@ -57,6 +57,10 @@ export default {
         }
     },
     mounted() {
+        // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
+        this.$once('hook:beforeDestroy', () => {   
+         clearInterval(this.setl);                                    
+        })
         this.$nextTick(() => {
             let that = this;
             that.addkeyframe(30 * 2 * Math.PI)
@@ -67,6 +71,7 @@ export default {
                 }
                 that.setl = setInterval(() => {
                     that.time--;
+                    console.log(that.time)
                     if (that.time == 1) {
                        // that.time = 0;
                         clearInterval(that.setl);

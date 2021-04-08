@@ -128,7 +128,39 @@
       <div style="margin-top: 4px">{{ $t("brushing.tipText") }}</div>
     </div>
     <!-- 倒计时弹窗 -->
-    <DialogTime :isEnough="isEnough" v-show="isShow"> </DialogTime>
+    <!-- <DialogTime :isEnough="isEnough" v-show="isShow"> </DialogTime> -->
+     <div class="bleDialog" v-show="isAppear">
+        <!-- 蒙版 -->
+        <div class="mask animate__animated animate__fadeIn" key="1" v-if="isShow" @touchmove.prevent>
+        </div>
+        <div class="dialog" v-show="isShow" key="2">
+            <div class="dialogTitle">
+                <slot name="title">{{$t('Hint.tipTitle2')}}</slot>
+            </div>
+            <div class="dialogContent">
+                <p class="magBot">{{$t('Hint.tipText5')}}</p>
+                <div>
+                    <svg class="svg" width="84px" height="84px" viewBox="0 0 84 84">
+                        <circle class="progress" cx="42" cy="42" r="40" stroke-width="2" :stroke="isBg" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="251.2px" stroke-dashoffset="0px" />
+                        <text class="text" x="42" y="-42" :fill="isBg">
+                            <tspan font-size="20px">{{time}}</tspan>&nbsp;
+                            <tspan class="tspan" font-size="12px">{{this.$t('Hint.seconds')}}</tspan>
+                        </text>
+                  </svg>
+                </div>
+                <slot v-if="isEnough">{{$t('Hint.tipText6')}} </slot> 
+                <slot v-else>{{$t('Hint.tipText7')}}</slot>  <!-- 30s -->
+                <br />
+                <slot>{{$t('Hint.tipText8')}}</slot>
+            </div>
+            <div class="dialog_footer fb">
+                <span class="btn" @click="Exit">
+                    <slot name="sure btn_right">{{$t('Hint.quit')}}</slot>
+                </span>
+            </div>
+        </div>
+    </div>
+
   </div>
 </template>
 
@@ -150,7 +182,12 @@ export default {
       // 中间区域 30s 时间
       seconds: null,
       isEnough: false, //false 30S
+      isAppear:false,
       isShow: true, //弹窗的显示
+     // show:false,
+      time: 30,
+      timer4: null,
+      isBg: window.isDark ? '#3F97E9' : '#007dff',
       brushLen:'',
       // 中间总时间
       total: "00:00",
@@ -230,7 +267,9 @@ export default {
       //console.log("數據來了", value);
       this.acceptData(value);
     },
-
+    time(n, o) {
+            this.time = n
+        }
   },
   created() {
     let r = 42.5;
@@ -258,6 +297,49 @@ export default {
   },
 
   methods: {
+      /**
+         * @description:  js 添加动画
+         * @param {Number} pro 目标值
+         * @return 
+         */
+        addkeyframe(pro) {
+            // js创建@keyframes，
+            const runkeyframes = ` @keyframes draw{
+                                    0%{
+                                        stroke-dashoffset: 0px;
+                                    }
+                                    100%{
+                                        stroke-dashoffset: ${parseInt(pro)}px;
+                                    }
+                                }`
+            // 创建style标签
+            const style = document.createElement('style');
+            // 设置style属性
+            style.type = 'text/css';
+            // 将 keyframes样式写入style内
+            style.innerHTML = runkeyframes;
+            // 将style样式存放到head标签
+            document.getElementsByTagName('head')[0].appendChild(style);
+        },
+    // 30倒计时
+      getTime30(){
+        let that = this;
+        that.addkeyframe(30 * 2 * Math.PI)
+            // let svg = document.querySelector('.svg');
+            // //调用前，先销毁定时器实例,初始化实例对象
+            if(that.timer4 != null){
+                clearInterval(that.timer4);
+            }
+            that.timer4 = setInterval(() => {
+                that.time--;
+                console.log(that.time)
+                if (that.time == 1) {
+                    // that.time = 0;
+                    clearInterval(that.timer4);
+                    that.Exit()
+                }
+            }, 1000);
+    },
     /**
      * @description: 时间设定
      * @param {*} val
@@ -292,9 +374,9 @@ export default {
      * @return {*}
      */
     init() {
-        // this.totalTime(0,0);
-        // this.countDown();
-        // this.showAnimate();
+        this.totalTime(0,0);
+        this.countDown();
+        this.showAnimate();
       
     },
     //年月日
@@ -413,8 +495,8 @@ export default {
           sessionStorage.setItem('previousSec', second);
           
           if (that.total == that.setTotalTime) {
-              that.Exit()
-            // clearInterval(that.timer1);
+               clearInterval(that.timer1);
+               that.Exit()
           }
         }, 1000);
     },
@@ -461,15 +543,15 @@ export default {
       if (data.indexOf("F55F070401") == 0) {
           this.isOpen = data.substr(10, 2)
           console.log('开启状态：',this.isOpen)
-          if(this.isOpen == '01'){ 
-            //this.init()
-          }
            if(this.isOpen == '01'){ 
               this.ExitDialog()  //暂停  弹窗出现
               
            }
            if(this.isOpen == '02'){
-              this.isShow = false  //恢复  弹窗关闭
+              this.isAppear = false  //恢复  弹窗关闭
+
+              clearInterval(this.timer4)
+              this.time = 30
 
               let Mi = parseInt(sessionStorage.getItem('previousMi'));
               let Sec = parseInt(sessionStorage.getItem('previousSec'));
@@ -486,21 +568,26 @@ export default {
       }
     },
     /**
-     * @description: 不超过30s弹窗
+     * @description: 暂停 不超过30s弹窗
      * @param {*}
      * @return {*}
      */    
     ExitDialog(){
-        if (this.brushLen < 30) {
-          this.isShow = true
-          this.isEnough = true;
+        let that = this
+        that.isAppear = true
+        that.getTime30()
+        that.brushLen =
+            parseInt(that.total.substr(1, 1)) * 60 +
+            parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
+        if (that.brushLen < 30) {
+          that.isEnough = false;
         } else {
-          this.isShow = true
-          this.isEnough = false;
-
+          that.isEnough = true;
+          console.log('999',that.brushLen)
         }
-        this.clearInter()
-        clearInterval(this.timer1);
+        
+        that.clearInter()
+        clearInterval(that.timer1);
     },
 
     /**
@@ -511,6 +598,7 @@ export default {
     Exit(){
       if (this.$route.path == '/animations') {
           this.clearInter()
+          clearInterval(this.timer4);
           this.$router.push({ name: "Main" });
       } else {
           console.log('')
@@ -812,6 +900,113 @@ export default {
     background-color: #fff4f4;
   }
 }
+// 弹窗
+.bleDialog {
+    .mask {
+        background-color: rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+    }
+    button {
+        background: #f95644;
+        border-radius: 32px;
+        width: 180px;
+        height: 50px;
+        font-size: 18px;
+        color: #ffffff;
+    }
+    .close {
+        top: 0;
+        right: 10px;
+        position: absolute;
+        display: block;
+        width: 40px;
+        height: 40px;
+    }
+
+    .dialog {
+        border-radius: 15px;
+        width: 328px;
+        padding: 0px 24px;
+        z-index: 999;
+        position: absolute;
+        left: 50%;
+        bottom: 16px;
+        margin-left: -164px;
+        background-color: #fff;
+
+        .dialogTitle {
+            font-size: 20px;
+            color: rgba(0, 0, 0, .9);
+            // margin: 0 0 15px 0;
+            height: 56px;
+            line-height: 56px;
+        }
+        .options {
+            width: 100%;
+            .item_title {
+                font-size: 16px;
+                color: rgba(0, 0, 0, .9);
+            }
+            .item_round {
+                width: 16px;
+                height: 16px;
+            }
+            .bottomBorderNone {
+                border-bottom: none;
+            }
+        }
+        .dialogContent {
+            font-size: 16px;
+            line-height: 24px;
+            color: rgba(0, 0, 0, .9);
+            text-align: center;
+            .magBot{
+                margin-bottom: 16px;
+            }
+            // letter-spacing: 1px;                   
+            svg {
+                transform: rotate(-90deg);
+                .text {
+                    transform: rotate(90deg);
+                    text-anchor: middle;
+                    /* 文本水平居中 */
+                    dominant-baseline: middle;
+                    .tspan {
+                        margin: 0 0 0 8px;
+                    }
+                }
+            }
+            .progress {
+                animation: draw 30s linear 1;
+            }
+                    
+        }
+        .dialog_footer {
+            width: 100%;
+            //  margin: 8px 0 0 0;
+            color: #007DFF;
+            font-size: 16px;
+            justify-content: center;
+            height: 56px;
+            line-height: 56px;
+           }
+    }
+    .fb {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .flexR {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
 .flex {
   display: flex;
   flex-direction: row;
@@ -871,6 +1066,18 @@ export default {
   }
 }
 .theme-dark {
+    .dialog {
+        background-color: #262626;
+        .dialogTitle {
+            color: rgba(255, 255, 255, .9);
+        }
+        .dialogContent {
+            color: rgba(255, 255, 255, .86);
+        }
+        .dialog_footer {
+                color: #3F97E9;
+        }
+    }
   .brushing_other {
     background-color: #56b3ff;
     .header {
