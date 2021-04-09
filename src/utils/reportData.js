@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-07 14:19:00
- * @LastEditTime: 2021-04-07 14:22:20
+ * @LastEditTime: 2021-04-09 10:51:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\utils\reportData.js
@@ -21,7 +21,48 @@ reportData.getDevId = () => {
     }
     window.hilink && window.hilink.getDevInfoAll && window.hilink.getDevInfoAll("0", "", "getDevInfoAllCallback");
 }
+// 格式化数据
 
+        // {
+        //         status: "online",
+        //         services: [
+        //             {
+        //                 ts: "20201222T112003Z",
+        //                 sid: "brushingHistory",
+        //                 data: {
+        //                     logArr: "20201222T112003Z_80_54_1分20秒"
+                            
+        //                 },
+        //             },
+        //             {
+        //                 ts: "20201223T112003Z",
+        //                 sid: "brushingHistory",
+        //                 data: {
+        //                     logArr: "20201222T112003Z_80_54_2分20秒",
+        //                 },
+        //             },
+        //         ],
+        //     };
+reportData.formatDataFromMachine = (x,y,z,d) => {
+    
+    let arr = {}  //数据条数
+    let services = [], item = {}, reportTime = new Date().getTime();
+    for (let i = 0; i < arr.length; i++) {
+        item.ts = reportData.formatTime(reportTime);
+        item.sid = 'brushingHistory';
+        item.data = {
+           logArr:x +'_' + y +'_' + z + '_' + d
+        };
+        services.push(item);
+        item = {};
+        reportTime += (1000)
+    }
+    let res = {
+        status: "online",
+        services: [...services]
+    };
+    return res;
+}
 // 格式化上报时间
 reportData.formatTime = (time = null) => { // time 要求时间毫秒数
     time = time ? time : new Date().getTime();

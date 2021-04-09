@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-08 15:17:56
+ * @LastEditTime: 2021-04-09 17:31:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -214,6 +214,7 @@
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
+import reportData from "../../utils/reportData";
 export default {
   data() {
     return {
@@ -326,6 +327,16 @@ export default {
     },
   },
   created(){
+       this.dd()  
+      //  let logArr = [] ,item = {},str = {}
+      //   item.days = '今天 星期二';
+      //   item.historyArr = []
+      //   str.score = '12'
+      //   str.brushLens = '刷牙时长'
+      //   str.time = '08:00:76'
+      //   str.seconds = '1分55秒'
+      //   item.historyArr.push(str)
+      //   logArr.push(item) 
   },
   mounted() {
     this.initData();
@@ -399,6 +410,144 @@ export default {
     },
   },
   methods: {
+     // 判断日期是不是今天
+    isToday(str){
+      var d = new Date(str.replace(/-/g,"/"));
+      var todaysDate = new Date();
+      if(d.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)){
+          return true;
+      } else {
+          return false;
+      }
+   },
+     dd(){
+       var  data1 = {
+        "status": "online",
+        "services": [
+                {
+                "ts": "20210409T145305Z",
+                "sid": "brushingHistory",
+                "data": {
+                    "logArr": "2021/04/09_14:53:05_1分09秒_57_60"
+                    }
+                },
+                {
+                "ts": "20210409T145305Z",
+                "sid": "brushingHistory",
+                "data": {
+                    "logArr": "2021/03/09_24:53:05_1分09秒_57_60"
+                    }
+                },
+                {
+                "ts": "20210409T145305Z",
+                "sid": "brushingHistory",
+                "data": {
+                    "logArr": "2021/02/09_4:53:05_2分09秒_30_45"
+                    }
+                }
+              ]
+        }
+        var dd = [],hh = [],kk = []
+        for(var c in data1.services){
+           var ss =  data1.services[c].data
+           dd.push(ss)
+          }
+         // console.log(dd)
+        for(var x in dd){
+          let aa =  dd[x].logArr.split('_')
+          if(this.isToday(aa[0])){
+            hh.push(dd[x])  //当天的数据
+          }else{
+            kk.push(dd[x])  //当天的数据
+          }
+        }
+
+        if(kk){
+          let item = {},historyArr = [],arr = {},logArr= [],dates = '',times = '',chinese='',scores=''
+          for(let h in kk){
+          //   (function(h){
+            var d = kk[h].logArr.split('_')
+           // var [dates,times,chinese,days,scores] = [d[0],d[1],d[2],d[3],d[4]];
+              dates = d[0]
+              times = d[1]
+              chinese = d[2]
+             // days = d[3] 
+              scores = d[4] 
+
+              item.score = scores
+              item.brushLens = '刷牙时长'
+              item.time = times
+              item.seconds = chinese
+              historyArr.push(item)
+              arr.days = dates
+              arr.historyArr = historyArr
+              logArr.push(arr)
+              console.log(logArr)
+         //   })(h);
+
+             
+           }
+           
+        }
+        
+      // data1.services.forEach((item, index) => {
+      //    console.log(item.data.logArr)
+      //    var dd = []
+      //    debugger
+      //    dd.push(item.data.logArr)
+        //  for(var x in dd){
+        //    dd
+        //  }
+        //  var ss = item.data.logArr.split('_')
+        //  console.log(ss)
+
+        // let logArr = [
+        // {
+        //   days: "今天 星期三",
+        //   historyArr: [
+        //     {
+        //       score: "99",
+        //       brushLens: "刷牙时长",
+        //       time: "08:00:76",
+        //       seconds: "1分55秒",
+        //     },
+        //     {
+        //       score: "28",
+        //       brushLens: "刷牙时长",
+        //       time: "08:00:76",
+        //       seconds: "1分55秒",
+        //     },
+        //   ],
+        // },
+        // {
+        //   days: "今天 星期二",
+        //   historyArr: [
+        //     {
+        //       score: "12",
+        //       brushLens: "刷牙时长",
+        //       time: "08:00:76",
+        //       seconds: "1分55秒",
+        //     },
+        //     {
+        //       score: "61",
+        //       brushLens: "刷牙时长",
+        //       time: "08:00:76",
+        //       seconds: "1分55秒",
+        //     },
+        //   ],
+
+       
+
+       
+        //  let aa = []
+        //  aa.push(item.data)
+        //  for(var x in item.data){
+        //    debugger
+        //    var ss = aa[x].split('_')
+        //    console.log(ss)
+        //  }
+       //})
+     },
     //蓝牙连接
     initData() {
       this.BLE.init();
@@ -714,6 +863,7 @@ export default {
     }
     .opacityVal {
       opacity: 0.38;
+      pointer-events: none;
     }
     .connectState {
       background-color: #fff;

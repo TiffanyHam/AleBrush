@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-07 09:29:51
+ * @LastEditTime: 2021-04-09 09:37:11
 -->
 <!--  -->
 <template>
@@ -80,7 +80,7 @@ export default {
     },
     created() {
         this.judgeBoothHeader()
-      //  this.getCloudData(this.brushHeader)
+         this.getCloudData(this.brushHeader)
     },
     mounted() {
     },
@@ -132,18 +132,18 @@ export default {
         },
 
         /**
-         * @description: 弹窗派发事件
+         * @description: 弹窗派发事件  重置时间--确认按钮
          * @param {*}
          * @return {*}
          */
-        getDialogData(val) {
+        getDialogData(val) {  
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
                // reportData.resize(new Date().getTime() + 1000)
                 this.realValue = 60;
-                // setTimeout(() => {
-                //     this.getCloudData(this.brushHeader)
-                // }, 1000);
+                setTimeout(() => {
+                    this.getCloudData(this.brushHeader)
+                }, 1000);
             }
         }
     },

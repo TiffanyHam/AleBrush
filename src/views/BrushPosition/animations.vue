@@ -14,11 +14,16 @@
         >
           {{ item.name }}
         </div>
-    
+
         <!-- 左下 -->
         <div
           v-if="index == 1"
-          :class="['00','02'].includes(isOpen) ? 'left_down_out posiImg animate opcity_animate' : ''"></div>
+          :class="
+            ['00', '02'].includes(isOpen)
+              ? 'left_down_out posiImg animate opcity_animate'
+              : ''
+          "
+        ></div>
         <div v-if="index == 1" class="currentA currrent_bottom">
           <div class="fingle fingle_left"></div>
           <div>{{ $t("BrushTeethPosition.current") }}</div>
@@ -27,7 +32,10 @@
         <!-- 右下 -->
         <div
           v-if="index == 2"
-          :class="['00','02'].includes(isOpen) ? 'right_down_out posiImg animate opcity_animate' : ''
+          :class="
+            ['00', '02'].includes(isOpen)
+              ? 'right_down_out posiImg animate opcity_animate'
+              : ''
           "
         ></div>
         <div v-if="index == 2" class="currentA currrent_bottom">
@@ -41,7 +49,10 @@
         <!-- 右上 -->
         <div
           v-if="index == 3"
-          :class="['00','02'].includes(isOpen) ? 'right_up_out posiImg animate opcity_animate' : ''
+          :class="
+            ['00', '02'].includes(isOpen)
+              ? 'right_up_out posiImg animate opcity_animate'
+              : ''
           "
         ></div>
         <div v-if="index == 3" class="currentA currrent_top">
@@ -52,7 +63,10 @@
         <!-- 左上 -->
         <div
           v-if="index == 4"
-          :class="['00','02'].includes(isOpen) ? 'left_up_out posiImg animate opcity_animate' : ''
+          :class="
+            ['00', '02'].includes(isOpen)
+              ? 'left_up_out posiImg animate opcity_animate'
+              : ''
           "
         ></div>
         <div v-if="index == 4" class="currentA currrent_top">
@@ -129,38 +143,57 @@
     </div>
     <!-- 倒计时弹窗 -->
     <!-- <DialogTime :isEnough="isEnough" v-show="isShow"> </DialogTime> -->
-     <div class="bleDialog" v-show="isAppear">
-        <!-- 蒙版 -->
-        <div class="mask animate__animated animate__fadeIn" key="1" v-if="isShow" @touchmove.prevent>
+    <div class="bleDialog" v-show="isAppear">
+      <!-- 蒙版 -->
+      <div
+        class="mask animate__animated animate__fadeIn"
+        key="1"
+        v-if="isShow"
+        @touchmove.prevent
+      ></div>
+      <div class="dialog" v-show="isShow" key="2">
+        <div class="dialogTitle">
+          <slot name="title">{{ $t("Hint.tipTitle2") }}</slot>
         </div>
-        <div class="dialog" v-show="isShow" key="2">
-            <div class="dialogTitle">
-                <slot name="title">{{$t('Hint.tipTitle2')}}</slot>
-            </div>
-            <div class="dialogContent">
-                <p class="magBot">{{$t('Hint.tipText5')}}</p>
-                <div>
-                    <svg class="svg" width="84px" height="84px" viewBox="0 0 84 84">
-                        <circle class="progress" cx="42" cy="42" r="40" stroke-width="2" :stroke="isBg" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-dasharray="251.2px" stroke-dashoffset="0px" />
-                        <text class="text" x="42" y="-42" :fill="isBg">
-                            <tspan font-size="20px">{{time}}</tspan>&nbsp;
-                            <tspan class="tspan" font-size="12px">{{this.$t('Hint.seconds')}}</tspan>
-                        </text>
-                  </svg>
-                </div>
-                <slot v-if="isEnough">{{$t('Hint.tipText6')}} </slot> 
-                <slot v-else>{{$t('Hint.tipText7')}}</slot>  <!-- 30s -->
-                <br />
-                <slot>{{$t('Hint.tipText8')}}</slot>
-            </div>
-            <div class="dialog_footer fb">
-                <span class="btn" @click="Exit">
-                    <slot name="sure btn_right">{{$t('Hint.quit')}}</slot>
-                </span>
-            </div>
+        <div class="dialogContent">
+          <p class="magBot">{{ $t("Hint.tipText5") }}</p>
+          <div>
+            <svg class="svg" width="84px" height="84px" viewBox="0 0 84 84">
+              <circle
+                class="progress"
+                cx="42"
+                cy="42"
+                r="40"
+                stroke-width="2"
+                :stroke="isBg"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                fill="none"
+                stroke-dasharray="251.2px"
+                stroke-dashoffset="0px"
+              />
+              <text class="text" x="42" y="-42" :fill="isBg">
+                <tspan font-size="20px">{{ time }}</tspan>
+                &nbsp;
+                <tspan class="tspan" font-size="12px">
+                  {{ this.$t("Hint.seconds") }}
+                </tspan>
+              </text>
+            </svg>
+          </div>
+          <slot v-if="isEnough">{{ $t("Hint.tipText6") }} </slot>
+          <slot v-else>{{ $t("Hint.tipText7") }}</slot>
+          <!-- 30s -->
+          <br />
+          <slot>{{ $t("Hint.tipText8") }}</slot>
         </div>
+        <div class="dialog_footer fb">
+          <span class="btn" @click="Exit">
+            <slot name="sure btn_right">{{ $t("Hint.quit") }}</slot>
+          </span>
+        </div>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -182,13 +215,13 @@ export default {
       // 中间区域 30s 时间
       seconds: null,
       isEnough: false, //false 30S
-      isAppear:false,
+      isAppear: false,
       isShow: true, //弹窗的显示
-     // show:false,
+      // show:false,
       time: 30,
       timer4: null,
-      isBg: window.isDark ? '#3F97E9' : '#007dff',
-      brushLen:'',
+      isBg: window.isDark ? "#3F97E9" : "#007dff",
+      brushLen: "",
       // 中间总时间
       total: "00:00",
       record: "",
@@ -203,7 +236,7 @@ export default {
       index: null,
       setTotalTime: "",
       setAreas: "00",
-      area:0,
+      area: 0,
       setOriginNum: null,
       areaArr: [
         {
@@ -245,31 +278,35 @@ export default {
           name: this.$t("BrushTeethPosition.right"),
         },
       ],
-      isOpen:'00',
-      flag:false
+      isOpen: "00",
+      flag: false,
     };
   },
 
   computed: {
-    ...mapState(['timeLength', "data"]),
+    ...mapState(["timeLength", "data"]),
   },
   watch: {
-  //  openStatus(val){
-  //     console.log('开关的值:',val)
-  //     if(val == '01'){
-  //         this.ExitDialog()
-  //     }
-  //  },
-   timeLength(val){
-      console.log('时长wwww:',val)
-   },
-   data(value) {
+    timeLength(val) {
+      console.log("时长wwww:", val);
+    },
+    data(value) {
       //console.log("數據來了", value);
       this.acceptData(value);
     },
     time(n, o) {
-            this.time = n
+      this.time = n;
+    },
+    brushLen:{
+      handler() {
+        if(this.brushLen > 30 || this.brushLen == 30){
+          // var gg = this.historyArr()
+          // console.log(gg)
+
         }
+      }
+    }
+
   },
   created() {
     let r = 42.5;
@@ -290,55 +327,56 @@ export default {
   },
 
   mounted() {
-    console.log('isopen',this.isOpen)
-    console.log('时长:',this.timeLength)
-    this.globalT(this.timeLength);   
+    // console.log("isopen", this.isOpen);
+    // console.log("时长:", this.timeLength);
+   // console.log(this.isToday('2021/4/7'))
+    this.globalT(this.timeLength);
     this.init();
   },
 
   methods: {
-      /**
-         * @description:  js 添加动画
-         * @param {Number} pro 目标值
-         * @return 
-         */
-        addkeyframe(pro) {
-            // js创建@keyframes，
-            const runkeyframes = ` @keyframes draw{
+    /**
+     * @description:  js 添加动画
+     * @param {Number} pro 目标值
+     * @return
+     */
+    addkeyframe(pro) {
+      // js创建@keyframes，
+      const runkeyframes = ` @keyframes draw{
                                     0%{
                                         stroke-dashoffset: 0px;
                                     }
                                     100%{
                                         stroke-dashoffset: ${parseInt(pro)}px;
                                     }
-                                }`
-            // 创建style标签
-            const style = document.createElement('style');
-            // 设置style属性
-            style.type = 'text/css';
-            // 将 keyframes样式写入style内
-            style.innerHTML = runkeyframes;
-            // 将style样式存放到head标签
-            document.getElementsByTagName('head')[0].appendChild(style);
-        },
+                                }`;
+      // 创建style标签
+      const style = document.createElement("style");
+      // 设置style属性
+      style.type = "text/css";
+      // 将 keyframes样式写入style内
+      style.innerHTML = runkeyframes;
+      // 将style样式存放到head标签
+      document.getElementsByTagName("head")[0].appendChild(style);
+    },
     // 30倒计时
-      getTime30(){
-        let that = this;
-        that.addkeyframe(30 * 2 * Math.PI)
-            // let svg = document.querySelector('.svg');
-            // //调用前，先销毁定时器实例,初始化实例对象
-            if(that.timer4 != null){
-                clearInterval(that.timer4);
-            }
-            that.timer4 = setInterval(() => {
-                that.time--;
-                console.log(that.time)
-                if (that.time == 1) {
-                    // that.time = 0;
-                    clearInterval(that.timer4);
-                    that.Exit()
-                }
-            }, 1000);
+    getTime30() {
+      let that = this;
+      that.addkeyframe(30 * 2 * Math.PI);
+      // let svg = document.querySelector('.svg');
+      // //调用前，先销毁定时器实例,初始化实例对象
+      if (that.timer4 != null) {
+        clearInterval(that.timer4);
+      }
+      that.timer4 = setInterval(() => {
+        that.time--;
+        //console.log(that.time);
+        if (that.time == 1) {
+          // that.time = 0;
+          clearInterval(that.timer4);
+          that.Exit();
+        }
+      }, 1000);
     },
     /**
      * @description: 时间设定
@@ -374,10 +412,9 @@ export default {
      * @return {*}
      */
     init() {
-        this.totalTime(0,0);
-        this.countDown();
-        this.showAnimate();
-      
+      this.totalTime(0, 0);
+      this.countDown();
+      this.showAnimate();
     },
     //年月日
     formatDate(dd) {
@@ -405,100 +442,109 @@ export default {
       return str;
     },
     // 判断日期是不是今天
-    isToday(str) {
-      let d = new Date(str).setHours(0, 0, 0, 0);
-      let today = new Date().setHours(0, 0, 0, 0);
-      return d - today;
-    },
+    isToday(str){
+      var d = new Date(str.replace(/-/g,"/"));
+      var todaysDate = new Date();
+      if(d.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)){
+          return true;
+      } else {
+          return false;
+      }
+   },
     /**
      * @description: 时间倒计时
      * @param {*}
      * @return {*}
      */
     countDown() {
-       let that = this;
-    //  const TIME_COUNT = that.setOriginNum;
-     // if (!that.timer) {
-        if(that.flag == true){
-            let Sec1 = parseInt(sessionStorage.getItem('previousSeconds'));
-            that.seconds = Sec1
-        }else{
-            that.seconds = that.setOriginNum;
-        }
-        let count = that.sixFace;
-        let len = that.rotate.length;
-        that.timer = setInterval(() => {
-          if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
-            that.startX = that.rotate[len - count]["x"];
-            that.startY = that.rotate[len - count]["y"];
-            that.endX =
-              that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
-            that.endY =
-              that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
-            that.seconds--;
+      let that = this;
+      //  const TIME_COUNT = that.setOriginNum;
+      // if (!that.timer) {
+      if (that.flag == true) {
+        let Sec1 = parseInt(sessionStorage.getItem("previousSeconds"));
+        that.seconds = Sec1;
+      } else {
+        that.seconds = that.setOriginNum;
+      }
+      let count = that.sixFace;
+      let len = that.rotate.length;
+      that.timer = setInterval(() => {
+        if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
+          that.startX = that.rotate[len - count]["x"];
+          that.startY = that.rotate[len - count]["y"];
+          that.endX =
+            that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
+          that.endY =
+            that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
+          that.seconds--;
 
-            if (that.seconds == 0) {
-              if (that.setAreas == 2 && that.index == 3) {
-                that.seconds = that.setOriginNum + 2;
-              } else {
-                that.seconds = that.setOriginNum;
-              }
-              count--;
-              that.sixFace = count;
+          if (that.seconds == 0) {
+            if (that.setAreas == 2 && that.index == 3) {
+              that.seconds = that.setOriginNum + 2;
+            } else {
+              that.seconds = that.setOriginNum;
             }
-            if (that.total == that.setTotalTime) {
-              that.seconds = 0;
-              that.index = 0;
-              clearInterval(that.timer);
-              return false;
-            }
-            sessionStorage.removeItem('previousSeconds')
-            sessionStorage.setItem('previousSeconds', that.seconds);
-          } else {
-            clearInterval(that.timer);
-            that.timer = null;
+            count--;
+            that.sixFace = count;
           }
-        }, 1000);
-     // }
+          if (that.total == that.setTotalTime) {
+            that.seconds = 0;
+            that.index = 0;
+            clearInterval(that.timer);
+            return false;
+          }
+          sessionStorage.removeItem("previousSeconds");
+          sessionStorage.setItem("previousSeconds", that.seconds);
+        } else {
+          clearInterval(that.timer);
+          that.timer = null;
+        }
+      }, 1000);
+      // }
     },
     /**
      * @description: 刷牙总时间
      * @param {*}
      * @return {*}
      */
-    totalTime(minute,second) {
+    totalTime(minute, second) {
       let that = this;
       // let minute, second;
       // minute = second = 0;
-      
-        that.timer1 = setInterval(function () {
-          if (second >= 0) {
-            second = second + 1;
-          }
-          if (second >= 60) {
-            second = 0;
-            minute = minute + 1;
-          }
-          if (minute >= 60) {
-            minute = 0;
-          }
-          if (second < 10) {
-            that.total = "0" + minute + ":" + "0" + second;
-            that.record = minute + "分0" + second + "秒";
-          } else {
-            that.total = "0" + minute + ":" + second;
-            that.record = minute + "分" + second + "秒";
-          }
-          sessionStorage.removeItem('previousMi')
-          sessionStorage.removeItem('previousSec')
-          sessionStorage.setItem('previousMi', minute);
-          sessionStorage.setItem('previousSec', second);
-          
-          if (that.total == that.setTotalTime) {
-               clearInterval(that.timer1);
-               that.Exit()
-          }
-        }, 1000);
+
+      that.timer1 = setInterval(function () {
+        if (second >= 0) {
+          second = second + 1;
+        }
+        if (second >= 60) {
+          second = 0;
+          minute = minute + 1;
+        }
+        if (minute >= 60) {
+          minute = 0;
+        }
+        if (second < 10) {
+          that.total = "0" + minute + ":" + "0" + second;
+          that.record = minute + "分0" + second + "秒";
+        } else {
+          that.total = "0" + minute + ":" + second;
+          that.record = minute + "分" + second + "秒";
+        }
+      that.brushLen =
+      parseInt(that.total.substr(1, 1)) * 60 +
+      parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
+      //console.log('刷牙时长:',that.brushLen)
+
+        sessionStorage.removeItem("previousMi");
+        sessionStorage.removeItem("previousSec");
+        sessionStorage.setItem("previousMi", minute);
+        sessionStorage.setItem("previousSec", second);
+
+        if (that.total == that.setTotalTime) {
+          clearInterval(that.timer1);
+          that.Exit();
+        }
+      }, 1000);
     },
     /**
      * @description: 动画
@@ -508,11 +554,11 @@ export default {
     showAnimate() {
       let that = this;
       let count = this.seconds;
-      if(that.flag == true){
-         let Sec2 = parseInt(sessionStorage.getItem('previousArea'));
-         that.area = Sec2;
-      }else{
-         that.area = that.sixFace;
+      if (that.flag == true) {
+        let Sec2 = parseInt(sessionStorage.getItem("previousArea"));
+        that.area = Sec2;
+      } else {
+        that.area = that.sixFace;
       }
       that.timer2 = setInterval(() => {
         if (that.area) {
@@ -526,8 +572,8 @@ export default {
         if (that.area == 0) {
           clearInterval(that.timer2);
         }
-        sessionStorage.removeItem('previousArea')
-        sessionStorage.setItem('previousArea', that.area);
+        sessionStorage.removeItem("previousArea");
+        sessionStorage.setItem("previousArea", that.area);
       }, 1000);
     },
     /**
@@ -538,108 +584,172 @@ export default {
     Reset() {
       this.globalT(this.$store.state.timeLength);
     },
-     // 数据解析
+    // 数据解析
     acceptData(data) {
       if (data.indexOf("F55F070401") == 0) {
-          this.isOpen = data.substr(10, 2)
-          console.log('开启状态：',this.isOpen)
-           if(this.isOpen == '01'){ 
-              this.ExitDialog()  //暂停  弹窗出现
-              
-           }
-           if(this.isOpen == '02'){
-              this.isAppear = false  //恢复  弹窗关闭
+        this.isOpen = data.substr(10, 2);
+        console.log("开启状态：", this.isOpen);
+        if (this.isOpen == "01") {
+          this.ExitDialog(); //暂停  弹窗出现
+        }
+        if (this.isOpen == "02") {
+          this.isAppear = false; //恢复  弹窗关闭
 
-              clearInterval(this.timer4)
-              this.time = 30
+          clearInterval(this.timer4);
+          this.time = 30;
 
-              let Mi = parseInt(sessionStorage.getItem('previousMi'));
-              let Sec = parseInt(sessionStorage.getItem('previousSec'));
-              this.totalTime(Mi,Sec);
-              
-              this.flag = true
-              this.countDown()
+          let Mi = parseInt(sessionStorage.getItem("previousMi"));
+          let Sec = parseInt(sessionStorage.getItem("previousSec"));
+          this.totalTime(Mi, Sec);
 
-              this.showAnimate()
-           }
-           if(this.isOpen == '03'){  //结束
-              this.Exit()
-           }
+          this.flag = true;
+          this.countDown();
+
+          this.showAnimate();
+        }
+        if (this.isOpen == "03") {
+          //结束
+          this.Exit();
+        }
       }
     },
     /**
      * @description: 暂停 不超过30s弹窗
      * @param {*}
      * @return {*}
-     */    
-    ExitDialog(){
-        let that = this
-        that.isAppear = true
-        that.getTime30()
-        that.brushLen =
-            parseInt(that.total.substr(1, 1)) * 60 +
-            parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
-        if (that.brushLen < 30) {
-          that.isEnough = false;
-        } else {
-          that.isEnough = true;
-          console.log('999',that.brushLen)
-        }
-        
-        that.clearInter()
-        clearInterval(that.timer1);
+     */
+    ExitDialog() {
+      let that = this;
+      that.isAppear = true;
+      that.getTime30();
+      if (that.brushLen < 30) {
+        that.isEnough = false;
+      } else {
+        //记录数据
+        that.isEnough = true;
+      }
+
+      that.clearInter();
+      clearInterval(that.timer1);
     },
 
     /**
      * @description: 退出
      * @param {*}
      * @return {*}
-     */    
-    Exit(){
-      if (this.$route.path == '/animations') {
-          this.clearInter()
-          clearInterval(this.timer4);
-          this.$router.push({ name: "Main" });
+     */
+    Exit() {
+      if (this.$route.path == "/animations") {
+        this.clearInter();
+        clearInterval(this.timer4);
+        if(this.brushLen > 30 || this.brushLen == 30){
+            var dd = this.historyArr()
+            console.log('历史数据：',dd)
+        }
+       // this.$router.push({ name: "Main" });
       } else {
-          console.log('')
+        console.log("");
       }
+    },
+
+    /**
+     * @description: 历史数据计算
+     * @param {*}
+     * @return {*}
+     */    
+    historyArr() {
+        var that = this;
+        var times = that.formatDate(Date.parse(new Date())); //当前时间
+        var dayY = times.split(",")[0]; //年月日
+        // if(dayY == ){
+
+        // }
+        var timeY = times.split(",")[1]; //时分秒
+        var setLen =
+          parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+          parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+        var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+
+        var days = 60  //天数
+        // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
+        // if (that.isToday(new Date()) == 0) {
+        //   // console.log(that.dayWeek());
+        // } else {
+        //   //  console.log(dayY);
+        // }
+        
+        // console.log(timeY, this.brushLen, setLen, score, that.record);
+        let arr = [],services = [],item = {},reportTime = new Date().getTime();
+        arr.push(score);  //数据条数
+        console.log(arr)
+       // for (let i = 0; i < arr.length; i++) {
+        item.ts = that.formatTime(reportTime);
+        item.sid = "brushingHistory";
+        item.data = {
+          logArr: dayY + "_" + timeY + '_' + that.record + "_" + score + "_" + days,
+        };
+        services.push(item);
+        item = {};
+     //   }
+        let res = {
+          status: "online",
+          services: [...services],
+        };
+        return res;
+        
+    },
+    // 格式化上报时间
+    formatTime(time = null) {
+      // time 要求时间毫秒数
+      time = time ? time : new Date().getTime();
+      let date = new Date(time);
+      let formatTime = "";
+      let M = date.getMonth() + 1;
+      M = M.toString().length === 1 ? `0${M}` : `${M}`;
+      let D =
+        date.getDate().toString().length === 1
+          ? "0" + date.getDate().toString()
+          : date.getDate().toString();
+      let H =
+        date.getHours().toString().length === 1
+          ? "0" + date.getHours().toString()
+          : date.getHours().toString();
+      let m =
+        date.getMinutes().toString().length === 1
+          ? "0" + date.getMinutes().toString()
+          : date.getMinutes().toString();
+      let S =
+        date.getSeconds().toString().length === 1
+          ? "0" + date.getSeconds().toString()
+          : date.getSeconds().toString();
+      formatTime += `${date.getFullYear()}${M}${D}T${H}${m}${S}Z`;
+      return formatTime;
     },
     /**
      * @description: 历史数据
      * @param {*}
      * @return {*}
-     */    
-    historyData(){
-       var that = this
-       var times = that.formatDate(Date.parse(new Date())); //当前时间
-          var dayY = times.split(",")[0]; //年月日
-          var timeY = times.split(",")[1]; //时分秒
-          that.brushLen =
-            parseInt(that.total.substr(1, 1)) * 60 +
-            parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
-          var setLen =
-            parseInt(that.setTotalTime.substr(1, 1)) * 60 +
-            parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-          var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
-          // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
-          if (that.isToday(new Date()) == 0) {
-           // console.log(that.dayWeek());
-          } else {
-          //  console.log(dayY);
-          }
-         // console.log(timeY, this.brushLen, setLen, score, that.record);
-         
-      var historyArr = {
-          score:score,
-          brushLens:that.brushLen,
-          time:timeY,
-          seconds:setLen,
-        }
-      var logArr = {
+     */
+    // historyData() {
+    //   var that = this;
+    //   var times = that.formatDate(Date.parse(new Date())); //当前时间
+    //   var dayY = times.split(",")[0]; //年月日
+    //   var timeY = times.split(",")[1]; //时分秒
+    //   that.brushLen =
+    //     parseInt(that.total.substr(1, 1)) * 60 +
+    //     parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
+    //   var setLen =
+    //     parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+    //     parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+    //   var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+    //   // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
+    //   if (that.isToday(new Date()) == 0) {
+    //     // console.log(that.dayWeek());
+    //   } else {
+    //     //  console.log(dayY);
+    //   }
+      // console.log(timeY, this.brushLen, setLen, score, that.record);
 
-        historyArr:historyArr
-      }
-      //logArr.push(historyArr)
       //       logArr: [
       //   {
       //     days: "今天 星期三",
@@ -676,9 +786,7 @@ export default {
       //     ],
       //   },
       // ],
-
-
-    }
+   // },
   },
 };
 </script>
@@ -902,110 +1010,109 @@ export default {
 }
 // 弹窗
 .bleDialog {
-    .mask {
-        background-color: rgba(0, 0, 0, 0.2);
-        position: fixed;
-        top: 0;
-        z-index: 10;
-        width: 100%;
-        height: 100%;
-    }
-    button {
-        background: #f95644;
-        border-radius: 32px;
-        width: 180px;
-        height: 50px;
-        font-size: 18px;
-        color: #ffffff;
-    }
-    .close {
-        top: 0;
-        right: 10px;
-        position: absolute;
-        display: block;
-        width: 40px;
-        height: 40px;
-    }
+  .mask {
+    background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+  }
+  button {
+    background: #f95644;
+    border-radius: 32px;
+    width: 180px;
+    height: 50px;
+    font-size: 18px;
+    color: #ffffff;
+  }
+  .close {
+    top: 0;
+    right: 10px;
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
 
-    .dialog {
-        border-radius: 15px;
-        width: 328px;
-        padding: 0px 24px;
-        z-index: 999;
-        position: absolute;
-        left: 50%;
-        bottom: 16px;
-        margin-left: -164px;
-        background-color: #fff;
+  .dialog {
+    border-radius: 15px;
+    width: 328px;
+    padding: 0px 24px;
+    z-index: 999;
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    margin-left: -164px;
+    background-color: #fff;
 
-        .dialogTitle {
-            font-size: 20px;
-            color: rgba(0, 0, 0, .9);
-            // margin: 0 0 15px 0;
-            height: 56px;
-            line-height: 56px;
-        }
-        .options {
-            width: 100%;
-            .item_title {
-                font-size: 16px;
-                color: rgba(0, 0, 0, .9);
-            }
-            .item_round {
-                width: 16px;
-                height: 16px;
-            }
-            .bottomBorderNone {
-                border-bottom: none;
-            }
-        }
-        .dialogContent {
-            font-size: 16px;
-            line-height: 24px;
-            color: rgba(0, 0, 0, .9);
-            text-align: center;
-            .magBot{
-                margin-bottom: 16px;
-            }
-            // letter-spacing: 1px;                   
-            svg {
-                transform: rotate(-90deg);
-                .text {
-                    transform: rotate(90deg);
-                    text-anchor: middle;
-                    /* 文本水平居中 */
-                    dominant-baseline: middle;
-                    .tspan {
-                        margin: 0 0 0 8px;
-                    }
-                }
-            }
-            .progress {
-                animation: draw 30s linear 1;
-            }
-                    
-        }
-        .dialog_footer {
-            width: 100%;
-            //  margin: 8px 0 0 0;
-            color: #007DFF;
-            font-size: 16px;
-            justify-content: center;
-            height: 56px;
-            line-height: 56px;
-           }
+    .dialogTitle {
+      font-size: 20px;
+      color: rgba(0, 0, 0, 0.9);
+      // margin: 0 0 15px 0;
+      height: 56px;
+      line-height: 56px;
     }
-    .fb {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+    .options {
+      width: 100%;
+      .item_title {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.9);
+      }
+      .item_round {
+        width: 16px;
+        height: 16px;
+      }
+      .bottomBorderNone {
+        border-bottom: none;
+      }
     }
-    .flexR {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .dialogContent {
+      font-size: 16px;
+      line-height: 24px;
+      color: rgba(0, 0, 0, 0.9);
+      text-align: center;
+      .magBot {
+        margin-bottom: 16px;
+      }
+      // letter-spacing: 1px;
+      svg {
+        transform: rotate(-90deg);
+        .text {
+          transform: rotate(90deg);
+          text-anchor: middle;
+          /* 文本水平居中 */
+          dominant-baseline: middle;
+          .tspan {
+            margin: 0 0 0 8px;
+          }
+        }
+      }
+      .progress {
+        animation: draw 30s linear 1;
+      }
     }
+    .dialog_footer {
+      width: 100%;
+      //  margin: 8px 0 0 0;
+      color: #007dff;
+      font-size: 16px;
+      justify-content: center;
+      height: 56px;
+      line-height: 56px;
+    }
+  }
+  .fb {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .flexR {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .flex {
   display: flex;
@@ -1066,18 +1173,18 @@ export default {
   }
 }
 .theme-dark {
-    .dialog {
-        background-color: #262626;
-        .dialogTitle {
-            color: rgba(255, 255, 255, .9);
-        }
-        .dialogContent {
-            color: rgba(255, 255, 255, .86);
-        }
-        .dialog_footer {
-                color: #3F97E9;
-        }
+  .dialog {
+    background-color: #262626;
+    .dialogTitle {
+      color: rgba(255, 255, 255, 0.9);
     }
+    .dialogContent {
+      color: rgba(255, 255, 255, 0.86);
+    }
+    .dialog_footer {
+      color: #3f97e9;
+    }
+  }
   .brushing_other {
     background-color: #56b3ff;
     .header {
