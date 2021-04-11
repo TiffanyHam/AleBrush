@@ -66,8 +66,8 @@ const en = {
         },
         //起始位置
         BrushTeethPosition:{
-            position1:'左下区',
-            position2:'右下区',
+            position1:'Lower left area',
+            position2:'Lower right area',
             position3:'右上区',
             position4:'左上区',
             header:'starting position',
@@ -99,10 +99,10 @@ const en = {
         subtip6: 'after brushing teeth, gargle with water, please.',
         headerTitle2: 'use method',
         tip7: '1、to understand our oral cavity',
-        subtip7: '汇优尚品依据科学的巴氏刷牙发，将口腔分为6区16个牙面，实时语音引导，帮您清洁每个牙面，守护牙齿健康。',
+        subtip7: 'HYSPIN according to the scientific Pasteur brushing hair,the oral cavity is divided into 6 areas 16 dental surfaces. Real-time voice guidance,help you clean each tooth surface,protect the health of teeth. ',
         tip8: '2、intelligent toothbrush use process',
         subtip8: '① toothbrush after the connection is successful, start the toothbrush can real-time guide into the interface.',
-        subtip9: '② 将牙刷放在起始牙区开始清洁牙区的每个牙面。磨牙区分3个牙面，切牙区分2个牙面。每个牙面都要均匀清洁，才能清洁牙齿获得更高得分哦。',
+        subtip9: '② put the toothbrush on the initial tooth area began to clean tooth area each tooth surface. Tang teeth to distinguish 3, tooth surface, incisor to distinguish the two tooth surface. Each tooth surface evenly clean, to the qing. Clean teeth get higher scores.',
         subtip10:'③ tooth surface cleaning, please in the current tooth brushing your teeth.',
         subtip11:'④ According to clean tooth area direction and prompt switch a tooth area, suspended toothbrush can end after brushing your teeth, settle the score brushing your teeth.',
         subtip12:'PS: each time you brush your teeth to keep more than 2 minutes time, less than 30 seconds of brushing the results will not be calculated.'
@@ -112,16 +112,16 @@ const en = {
     CommonProbl: {
         title2: 'common problems',
         tip: "1、bluetooth has open, can't search the bluetooth",
-        subtip: '同一账号在搜索牙刷时，已被此账号绑定的牙刷将不能再次在搜索列表中显示。',
+        subtip: 'The same account in the search a toothbrush,has been the account binding toothbrush will not be able to once again in the search list.',
         tip2: '2、lack of data',
         subtip2: 'Time less than 30 seconds to brush your teeth brushing your teeth brushing their teeth as invalid data, unable to save and synchronization',
         tip3: '3、historical data storage and reserved',
-        subtip3: '为保护用户隐私，已被绑定的牙刷在被另一账号绑定时，会清除机身离线刷牙数据;同一账号在删除已绑定的牙刷时，将会清除所有云端历史数据刷牙数',
+        subtip3: 'To protect user privacy,has been binding toothbrush was another account binding, will remove the fuselage offline data: brushing your teeth in the same account in delete binding toothbrush,brushing their teeth will remove all the cloud history data',
         tip4: "4、why didn't the APP data",
         subtip4: '1、the APP does not connect bluetooth: please make sure that the bluetooth when open',
         subtipMore:'2、please make sure that mobile phone bluetooth to connect to other bluetooth device',
         tip5: '5、real-time guidance note',
-        subtip5: '实时引导时不建议将智慧生活APP置于后台运行，此行为将会导致刷牙时间与实际不符，实时引导期如需离开可将牙刷暂停后结束刷牙。',
+        subtip5: 'Real-time guidance when it is notrecommended to put intelligent life APP runs in the background this behavior will lead to brush your teeth do not tally with the actual time,real-time guidance period if you want toleave the toothbrush can be suspended after brushing your teeth.',
         tip6: '6、special remind',
         subtip6: 'Please do not in modied mobile phone system date/time connect the toothbrush after use, this approach can lead to chaos, recording time to brush your teeth or oine data cannot be synchronized. In case of this problem by removing equipment after calibration system time, please add',
 
@@ -130,24 +130,24 @@ const en = {
     RemainTime: {
         header: 'Brush head rest',
         day: 'day',
-        doctorWord: '牙医建议: 每2-3个月更换一次刷头',
-        proposal:'每次刷牙时间超过30秒即被记录为一次有效刷牙次数，每只刷头可用120次（每天两次可用60天），超过使用天数及时更换刷头',
-        rest: '刷头剩余',
+        doctorWord: 'The dentist suggested that once every 2 to 3 months replacement brush head!',
+        proposal:'Each brush for more than 30 seconds was recorded as a valid number of brushing your teeth, each brush head can be used 120 times a day (twice or 60 days),the numberof days used over time change the brush head',
+        rest: 'Brush a head rest',
 
         resetDay: 'Reset the time',
-        btnTip: '重置后, 刷头使用剩余天数将重新从60天开始计算, 是否重置？',
+        btnTip: 'After a reset, brush a head to use the remaining days will return from 60 days, reset?',
         cancle: 'cancel',
         sure: 'determine',
     },
     // 倒计时  超时弹窗  
     Hint: {
-        tipTitle: '连接超时',
-        tipText: '请尝试一下操作：',
-        tipText1: '1. 请确认牙刷电量充足，并处于关机状态；',
-        tipText2: '2. 将牙刷靠近要连接的手机（10米以内）；',
-        tipText3: '3. 关闭手机蓝牙，再重新开启（尤其是安卓设备）。',
-        sure: '继续使用',
-        conn:'立即连接',
+        tipTitle: 'Connection timeout',
+        tipText: 'Please try the operation:',
+        tipText1: '1.please make sure the toothbrush power enough,and was turned off；',
+        tipText2: '2.sieve the toothbrush is close to connect mobile phone(10 meters)；',
+        tipText3: '3.tuen off the phone bluetooth,open again(especially android devices).',
+        sure: 'Continue to use',
+        conn:'Immediate connection',
 
         tipTitle1: '刷头更换',
         tipText4: '您的智能牙刷刷头已使用超过60天，请立即更换刷头。',
@@ -230,9 +230,6 @@ const en = {
     },
     //评分
     LogDetail: {
-        tip1: '小朋友，请认真刷牙哦',
-        tip2: '太遗憾了，下次继续加油',
-        tip3: '不错，请继续保持！',
         header: '刷牙详情',
         minute: '分',
         brushLen: '刷牙时长：',
