@@ -44,7 +44,7 @@
           </div>
         </div>
         <!-- one -->
-        <div class="hi-card bg_card">
+        <!-- <div class="hi-card bg_card">
           <div
             class="item"
             :class="{ line: index !== 0 }"
@@ -57,6 +57,22 @@
               <div class="unit c_60" v-if="item.unit">{{ item.unit }}</div>
             </div>
             <div class="name c_60">{{ item.name }}</div>
+          </div>
+        </div> -->
+        <div class="hi-card bg_card">
+          <div class="item">
+            <div class="top">
+              <div class="num c_90">{{ getScore }}</div>
+              <div class="unit c_60">{{ $t("index.score") }}</div>
+            </div>
+            <div class="name c_60">{{ $t("index.lastScore") }}</div>
+          </div>
+          <div class="item line" @click="remain">
+            <div class="top">
+              <div class="num c_90">{{ getDay }}</div>
+              <div class="unit c_60">{{ $t("index.day") }}</div>
+            </div>
+            <div class="name c_60">{{ $t("index.restDay") }}</div>
           </div>
         </div>
         <div>
@@ -81,7 +97,7 @@
                   class="mt8 cardP"
                   :shiftList="patterns"
                   v-show="isMode"
-                  :selectNum ='selectIndex'
+                  :selectNum="selectIndex"
                   @eventClick="modeClick"
                 ></HiCardShift>
               </div>
@@ -120,7 +136,7 @@
                 class="mt8 cardP"
                 :shiftList="shiftTest"
                 v-show="isTime"
-                :selectNum ='selectIndex1'
+                :selectNum="selectIndex1"
                 @eventClick="timeClick"
               ></HiCardShift>
             </div>
@@ -173,7 +189,7 @@
           </span>
           <div class="logHistory">
             <div class="log_arr" v-for="(item, index) in logArr" :key="index">
-              <p class="days">{{ item.days }}</p>
+              <p class="days">{{ item.dates }}</p>
               <div
                 v-for="(itemA, index) in item.historyArr"
                 :key="index"
@@ -228,8 +244,8 @@ export default {
       dialogTip1: false, //天数不足
       tips: this.$t("Reconnection.index"),
       isDays: "9",
-      selectIndex:0,
-      selectIndex1:0,
+      selectIndex: 0,
+      selectIndex1: 0,
       shiftTest: [
         { name: this.$t("BrushTeethLen.length1"), index: 0 },
         { name: this.$t("BrushTeethLen.length2"), index: 1 },
@@ -245,54 +261,57 @@ export default {
       isMode: false,
       timeLen: "",
       modeDisplay: "00", //刷牙模式
-      cardData: [
-        {
-          name: this.$t("index.lastScore"),
-          unit: this.$t("index.score"),
-          num: "21",
-        },
-        {
-          name: this.$t("index.restDay"),
-          unit: this.$t("index.day"),
-          num: "52",
-        },
-      ],
-      logArr: [
-        {
-          days: "今天 星期三",
-          historyArr: [
-            {
-              score: "99",
-              brushLens: "刷牙时长",
-              time: "08:00:76",
-              seconds: "1分55秒",
-            },
-            {
-              score: "28",
-              brushLens: "刷牙时长",
-              time: "08:00:76",
-              seconds: "1分55秒",
-            },
-          ],
-        },
-        {
-          days: "今天 星期二",
-          historyArr: [
-            {
-              score: "12",
-              brushLens: "刷牙时长",
-              time: "08:00:76",
-              seconds: "1分55秒",
-            },
-            {
-              score: "61",
-              brushLens: "刷牙时长",
-              time: "08:00:76",
-              seconds: "1分55秒",
-            },
-          ],
-        },
-      ],
+      // cardData: [
+      //   {
+      //     name: this.$t("index.lastScore"),
+      //     unit: this.$t("index.score"),
+      //     num: "21",
+      //   },
+      //   {
+      //     name: this.$t("index.restDay"),
+      //     unit: this.$t("index.day"),
+      //     num: "52",
+      //   },
+      // ],
+      logArr: [],
+      getScore: "",
+      getDay: "",
+      // logArr: [
+      //   {
+      //     dates: "今天 星期三",
+      //     historyArr: [
+      //       {
+      //         score: "99",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //       {
+      //         score: "28",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     dates: "今天 星期二",
+      //     historyArr: [
+      //       {
+      //         score: "12",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //       {
+      //         score: "61",
+      //         brushLens: "刷牙时长",
+      //         time: "08:00:76",
+      //         seconds: "1分55秒",
+      //       },
+      //     ],
+      //   },
+      // ],
     };
   },
   filters: {
@@ -306,37 +325,28 @@ export default {
       };
       return statusMap[status];
     },
-     // 刷牙模式显示转换
+    // 刷牙模式显示转换
     brushMode(status, te) {
       const statusMap = {
-        '00': te("BrushTeethModel.level1"),
-        '01': te("BrushTeethModel.level2"),
-        '02': te("BrushTeethModel.level3"),
-        '03': te("BrushTeethModel.level4")
+        "00": te("BrushTeethModel.level1"),
+        "01": te("BrushTeethModel.level2"),
+        "02": te("BrushTeethModel.level3"),
+        "03": te("BrushTeethModel.level4"),
       };
       return statusMap[status];
     },
     // 刷牙时长
     brushLength(status, te) {
       const statusMap = {
-        '00': te("BrushTeethLen.length1"),
-        '01': te("BrushTeethLen.length2"),
-        '02': te("BrushTeethLen.length3")
+        "00": te("BrushTeethLen.length1"),
+        "01": te("BrushTeethLen.length2"),
+        "02": te("BrushTeethLen.length3"),
       };
       return statusMap[status];
     },
   },
-  created(){
-       this.dd()  
-      //  let logArr = [] ,item = {},str = {}
-      //   item.days = '今天 星期二';
-      //   item.historyArr = []
-      //   str.score = '12'
-      //   str.brushLens = '刷牙时长'
-      //   str.time = '08:00:76'
-      //   str.seconds = '1分55秒'
-      //   item.historyArr.push(str)
-      //   logArr.push(item) 
+  created() {
+    this.test();
   },
   mounted() {
     this.initData();
@@ -374,7 +384,7 @@ export default {
     });
   },
   computed: {
-    ...mapState(["bleConnected", "initPosition", "data",'timeLength']),
+    ...mapState(["bleConnected", "initPosition", "data", "timeLength"]),
     tips1() {
       return this.$t("Reconnection.index1", { days: this.isDays - 1 });
     },
@@ -410,144 +420,105 @@ export default {
     },
   },
   methods: {
-     // 判断日期是不是今天
-    isToday(str){
-      var d = new Date(str.replace(/-/g,"/"));
+    // 判断日期是不是今天
+    isToday(str) {
+      var d = new Date(str.replace(/-/g, "/"));
       var todaysDate = new Date();
-      if(d.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)){
-          return true;
+      if (d.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+        return true;
       } else {
-          return false;
+        return false;
       }
-   },
-     dd(){
-       var  data1 = {
-        "status": "online",
-        "services": [
-                {
-                "ts": "20210409T145305Z",
-                "sid": "brushingHistory",
-                "data": {
-                    "logArr": "2021/04/09_14:53:05_1分09秒_57_60"
-                    }
-                },
-                {
-                "ts": "20210409T145305Z",
-                "sid": "brushingHistory",
-                "data": {
-                    "logArr": "2021/03/09_24:53:05_1分09秒_57_60"
-                    }
-                },
-                {
-                "ts": "20210409T145305Z",
-                "sid": "brushingHistory",
-                "data": {
-                    "logArr": "2021/02/09_4:53:05_2分09秒_30_45"
-                    }
-                }
-              ]
+    },
+    //星期几
+    dayWeek() {
+      var a = new Array("日", "一", "二", "三", "四", "五", "六");
+      var week = new Date().getDay();
+      var str = "今天 星期" + a[week];
+      return str;
+    },
+    test() {
+      var data1 = {
+        status: "online",
+        services: [
+          {
+            ts: "20210409T145305Z",
+            sid: "brushingHistory",
+            data: {
+              logStr: "2021/04/11_14:53:05_1分09秒_57_60",
+            },
+          },
+          {
+            ts: "20210409T145305Z",
+            sid: "brushingHistory",
+            data: {
+              logStr: "2021/04/11_9:53:05_1分09秒_17_30",
+            },
+          },
+          {
+            ts: "20210409T145305Z",
+            sid: "brushingHistory",
+            data: {
+              logStr: "2021/03/09_24:53:05_1分09秒_57_60",
+            },
+          },
+          {
+            ts: "20210409T145305Z",
+            sid: "brushingHistory",
+            data: {
+              logStr: "2021/02/09_4:53:05_2分09秒_30_45",
+            },
+          },
+        ],
+      };
+      var getArr = [],
+        dataArr = [];
+      for (var x in data1.services) {
+        var data = data1.services[x].data;
+        getArr.push(data);
+      }
+      for (var j in getArr) {
+        var item = {},
+          arr = {};
+        var allData = getArr[j].logStr.split("_");
+        var [dates, times, chinese, day, scores] = allData;
+
+        if (this.isToday(dates)) {
+          item.dates = this.dayWeek();
+        } else {
+          item.dates = dates;
         }
-        var dd = [],hh = [],kk = []
-        for(var c in data1.services){
-           var ss =  data1.services[c].data
-           dd.push(ss)
+        item.day = day;
+        item.score = scores;
+        item.brushLens = "刷牙时长";
+        item.time = times;
+        item.seconds = chinese;
+        dataArr.push(item);
+
+        let newArr = [];
+        dataArr.forEach((item, i) => {
+          let index = -1;
+          let isExists = newArr.some((newItem, j) => {
+            if (item.dates == newItem.dates) {
+              index = j;
+              return true;
+            }
+          });
+          if (!isExists) {
+            newArr.push({
+              dates: item.dates,
+              historyArr: [item],
+            });
+          } else {
+            newArr[index].historyArr.push(item);
           }
-         // console.log(dd)
-        for(var x in dd){
-          let aa =  dd[x].logArr.split('_')
-          if(this.isToday(aa[0])){
-            hh.push(dd[x])  //当天的数据
-          }else{
-            kk.push(dd[x])  //当天的数据
-          }
-        }
-
-        if(kk){
-          let item = {},historyArr = [],arr = {},logArr= [],dates = '',times = '',chinese='',scores=''
-          for(let h in kk){
-          //   (function(h){
-            var d = kk[h].logArr.split('_')
-           // var [dates,times,chinese,days,scores] = [d[0],d[1],d[2],d[3],d[4]];
-              dates = d[0]
-              times = d[1]
-              chinese = d[2]
-             // days = d[3] 
-              scores = d[4] 
-
-              item.score = scores
-              item.brushLens = '刷牙时长'
-              item.time = times
-              item.seconds = chinese
-              historyArr.push(item)
-              arr.days = dates
-              arr.historyArr = historyArr
-              logArr.push(arr)
-              console.log(logArr)
-         //   })(h);
-
-             
-           }
-           
-        }
-        
-      // data1.services.forEach((item, index) => {
-      //    console.log(item.data.logArr)
-      //    var dd = []
-      //    debugger
-      //    dd.push(item.data.logArr)
-        //  for(var x in dd){
-        //    dd
-        //  }
-        //  var ss = item.data.logArr.split('_')
-        //  console.log(ss)
-
-        // let logArr = [
-        // {
-        //   days: "今天 星期三",
-        //   historyArr: [
-        //     {
-        //       score: "99",
-        //       brushLens: "刷牙时长",
-        //       time: "08:00:76",
-        //       seconds: "1分55秒",
-        //     },
-        //     {
-        //       score: "28",
-        //       brushLens: "刷牙时长",
-        //       time: "08:00:76",
-        //       seconds: "1分55秒",
-        //     },
-        //   ],
-        // },
-        // {
-        //   days: "今天 星期二",
-        //   historyArr: [
-        //     {
-        //       score: "12",
-        //       brushLens: "刷牙时长",
-        //       time: "08:00:76",
-        //       seconds: "1分55秒",
-        //     },
-        //     {
-        //       score: "61",
-        //       brushLens: "刷牙时长",
-        //       time: "08:00:76",
-        //       seconds: "1分55秒",
-        //     },
-        //   ],
-
-       
-
-       
-        //  let aa = []
-        //  aa.push(item.data)
-        //  for(var x in item.data){
-        //    debugger
-        //    var ss = aa[x].split('_')
-        //    console.log(ss)
-        //  }
-       //})
-     },
+          this.getScore = dataArr[0].score;
+          this.getDay = dataArr[0].day;
+        });
+        this.logArr = newArr;
+      }
+      console.log(dataArr);
+    },
     //蓝牙连接
     initData() {
       this.BLE.init();
@@ -555,10 +526,11 @@ export default {
     // 数据解析
     acceptData(data) {
       if (data.indexOf("F55F07100100") == 0) {
-         console.log('设置成功')
+        console.log("设置成功");
       }
-      if (data.indexOf("F55F070201") == 0) { //刷牙模式
-       this.modeDisplay = data.substr(10, 2)
+      if (data.indexOf("F55F070201") == 0) {
+        //刷牙模式
+        this.modeDisplay = data.substr(10, 2);
       }
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2)); //電量
@@ -567,11 +539,13 @@ export default {
           this.dialogTip = true;
         }
       }
-      if (data.indexOf("F55F070401") == 0) {  //工作状态
-          let openStatus = data.substr(10, 2)
-          if(openStatus == '00' || openStatus == '02'){  //开始
-              this.$router.push({ name: "animations" });
-          }
+      if (data.indexOf("F55F070401") == 0) {
+        //工作状态
+        let openStatus = data.substr(10, 2);
+        if (openStatus == "00" || openStatus == "02") {
+          //开始
+          this.$router.push({ name: "animations" });
+        }
       }
     },
     //过滤器中i18n
@@ -590,69 +564,68 @@ export default {
     brushTimeClick() {
       this.isTime = !this.isTime;
     },
-    timeClick(val) {  //时长
-       let index = val.index
-        this.selectIndex1 = index
-        let mode = ''
-        let last = ''
-        switch(index)
-          {
-            case 0:
-                this.timeLen = '00'
-                mode = '00'
-                last = '5C'
-                break;
-            case 1:
-                this.timeLen = '01'
-                mode = '01'
-                last = '5D'
-                break;
-            case 2:
-                this.timeLen = '02'
-                mode = '02'
-                last = '5E'
-                break;
-          }
-        console.log('选择',this.timeLen)
-        this.$store.dispatch('save_time',this.timeLen)
-        let param = 'F55F060101'+ mode + last
-        this.BLE.writeData(param)
+    timeClick(val) {
+      //时长
+      let index = val.index;
+      this.selectIndex1 = index;
+      let mode = "";
+      let last = "";
+      switch (index) {
+        case 0:
+          this.timeLen = "00";
+          mode = "00";
+          last = "5C";
+          break;
+        case 1:
+          this.timeLen = "01";
+          mode = "01";
+          last = "5D";
+          break;
+        case 2:
+          this.timeLen = "02";
+          mode = "02";
+          last = "5E";
+          break;
+      }
+      console.log("选择", this.timeLen);
+      this.$store.dispatch("save_time", this.timeLen);
+      let param = "F55F060101" + mode + last;
+      this.BLE.writeData(param);
     },
     brushModeClick() {
       this.isMode = !this.isMode;
     },
     //模式选择
     modeClick(val) {
-      let index = val.index
-      this.selectIndex = index
-      let mode = ''
-      let last = ''
-      switch(index)
-         {
-          case 0:
-              this.modeDisplay = '00'
-              mode = '00'
-              last = '5D'
-              break;
-          case 1:
-              this.modeDisplay = '01'
-              mode = '01'
-              last = '5E'
-              break;
-          case 2:
-              this.modeDisplay = '02'
-              mode = '02'
-              last = '5F'
-              break;
-          case 3:
-              this.modeDisplay = '03'
-              mode = '03'
-              last = '60'
+      let index = val.index;
+      this.selectIndex = index;
+      let mode = "";
+      let last = "";
+      switch (index) {
+        case 0:
+          this.modeDisplay = "00";
+          mode = "00";
+          last = "5D";
           break;
-        }
-        
-        let param = 'F55F060201'+ mode + last
-        this.BLE.writeData(param)
+        case 1:
+          this.modeDisplay = "01";
+          mode = "01";
+          last = "5E";
+          break;
+        case 2:
+          this.modeDisplay = "02";
+          mode = "02";
+          last = "5F";
+          break;
+        case 3:
+          this.modeDisplay = "03";
+          mode = "03";
+          last = "60";
+          break;
+      }
+
+      let param = "F55F060201" + mode + last;
+      this.BLE.writeData(param);
     },
 
     // 设置---跳转
@@ -661,7 +634,7 @@ export default {
     },
     //天数
     remain() {
-      this.$router.push("RemainTime");
+      this.$router.push({name:'RemainTime',params: {day:this.getDay}}) // 只能用 name
     },
     //起始位置
     toPosition() {

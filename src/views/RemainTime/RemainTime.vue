@@ -35,8 +35,6 @@
 </template>
 
 <script>
-// import { scale } from "../../Util/tool";
-// import reportData from "../../Util/reportData";
 import Dialog from './ResetDialog.vue'
 export default {
     name: "RemainTime",
@@ -49,8 +47,6 @@ export default {
             backC: window.isDark ? '#000' : '#fff',
             // 实际天数
             realValue: 60,
-            // 模式选择
-            brushHeader: "0",
             show_realValue: true
         };
     },
@@ -60,41 +56,18 @@ export default {
     },
 
     computed: {
-        // bleConnected() {
-        //     return this.$store.state.BleStatus.bleConnected;
-        // },
-        // binData() {
-        //     return this.$store.state.BleStatus.binData;
-        // },
-        logData() {
-            return this.$store.state.BleStatus.logData;
-        },
+       
     },
     watch: {
         dialogVisiable(n, o) { },
-        // bleConnected(n, o) { },
-        // binData(n, o) {
-        //     this.binData = n;
-        //     this.judgeBoothHeader()
-        // },
     },
     created() {
-        this.judgeBoothHeader()
-         this.getCloudData(this.brushHeader)
     },
     mounted() {
+        this.realValue = parseInt(this.$route.params.day)
     },
 
     methods: {
-        /**
-         * @description: 初始化判断当前刷头模式
-         * @param {*}
-         * @return {*}
-         */
-        judgeBoothHeader(headerMode = null) {
-           // this.brushHeader = scale.hextoBin(this.binData.substr(4, 2)).substr(5, 1);
-        },
-
         /**
          * @description: 重置时间按钮
          * @param {type}
@@ -103,34 +76,7 @@ export default {
         resetime() {
             this.dialogVisiable = true;
         },
-
-        /**
-         * @description: 请求云端数据
-         * @param {*}
-         * @return {*}
-         */
-        getCloudData(mode) {
-            let resCallback = (res) => {
-                this.countDays(res, mode)
-            }
-          //  reportData.getHistoryLog(resCallback)
-        },
-
-        /**
-         * @description: 计算对应天数
-         * @param {*}
-         * @return {*}
-         */
-        countDays(arr, typeHeader = '0') {
-            let times = 0;
-            arr.forEach((item) => {
-                item[0] === typeHeader ? times++ : '';
-            })
-            let rest = (90 - (times / 2)) < 0 ? 0 : (90 - (times / 2));
-            this.realValue = Math.floor(rest);
-            this.show_realValue = true;
-        },
-
+    
         /**
          * @description: 弹窗派发事件  重置时间--确认按钮
          * @param {*}
@@ -139,11 +85,7 @@ export default {
         getDialogData(val) {  
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
-               // reportData.resize(new Date().getTime() + 1000)
                 this.realValue = 60;
-                setTimeout(() => {
-                    this.getCloudData(this.brushHeader)
-                }, 1000);
             }
         }
     },
