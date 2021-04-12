@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-07 14:19:00
- * @LastEditTime: 2021-04-12 14:55:04
+ * @LastEditTime: 2021-04-12 19:12:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\utils\reportData.js
@@ -16,7 +16,7 @@ reportData.getDevId = () => {
     // 获取设备信息
     window.getDevInfoAllCallback = (res) => {
         res = JSON.parse(res);
-        console.log('获取华为云端唯一id',res);
+       // console.log('获取华为云端唯一id',res);
         reportData.devId = res.devId;
     }
     window.hilink && window.hilink.getDevInfoAll && window.hilink.getDevInfoAll("0", "", "getDevInfoAllCallback");

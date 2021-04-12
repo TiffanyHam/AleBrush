@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-12 17:04:47
+ * @LastEditTime: 2021-04-12 19:11:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -453,14 +453,14 @@ export default {
       //   ],
       // };
       var list = [
-        "2021/04/12_14:53:05_1分09秒_57_60",
-        "2021/04/11_14:53:05_1分09秒_57_60",
-        "2021/04/11_14:53:05_1分09秒_57_60",
+        "2021/04/12_14:53:05_1分09秒_80",
+        "2021/04/11_14:53:05_1分09秒_60",
+        "2021/04/11_14:53:05_1分09秒_30",
         "XXXXXX",
-        "2021/04/11_9:53:05_1分09秒_17_30",
-        "2021/03/09_24:53:05_1分09秒_57_60",
+        "2021/04/11_9:53:05_1分09秒_30",
+        "2021/03/09_24:53:05_1分09秒_60",
         "XXXXXX",
-        "2021/02/09_4:53:05_2分09秒_30_45",
+        "2021/02/09_4:53:05_2分09秒_45",
       ];
       var getArr = [],
         dataArr = [];
@@ -474,14 +474,14 @@ export default {
           var item = {},
             arr = {};
           var allData = newList[j].split("_");
-          var [dates, times, chinese, day, scores] = allData;
+          var [dates, times, chinese, scores] = allData;
 
           if (isToday(dates)) {
             item.dates = this.dayWeek();
           } else {
             item.dates = dates;
           }
-          item.day = day;
+        //  item.day = day;
           item.score = scores;
           item.brushLens = `${this.$t("index.brushLen")}`;
           item.time = times;
@@ -510,7 +510,7 @@ export default {
         }
         //console.log(dataArr)
         this.getScore = dataArr[0].score;
-        this.isDays = dataArr[0].day;
+        this.isDays = 60 - this.logArr.length;
         // console.log(this.logArr);
       } else {
         this.getScore = 0;
@@ -752,9 +752,10 @@ export default {
         font-size: 14px;
         color: rgba(0, 0, 0, 0.9);
         .logImg {
-          width: 90.5px;
-          height: 72px;
+          width: 53px;
+          height: 53px;
           margin: 0 auto;
+          opacity: 0.6;
           margin-bottom: 8px;
         }
       }

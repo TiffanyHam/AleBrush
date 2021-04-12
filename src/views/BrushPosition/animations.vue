@@ -374,7 +374,7 @@ export default {
         that.time--;
         //console.log(that.time);
         if (that.time == 1) {
-          // that.time = 0;
+          that.time = 0;
           clearInterval(that.timer4);
           that.Exit();
         }
@@ -612,7 +612,8 @@ export default {
         if(this.brushLen > 30 || this.brushLen == 30){
            this.historyArr()
         }
-       // this.$router.push({ name: "Main" });
+      //  this.$router.push({ name: "Main" });
+        console.log(this.brushLen)
       } else {
         console.log("");
       }
