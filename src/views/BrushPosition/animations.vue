@@ -612,7 +612,7 @@ export default {
         if(this.brushLen > 30 || this.brushLen == 30){
            this.historyArr()
         }
-      //  this.$router.push({ name: "Main" });
+       this.$router.push({ name: "Main" });
         console.log(this.brushLen)
       } else {
         console.log("");
