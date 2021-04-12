@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-09 17:31:36
+ * @LastEditTime: 2021-04-12 17:04:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -44,32 +44,23 @@
           </div>
         </div>
         <!-- one -->
-        <!-- <div class="hi-card bg_card">
-          <div
-            class="item"
-            :class="{ line: index !== 0 }"
-            v-for="(item, index) in cardData"
-            :key="index"
-            @click="index !== 0 ? remain() : ''"
-          >
-            <div class="top">
-              <div class="num c_90">{{ item.num }}</div>
-              <div class="unit c_60" v-if="item.unit">{{ item.unit }}</div>
-            </div>
-            <div class="name c_60">{{ item.name }}</div>
-          </div>
-        </div> -->
         <div class="hi-card bg_card">
           <div class="item">
             <div class="top">
-              <div class="num c_90">{{ getScore }}</div>
+              <div class="num c_90">
+                <span v-if="isflage == isConnect || getScore == 0">--</span
+                ><span v-else>{{ getScore }}</span>
+              </div>
               <div class="unit c_60">{{ $t("index.score") }}</div>
             </div>
             <div class="name c_60">{{ $t("index.lastScore") }}</div>
           </div>
-          <div class="item line" @click="remain">
+          <div :class="isflage == isConnect ? 'item line noPoint': 'item line'" @click="remain">
             <div class="top">
-              <div class="num c_90">{{ getDay }}</div>
+              <div class="num c_90">
+                <span v-if="isflage == isConnect">--</span
+                ><span v-else>{{ isDays }}</span>
+              </div>
               <div class="unit c_60">{{ $t("index.day") }}</div>
             </div>
             <div class="name c_60">{{ $t("index.restDay") }}</div>
@@ -187,7 +178,13 @@
               <div class="log_right"></div>
             </div>
           </span>
-          <div class="logHistory">
+          <!-- 无记录显示 -->
+          <div class="noLog" v-if="isflage == isConnect || logArr.length == 0">
+            <div class="logImg"></div>
+            <div>{{ $t("index.nolog") }}</div>
+          </div>
+          <!-- 有记录显示 -->
+          <div class="logHistory" v-else>
             <div class="log_arr" v-for="(item, index) in logArr" :key="index">
               <p class="days">{{ item.dates }}</p>
               <div
@@ -229,7 +226,7 @@
 <script>
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
-import { brushingHistory } from "../../utils/tool";
+import { brushingHistory, isToday } from "../../utils/tool";
 import reportData from "../../utils/reportData";
 export default {
   data() {
@@ -243,7 +240,7 @@ export default {
       dialogTip: false, //低电量
       dialogTip1: false, //天数不足
       tips: this.$t("Reconnection.index"),
-      isDays: "9",
+      isDays: "",
       selectIndex: 0,
       selectIndex1: 0,
       shiftTest: [
@@ -261,21 +258,9 @@ export default {
       isMode: false,
       timeLen: "",
       modeDisplay: "00", //刷牙模式
-      // cardData: [
-      //   {
-      //     name: this.$t("index.lastScore"),
-      //     unit: this.$t("index.score"),
-      //     num: "21",
-      //   },
-      //   {
-      //     name: this.$t("index.restDay"),
-      //     unit: this.$t("index.day"),
-      //     num: "52",
-      //   },
-      // ],
       logArr: [],
       getScore: "",
-      getDay: "",
+
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -315,7 +300,12 @@ export default {
     };
   },
   filters: {
-    // 区域状态显示转换
+    /**
+     * @description: 区域状态显示转换
+     * @param {*} status
+     * @param {*} te
+     * @return {*}
+     */
     formatStata(status, te) {
       const statusMap = {
         0: te("BrushTeethPosition.position1"),
@@ -325,7 +315,12 @@ export default {
       };
       return statusMap[status];
     },
-    // 刷牙模式显示转换
+    /**
+     * @description: 刷牙模式显示转换
+     * @param {*} status
+     * @param {*} te
+     * @return {*}
+     */
     brushMode(status, te) {
       const statusMap = {
         "00": te("BrushTeethModel.level1"),
@@ -335,7 +330,12 @@ export default {
       };
       return statusMap[status];
     },
-    // 刷牙时长
+    /**
+     * @description: 刷牙时长
+     * @param {*} status
+     * @param {*} te
+     * @return {*}
+     */
     brushLength(status, te) {
       const statusMap = {
         "00": te("BrushTeethLen.length1"),
@@ -345,37 +345,14 @@ export default {
       return statusMap[status];
     },
   },
+
   created() {
     this.test();
   },
+
   mounted() {
     this.initData();
 
-    //刷牙天数不足
-    if (this.isDays < 10) {
-      // this.dialogTip1 = true
-      if (this.isDays <= -1) {
-        this.isChange = false;
-      }
-    }
-    //  蓝牙连接状态
-    if (this.bleConnected) {
-      this.isflage = false; //已连接
-      this.isConnect = true;
-      this.isDialog = false;
-    } else {
-      setTimeout(() => {
-        //连接中
-        this.isflage = false;
-        this.isConnect = false;
-      }, 500);
-      setTimeout(() => {
-        //连接超时
-        this.isflage = true;
-        this.isConnect = true;
-        this.isDialog = true;
-      }, 30 * 1000);
-    }
     this.$nextTick(() => {
       let bs = new BScroll(this.$refs.wrapper, {
         click: true,
@@ -383,12 +360,14 @@ export default {
       });
     });
   },
+
   computed: {
     ...mapState(["bleConnected", "initPosition", "data", "timeLength"]),
     tips1() {
       return this.$t("Reconnection.index1", { days: this.isDays - 1 });
     },
   },
+
   watch: {
     bleConnected(status) {
       console.log("蓝牙状态：", status);
@@ -420,110 +399,161 @@ export default {
     },
   },
   methods: {
-    // 判断日期是不是今天
-    isToday(str) {
-      var d = new Date(str.replace(/-/g, "/"));
-      var todaysDate = new Date();
-      if (d.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    //星期几
+    /**
+     * @description: 星期几
+     * @param {*}
+     * @return {*}
+     */
     dayWeek() {
-      var a = new Array("日", "一", "二", "三", "四", "五", "六");
+      var a = new Array(
+        `${this.$t("index.weeks.Mon")}`,
+        `${this.$t("index.weeks.Tue")}`,
+        `${this.$t("index.weeks.Wed")}`,
+        `${this.$t("index.weeks.Thu")}`,
+        `${this.$t("index.weeks.Fri")}`,
+        `${this.$t("index.weeks.Sat")}`,
+        `${this.$t("index.weeks.Sun")}`
+      );
       var week = new Date().getDay();
-      var str = "今天 星期" + a[week];
+      var str = `${this.$t("index.weeks.today")}` + a[week];
       return str;
     },
     test() {
-      var data1 = {
-        status: "online",
-        services: [
-          {
-            ts: "20210409T145305Z",
-            sid: "brushingHistory",
-            data: {
-              logStr: "2021/04/11_14:53:05_1分09秒_57_60",
-            },
-          },
-          {
-            ts: "20210409T145305Z",
-            sid: "brushingHistory",
-            data: {
-              logStr: "2021/04/11_9:53:05_1分09秒_17_30",
-            },
-          },
-          {
-            ts: "20210409T145305Z",
-            sid: "brushingHistory",
-            data: {
-              logStr: "2021/03/09_24:53:05_1分09秒_57_60",
-            },
-          },
-          {
-            ts: "20210409T145305Z",
-            sid: "brushingHistory",
-            data: {
-              logStr: "2021/02/09_4:53:05_2分09秒_30_45",
-            },
-          },
-        ],
-      };
+      // var data1 = {
+      //   status: "online",
+      //   services: [
+      //     {
+      //       ts: "20210409T145305Z",
+      //       sid: "brushingHistory",
+      //       data: {
+      //         logStr: "2021/04/11_14:53:05_1分09秒_57_60",
+      //       },
+      //     },
+      //     {
+      //       ts: "20210409T145305Z",
+      //       sid: "brushingHistory",
+      //       data: {
+      //         logStr: "2021/04/11_9:53:05_1分09秒_17_30",
+      //       },
+      //     },
+      //     {
+      //       ts: "20210409T145305Z",
+      //       sid: "brushingHistory",
+      //       data: {
+      //         logStr: "2021/03/09_24:53:05_1分09秒_57_60",
+      //       },
+      //     },
+      //     {
+      //       ts: "20210409T145305Z",
+      //       sid: "brushingHistory",
+      //       data: {
+      //         logStr: "2021/02/09_4:53:05_2分09秒_30_45",
+      //       },
+      //     },
+      //   ],
+      // };
+      var list = [
+        "2021/04/12_14:53:05_1分09秒_57_60",
+        "2021/04/11_14:53:05_1分09秒_57_60",
+        "2021/04/11_14:53:05_1分09秒_57_60",
+        "XXXXXX",
+        "2021/04/11_9:53:05_1分09秒_17_30",
+        "2021/03/09_24:53:05_1分09秒_57_60",
+        "XXXXXX",
+        "2021/02/09_4:53:05_2分09秒_30_45",
+      ];
       var getArr = [],
         dataArr = [];
-      for (var x in data1.services) {
-        var data = data1.services[x].data;
-        getArr.push(data);
-      }
-      for (var j in getArr) {
-        var item = {},
-          arr = {};
-        var allData = getArr[j].logStr.split("_");
-        var [dates, times, chinese, day, scores] = allData;
+      // for (var x in data1.services) {
+      //   var data = data1.services[x].data;
+      //   getArr.push(data);
+      // }
+      var newList = list.slice(0, list.indexOf("XXXXXX"));
+      if (newList.length !== 0) {
+        for (var j in newList) {
+          var item = {},
+            arr = {};
+          var allData = newList[j].split("_");
+          var [dates, times, chinese, day, scores] = allData;
 
-        if (this.isToday(dates)) {
-          item.dates = this.dayWeek();
-        } else {
-          item.dates = dates;
-        }
-        item.day = day;
-        item.score = scores;
-        item.brushLens = "刷牙时长";
-        item.time = times;
-        item.seconds = chinese;
-        dataArr.push(item);
+          if (isToday(dates)) {
+            item.dates = this.dayWeek();
+          } else {
+            item.dates = dates;
+          }
+          item.day = day;
+          item.score = scores;
+          item.brushLens = `${this.$t("index.brushLen")}`;
+          item.time = times;
+          item.seconds = chinese;
+          dataArr.push(item);
 
-        let newArr = [];
-        dataArr.forEach((item, i) => {
-          let index = -1;
-          let isExists = newArr.some((newItem, j) => {
-            if (item.dates == newItem.dates) {
-              index = j;
-              return true;
+          let newArr = [];
+          dataArr.forEach((item, i) => {
+            let index = -1;
+            let isExists = newArr.some((newItem, j) => {
+              if (item.dates == newItem.dates) {
+                index = j;
+                return true;
+              }
+            });
+            if (!isExists) {
+              newArr.push({
+                dates: item.dates,
+                historyArr: [item],
+              });
+            } else {
+              newArr[index].historyArr.push(item);
             }
           });
-          if (!isExists) {
-            newArr.push({
-              dates: item.dates,
-              historyArr: [item],
-            });
-          } else {
-            newArr[index].historyArr.push(item);
-          }
-          this.getScore = dataArr[0].score;
-          this.getDay = dataArr[0].day;
-        });
-        this.logArr = newArr;
+          this.logArr = newArr;
+        }
+        //console.log(dataArr)
+        this.getScore = dataArr[0].score;
+        this.isDays = dataArr[0].day;
+        // console.log(this.logArr);
+      } else {
+        this.getScore = 0;
+        this.isDays = 60;
       }
-      console.log(dataArr);
+      //刷牙天数不足
+      if (this.isDays < 10) {
+        this.dialogTip1 = true;
+        if (this.isDays <= -1) {
+          this.isChange = false;
+        }
+      }
     },
-    //蓝牙连接
+    /**
+     * @description: 蓝牙连接
+     * @param {*}
+     * @return {*}
+     */
     initData() {
       this.BLE.init();
+      if (this.bleConnected) {
+        this.isflage = false; //已连接
+        this.isConnect = true;
+        this.isDialog = false;
+      } else {
+        setTimeout(() => {
+          //连接中
+          this.isflage = false;
+          this.isConnect = false;
+        }, 500);
+        setTimeout(() => {
+          //连接超时
+          this.isflage = true;
+          this.isConnect = true;
+          this.isDialog = true;
+        }, 30 * 1000);
+      }
     },
-    // 数据解析
+    /**
+     * @description: 数据解析
+     * @param {*} data
+     * @return {*}
+     */
     acceptData(data) {
       if (data.indexOf("F55F07100100") == 0) {
         console.log("设置成功");
@@ -548,7 +578,11 @@ export default {
         }
       }
     },
-    //过滤器中i18n
+    /**
+     * @description: 过滤器中i18n
+     * @param {*} arg
+     * @return {*}
+     */    
     te(arg) {
       const hasKey = this.$te(arg);
       if (hasKey) {
@@ -557,15 +591,23 @@ export default {
       }
       return arg;
     },
-    // 获取颜色值
+    /**
+     * @description: 获取颜色值
+     * @param {*} val
+     * @return {*}
+     */    
     brushingHistory(val) {
       return brushingHistory.getColor(val);
     },
     brushTimeClick() {
       this.isTime = !this.isTime;
     },
+    /**
+     * @description: 时长控制
+     * @param {*} val
+     * @return {*}
+     */    
     timeClick(val) {
-      //时长
       let index = val.index;
       this.selectIndex1 = index;
       let mode = "";
@@ -587,7 +629,7 @@ export default {
           last = "5E";
           break;
       }
-      console.log("选择", this.timeLen);
+     // console.log("选择", this.timeLen);
       this.$store.dispatch("save_time", this.timeLen);
       let param = "F55F060101" + mode + last;
       this.BLE.writeData(param);
@@ -595,7 +637,11 @@ export default {
     brushModeClick() {
       this.isMode = !this.isMode;
     },
-    //模式选择
+    /**
+     * @description: 模式选择
+     * @param {*} val
+     * @return {*}
+     */    
     modeClick(val) {
       let index = val.index;
       this.selectIndex = index;
@@ -634,7 +680,7 @@ export default {
     },
     //天数
     remain() {
-      this.$router.push({name:'RemainTime',params: {day:this.getDay}}) // 只能用 name
+      this.$router.push({ name: "RemainTime", params: { day: this.isDays } }); 
     },
     //起始位置
     toPosition() {
@@ -643,7 +689,7 @@ export default {
     //更多
     getMore() {
       this.$router.push({ name: "Log" });
-    },
+    }
   },
 };
 </script>
@@ -701,6 +747,17 @@ export default {
       border-radius: 8px;
       flex: 1;
       margin-bottom: 8px;
+      .noLog {
+        text-align: center;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.9);
+        .logImg {
+          width: 90.5px;
+          height: 72px;
+          margin: 0 auto;
+          margin-bottom: 8px;
+        }
+      }
       .log_arr {
         margin-bottom: 15px;
         .days {
@@ -837,6 +894,9 @@ export default {
     .opacityVal {
       opacity: 0.38;
       pointer-events: none;
+    }
+    .noPoint{
+       pointer-events: none;
     }
     .connectState {
       background-color: #fff;

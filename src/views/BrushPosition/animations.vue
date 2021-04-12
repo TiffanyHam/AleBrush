@@ -199,6 +199,8 @@
 
 <script>
 import { mapState } from "vuex";
+import reportData from "../../utils/reportData";
+import {formatDate} from "../../utils/tool"
 
 export default {
   name: "Brushing_other",
@@ -297,15 +299,15 @@ export default {
     time(n, o) {
       this.time = n;
     },
-    brushLen:{
-      handler() {
-        if(this.brushLen > 30 || this.brushLen == 30){
-          // var gg = this.historyArr()
-          // console.log(gg)
+    // brushLen:{
+    //   handler() {
+    //     if(this.brushLen > 30 || this.brushLen == 30){
+    //       // var gg = this.historyArr()
+    //       // console.log(gg)
 
-        }
-      }
-    }
+    //     }
+    //   }
+    // }
 
   },
   created() {
@@ -416,41 +418,6 @@ export default {
       this.countDown();
       this.showAnimate();
     },
-    //年月日
-    formatDate(dd) {
-      var date = new Date(dd);
-      var YY = date.getFullYear() + "/";
-      var MM =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "/";
-      var DD = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-      var hh =
-        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
-      var mm =
-        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
-        ":";
-      var ss =
-        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      return YY + MM + DD + "," + hh + mm + ss;
-    },
-    //星期几
-    dayWeek() {
-      var a = new Array("日", "一", "二", "三", "四", "五", "六");
-      var week = new Date().getDay();
-      var str = "今天 星期" + a[week];
-      return str;
-    },
-    // 判断日期是不是今天
-    isToday(str){
-      var d = new Date(str.replace(/-/g,"/"));
-      var todaysDate = new Date();
-      if(d.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)){
-          return true;
-      } else {
-          return false;
-      }
-   },
     /**
      * @description: 时间倒计时
      * @param {*}
@@ -643,8 +610,7 @@ export default {
         this.clearInter();
         clearInterval(this.timer4);
         if(this.brushLen > 30 || this.brushLen == 30){
-            var dd = this.historyArr()
-            console.log('历史数据：',dd)
+           this.historyArr()
         }
        // this.$router.push({ name: "Main" });
       } else {
@@ -659,134 +625,20 @@ export default {
      */    
     historyArr() {
         var that = this;
-        var times = that.formatDate(Date.parse(new Date())); //当前时间
+        var times = formatDate(Date.parse(new Date())); //当前时间
         var dayY = times.split(",")[0]; //年月日
-        // if(dayY == ){
-
-        // }
+     
         var timeY = times.split(",")[1]; //时分秒
         var setLen =
           parseInt(that.setTotalTime.substr(1, 1)) * 60 +
           parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
         var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
 
-        var days = 60  //天数
-        // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
-        // if (that.isToday(new Date()) == 0) {
-        //   // console.log(that.dayWeek());
-        // } else {
-        //   //  console.log(dayY);
-        // }
-        
-        // console.log(timeY, this.brushLen, setLen, score, that.record);
-        let arr = [],services = [],item = {},reportTime = new Date().getTime();
-        arr.push(score);  //数据条数
-        console.log(arr)
-       // for (let i = 0; i < arr.length; i++) {
-        item.ts = that.formatTime(reportTime);
-        item.sid = "brushingHistory";
-        item.data = {
-          logArr: dayY + "_" + timeY + '_' + that.record + "_" + score + "_" + days,
-        };
-        services.push(item);
-        item = {};
-     //   }
-        let res = {
-          status: "online",
-          services: [...services],
-        };
-        return res;
-        
+        var formatdata = reportData.formatDataFromMachine(dayY,timeY,that.record,score)
+        console.log(formatdata)
+        // reportData.getDevId()
+        // reportData.report(reportData.devId, formatdata, resCallback)
     },
-    // 格式化上报时间
-    formatTime(time = null) {
-      // time 要求时间毫秒数
-      time = time ? time : new Date().getTime();
-      let date = new Date(time);
-      let formatTime = "";
-      let M = date.getMonth() + 1;
-      M = M.toString().length === 1 ? `0${M}` : `${M}`;
-      let D =
-        date.getDate().toString().length === 1
-          ? "0" + date.getDate().toString()
-          : date.getDate().toString();
-      let H =
-        date.getHours().toString().length === 1
-          ? "0" + date.getHours().toString()
-          : date.getHours().toString();
-      let m =
-        date.getMinutes().toString().length === 1
-          ? "0" + date.getMinutes().toString()
-          : date.getMinutes().toString();
-      let S =
-        date.getSeconds().toString().length === 1
-          ? "0" + date.getSeconds().toString()
-          : date.getSeconds().toString();
-      formatTime += `${date.getFullYear()}${M}${D}T${H}${m}${S}Z`;
-      return formatTime;
-    },
-    /**
-     * @description: 历史数据
-     * @param {*}
-     * @return {*}
-     */
-    // historyData() {
-    //   var that = this;
-    //   var times = that.formatDate(Date.parse(new Date())); //当前时间
-    //   var dayY = times.split(",")[0]; //年月日
-    //   var timeY = times.split(",")[1]; //时分秒
-    //   that.brushLen =
-    //     parseInt(that.total.substr(1, 1)) * 60 +
-    //     parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
-    //   var setLen =
-    //     parseInt(that.setTotalTime.substr(1, 1)) * 60 +
-    //     parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-    //   var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
-    //   // console.log(that.isToday(new Date()) == 0);	// 判断是否为今天
-    //   if (that.isToday(new Date()) == 0) {
-    //     // console.log(that.dayWeek());
-    //   } else {
-    //     //  console.log(dayY);
-    //   }
-      // console.log(timeY, this.brushLen, setLen, score, that.record);
-
-      //       logArr: [
-      //   {
-      //     days: "今天 星期三",
-      //     historyArr: [
-      //       {
-      //         score: "99",
-      //         brushLens: "刷牙时长",
-      //         time: "08:00:76",
-      //         seconds: "1分55秒",
-      //       },
-      //       {
-      //         score: "28",
-      //         brushLens: "刷牙时长",
-      //         time: "08:00:76",
-      //         seconds: "1分55秒",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     days: "今天 星期二",
-      //     historyArr: [
-      //       {
-      //         score: "12",
-      //         brushLens: "刷牙时长",
-      //         time: "08:00:76",
-      //         seconds: "1分55秒",
-      //       },
-      //       {
-      //         score: "61",
-      //         brushLens: "刷牙时长",
-      //         time: "08:00:76",
-      //         seconds: "1分55秒",
-      //       },
-      //     ],
-      //   },
-      // ],
-   // },
   },
 };
 </script>

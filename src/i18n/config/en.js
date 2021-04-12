@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-07 10:56:46
+ * @LastEditTime: 2021-04-12 16:09:25
  */
 const en = {
     index: {
@@ -22,34 +22,45 @@ const en = {
         MoreSet:'More',
         brushLog: 'record',
         more: 'More',
-        Log: {
-            year: '年',
-            month: '月',
-            date: '日',
-            minute: '分',
-            second: '秒',
-            score: '分',
-            week: {
-                Mon: '星期一',
-                Tus: '星期二',
-                Wed: '星期三',
-                Thu: '星期四',
-                Fri: '星期五',
-                Sat: '星期六',
-                Sun: '星期天',
-            },
-            day: {
-                Mon: '周一',
-                Tus: '周二',
-                Wed: '周三',
-                Thu: '周四',
-                Fri: '周五',
-                Sat: '周六',
-                Sun: '周日',
-            },
-            brushLen: '刷牙时长',
-            tip: '仅保留最近3个月的刷牙记录',
-        },
+        nolog:'No record',
+        weeks:{
+            today:'Today',
+            Mon: 'Monday',
+            Tue: 'Tuesday',
+            Wed: 'Wednesday',
+            Thu: 'Thursday',
+            Fri: 'Friday',
+            Sat: 'Saturday',
+            Sun: 'Sunday',
+          },
+        // Log: {
+        //     year: '年',
+        //     month: '月',
+        //     date: '日',
+        //     minute: '分',
+        //     second: '秒',
+        //     score: '分',
+        //     week: {
+        //         Mon: '星期一',
+        //         Tus: '星期二',
+        //         Wed: '星期三',
+        //         Thu: '星期四',
+        //         Fri: '星期五',
+        //         Sat: '星期六',
+        //         Sun: '星期天',
+        //     },
+        //     day: {
+        //         Mon: '周一',
+        //         Tus: '周二',
+        //         Wed: '周三',
+        //         Thu: '周四',
+        //         Fri: '周五',
+        //         Sat: '周六',
+        //         Sun: '周日',
+        //     },
+        //     brushLen: '刷牙时长',
+        //     tip: '仅保留最近3个月的刷牙记录',
+        // },
     },
         //刷牙模式
         BrushTeethModel: {
@@ -68,8 +79,8 @@ const en = {
         BrushTeethPosition:{
             position1:'Lower left area',
             position2:'Lower right area',
-            position3:'右上区',
-            position4:'左上区',
+            position3:'Upper right area',
+            position4:'Upper left area',
             header:'starting position',
             top:'maxillary',
             bottom:'lower jaw',
@@ -149,10 +160,10 @@ const en = {
         sure: 'Continue to use',
         conn:'Immediate connection',
 
-        tipTitle1: '刷头更换',
-        tipText4: '您的智能牙刷刷头已使用超过60天，请立即更换刷头。',
-        change:'已更换',
-        close:'关闭',
+        tipTitle1: 'Brush replace',
+        tipText4: 'Your smart toothbrush head has been used for more than 60 days. Please replace the brush head immediately.',
+        change:'has replaced',
+        close:'close',
 
         tipTitle2: 'Suspend the countdown',
         tipText5: 'restart the toothbrush may continue to brush your teeth',
@@ -176,7 +187,7 @@ const en = {
     },
     //充电提示
     Reconnection: {
-        index: '电量较低，请及时充电',
+        index: 'Low power, please charge in time',
         index1: 'brush head using days had less than {days} days, please change in time',
     },
     history: {

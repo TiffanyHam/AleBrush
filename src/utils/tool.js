@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 18:42:29
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-29 17:14:34
+ * @LastEditTime: 2021-04-12 17:07:09
  */
 export const getLanguage = () => {
   let language;
@@ -61,4 +61,38 @@ export const brushingHistory = {
       }
       return color;
   }
+}
+
+/**
+ * @description: 判断日期是不是今天
+ * @param {*} str  
+ * @return {*}
+ */
+export const isToday = (str) => {
+    var d = new Date(str.replace(/-/g, "/"));
+    var todaysDate = new Date();
+    if (d.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+export const formatDate = (dd) => {
+  var date = new Date(dd);
+  var YY = date.getFullYear() + "/";
+  var MM =
+    (date.getMonth() + 1 < 10
+      ? "0" + (date.getMonth() + 1)
+      : date.getMonth() + 1) + "/";
+  var DD = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  var hh =
+    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+  var mm =
+    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+    ":";
+  var ss =
+    date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+  return YY + MM + DD + "," + hh + mm + ss;
 }

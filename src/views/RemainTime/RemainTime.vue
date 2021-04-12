@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-09 09:37:11
+ * @LastEditTime: 2021-04-12 14:36:36
 -->
 <!--  -->
 <template>
@@ -36,6 +36,8 @@
 
 <script>
 import Dialog from './ResetDialog.vue'
+import reportData from "../../utils/reportData";
+
 export default {
     name: "RemainTime",
     data() {
@@ -85,6 +87,7 @@ export default {
         getDialogData(val) {  
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
+                reportData.resize(new Date().getTime() + 1000)
                 this.realValue = 60;
             }
         }
