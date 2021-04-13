@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-13 11:14:22
+ * @LastEditTime: 2021-04-13 15:11:50
  */
 const en = {
     index: {
@@ -88,7 +88,13 @@ const en = {
             bottom:'lower jaw',
             left:'left',
             right:'right',
-            select:'Please select a starting position'
+            select:'Please select a starting position',
+            clockwise:'clockwise',
+            anticlockwise:'anticlockwise',
+            you:'You select the ',
+            as:'for',
+            initial:'starting position',
+            order:'sequence for'
         },
         //更多设置
         setting: {

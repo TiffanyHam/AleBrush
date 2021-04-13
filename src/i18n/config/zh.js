@@ -81,7 +81,14 @@ const zh = {
             left:'左',
             right:'右',
             current:'当前区域',
-            select:'请选择起始位置'
+            select:'请选择起始位置',
+            clockwise:'顺时针',
+            anticlockwise:'逆时针',
+            you:'您选择了',
+            as:'为',
+            initial:'刷牙起始位置',
+            order:'刷牙顺序为'
+            
         },
         //更多设置
         setting: {
