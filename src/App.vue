@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-31 14:14:38
+ * @LastEditTime: 2021-04-13 09:27:22
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -27,7 +27,7 @@ export default {
     },
   data() {
     return {
-       transitionName: "", //跳转方向!!!!
+        //transitionName: "", //跳转方向!!!!
         isDark: false,
         isRouterAlive: true
     };
@@ -42,7 +42,7 @@ export default {
             const toDep = routeDeep.indexOf(to.name);
             const fromDep = routeDeep.indexOf(from.name);
             //toDep的值大于fromDep的值往右移动
-            this.transitionName = toDep > fromDep ? "back" : "to";
+            //this.transitionName = toDep > fromDep ? "back" : "to";
             next();
         });
         // 设置语言
@@ -130,70 +130,70 @@ leave-to离场动画结束后的状态
   transform: translateX(30px);
 }
 
-.to-enter-active {
-    animation-name: left-in;
-    animation-duration: 0.3s;
-}
+// .to-enter-active {
+//     animation-name: left-in;
+//     animation-duration: 0.3s;
+// }
 
-.to-leave-active {
-    animation-name: right-out;
-    animation-duration: 0.3s;
-}
+// .to-leave-active {
+//     animation-name: right-out;
+//     animation-duration: 0.3s;
+// }
 
-.back-enter-active {
-    animation-name: right-in;
-    animation-duration: 0.3s;
-}
+// .back-enter-active {
+//     animation-name: right-in;
+//     animation-duration: 0.3s;
+// }
 
-.back-leave-active {
-    animation-name: left-out;
-    animation-duration: 0.3s;
-}
-@keyframes left-in {
-    0% {
-        opacity: 0;
-        transform: translate3d(-100%, 0, 0);
-    }
+// .back-leave-active {
+//     animation-name: left-out;
+//     animation-duration: 0.3s;
+// }
+// @keyframes left-in {
+//     0% {
+//         opacity: 0;
+//         transform: translate3d(-100%, 0, 0);
+//     }
 
-    100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
+//     100% {
+//         opacity: 1;
+//         transform: translate3d(0, 0, 0);
+//     }
+// }
 
-@keyframes left-out {
-    0% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+// @keyframes left-out {
+//     0% {
+//         opacity: 1;
+//         transform: translate3d(0, 0, 0);
+//     }
 
-    100% {
-        opacity: 0.3;
-        transform: translate3d(-100%, 0, 0);
-    }
-}
+//     100% {
+//         opacity: 0.3;
+//         transform: translate3d(-100%, 0, 0);
+//     }
+// }
 
-@keyframes right-in {
-    0% {
-        opacity: 0.3;
-        transform: translate3d(100%, 0, 0);
-    }
+// @keyframes right-in {
+//     0% {
+//         opacity: 0.3;
+//         transform: translate3d(100%, 0, 0);
+//     }
 
-    100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
+//     100% {
+//         opacity: 1;
+//         transform: translate3d(0, 0, 0);
+//     }
+// }
 
-@keyframes right-out {
-    0% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+// @keyframes right-out {
+//     0% {
+//         opacity: 1;
+//         transform: translate3d(0, 0, 0);
+//     }
 
-    100% {
-        opacity: 0.3;
-        transform: translate3d(100%, 0, 0);
-    }
-}
+//     100% {
+//         opacity: 0.3;
+//         transform: translate3d(100%, 0, 0);
+//     }
+// }
 </style>

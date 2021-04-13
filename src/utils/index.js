@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 18:02:25
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-03-22 18:05:02
+ * @LastEditTime: 2021-04-13 09:37:53
  */
 /**
  * @description: 
@@ -21,21 +21,12 @@
           } else {
               window.hilink && window.hilink.setTitleVisible && window.hilink.setTitleVisible(false);
           }
-          if (to.path === '/guide_adult' && from.path === '/logDetail') {
-              next('/');
-              return true;
-          } else if (to.path === '/guide_adult' && from.path === '/' && g.overWrite) {
-              window.hilink.finishDeviceActivity()
-              return true;
-          } else {
-              next();
-              return true;
-          }
+        next();
+        return true;
       });
   }
 }
 const g = {
-  overWrite: false,
   serviceId: "0000ffb0-0000-1000-8000-00805f9b34fb",
   writeCharacteristicId: "0000ffb1-0000-1000-8000-00805f9b34fb",
   readCharacteristicId: "0000ffb2-0000-1000-8000-00805f9b34fb",
