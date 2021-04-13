@@ -1,67 +1,35 @@
 <!--
  * @Author: your name
- * @Date: 2021-03-25 09:25:35
- * @LastEditTime: 2021-04-13 19:37:30
+ * @Date: 2021-04-13 16:37:07
+ * @LastEditTime: 2021-04-13 18:14:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \AleBrush\src\components\common\Cprogress.vue
+ * @FilePath: \AleBrush\src\components\common\chart.vue
 -->
 <template>
-  <div class="container flex">
-    <div class="chart" ref="chart" style="width: 100%; height: 100%"></div>
-  </div>
+  <div class="chart" ref="chart" style="width: 100%; height: 100%"></div>
 </template>
-
 <script>
 export default {
-  props: {
-    realValue: {
-      type: Number,
-      required: true,
-      default: 25,
-    },
-  },
-  name: "Cprogress",
   data() {
     return {
-      changedValue:''
+      realValue: 60,
     };
   },
-
-  components: {},
-  watch: {
-    realValue(n, o) {
-      this.realValue = n;
-     // console.log('8fgj；',n)
-      if (n > 0 || n < 61) {
-        this.changedValue = 20;
-      }
-      if (n < -19) {
-        this.changedValue = 99;
-      }
-     // console.log('sss:',this.changedValue)
-      this.getEchartData();
-    },
+  mounted() {
+    this.getEchartData();
   },
   computed: {
-    // changedValue() {
-    //   let data = "";
-    //   if (this.realValue > 0 && this.realValue < 61) {
-    //     data = 20;
-    //   }
-    //   if (this.realValue < -19) {
-    //     data = 99;
-    //   }
-    //   return data;
-    // },
-  },
-
-  created() {},
-
-  mounted() {
-    this.$nextTick(() => {
-      this.getEchartData();
-    });
+    changedValue() {
+      let data = "";
+      if (this.realValue > 0 && this.realValue < 61) {
+        data = 20;
+      }
+      if (this.realValue < -19) {
+        data = 99;
+      }
+      return data;
+    },
   },
   methods: {
     /**
@@ -80,7 +48,6 @@ export default {
         });
       }
     },
-
     /**
      * @description: 设置echarts 的option
      * @param {type}
@@ -150,12 +117,13 @@ export default {
       };
 
       let option = {
-        backgroundColor: window.isDark ? "#000" : "#fff",
+        backgroundColor: "#fff",
+
         series: [
           {
             type: "pie",
             hoverAnimation: false,
-            radius: ["80%", "95%"],
+            radius: ["55%", "65%"],
             center: ["50%", "50%"],
             startAngle: 225,
             labelLine: {
@@ -187,7 +155,7 @@ export default {
           {
             type: "pie",
             hoverAnimation: false, //鼠标经过的特效
-            radius: ["80%", "95%"],
+            radius: ["55%", "65%"],
             center: ["50%", "50%"],
             startAngle: 225,
             labelLine: {
@@ -205,7 +173,7 @@ export default {
                 value: that.realValue,
                 itemStyle: {
                   normal: {
-                    color: window.isDark ? "#3f97e9" : "#007dff",
+                    color: "#007DFF",
                   },
                 },
                 label: dataStyle,
@@ -222,27 +190,9 @@ export default {
     },
   },
 };
+/**
+ * @description:
+ * @param {*}
+ * @return {*}
+ */
 </script>
-<style lang='scss' scoped>
-.container {
-  width: 100%;
-  height: 100%;
-  //border: 1px solid red;
-  position: relative;
-}
-.flex {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.theme-dark {
-  .container {
-    background-color: #000;
-    .chart {
-      background-color: #000;
-    }
-  }
-}
-</style>
