@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-13 10:36:33
+ * @LastEditTime: 2021-04-13 11:18:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -55,7 +55,10 @@
             </div>
             <div class="name c_60">{{ $t("index.lastScore") }}</div>
           </div>
-          <div :class="isflage == isConnect ? 'item line noPoint': 'item line'" @click="remain">
+          <div
+            :class="isflage == isConnect ? 'item line noPoint' : 'item line'"
+            @click="remain"
+          >
             <div class="top">
               <div class="num c_90">
                 <span v-if="isflage == isConnect">--</span
@@ -157,10 +160,10 @@
                 ></div>
               </div>
             </div>
-            <!-- 刷牙时长 -->
-            <div class="itemPlay flexR">
+            <!-- 设置 -->
+            <div class="itemPlay flexR" @click="setting">
               <div>
-                <span @click="setting">{{ $t("index.MoreSet") }}</span>
+                <span>{{ $t("index.MoreSet") }}</span>
               </div>
               <div class="icon_width">
                 <div class="set patternCommon"></div>
@@ -221,7 +224,11 @@
     <hi-errtip :tip="tips1" v-show="dialogTip1"></hi-errtip>
     <!-- 弹窗提示 -->
     <Cdialog v-show="isDialog"></Cdialog>
-    <Dialog :visiable="dialogVisiable" @sendData='getDialogData' :isReplace='false'></Dialog>
+    <Dialog
+      :visiable="dialogVisiable"
+      @sendData="getDialogData"
+      :isReplace="false"
+    ></Dialog>
   </div>
 </template>
 <script>
@@ -229,7 +236,7 @@ import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory, isToday } from "../../utils/tool";
 import reportData from "../../utils/reportData";
-import Dialog from '../RemainTime/ResetDialog.vue'
+import Dialog from "../RemainTime/ResetDialog.vue";
 
 export default {
   data() {
@@ -303,7 +310,7 @@ export default {
     };
   },
   components: {
-      Dialog
+    Dialog,
   },
   filters: {
     /**
@@ -370,8 +377,8 @@ export default {
   computed: {
     ...mapState(["bleConnected", "initPosition", "data", "timeLength"]),
     tips1() {
-      if([-1, -2].includes(this.isDays)){
-          return this.$t("Reconnection.index1", { days: 0});
+      if ([-1, -2].includes(this.isDays)) {
+        return this.$t("Reconnection.index1", { days: 0 });
       }
       return this.$t("Reconnection.index1", { days: this.isDays + 1 });
     },
@@ -427,6 +434,18 @@ export default {
       var str = `${this.$t("index.weeks.today")}` + a[week];
       return str;
     },
+    /**
+     * @description: 分秒中英解析
+     * @param {*} val
+     * @return {*}
+     */
+    getTimeParse(val) {
+      var str = val.substr(1, 1); //min
+      var str1 = val.substr(3, 2); //seconds
+      return (
+        str + `${this.$t("index.minute")}` + str1 + `${this.$t("index.second")}`
+      );
+    },
     test() {
       // var data1 = {
       //   status: "online",
@@ -462,14 +481,14 @@ export default {
       //   ],
       // };
       var list = [
-        "2021/04/12_14:53:05_1分09秒_80",
-        "2021/04/11_14:53:05_1分09秒_60",
-        "2021/04/11_14:53:05_1分09秒_30",
+        "2021/04/12_14:53:05_00:33_80",
+        "2021/04/11_14:53:05_01:02_60",
+        "2021/04/11_14:53:05_01:33_30",
         "XXXXXX",
-        "2021/04/11_9:53:05_1分09秒_30",
-        "2021/03/09_24:53:05_1分09秒_60",
+        "2021/04/11_9:53:05_01:33_30",
+        "2021/03/09_24:53:05_01:33_60",
         "XXXXXX",
-        "2021/02/09_4:53:05_2分09秒_45",
+        "2021/02/09_4:53:05_02:33_45",
       ];
       var getArr = [],
         dataArr = [];
@@ -483,18 +502,18 @@ export default {
           var item = {},
             arr = {};
           var allData = newList[j].split("_");
-          var [dates, times, chinese, scores] = allData;
+          var [dates, times, timeLen, scores] = allData;
 
           if (isToday(dates)) {
             item.dates = this.dayWeek();
           } else {
             item.dates = dates;
           }
-        //  item.day = day;
+          //  item.day = day;
           item.score = scores;
           item.brushLens = `${this.$t("index.brushLen")}`;
           item.time = times;
-          item.seconds = chinese;
+          item.seconds = this.getTimeParse(timeLen);
           dataArr.push(item);
 
           let newArr = [];
@@ -528,8 +547,8 @@ export default {
       //刷牙天数不足
       if (this.isDays < 10) {
         this.dialogTip1 = true;
-        if(this.isDays == -1){
-           this.dialogVisiable = true;
+        if (this.isDays == -1) {
+          this.dialogVisiable = true;
         }
       }
     },
@@ -581,7 +600,7 @@ export default {
       if (data.indexOf("F55F070401") == 0) {
         //工作状态
         let openStatus = data.substr(10, 2);
-        if (['00', '02'].includes(openStatus)) {
+        if (["00", "02"].includes(openStatus)) {
           //开始
           this.$router.push({ name: "animations" });
         }
@@ -591,7 +610,7 @@ export default {
      * @description: 过滤器中i18n
      * @param {*} arg
      * @return {*}
-     */    
+     */
     te(arg) {
       const hasKey = this.$te(arg);
       if (hasKey) {
@@ -604,7 +623,7 @@ export default {
      * @description: 获取颜色值
      * @param {*} val
      * @return {*}
-     */    
+     */
     brushingHistory(val) {
       return brushingHistory.getColor(val);
     },
@@ -615,7 +634,7 @@ export default {
      * @description: 时长控制
      * @param {*} val
      * @return {*}
-     */    
+     */
     timeClick(val) {
       let index = val.index;
       this.selectIndex1 = index;
@@ -638,7 +657,7 @@ export default {
           last = "5E";
           break;
       }
-     // console.log("选择", this.timeLen);
+      // console.log("选择", this.timeLen);
       this.$store.dispatch("save_time", this.timeLen);
       let param = "F55F060101" + mode + last;
       this.BLE.writeData(param);
@@ -650,7 +669,7 @@ export default {
      * @description: 模式选择
      * @param {*} val
      * @return {*}
-     */    
+     */
     modeClick(val) {
       let index = val.index;
       this.selectIndex = index;
@@ -689,7 +708,7 @@ export default {
     },
     //天数
     remain() {
-      this.$router.push({ name: "RemainTime", params: { day: this.isDays } }); 
+      this.$router.push({ name: "RemainTime", params: { day: this.isDays } });
     },
     //起始位置
     toPosition() {
@@ -700,11 +719,11 @@ export default {
       this.$router.push({ name: "Log" });
     },
     /**
-         * @description: 弹窗派发事件  重置时间--确认按钮
-         * @param {*}
-         * @return {*}
-         */
-        getDialogData(val) {  }
+     * @description: 弹窗派发事件  重置时间--确认按钮
+     * @param {*}
+     * @return {*}
+     */
+    getDialogData(val) {},
   },
 };
 </script>
@@ -911,8 +930,8 @@ export default {
       opacity: 0.38;
       pointer-events: none;
     }
-    .noPoint{
-       pointer-events: none;
+    .noPoint {
+      pointer-events: none;
     }
     .connectState {
       background-color: #fff;

@@ -50,7 +50,7 @@ export default {
                 },
                 {
                     subtip: this.$t("brushMethods.subtip11"),
-                    img: "I_5.png",
+                    img: this.$i18n.locale === "zh" ? "I_5.png" : "I_5_en.png",
                 },
                 {
                     subtip: this.$t("brushMethods.subtip12"),

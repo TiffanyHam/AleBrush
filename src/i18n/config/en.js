@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-12 16:09:25
+ * @LastEditTime: 2021-04-13 11:14:22
  */
 const en = {
     index: {
@@ -23,6 +23,8 @@ const en = {
         brushLog: 'record',
         more: 'More',
         nolog:'No record',
+        minute: 'min',
+        second: 's',
         weeks:{
             today:'Today',
             Mon: 'Monday',

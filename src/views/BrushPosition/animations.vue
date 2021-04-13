@@ -492,10 +492,10 @@ export default {
         }
         if (second < 10) {
           that.total = "0" + minute + ":" + "0" + second;
-          that.record = minute + "分0" + second + "秒";
+         // that.record = minute + "分0" + second + "秒";
         } else {
           that.total = "0" + minute + ":" + second;
-          that.record = minute + "分" + second + "秒";
+        //  that.record = minute + "分" + second + "秒";
         }
       that.brushLen =
       parseInt(that.total.substr(1, 1)) * 60 +
@@ -635,7 +635,7 @@ export default {
           parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
         var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
 
-        var formatdata = reportData.formatDataFromMachine(dayY,timeY,that.record,score)
+        var formatdata = reportData.formatDataFromMachine(dayY,timeY,that.total,score)
         console.log(formatdata)
         // reportData.getDevId()
         // reportData.report(reportData.devId, formatdata, resCallback)

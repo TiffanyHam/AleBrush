@@ -15,6 +15,8 @@ const zh = {
         brushLog: '刷牙记录',
         more: '更多',
         nolog:'暂无记录',
+        minute: '分',
+        second: '秒',
         weeks:{
           today:'今天 星期',
           Mon: '一',
