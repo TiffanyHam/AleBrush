@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-12 14:36:36
+ * @LastEditTime: 2021-04-13 10:32:49
 -->
 <!--  -->
 <template>
@@ -30,7 +30,7 @@
                 <button @click="resetime" class='btn'>{{$t('RemainTime.resetDay')}}</button>
             </div>
         </div>
-        <Dialog :visiable="dialogVisiable" @sendData='getDialogData'></Dialog>
+        <Dialog :visiable="dialogVisiable" @sendData='getDialogData' :isReplace='true'></Dialog>
     </div>
 </template>
 
@@ -87,7 +87,7 @@ export default {
         getDialogData(val) {  
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
-                reportData.resize(new Date().getTime() + 1000)
+                //reportData.resize(new Date().getTime() + 1000)
                 this.realValue = 60;
             }
         }

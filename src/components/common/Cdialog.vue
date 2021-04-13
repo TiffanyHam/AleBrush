@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2021-01-10 10:11:13
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-07 09:11:29
+ * @LastEditTime: 2021-04-13 10:31:40
 -->
 <!--
  * @Descripttion: 
@@ -27,11 +27,11 @@
         </div>
         <div class="dialog" v-show="show" key="2">
             <div class="dialogTitle">
-                <slot name="title" v-if ="isChange">{{$t('Hint.tipTitle')}}</slot>
-                <slot name="title" v-else>{{$t('Hint.tipTitle1')}}</slot>
+                <slot name="title">{{$t('Hint.tipTitle')}}</slot>
+                <!-- <slot name="title" v-else>{{$t('Hint.tipTitle1')}}</slot> -->
             </div>
             <div class="dialogContent">
-                <div v-if="isChange">
+                <div>
                     <slot>{{$t('Hint.tipText')}}</slot>
                     <br />
                     <slot>{{$t('Hint.tipText1')}} </slot>
@@ -40,20 +40,20 @@
                     <br />
                     <slot>{{$t('Hint.tipText3')}}</slot>
                 </div>
-                <div v-else>
+                <!-- <div v-else>
                     <slot>{{$t('Hint.tipText4')}}</slot>
-                </div>
+                </div> -->
                 
             </div>
             <div class="dialog_footer fb">
                 <span class="btn btn_left" @click="close">
-                    <slot name="cancle" v-if="isChange">{{$t('Hint.sure')}}</slot>
-                    <slot v-else>{{$t('Hint.change')}}</slot>
+                    <slot name="cancle">{{$t('Hint.sure')}}</slot>
+                    <!-- <slot v-else>{{$t('Hint.change')}}</slot> -->
                 </span>
                 <span class="line"></span>
-                <span class="btn" @click="isChange ? handleClick() : close()">
-                    <slot name="sure btn_right" v-if="isChange">{{$t('Hint.conn')}}</slot>
-                    <slot v-else>{{$t('Hint.close')}}</slot>
+                <span class="btn" @click="handleClick">
+                    <slot name="sure btn_right">{{$t('Hint.conn')}}</slot>
+                    <!-- <slot v-else>{{$t('Hint.close')}}</slot> -->
                 </span>
             </div>
         </div>
@@ -70,11 +70,11 @@ export default {
       }
   },
   props: {
-    isChange:{
-      type: Boolean,
-      required: true,
-      default: false,
-    }
+    // isChange:{
+    //   type: Boolean,
+    //   required: true,
+    //   default: false,
+    // }
   },
   methods:{
       handleClick(){

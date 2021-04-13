@@ -4,8 +4,8 @@
         <div class="maskFace flexC">
             <!-- 遮罩层end -->
 
-            <!-- 弹窗内容start -->
-            <div class="dialog" :style="{ bottom: bottom }">
+            <!-- 弹窗内容start -- 重置刷头 -->
+            <div class="dialog" :style="{ bottom: bottom }" v-if="isReplace">
                 <div class="dialog_title">
                     <slot name="title">{{$t('RemainTime.resetDay')}}</slot>
                 </div>
@@ -21,6 +21,27 @@
                     <span class="line"></span>
                     <span class="btn" @click.stop="sure">
                         <slot name="sure btn_right">{{$t('RemainTime.sure')}}</slot>
+                    </span>
+                </div>
+            </div>
+            <!-- 弹窗内容end -->
+             <!-- 弹窗内容--更换牙刷 -->
+            <div class="dialog" :style="{ bottom: bottom }" v-else>
+                <div class="dialog_title">
+                    <slot name="title">{{$t('Hint.tipTitle1')}}</slot>
+                </div>
+                <div class="tipText">
+                    <div>
+                        <slot name="tipText">{{$t('Hint.tipText4')}}</slot>
+                    </div>
+                </div>
+                <div class="dialog_footer fb">
+                    <span class="btn btn_left" @click.stop="cancle">
+                        <slot name="cancle">{{$t('Hint.change')}}</slot>
+                    </span>
+                    <span class="line"></span>
+                    <span class="btn" @click.stop="sure">
+                        <slot name="sure btn_right">{{$t('Hint.close')}}</slot>
                     </span>
                 </div>
             </div>
@@ -48,6 +69,11 @@ export default {
             type: String,
             required: false,
             default: "36px",
+        },
+        isReplace: {
+            type: Boolean,
+            required: true,
+            default: false,
         },
     },
     name: "ResetDialog",

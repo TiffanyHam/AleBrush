@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-12 19:11:34
+ * @LastEditTime: 2021-04-13 10:36:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -220,7 +220,8 @@
     <!-- 天数不足提示 -->
     <hi-errtip :tip="tips1" v-show="dialogTip1"></hi-errtip>
     <!-- 弹窗提示 -->
-    <Cdialog v-show="isDialog" :isChange="isChange"></Cdialog>
+    <Cdialog v-show="isDialog"></Cdialog>
+    <Dialog :visiable="dialogVisiable" @sendData='getDialogData' :isReplace='false'></Dialog>
   </div>
 </template>
 <script>
@@ -228,14 +229,15 @@ import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory, isToday } from "../../utils/tool";
 import reportData from "../../utils/reportData";
+import Dialog from '../RemainTime/ResetDialog.vue'
+
 export default {
   data() {
     return {
       deviceId: null,
       isflage: true,
       isConnect: true,
-      isDialog: false, //弹窗
-      isChange: true, //true 连接超时  false 刷头更换提示
+      isDialog: false, //弹窗 连接超时
       battery: "05",
       dialogTip: false, //低电量
       dialogTip1: false, //天数不足
@@ -243,6 +245,7 @@ export default {
       isDays: "",
       selectIndex: 0,
       selectIndex1: 0,
+      dialogVisiable: false,
       shiftTest: [
         { name: this.$t("BrushTeethLen.length1"), index: 0 },
         { name: this.$t("BrushTeethLen.length2"), index: 1 },
@@ -298,6 +301,9 @@ export default {
       //   },
       // ],
     };
+  },
+  components: {
+      Dialog
   },
   filters: {
     /**
@@ -364,7 +370,10 @@ export default {
   computed: {
     ...mapState(["bleConnected", "initPosition", "data", "timeLength"]),
     tips1() {
-      return this.$t("Reconnection.index1", { days: this.isDays - 1 });
+      if([-1, -2].includes(this.isDays)){
+          return this.$t("Reconnection.index1", { days: 0});
+      }
+      return this.$t("Reconnection.index1", { days: this.isDays + 1 });
     },
   },
 
@@ -519,8 +528,8 @@ export default {
       //刷牙天数不足
       if (this.isDays < 10) {
         this.dialogTip1 = true;
-        if (this.isDays <= -1) {
-          this.isChange = false;
+        if(this.isDays == -1){
+           this.dialogVisiable = true;
         }
       }
     },
@@ -572,7 +581,7 @@ export default {
       if (data.indexOf("F55F070401") == 0) {
         //工作状态
         let openStatus = data.substr(10, 2);
-        if (openStatus == "00" || openStatus == "02") {
+        if (['00', '02'].includes(openStatus)) {
           //开始
           this.$router.push({ name: "animations" });
         }
@@ -689,7 +698,13 @@ export default {
     //更多
     getMore() {
       this.$router.push({ name: "Log" });
-    }
+    },
+    /**
+         * @description: 弹窗派发事件  重置时间--确认按钮
+         * @param {*}
+         * @return {*}
+         */
+        getDialogData(val) {  }
   },
 };
 </script>
