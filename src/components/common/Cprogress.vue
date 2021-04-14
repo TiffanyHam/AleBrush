@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 09:25:35
- * @LastEditTime: 2021-04-13 19:37:30
+ * @LastEditTime: 2021-04-14 09:24:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\Cprogress.vue
@@ -32,14 +32,12 @@ export default {
   watch: {
     realValue(n, o) {
       this.realValue = n;
-     // console.log('8fgj；',n)
       if (n > 0 || n < 61) {
         this.changedValue = 20;
       }
       if (n < -19) {
         this.changedValue = 99;
       }
-     // console.log('sss:',this.changedValue)
       this.getEchartData();
     },
   },
@@ -111,7 +109,7 @@ export default {
             return (
               that.realValue +
               "{d|" +
-              "天" +
+              that.$t("RemainTime.day")  +
               "}" +
               "\n" +
               "{a|" +
@@ -120,21 +118,21 @@ export default {
             );
           },
           rich: {
-            a: {
+            d: {  //天
               color: window.isDark
                 ? "rgba(255,255,255,0.9)"
                 : "rgba(0,0,0,0.9)",
               fontSize: 18,
               offsetCenter: [that.$i18n.locale === "zh" ? 30 : 35, 5],
-              padding: [4, 12],
+              padding: [4, 3],
             },
-            d: {
+            a: {  //刷头剩余
               fontWeight: "normal",
               fontSize: 16,
               color: window.isDark
                 ? "rgba(255,255,255,0.6)"
                 : "rgba(0,0,0,0.6)",
-              padding: [0, 0, 0, 10],
+              padding: [20, 0, 0, 0],
             },
           },
 
@@ -155,7 +153,7 @@ export default {
           {
             type: "pie",
             hoverAnimation: false,
-            radius: ["80%", "95%"],
+            radius: ["85%", "100%"],
             center: ["50%", "50%"],
             startAngle: 225,
             labelLine: {
@@ -187,7 +185,7 @@ export default {
           {
             type: "pie",
             hoverAnimation: false, //鼠标经过的特效
-            radius: ["80%", "95%"],
+            radius: ["85%", "100%"],
             center: ["50%", "50%"],
             startAngle: 225,
             labelLine: {

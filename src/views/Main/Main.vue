@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-13 19:20:25
+ * @LastEditTime: 2021-04-14 09:13:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -574,7 +574,7 @@ export default {
           this.isflage = true;
           this.isConnect = true;
           this.isDialog = true;
-        }, 30 * 1000);
+        }, 60 * 1000);
       }
     },
     /**
