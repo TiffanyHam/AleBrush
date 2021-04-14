@@ -1,6 +1,7 @@
-
 <template>
   <div class="brushing_other flexC">
+    <!--  http://jsbin.com/caruyetafo/2/edit?css,js,output -->
+
     <!-- <div class="header"> -->
     <div class="header_inner">{{ $t("brushing.header") }}</div>
     <!-- </div> -->
@@ -1018,6 +1019,7 @@ export default {
   animation-duration: 1.2s; //动画持续时间完成
   animation-timing-function: linear;
   animation-iteration-count: infinite;  //是否循环执行动画
+  backface-visibility: hidden;
 }
 // 牙齿阴影动画
 @keyframes opacityAnimate {
