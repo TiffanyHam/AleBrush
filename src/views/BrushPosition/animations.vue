@@ -543,14 +543,6 @@ export default {
         sessionStorage.setItem("previousArea", that.area);
       }, 1000);
     },
-    /**
-     * @description: 重置
-     * @param {*}
-     * @return {*}
-     */
-    Reset() {
-      this.globalT(this.$store.state.timeLength);
-    },
     // 数据解析
     acceptData(data) {
       if (data.indexOf("F55F070401") == 0) {
