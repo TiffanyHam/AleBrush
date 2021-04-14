@@ -359,23 +359,6 @@ export default {
       // 将style样式存放到head标签
       document.getElementsByTagName("head")[0].appendChild(style);
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @description:  js 添加动画
      * @param {Number} pro 目标值
@@ -1030,11 +1013,12 @@ export default {
 .opcity_animate {
   animation-name: opacityAnimate;
 }
-// .animate {
-//   animation-duration: 1.2s;
-//   animation-timing-function: linear;
-//   animation-iteration-count: infinite;
-// }
+.animate {
+  //animation:opacityAnimate 1s infinite infinite;
+  animation-duration: 1.2s; //动画持续时间完成
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;  //是否循环执行动画
+}
 // 牙齿阴影动画
 @keyframes opacityAnimate {
   0% {
