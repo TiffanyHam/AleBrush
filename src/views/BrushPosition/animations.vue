@@ -334,9 +334,48 @@ export default {
    // console.log(this.isToday('2021/4/7'))
     this.globalT(this.timeLength);
     this.init();
+    //this.addStyle()
+
+    // var style1 = document.createElement('style');
+    // style1.innerHTML = '.animate {animation-duration: 1.2s;animation-timing-function: linear;animation-iteration-count: infinite;}';
+    // document.head.appendChild(style1);
+
+
   },
 
   methods: {
+    addStyle(){
+     const animation = `.animate{
+          animation-duration: 1.2s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+       }`;
+      // 创建style标签
+      const style = document.createElement("style");
+      // 设置style属性
+      style.type = "text/css";
+      // 将 keyframes样式写入style内
+      style.innerHTML = animation;
+      // 将style样式存放到head标签
+      document.getElementsByTagName("head")[0].appendChild(style);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @description:  js 添加动画
      * @param {Number} pro 目标值
@@ -991,14 +1030,11 @@ export default {
 .opcity_animate {
   animation-name: opacityAnimate;
 }
-.animate {
-  animation-duration: 1.2s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.closeAnimation {
-  animation-play-state: paused;
-}
+// .animate {
+//   animation-duration: 1.2s;
+//   animation-timing-function: linear;
+//   animation-iteration-count: infinite;
+// }
 // 牙齿阴影动画
 @keyframes opacityAnimate {
   0% {
