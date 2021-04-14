@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 18:42:29
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-12 17:07:09
+ * @LastEditTime: 2021-04-14 16:25:54
  */
 export const getLanguage = () => {
   let language;
@@ -79,6 +79,11 @@ export const isToday = (str) => {
   }
 
 
+/**
+ * @description: 日期格式化
+ * @param {*} dd
+ * @return {*}
+ */
 export const formatDate = (dd) => {
   var date = new Date(dd);
   var YY = date.getFullYear() + "/";
