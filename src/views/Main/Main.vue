@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-15 17:11:27
+ * @LastEditTime: 2021-04-15 17:48:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -363,8 +363,8 @@ export default {
 
   created() {},
   mounted() {
+    this.initData();
     this.$nextTick(() => {
-      this.initData();
       let bs = new BScroll(this.$refs.wrapper, {
         click: true,
         scrollbar: false,
@@ -408,7 +408,7 @@ export default {
       console.log("起始位置：", val);
     },
     data(value) {
-      //console.log("數據來了", value);
+      console.log("數據來了", value);
       this.acceptData(value);
     },
   },
@@ -460,6 +460,7 @@ export default {
     getCloudHistory() {
       let resCallback = (res) => {
         this.getHistory(res);
+        console.log(res)
       };
       reportData.getHistoryLog(resCallback);
     },
@@ -668,7 +669,6 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      this.getCloudHistory();
       if (data.indexOf("F55F07100100") == 0) {
         console.log("设置成功");
       }
@@ -683,6 +683,7 @@ export default {
           this.dialogTip = true;
         }
       }
+      this.getCloudHistory();
       // if (data.indexOf("F55F070401") == 0) {
       //   //工作状态
       //   let openStatus = data.substr(10, 2);
