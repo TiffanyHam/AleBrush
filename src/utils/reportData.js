@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-07 14:19:00
- * @LastEditTime: 2021-04-12 19:12:16
+ * @LastEditTime: 2021-04-15 11:49:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\utils\reportData.js
@@ -31,7 +31,7 @@ reportData.formatDataFromMachine = (dayY,timeY,record,score) => {
         item.ts = reportData.formatTime(reportTime);
         item.sid = "brushingHistory";
         item.data = {
-        logArr: dayY + "_" + timeY + '_' + record + "_" + score,
+        score: dayY + "_" + timeY + '_' + record + "_" + score,
         };
         services.push(item);
         item = {};
@@ -106,7 +106,7 @@ reportData.getHistoryLog = (func = null) => {
     let startTime = reportData.formatTime(nowDate.setMonth(nowDate.getMonth() - 7));
     window.getDevHistoryCallBack = (res) => {
         res = JSON.parse(res);
-        data = reportData.filterData(res.list);
+        data = res.list;
         if (func) {
             func(data)
         }
@@ -118,7 +118,7 @@ reportData.getHistoryLog = (func = null) => {
         startTime,
         endTime,
         "brushingHistory",
-        "binCode",
+        "score",
         "getDevHistoryCallBack"
     );
 }

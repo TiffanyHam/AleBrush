@@ -28,7 +28,7 @@
           <div class="fingle fingle_left"></div>
           <div>{{ $t("BrushTeethPosition.current") }}</div>
         </div>
-        <div v-if="index !== 1" class="left_down_out posiImg"></div>
+        <div v-if="index == 0 ||index == 2 || index == 3 || index == 4" class="left_down_out posiImg"></div>
         <!-- 右下 -->
         <div
           v-if="index == 2"
@@ -602,7 +602,7 @@ export default {
       if (this.$route.path == "/animations") {
         this.clearInter();
         clearInterval(this.timer4);
-        if(this.brushLen > 30 || this.brushLen == 30){
+        if(this.brushLen > 10 || this.brushLen == 10){
            this.historyArr()
         }
        this.$router.push({ name: "Main" });
@@ -627,12 +627,35 @@ export default {
           parseInt(that.setTotalTime.substr(1, 1)) * 60 +
           parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
         var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+        
 
+         let resCallback = (res) => {
+           console.log(res.errcode)
+            if (res.errcode === 200) {  //上报成功
+                console.log('成功')
+                that.getCloudHistory()  //取数据
+            }
+        }
         var formatdata = reportData.formatDataFromMachine(dayY,timeY,that.total,score)
         console.log(formatdata)
+        reportData.getDevId()
+        reportData.report(reportData.devId, formatdata, resCallback)
+
+        
         // reportData.getDevId()
         // reportData.report(reportData.devId, formatdata, resCallback)
     },
+     /**
+         * @description: 历史记录
+         * @param {*}
+         */
+        getCloudHistory() {
+          let resCallback = (res) => {
+            console.log(res)
+             
+          }
+          reportData.getHistoryLog(resCallback)
+      },
   },
 };
 </script>
