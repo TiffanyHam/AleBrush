@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-15 15:08:38
+ * @LastEditTime: 2021-04-15 17:11:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -61,7 +61,7 @@
           >
             <div class="top">
               <div class="num c_90">
-                <span v-if="isflage == isConnect">--</span
+                <span v-if="isflage == isConnect || isDays == 0">--</span
                 ><span v-else>{{ isDays }}</span>
               </div>
               <div class="unit c_60">{{ $t("index.day") }}</div>
@@ -251,7 +251,7 @@ export default {
       dialogTip: false, //低电量
       dialogTip1: false, //天数不足
       tips: this.$t("Reconnection.index"),
-      isDays: "",
+      isDays: 0,
       selectIndex: 0,
       selectIndex1: 0,
       dialogVisiable: false,
@@ -361,9 +361,7 @@ export default {
     },
   },
 
-  created() {
-    this.test();
-  },
+  created() {},
   mounted() {
     this.$nextTick(() => {
       this.initData();
@@ -455,59 +453,30 @@ export default {
         str + `${this.$t("index.minute")}` + str1 + `${this.$t("index.second")}`
       );
     },
-    test() {
-      // var data1 = {
-      //   status: "online",
-      //   services: [
-      //     {
-      //       ts: "20210409T145305Z",
-      //       sid: "brushingHistory",
-      //       data: {
-      //         logStr: "2021/04/11_14:53:05_1分09秒_57_60",
-      //       },
-      //     },
-      //     {
-      //       ts: "20210409T145305Z",
-      //       sid: "brushingHistory",
-      //       data: {
-      //         logStr: "2021/04/11_9:53:05_1分09秒_17_30",
-      //       },
-      //     },
-      //     {
-      //       ts: "20210409T145305Z",
-      //       sid: "brushingHistory",
-      //       data: {
-      //         logStr: "2021/03/09_24:53:05_1分09秒_57_60",
-      //       },
-      //     },
-      //     {
-      //       ts: "20210409T145305Z",
-      //       sid: "brushingHistory",
-      //       data: {
-      //         logStr: "2021/02/09_4:53:05_2分09秒_30_45",
-      //       },
-      //     },
-      //   ],
-      // };
-      var list = [
-        "2021/04/14_14:53:05_00:33_80",
-        "2021/04/12_14:53:05_00:33_80",
-        "2021/04/11_14:53:05_01:02_60",
-        "2021/04/11_15:53:05_01:02_60",
-        "2021/03/10_14:53:05_01:33_30",
-        "XXXXXX",
-        "2021/03/11_9:53:05_01:33_30",
-        "2021/03/09_24:53:05_01:33_60",
-        "XXXXXX",
-        "2021/02/09_4:53:05_02:33_45",
-      ];
+    /**
+     * @description: 云端取数据
+     * @param {*}
+     */
+    getCloudHistory() {
+      let resCallback = (res) => {
+        this.getHistory(res);
+      };
+      reportData.getHistoryLog(resCallback);
+    },
+    /**
+     * @description: 刷牙记录
+     * @param {*}
+     * @return {*}
+     */
+    getHistory(res) {
       var getArr = [],
         dataArr = [];
-      // for (var x in data1.services) {
-      //   var data = data1.services[x].data;
-      //   getArr.push(data);
-      // }
-      var newList = list.slice(0, list.indexOf("XXXXXX"));
+      for (var x in res) {
+        var data = res[x].data.score;
+        getArr.push(data);
+      }
+      //console.log(getArr)
+      var newList = getArr.slice(0, getArr.indexOf("XXXXXX"));
       if (newList.length !== 0) {
         for (var j in newList) {
           var item = {};
@@ -517,7 +486,7 @@ export default {
           item.dates = dates;
           item.score = scores;
           item.brushLens = `${this.$t("index.brushLen")}`;
-          item.time = times;
+          item.time = times;  
           item.seconds = this.getTimeParse(timeLen);
           dataArr.push(item);
 
@@ -549,13 +518,13 @@ export default {
         let date1 = "2021/04/12";
         var todayData = this.search(newArr, date1);
         if (todayData.length == 0) {
-          console.log("暂无数据");
+          //  console.log("暂无数据");
         } else {
           //console.log(todayData);
         }
 
         //当周次数数据
-       // console.log(dataArr);
+        // console.log(dataArr);
         //  var currentIndex = (dataArr|| []).findIndex((dataArr) => dataArr.dates == date2);
         // console.log(currentIndex)
 
@@ -565,12 +534,11 @@ export default {
         let date3 = "2021/04/14";
         let date4 = "2021/04";
         var weekArr = this.weekTotal(dataArr, date2, date3);
-       // console.log(weekArr);
+        // console.log(weekArr);
 
         //当月数据
         var monthArr = this.monthTotal(dataArr, date4);
-      //  console.log(monthArr);
-        
+        //  console.log(monthArr);
       } else {
         this.getScore = 0;
         this.isDays = 60;
@@ -700,6 +668,7 @@ export default {
      * @return {*}
      */
     acceptData(data) {
+      this.getCloudHistory();
       if (data.indexOf("F55F07100100") == 0) {
         console.log("设置成功");
       }

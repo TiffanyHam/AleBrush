@@ -17,27 +17,22 @@
         <!-- 左下 -->
         <div
           v-if="index == 1"
-          :style="{opacity:`${opacityVal}`}"
-          :class="
-            ['00', '02'].includes(isOpen)
-              ? 'left_down_out posiImg'
-              : ''
-          "
+          :style="{ opacity: `${opacityVal}` }"
+          :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
         ></div>
         <div v-if="index == 1" class="currentA currrent_bottom">
           <div class="fingle fingle_left"></div>
           <div>{{ $t("BrushTeethPosition.current") }}</div>
         </div>
-        <div v-if="index == 0 ||index == 2 || index == 3 || index == 4" class="left_down_out posiImg"></div>
+        <div
+          v-if="index == 0 || index == 2 || index == 3 || index == 4"
+          class="left_down_out posiImg"
+        ></div>
         <!-- 右下 -->
         <div
           v-if="index == 2"
-          :style="{opacity:`${opacityVal}`}"
-          :class="
-            ['00', '02'].includes(isOpen)
-              ? 'right_down_out posiImg'
-              : ''
-          "
+          :style="{ opacity: `${opacityVal}` }"
+          :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
         ></div>
         <div v-if="index == 2" class="currentA currrent_bottom">
           <div>{{ $t("BrushTeethPosition.current") }}</div>
@@ -50,12 +45,8 @@
         <!-- 右上 -->
         <div
           v-if="index == 3"
-          :style="{opacity:`${opacityVal}`}"
-          :class="
-            ['00', '02'].includes(isOpen)
-              ? 'right_up_out posiImg'
-              : ''
-          "
+          :style="{ opacity: `${opacityVal}` }"
+          :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
         ></div>
         <div v-if="index == 3" class="currentA currrent_top">
           <div>{{ $t("BrushTeethPosition.current") }}</div>
@@ -65,12 +56,8 @@
         <!-- 左上 -->
         <div
           v-if="index == 4"
-          :style="{opacity:`${opacityVal}`}"
-          :class="
-            ['00', '02'].includes(isOpen)
-              ? 'left_up_out posiImg'
-              : ''
-          "
+          :style="{ opacity: `${opacityVal}` }"
+          :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
         ></div>
         <div v-if="index == 4" class="currentA currrent_top">
           <div class="fingle fingle_left1"></div>
@@ -203,7 +190,7 @@
 <script>
 import { mapState } from "vuex";
 import reportData from "../../utils/reportData";
-import {formatDate} from "../../utils/tool"
+import { formatDate } from "../../utils/tool";
 
 export default {
   name: "Brushing_other",
@@ -240,7 +227,7 @@ export default {
       // 动画下标
       index: null,
       setTotalTime: "",
-     // timer5:null,
+      // timer5:null,
       setAreas: "00",
       area: 0,
       setOriginNum: null,
@@ -285,7 +272,7 @@ export default {
         },
       ],
       isOpen: "00",
-      opacityVal:0
+      opacityVal: 0,
     };
   },
 
@@ -400,7 +387,7 @@ export default {
       clearInterval(this.timer);
       clearInterval(this.timer1);
       clearInterval(this.timer2);
-      clearInterval(this.timer5)
+      clearInterval(this.timer5);
     },
     /**
      * @description: 正常进入页面
@@ -438,13 +425,13 @@ export default {
           that.endY =
             that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
           that.seconds--;
-           
-           //透明度切换
-           if(!that.opacityVal){
-               that.opacityVal = 1
-            }else{
-                that.opacityVal = 0
-            }
+
+          //透明度切换
+          if (!that.opacityVal) {
+            that.opacityVal = 1;
+          } else {
+            that.opacityVal = 0;
+          }
 
           if (that.seconds == 0) {
             if (that.setAreas == 2 && that.index == 3) {
@@ -493,15 +480,15 @@ export default {
         }
         if (second < 10) {
           that.total = "0" + minute + ":" + "0" + second;
-         // that.record = minute + "分0" + second + "秒";
+          // that.record = minute + "分0" + second + "秒";
         } else {
           that.total = "0" + minute + ":" + second;
-        //  that.record = minute + "分" + second + "秒";
+          //  that.record = minute + "分" + second + "秒";
         }
-      that.brushLen =
-      parseInt(that.total.substr(1, 1)) * 60 +
-      parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
-      //console.log('刷牙时长:',that.brushLen)
+        that.brushLen =
+          parseInt(that.total.substr(1, 1)) * 60 +
+          parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
+        //console.log('刷牙时长:',that.brushLen)
 
         sessionStorage.removeItem("previousMi");
         sessionStorage.removeItem("previousSec");
@@ -602,10 +589,10 @@ export default {
       if (this.$route.path == "/animations") {
         this.clearInter();
         clearInterval(this.timer4);
-        if(this.brushLen > 1 || this.brushLen == 1){
-           this.historyArr()
+        if (this.brushLen > 1 || this.brushLen == 1) {
+          this.historyArr();
         }
-       this.$router.push({ name: "Main" });
+        this.$router.push({ name: "Main" });
         //console.log(this.brushLen)
       } else {
         console.log("");
@@ -616,46 +603,36 @@ export default {
      * @description: 历史数据计算
      * @param {*}
      * @return {*}
-     */    
+     */
     historyArr() {
-        var that = this;
-        var times = formatDate(Date.parse(new Date())); //当前时间
-        var dayY = times.split(",")[0]; //年月日
-     
-        var timeY = times.split(",")[1]; //时分秒
-        var setLen =
-          parseInt(that.setTotalTime.substr(1, 1)) * 60 +
-          parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-        var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
-        
+      var that = this;
+      var times = formatDate(Date.parse(new Date())); //当前时间
+      var dayY = times.split(",")[0]; //年月日
 
-         let resCallback = (res) => {
-           console.log(res.errcode)
-            if (res.errcode === 200) {  //上报成功
-                console.log('上报成功')
-                that.getCloudHistory()  //取数据
-            }
+      var timeY = times.split(",")[1]; //时分秒
+      var setLen =
+        parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+        parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+      var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+
+      //数据上报
+      let resCallback = (res) => {
+        console.log(res.errcode);
+        if (res.errcode === 200) {
+          console.log("上报成功");
         }
-        var formatdata = reportData.formatDataFromMachine(dayY,timeY,that.total,score)
-        console.log(formatdata)
-        reportData.getDevId()
-        reportData.report(reportData.devId, formatdata, resCallback)
-
-        
-        // reportData.getDevId()
-        // reportData.report(reportData.devId, formatdata, resCallback)
+      };
+      var formatdata = reportData.formatDataFromMachine(
+        dayY,
+        timeY,
+        that.total,
+        score
+      );
+      // console.log(formatdata)
+      reportData.getDevId();
+      reportData.report(reportData.devId, formatdata, resCallback);
     },
-     /**
-         * @description: 历史记录
-         * @param {*}
-         */
-        getCloudHistory() {
-          let resCallback = (res) => {
-            console.log(res)
-             
-          }
-          reportData.getHistoryLog(resCallback)
-      },
+    
   },
 };
 </script>
