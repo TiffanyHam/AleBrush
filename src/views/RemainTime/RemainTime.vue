@@ -87,7 +87,7 @@ export default {
         getDialogData(val) {  
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
-                //reportData.resize(new Date().getTime() + 1000)
+                reportData.resize(new Date().getTime() + 1000)
                 this.realValue = 60;
             }
         }

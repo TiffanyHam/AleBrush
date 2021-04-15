@@ -234,7 +234,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState,mapActions } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
 import reportData from "../../utils/reportData";
@@ -361,8 +361,11 @@ export default {
     },
   },
 
-  created() {},
+  created() {
+    this.getCloudHistory();
+  },
   mounted() {
+    console.log("蓝牙初始状态：", this.bleConnected);
     this.initData();
     this.$nextTick(() => {
       let bs = new BScroll(this.$refs.wrapper, {
@@ -373,7 +376,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["bleConnected", "initPosition", "data", "timeLength"]),
+    ...mapState(["bleConnected", "initPosition", "data", "timeLength",'cloudData']),
     tips1() {
       if ([-1, -2].includes(this.isDays)) {
         return this.$t("Reconnection.index1", { days: 0 });
@@ -383,6 +386,10 @@ export default {
   },
 
   watch: {
+    cloudData(val){
+      console.log('云端数据：',val)
+      this.getHistory(val)
+    },
     bleConnected(status) {
       console.log("蓝牙状态：", status);
       //  监听蓝牙连接状态
@@ -413,56 +420,127 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+            setCloudData: 'setCloudData'
+        }),
     /**
-     * @description: 星期几
+     * @description: 蓝牙连接
      * @param {*}
      * @return {*}
      */
-    dayWeek() {
-      var a = new Array(
-        `${this.$t("index.weeks.Mon")}`,
-        `${this.$t("index.weeks.Tue")}`,
-        `${this.$t("index.weeks.Wed")}`,
-        `${this.$t("index.weeks.Thu")}`,
-        `${this.$t("index.weeks.Fri")}`,
-        `${this.$t("index.weeks.Sat")}`,
-        `${this.$t("index.weeks.Sun")}`
-      );
-      var week = new Date().getDay();
-      var str = `${this.$t("index.weeks.today")}` + a[week];
-      return str;
-    },
-    isToday(str) {
-      var d = new Date(str.replace(/-/g, "/"));
-      var todaysDate = new Date();
-      if (d.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
-        return true;
+    initData() {
+      this.BLE.init();
+      if (this.bleConnected) {
+        this.isflage = false; //已连接
+        this.isConnect = true;
+        this.isDialog = false;
       } else {
-        return false;
+        setTimeout(() => {
+          //连接中
+          this.isflage = false;
+          this.isConnect = false;
+        }, 500);
+        setTimeout(() => {
+          //连接超时
+          this.isflage = true;
+          this.isConnect = true;
+          this.isDialog = true;
+        }, 60 * 1000);
       }
     },
     /**
-     * @description: 分秒中英解析
-     * @param {*} val
+     * @description: 数据解析
+     * @param {*} data
      * @return {*}
      */
-    getTimeParse(val) {
-      var str = val.substr(1, 1); //min
-      var str1 = val.substr(3, 2); //seconds
-      return (
-        str + `${this.$t("index.minute")}` + str1 + `${this.$t("index.second")}`
-      );
+    acceptData(data) {
+      if (data.indexOf("F55F07100100") == 0) {
+        console.log("设置成功");
+      }
+      if (data.indexOf("F55F070201") == 0) {
+        //刷牙模式
+        this.modeDisplay = data.substr(10, 2);
+      }
+      if (data.indexOf("F55F070301") == 0) {
+        this.battery = String(data.substr(10, 2)); //電量
+        //电量不足
+        if (this.battery == "00") {
+          this.dialogTip = true;
+        }
+      }
+     // this.getCloudHistory();
     },
+   
     /**
      * @description: 云端取数据
      * @param {*}
      */
     getCloudHistory() {
-      let resCallback = (res) => {
-        this.getHistory(res);
-        console.log(res)
-      };
-      reportData.getHistoryLog(resCallback);
+      var res = [
+    //       {
+    //   ts: "20210409T145305Z",
+    //   sid: "brushingHistory",
+    //   data: {
+    //     score: "XXXXXX",
+    //   },
+    // },
+        {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "2021/04/15_14:53:05_00:33_80",
+      },
+    },
+    {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "2021/04/14_14:53:05_00:33_80",
+      },
+    },
+    {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "2021/04/14_16:53:05_00:33_80",
+      },
+    },
+    {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "2021/04/14_18:53:05_00:33_80",
+      },
+    },
+    {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "2021/04/12_14:53:05_00:33_80",
+      },
+    },
+    {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "2021/04/11_14:53:05_01:02_60",
+      },
+    },
+    {
+      ts: "20210409T145305Z",
+      sid: "brushingHistory",
+      data: {
+        score: "XXXXXX",
+      },
+    },
+  ]
+      this.getHistory(res);
+      // let resCallback = (res) => {
+      this.setCloudData(res) 
+      //   this.getHistory(res);
+      //   console.log('00',res)
+      // };
+      // reportData.getHistoryLog(resCallback);
     },
     /**
      * @description: 刷牙记录
@@ -470,6 +548,7 @@ export default {
      * @return {*}
      */
     getHistory(res) {
+      console.log(res)
       var getArr = [],
         dataArr = [];
       for (var x in res) {
@@ -551,6 +630,53 @@ export default {
           this.dialogVisiable = true;
         }
       }
+    },
+     /**
+     * @description: 今天 星期几
+     * @param {*}
+     * @return {*}
+     */
+    dayWeek() {
+      var a = new Array(
+        `${this.$t("index.weeks.Mon")}`,
+        `${this.$t("index.weeks.Tue")}`,
+        `${this.$t("index.weeks.Wed")}`,
+        `${this.$t("index.weeks.Thu")}`,
+        `${this.$t("index.weeks.Fri")}`,
+        `${this.$t("index.weeks.Sat")}`,
+        `${this.$t("index.weeks.Sun")}`
+      );
+      var week = new Date().getDay();
+      var str = `${this.$t("index.weeks.today")}` + a[week];
+      return str;
+    },
+
+    /**
+     * @description: 根据日期判断是否为今天
+     * @param {*}
+     * @return {*}
+     */
+    isToday(str) {
+      var d = new Date(str.replace(/-/g, "/"));
+      var todaysDate = new Date();
+      if (d.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    /**
+     * @description: 分秒中英解析
+     * @param {*} val
+     * @return {*}
+     */
+    getTimeParse(val) {
+      var str = val.substr(1, 1); //min
+      var str1 = val.substr(3, 2); //seconds
+      return (
+        str + `${this.$t("index.minute")}` + str1 + `${this.$t("index.second")}`
+      );
     },
     /**
      * @description: 按日期查当天
@@ -638,61 +764,8 @@ export default {
       });
       return [total, averageNum, averageTime];
     },
-    /**
-     * @description: 蓝牙连接
-     * @param {*}
-     * @return {*}
-     */
-    initData() {
-      this.BLE.init();
-      if (this.bleConnected) {
-        this.isflage = false; //已连接
-        this.isConnect = true;
-        this.isDialog = false;
-      } else {
-        setTimeout(() => {
-          //连接中
-          this.isflage = false;
-          this.isConnect = false;
-        }, 500);
-        setTimeout(() => {
-          //连接超时
-          this.isflage = true;
-          this.isConnect = true;
-          this.isDialog = true;
-        }, 60 * 1000);
-      }
-    },
-    /**
-     * @description: 数据解析
-     * @param {*} data
-     * @return {*}
-     */
-    acceptData(data) {
-      if (data.indexOf("F55F07100100") == 0) {
-        console.log("设置成功");
-      }
-      if (data.indexOf("F55F070201") == 0) {
-        //刷牙模式
-        this.modeDisplay = data.substr(10, 2);
-      }
-      if (data.indexOf("F55F070301") == 0) {
-        this.battery = String(data.substr(10, 2)); //電量
-        //电量不足
-        if (this.battery == "00") {
-          this.dialogTip = true;
-        }
-      }
-      this.getCloudHistory();
-      // if (data.indexOf("F55F070401") == 0) {
-      //   //工作状态
-      //   let openStatus = data.substr(10, 2);
-      //   if (["00", "02"].includes(openStatus)) {
-      //     //开始
-      //     this.$router.push({ name: "animations" });
-      //   }
-      // }
-    },
+    
+    
     /**
      * @description: 过滤器中i18n
      * @param {*} arg
@@ -805,12 +878,18 @@ export default {
     getMore() {
       this.$router.push({ name: "Log" });
     },
-    /**
-     * @description: 弹窗派发事件  重置时间--确认按钮
+     /**
+     * @description: 弹窗派发事件  更换刷头--已更换按钮
      * @param {*}
      * @return {*}
      */
-    getDialogData(val) {},
+    getDialogData(val) {  
+        this.dialogVisiable = val.componentsVisiable;
+        if (val.value) {
+            reportData.resize(new Date().getTime() + 1000)
+            this.realValue = 60;
+        }
+    }
   },
 };
 </script>
@@ -866,12 +945,13 @@ export default {
       width: 100%;
       height: auto;
       border-radius: 8px;
-      flex: 1;
+      //flex: 1;
       margin-bottom: 8px;
       .noLog {
         text-align: center;
         font-size: 14px;
         color: rgba(0, 0, 0, 0.9);
+        margin: 30px 0;
         .logImg {
           width: 53px;
           height: 53px;
@@ -880,21 +960,19 @@ export default {
           margin-bottom: 8px;
         }
       }
-      .log_arr {
-        margin-bottom: 15px;
+     
+      .logHistory {
+        //  padding: 0 24px;
+        line-height: 1.77;
+        font-size: 0.388rem;
+         .log_arr {
+            margin: 0 0 20px 0;
         .days {
           color: rgba(0, 0, 0, 0.86);
           margin-top: 4px;
           font-size: 14px;
         }
       }
-      .logHistory {
-        //  padding: 0 24px;
-        line-height: 1.77;
-        font-size: 0.388rem;
-        .log_arr {
-          margin-bottom: 15px;
-        }
       }
       .detail_bor {
         padding-bottom: 11px;

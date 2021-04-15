@@ -36,11 +36,11 @@
                     </div>
                 </div>
                 <div class="dialog_footer fb">
-                    <span class="btn btn_left" @click.stop="cancle">
+                    <span class="btn btn_left" @click.stop="sure">
                         <slot name="cancle">{{$t('Hint.change')}}</slot>
                     </span>
                     <span class="line"></span>
-                    <span class="btn" @click.stop="sure">
+                    <span class="btn" @click.stop="close">
                         <slot name="sure btn_right">{{$t('Hint.close')}}</slot>
                     </span>
                 </div>

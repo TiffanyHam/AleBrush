@@ -18,8 +18,8 @@ export default new Vuex.Store({
     bleConnected: false, // 监听设备蓝牙连接结果
     initPosition:'2',
     data:'',
-   // openStatus:'',
-    timeLength:"00"
+    timeLength:"00",
+    cloudData:[]
   },
   mutations: {
     UPDATED_BLECONNECTED(state,payload) {
@@ -31,9 +31,9 @@ export default new Vuex.Store({
     UPDATE_DATA(state,payload){
       state.data = payload;
     },
-    // UPDATE_OPEN(state,payload){
-    //   state.openStatus = payload;
-    // },
+    UPDATE_CLOUDDATA(state,payload){
+      state.cloudData = payload;
+    },
     UPDATE_TIME(state,payload){
       state.timeLength = payload;
     },
@@ -51,9 +51,9 @@ export default new Vuex.Store({
     call_update_data(content,payload){
       content.commit('UPDATE_DATA',payload)
     },
-  //   save_open ({commit},data) {
-  //     commit('UPDATE_OPEN', data);
-  //  },
+    setCloudData({commit},data){
+      commit('UPDATE_CLOUDDATA', data);
+    },
     save_time ({commit},data) {
       commit('UPDATE_TIME', data);
    },

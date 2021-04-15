@@ -157,7 +157,7 @@ reportData.getHistoryLog = (func = null) => {
   );
   window.getDevHistoryCallBack = (res) => {
     res = JSON.parse(res);
-    data = res.list;
+    data = res;
     if (func) {
       func(data);
     }
@@ -190,6 +190,7 @@ reportData.resize = (time) => {
       },
     ],
   };
+  console.log('重置数据：',specialData)
   reportData.report(reportData.devId, specialData);
 };
 
