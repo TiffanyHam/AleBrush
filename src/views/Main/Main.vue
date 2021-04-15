@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-14 16:20:16
+ * @LastEditTime: 2021-04-15 15:08:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -364,11 +364,9 @@ export default {
   created() {
     this.test();
   },
-
   mounted() {
-    this.initData();
-
     this.$nextTick(() => {
+      this.initData();
       let bs = new BScroll(this.$refs.wrapper, {
         click: true,
         scrollbar: false,
@@ -567,11 +565,11 @@ export default {
         let date3 = "2021/04/14";
         let date4 = "2021/04";
         var weekArr = this.weekTotal(dataArr, date2, date3);
-        console.log(weekArr);
+       // console.log(weekArr);
 
         //当月数据
         var monthArr = this.monthTotal(dataArr, date4);
-        console.log(monthArr);
+      //  console.log(monthArr);
         
       } else {
         this.getScore = 0;
@@ -716,14 +714,14 @@ export default {
           this.dialogTip = true;
         }
       }
-      if (data.indexOf("F55F070401") == 0) {
-        //工作状态
-        let openStatus = data.substr(10, 2);
-        if (["00", "02"].includes(openStatus)) {
-          //开始
-          this.$router.push({ name: "animations" });
-        }
-      }
+      // if (data.indexOf("F55F070401") == 0) {
+      //   //工作状态
+      //   let openStatus = data.substr(10, 2);
+      //   if (["00", "02"].includes(openStatus)) {
+      //     //开始
+      //     this.$router.push({ name: "animations" });
+      //   }
+      // }
     },
     /**
      * @description: 过滤器中i18n

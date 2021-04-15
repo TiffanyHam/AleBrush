@@ -602,11 +602,11 @@ export default {
       if (this.$route.path == "/animations") {
         this.clearInter();
         clearInterval(this.timer4);
-        if(this.brushLen > 10 || this.brushLen == 10){
+        if(this.brushLen > 1 || this.brushLen == 1){
            this.historyArr()
         }
        this.$router.push({ name: "Main" });
-        console.log(this.brushLen)
+        //console.log(this.brushLen)
       } else {
         console.log("");
       }
@@ -632,7 +632,7 @@ export default {
          let resCallback = (res) => {
            console.log(res.errcode)
             if (res.errcode === 200) {  //上报成功
-                console.log('成功')
+                console.log('上报成功')
                 that.getCloudHistory()  //取数据
             }
         }

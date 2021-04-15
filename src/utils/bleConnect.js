@@ -1,13 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-02-04 14:13:29
- * @LastEditTime: 2021-04-13 09:38:19
+ * @LastEditTime: 2021-04-15 15:33:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
  */
 import store from "@/store";
 import g from "./index.js";
+import route from '@/router'
 
 function init() {
   onBLEConnectionStateChange();
@@ -166,7 +167,7 @@ function onBLEServicesDiscovered() {
             g.readCharacteristicId,
             true
           );
-         // console.log(status)
+         // console.log('notify',status)
 
         if (status == 0) {
           onBLECharacteristicValueChange();
@@ -187,6 +188,14 @@ function onBLEServicesDiscovered() {
 function onBLECharacteristicValueChange() {
   window.onBLECharacteristicValueChangeCallback = (res) => {
     let result = JSON.parse(res);
+    if (result.data.indexOf("F55F070401") == 0) {
+      //工作状态
+      let openStatus = result.data.substr(10, 2);
+      if (["00", "02"].includes(openStatus)) {
+        //开始
+        route.push({ name: "animations" });
+      }
+    }
    // console.log(result.data)
      store.commit("UPDATE_DATA", result.data);
   };
@@ -272,7 +281,7 @@ function writeData(data) {
       "writeBLECharacteristicValueCallBack"
     );
   window.writeBLECharacteristicValueCallBack = (res) => {
-   // console.log(222)
+    //console.log(222)
     let resVal = JSON.parse(res);
     console.log('寫入成功',resVal)
   };
