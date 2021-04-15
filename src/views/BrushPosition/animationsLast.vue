@@ -1,5 +1,7 @@
 <template>
   <div class="brushing_other flexC">
+    <!--  http://jsbin.com/caruyetafo/2/edit?css,js,output -->
+
     <!-- <div class="header"> -->
     <div class="header_inner">{{ $t("brushing.header") }}</div>
     <!-- </div> -->
@@ -17,10 +19,9 @@
         <!-- 左下 -->
         <div
           v-if="index == 1"
-          :style="{opacity:`${opacityVal}`}"
           :class="
             ['00', '02'].includes(isOpen)
-              ? 'left_down_out posiImg'
+              ? 'left_down_out posiImg animate opcity_animate'
               : ''
           "
         ></div>
@@ -28,14 +29,13 @@
           <div class="fingle fingle_left"></div>
           <div>{{ $t("BrushTeethPosition.current") }}</div>
         </div>
-        <div v-if="index !== 1" class="left_down_out posiImg"></div>
+        <div v-if="index != 1" class="left_down_out posiImg"></div>
         <!-- 右下 -->
         <div
           v-if="index == 2"
-          :style="{opacity:`${opacityVal}`}"
           :class="
             ['00', '02'].includes(isOpen)
-              ? 'right_down_out posiImg'
+              ? 'right_down_out posiImg animate opcity_animate'
               : ''
           "
         ></div>
@@ -50,10 +50,9 @@
         <!-- 右上 -->
         <div
           v-if="index == 3"
-          :style="{opacity:`${opacityVal}`}"
           :class="
             ['00', '02'].includes(isOpen)
-              ? 'right_up_out posiImg'
+              ? 'right_up_out posiImg animate opcity_animate'
               : ''
           "
         ></div>
@@ -65,10 +64,9 @@
         <!-- 左上 -->
         <div
           v-if="index == 4"
-          :style="{opacity:`${opacityVal}`}"
           :class="
             ['00', '02'].includes(isOpen)
-              ? 'left_up_out posiImg'
+              ? 'left_up_out posiImg animate opcity_animate'
               : ''
           "
         ></div>
@@ -240,7 +238,6 @@ export default {
       // 动画下标
       index: null,
       setTotalTime: "",
-     // timer5:null,
       setAreas: "00",
       area: 0,
       setOriginNum: null,
@@ -285,7 +282,7 @@ export default {
         },
       ],
       isOpen: "00",
-      opacityVal:0
+      flag: false,
     };
   },
 
@@ -303,6 +300,16 @@ export default {
     time(n, o) {
       this.time = n;
     },
+    // brushLen:{
+    //   handler() {
+    //     if(this.brushLen > 30 || this.brushLen == 30){
+    //       // var gg = this.historyArr()
+    //       // console.log(gg)
+
+    //     }
+    //   }
+    // }
+
   },
   created() {
     let r = 42.5;
@@ -325,11 +332,34 @@ export default {
   mounted() {
     // console.log("isopen", this.isOpen);
     // console.log("时长:", this.timeLength);
+   // console.log(this.isToday('2021/4/7'))
     this.globalT(this.timeLength);
     this.init();
+    //this.addStyle()
+
+    // var style1 = document.createElement('style');
+    // style1.innerHTML = '.animate {animation-duration: 1.2s;animation-timing-function: linear;animation-iteration-count: infinite;}';
+    // document.head.appendChild(style1);
+
+
   },
 
   methods: {
+    addStyle(){
+     const animation = `.animate{
+          animation-duration: 1.2s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+       }`;
+      // 创建style标签
+      const style = document.createElement("style");
+      // 设置style属性
+      style.type = "text/css";
+      // 将 keyframes样式写入style内
+      style.innerHTML = animation;
+      // 将style样式存放到head标签
+      document.getElementsByTagName("head")[0].appendChild(style);
+    },
     /**
      * @description:  js 添加动画
      * @param {Number} pro 目标值
@@ -400,7 +430,6 @@ export default {
       clearInterval(this.timer);
       clearInterval(this.timer1);
       clearInterval(this.timer2);
-      clearInterval(this.timer5)
     },
     /**
      * @description: 正常进入页面
@@ -438,13 +467,6 @@ export default {
           that.endY =
             that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
           that.seconds--;
-           
-           //透明度切换
-           if(!that.opacityVal){
-               that.opacityVal = 1
-            }else{
-                that.opacityVal = 0
-            }
 
           if (that.seconds == 0) {
             if (that.setAreas == 2 && that.index == 3) {
@@ -988,6 +1010,34 @@ export default {
 }
 .font12 {
   font-size: 12px;
+}
+.opcity_animate {
+  animation-name: opacityAnimate;
+}
+.animate {
+  //animation:opacityAnimate 1s infinite infinite;
+  animation-duration: 1.2s; //动画持续时间完成
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;  //是否循环执行动画
+  backface-visibility: hidden;
+}
+// 牙齿阴影动画
+@keyframes opacityAnimate {
+  0% {
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.2;
+  }
 }
 .theme-dark {
   .dialog {
