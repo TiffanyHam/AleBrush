@@ -617,7 +617,7 @@ export default {
 
       //数据上报
       let resCallback = (res) => {
-        console.log('hhh:',res.errcode);
+       // console.log('hhh:',res.errcode);
         if (res.errcode == 200) {
           console.log("上报成功");
         }
@@ -628,7 +628,7 @@ export default {
         that.total,
         score
       );
-       console.log('99:',formatdata)
+      // console.log('99:',formatdata)
       reportData.getDevId();
       reportData.report(reportData.devId, formatdata, resCallback);
     },

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-15 17:48:44
+ * @LastEditTime: 2021-04-16 09:47:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -234,7 +234,7 @@
   </div>
 </template>
 <script>
-import { mapState,mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
 import reportData from "../../utils/reportData";
@@ -362,7 +362,7 @@ export default {
   },
 
   created() {
-    this.getCloudHistory();
+    //  this.getCloudHistory();
   },
   mounted() {
     console.log("蓝牙初始状态：", this.bleConnected);
@@ -376,7 +376,13 @@ export default {
   },
 
   computed: {
-    ...mapState(["bleConnected", "initPosition", "data", "timeLength",'cloudData']),
+    ...mapState([
+      "bleConnected",
+      "initPosition",
+      "data",
+      "timeLength",
+      "cloudData",
+    ]),
     tips1() {
       if ([-1, -2].includes(this.isDays)) {
         return this.$t("Reconnection.index1", { days: 0 });
@@ -386,9 +392,9 @@ export default {
   },
 
   watch: {
-    cloudData(val){
-      console.log('云端数据：',val)
-      this.getHistory(val)
+    cloudData(val) {
+      console.log("云端数据：", val);
+      this.getHistory(val);
     },
     bleConnected(status) {
       console.log("蓝牙状态：", status);
@@ -412,17 +418,17 @@ export default {
       }
     },
     initPosition(val) {
-      console.log("起始位置：", val);
+      //console.log("起始位置：", val);
     },
     data(value) {
-      console.log("數據來了", value);
+     // console.log("數據來了", value);
       this.acceptData(value);
     },
   },
   methods: {
     ...mapActions({
-            setCloudData: 'setCloudData'
-        }),
+      setCloudData: "setCloudData",
+    }),
     /**
      * @description: 蓝牙连接
      * @param {*}
@@ -468,79 +474,79 @@ export default {
           this.dialogTip = true;
         }
       }
-     // this.getCloudHistory();
+      this.getCloudHistory();
     },
-   
+
     /**
      * @description: 云端取数据
      * @param {*}
      */
     getCloudHistory() {
-      var res = [
-    //       {
-    //   ts: "20210409T145305Z",
-    //   sid: "brushingHistory",
-    //   data: {
-    //     score: "XXXXXX",
-    //   },
-    // },
-        {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "2021/04/15_14:53:05_00:33_80",
-      },
-    },
-    {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "2021/04/14_14:53:05_00:33_80",
-      },
-    },
-    {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "2021/04/14_16:53:05_00:33_80",
-      },
-    },
-    {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "2021/04/14_18:53:05_00:33_80",
-      },
-    },
-    {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "2021/04/12_14:53:05_00:33_80",
-      },
-    },
-    {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "2021/04/11_14:53:05_01:02_60",
-      },
-    },
-    {
-      ts: "20210409T145305Z",
-      sid: "brushingHistory",
-      data: {
-        score: "XXXXXX",
-      },
-    },
-  ]
-      this.getHistory(res);
-      // let resCallback = (res) => {
-      this.setCloudData(res) 
-      //   this.getHistory(res);
-      //   console.log('00',res)
-      // };
-      // reportData.getHistoryLog(resCallback);
+      // var res = [
+      //       {
+      //   ts: "20210409T145305Z",
+      //   sid: "brushingHistory",
+      //   data: {
+      //     score: "XXXXXX",
+      //   },
+      // },
+      //       {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "2021/04/15_14:53:05_00:33_80",
+      //     },
+      //   },
+      //   {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "2021/04/14_14:53:05_00:33_80",
+      //     },
+      //   },
+      //   {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "2021/04/14_16:53:05_00:33_80",
+      //     },
+      //   },
+      //   {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "2021/04/14_18:53:05_00:33_80",
+      //     },
+      //   },
+      //   {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "2021/04/12_14:53:05_00:33_80",
+      //     },
+      //   },
+      //   {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "2021/04/11_14:53:05_01:02_60",
+      //     },
+      //   },
+      //   {
+      //     ts: "20210409T145305Z",
+      //     sid: "brushingHistory",
+      //     data: {
+      //       score: "XXXXXX",
+      //     },
+      //   },
+      // ]
+      // this.getHistory(res);
+      let resCallback = (res) => {
+        this.setCloudData(res);
+        this.getHistory(res);
+        //console.log("00", res);
+      };
+      reportData.getHistoryLog(resCallback);
     },
     /**
      * @description: 刷牙记录
@@ -548,7 +554,7 @@ export default {
      * @return {*}
      */
     getHistory(res) {
-      console.log(res)
+      //console.log(res);
       var getArr = [],
         dataArr = [];
       for (var x in res) {
@@ -566,7 +572,7 @@ export default {
           item.dates = dates;
           item.score = scores;
           item.brushLens = `${this.$t("index.brushLen")}`;
-          item.time = times;  
+          item.time = times;
           item.seconds = this.getTimeParse(timeLen);
           dataArr.push(item);
 
@@ -631,7 +637,7 @@ export default {
         }
       }
     },
-     /**
+    /**
      * @description: 今天 星期几
      * @param {*}
      * @return {*}
@@ -764,8 +770,7 @@ export default {
       });
       return [total, averageNum, averageTime];
     },
-    
-    
+
     /**
      * @description: 过滤器中i18n
      * @param {*} arg
@@ -878,18 +883,18 @@ export default {
     getMore() {
       this.$router.push({ name: "Log" });
     },
-     /**
+    /**
      * @description: 弹窗派发事件  更换刷头--已更换按钮
      * @param {*}
      * @return {*}
      */
-    getDialogData(val) {  
-        this.dialogVisiable = val.componentsVisiable;
-        if (val.value) {
-            reportData.resize(new Date().getTime() + 1000)
-            this.realValue = 60;
-        }
-    }
+    getDialogData(val) {
+      this.dialogVisiable = val.componentsVisiable;
+      if (val.value) {
+        reportData.resize(new Date().getTime() + 1000);
+        this.realValue = 60;
+      }
+    },
   },
 };
 </script>
@@ -960,19 +965,19 @@ export default {
           margin-bottom: 8px;
         }
       }
-     
+
       .logHistory {
         //  padding: 0 24px;
         line-height: 1.77;
         font-size: 0.388rem;
-         .log_arr {
-            margin: 0 0 20px 0;
-        .days {
-          color: rgba(0, 0, 0, 0.86);
-          margin-top: 4px;
-          font-size: 14px;
+        .log_arr {
+          margin: 0 0 20px 0;
+          .days {
+            color: rgba(0, 0, 0, 0.86);
+            margin-top: 4px;
+            font-size: 14px;
+          }
         }
-      }
       }
       .detail_bor {
         padding-bottom: 11px;
