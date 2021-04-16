@@ -589,7 +589,7 @@ export default {
       if (this.$route.path == "/animations") {
         this.clearInter();
         clearInterval(this.timer4);
-        if (this.brushLen > 30 || this.brushLen == 30) {
+        if (this.brushLen >1 || this.brushLen == 1) {
           this.historyArr();
         }
         this.$router.push({ name: "Main" });
