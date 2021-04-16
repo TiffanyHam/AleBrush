@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-16 15:53:32
+ * @LastEditTime: 2021-04-16 17:05:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -813,7 +813,7 @@ export default {
     getDialogData(val) {
       this.dialogVisiable = val.componentsVisiable;
       if (val.value) {
-       // reportData.resize(new Date().getTime() + 1000);
+        reportData.resize(new Date().getTime() + 1000);
         this.realValue = 60;
       }
     },

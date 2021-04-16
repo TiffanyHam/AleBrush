@@ -206,22 +206,22 @@ reportData.getHistoryLog = (func = null) => {
 };
 
 // 特殊数据 用于分割重置后的刷牙历史数据
-// reportData.resize = (time) => {
-//   let specialData = {
-//     status: "online",
-//     services: [
-//       {
-//         ts: reportData.formatTime(time),
-//         sid: "brushingHistory",
-//         data: {
-//           score: "XXXXXX",
-//         },
-//       },
-//     ],
-//   };
-//   console.log("重置数据：", specialData);
-//   reportData.report(reportData.devId, specialData);
-// };
+reportData.resize = (time) => {
+  let specialData = {
+    status: "online",
+    services: [
+      {
+        ts: reportData.formatTime(time),
+        sid: "brushingHistory",
+        data: {
+          score: "XXXXXX",
+        },
+      },
+    ],
+  };
+  console.log("重置数据：", specialData);
+  reportData.report(reportData.devId, specialData);
+};
 
 reportData.getDevId();
 export default reportData;
