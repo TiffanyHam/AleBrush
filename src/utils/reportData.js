@@ -185,7 +185,7 @@ reportData.resize = (time) => {
         ts: reportData.formatTime(time),
         sid: "brushingHistory",
         data: {
-          logStr: "XXXXXX",
+          score: "XXXXXX",
         },
       },
     ],
