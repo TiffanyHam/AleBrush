@@ -52,7 +52,7 @@ reportData.getDevId = () => {
   // 获取设备信息
   window.getDevInfoAllCallback = (res) => {
     res = JSON.parse(res);
-     console.log('获取华为云端唯一id',res);
+    // console.log('获取华为云端唯一id',res);
     reportData.devId = res.devId;
   };
   window.hilink &&
@@ -190,7 +190,7 @@ reportData.resize = (time) => {
       },
     ],
   };
-  //console.log('重置数据：',specialData)
+  console.log('重置数据：',specialData)
   reportData.report(reportData.devId, specialData);
 };
 

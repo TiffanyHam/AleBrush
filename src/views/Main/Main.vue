@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-16 09:47:52
+ * @LastEditTime: 2021-04-16 10:39:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -360,12 +360,9 @@ export default {
       return statusMap[status];
     },
   },
-
-  created() {
-    //  this.getCloudHistory();
-  },
   mounted() {
     console.log("蓝牙初始状态：", this.bleConnected);
+    console.log("初始数据：", this.data);
     this.initData();
     this.$nextTick(() => {
       let bs = new BScroll(this.$refs.wrapper, {
@@ -392,14 +389,16 @@ export default {
   },
 
   watch: {
-    cloudData(val) {
-      console.log("云端数据：", val);
-      this.getHistory(val);
-    },
+    // cloudData(val) {
+    //   console.log("云端数据：", val);
+    // //  this.getHistory(val);
+    // },
+
     bleConnected(status) {
       console.log("蓝牙状态：", status);
       //  监听蓝牙连接状态
       if (status) {
+        this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
@@ -421,14 +420,16 @@ export default {
       //console.log("起始位置：", val);
     },
     data(value) {
-     // console.log("數據來了", value);
-      this.acceptData(value);
+      // console.log("數據來了", value);
+      if (value) {
+        this.acceptData(value);
+      }
     },
   },
   methods: {
-    ...mapActions({
-      setCloudData: "setCloudData",
-    }),
+    // ...mapActions({
+    //   setCloudData: "setCloudData",
+    // }),
     /**
      * @description: 蓝牙连接
      * @param {*}
@@ -437,6 +438,7 @@ export default {
     initData() {
       this.BLE.init();
       if (this.bleConnected) {
+        this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
@@ -460,12 +462,14 @@ export default {
      * @return {*}
      */
     acceptData(data) {
+      this.getCloudHistory();
       if (data.indexOf("F55F07100100") == 0) {
         console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
         this.modeDisplay = data.substr(10, 2);
+        //console.log(this.modeDisplay)
       }
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2)); //電量
@@ -474,7 +478,6 @@ export default {
           this.dialogTip = true;
         }
       }
-      this.getCloudHistory();
     },
 
     /**
@@ -542,9 +545,8 @@ export default {
       // ]
       // this.getHistory(res);
       let resCallback = (res) => {
-        this.setCloudData(res);
         this.getHistory(res);
-        //console.log("00", res);
+       // console.log("00", res);
       };
       reportData.getHistoryLog(resCallback);
     },
