@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-13 10:32:49
+ * @LastEditTime: 2021-04-16 15:47:41
 -->
 <!--  -->
 <template>
@@ -87,7 +87,7 @@ export default {
         getDialogData(val) {  
             this.dialogVisiable = val.componentsVisiable;
             if (val.value) {
-                reportData.resize(new Date().getTime() + 1000)
+                //reportData.resize(new Date().getTime() + 1000)
                 this.realValue = 60;
             }
         }

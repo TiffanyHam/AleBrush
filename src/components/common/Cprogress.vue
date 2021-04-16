@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 09:25:35
- * @LastEditTime: 2021-04-14 09:24:49
+ * @LastEditTime: 2021-04-16 15:44:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\Cprogress.vue
@@ -24,7 +24,7 @@ export default {
   name: "Cprogress",
   data() {
     return {
-      changedValue:''
+      changedValue:20
     };
   },
 

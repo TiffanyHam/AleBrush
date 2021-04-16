@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-16 11:11:03
+ * @LastEditTime: 2021-04-16 15:53:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -9,10 +9,11 @@
 <!--  -->
 <template>
   <div class="page bg_F7F7F7">
-    <div class="index_main" ref="wrapper">
+    <div class="index_main">
       <div
         class="content"
         :class="dialogTip || dialogTip1 == true ? 'marginTop' : ''"
+        :style="{height:wapperHeight}"
       >
         <!-- 产品图 -->
         <div class="banner">
@@ -272,19 +273,14 @@ export default {
       modeDisplay: "00", //刷牙模式
       logArr: [],
       getScore: "",
-
+      conentHeight: '',
+      wapperHeight: '',
       // logArr: [
       //   {
       //     dates: "今天 星期三",
       //     historyArr: [
       //       {
       //         score: "99",
-      //         brushLens: "刷牙时长",
-      //         time: "08:00:76",
-      //         seconds: "1分55秒",
-      //       },
-      //       {
-      //         score: "28",
       //         brushLens: "刷牙时长",
       //         time: "08:00:76",
       //         seconds: "1分55秒",
@@ -300,12 +296,7 @@ export default {
       //         time: "08:00:76",
       //         seconds: "1分55秒",
       //       },
-      //       {
-      //         score: "61",
-      //         brushLens: "刷牙时长",
-      //         time: "08:00:76",
-      //         seconds: "1分55秒",
-      //       },
+      //      
       //     ],
       //   },
       // ],
@@ -361,15 +352,9 @@ export default {
     },
   },
   mounted() {
-    console.log("蓝牙初始状态：", this.bleConnected);
-    console.log("初始数据：", this.data);
+    //console.log("蓝牙初始状态：", this.bleConnected);
+    //console.log("初始数据：", this.data);
     this.initData();
-    this.$nextTick(() => {
-      let bs = new BScroll(this.$refs.wrapper, {
-        click: true,
-        scrollbar: false,
-      });
-    });
   },
 
   computed: {
@@ -498,7 +483,8 @@ export default {
         getArr.push(data);
       }
       //console.log(getArr)
-      var newList = getArr.slice(0, getArr.indexOf("XXXXXX"));
+      //var newList = getArr.slice(0, getArr.indexOf("XXXXXX"));
+      var newList = getArr
       if (newList.length !== 0) {
         for (var j in newList) {
           var item = {};
@@ -580,13 +566,13 @@ export default {
      */
     dayWeek() {
       var a = new Array(
+        `${this.$t("index.weeks.Sun")}`,
         `${this.$t("index.weeks.Mon")}`,
         `${this.$t("index.weeks.Tue")}`,
         `${this.$t("index.weeks.Wed")}`,
         `${this.$t("index.weeks.Thu")}`,
         `${this.$t("index.weeks.Fri")}`,
-        `${this.$t("index.weeks.Sat")}`,
-        `${this.$t("index.weeks.Sun")}`
+        `${this.$t("index.weeks.Sat")}`
       );
       var week = new Date().getDay();
       var str = `${this.$t("index.weeks.today")}` + a[week];
@@ -827,20 +813,36 @@ export default {
     getDialogData(val) {
       this.dialogVisiable = val.componentsVisiable;
       if (val.value) {
-        reportData.resize(new Date().getTime() + 1000);
+       // reportData.resize(new Date().getTime() + 1000);
         this.realValue = 60;
       }
     },
+    /**
+     * @description: 滑动事件
+     * @param {*}
+     * @return {*}
+     */    
+    initScroll() {
+        this.scroll = new BScroll(document.querySelector('.index_main'), {
+            probeType: 3,
+            click: true,
+            scrollY: true,
+        })
+        },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .page {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  padding: 80px 0 0 0;
+  // width: 100%;
+  // height: 100%;
+  //position: relative;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   .mt8 {
@@ -854,12 +856,12 @@ export default {
   .index_main {
     height: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: auto;
     .content {
       width: 100%;
       padding: 0 16px;
       flex: 1;
-      overflow: hidden;
+      overflow: auto;
     }
     .marginTop {
       margin-top: 48px;
