@@ -1,33 +1,62 @@
 // var res = [
-//     {
-//       ts: "20210409T145305Z",
-//       sid: "brushingHistory",
-//       data: {
-//         score: "2021/04/14_14:53:05_00:33_80",
-//       },
+//       {
+//   ts: "20210409T145305Z",
+//   sid: "brushingHistory",
+//   data: {
+//     score: "XXXXXX",
+//   },
+// },
+//       {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "2021/04/15_14:53:05_00:33_80",
 //     },
-//     {
-//       ts: "20210409T145305Z",
-//       sid: "brushingHistory",
-//       data: {
-//         score: "2021/04/12_14:53:05_00:33_80",
-//       },
+//   },
+//   {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "2021/04/14_14:53:05_00:33_80",
 //     },
-//     {
-//       ts: "20210409T145305Z",
-//       sid: "brushingHistory",
-//       data: {
-//         score: "2021/04/11_14:53:05_01:02_60",
-//       },
+//   },
+//   {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "2021/04/14_16:53:05_00:33_80",
 //     },
-//     {
-//       ts: "20210409T145305Z",
-//       sid: "brushingHistory",
-//       data: {
-//         score: "XXXXXX",
-//       },
+//   },
+//   {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "2021/04/14_18:53:05_00:33_80",
 //     },
-//   ]
+//   },
+//   {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "2021/04/12_14:53:05_00:33_80",
+//     },
+//   },
+//   {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "2021/04/11_14:53:05_01:02_60",
+//     },
+//   },
+//   {
+//     ts: "20210409T145305Z",
+//     sid: "brushingHistory",
+//     data: {
+//       score: "XXXXXX",
+//     },
+//   },
+// ]
+// this.getHistory(res);
 
 // console.log('kkk:',data1)
 // var list = [
@@ -52,7 +81,7 @@ reportData.getDevId = () => {
   // 获取设备信息
   window.getDevInfoAllCallback = (res) => {
     res = JSON.parse(res);
-    // console.log('获取华为云端唯一id',res);
+   // console.log('获取华为云端唯一id',res);
     reportData.devId = res.devId;
   };
   window.hilink &&
@@ -190,7 +219,7 @@ reportData.resize = (time) => {
       },
     ],
   };
-  console.log('重置数据：',specialData)
+  console.log("重置数据：", specialData);
   reportData.report(reportData.devId, specialData);
 };
 

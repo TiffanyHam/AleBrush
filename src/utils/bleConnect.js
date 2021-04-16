@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-04 14:13:29
- * @LastEditTime: 2021-04-15 15:33:58
+ * @LastEditTime: 2021-04-16 11:05:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
@@ -9,7 +9,7 @@
 import store from "@/store";
 import g from "./index.js";
 import route from '@/router'
-
+import reportData from "./reportData.js";
 function init() {
   onBLEConnectionStateChange();
   onBluetoothAdapterStateChange();
@@ -89,6 +89,7 @@ function onBLEConnectionStateChange() {
   window.onBLEConnectionStateChangeCallBack = (res) => {
     res = JSON.parse(res);
     if (res.connected) {
+      reportData.getDevId();
       store.commit("UPDATED_BLECONNECTED", true);
       // 通知上层
       onBLEServicesDiscovered();

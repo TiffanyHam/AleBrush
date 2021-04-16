@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-16 10:39:15
+ * @LastEditTime: 2021-04-16 11:11:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -389,15 +389,11 @@ export default {
   },
 
   watch: {
-    // cloudData(val) {
-    //   console.log("云端数据：", val);
-    // //  this.getHistory(val);
-    // },
-
     bleConnected(status) {
       console.log("蓝牙状态：", status);
       //  监听蓝牙连接状态
       if (status) {
+        this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -420,16 +416,13 @@ export default {
       //console.log("起始位置：", val);
     },
     data(value) {
-      // console.log("數據來了", value);
+      console.log("数据变化", value);
       if (value) {
         this.acceptData(value);
       }
     },
   },
   methods: {
-    // ...mapActions({
-    //   setCloudData: "setCloudData",
-    // }),
     /**
      * @description: 蓝牙连接
      * @param {*}
@@ -438,6 +431,7 @@ export default {
     initData() {
       this.BLE.init();
       if (this.bleConnected) {
+        this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -462,7 +456,6 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      this.getCloudHistory();
       if (data.indexOf("F55F07100100") == 0) {
         console.log("设置成功");
       }
@@ -485,68 +478,9 @@ export default {
      * @param {*}
      */
     getCloudHistory() {
-      // var res = [
-      //       {
-      //   ts: "20210409T145305Z",
-      //   sid: "brushingHistory",
-      //   data: {
-      //     score: "XXXXXX",
-      //   },
-      // },
-      //       {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "2021/04/15_14:53:05_00:33_80",
-      //     },
-      //   },
-      //   {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "2021/04/14_14:53:05_00:33_80",
-      //     },
-      //   },
-      //   {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "2021/04/14_16:53:05_00:33_80",
-      //     },
-      //   },
-      //   {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "2021/04/14_18:53:05_00:33_80",
-      //     },
-      //   },
-      //   {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "2021/04/12_14:53:05_00:33_80",
-      //     },
-      //   },
-      //   {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "2021/04/11_14:53:05_01:02_60",
-      //     },
-      //   },
-      //   {
-      //     ts: "20210409T145305Z",
-      //     sid: "brushingHistory",
-      //     data: {
-      //       score: "XXXXXX",
-      //     },
-      //   },
-      // ]
-      // this.getHistory(res);
       let resCallback = (res) => {
         this.getHistory(res);
-       // console.log("00", res);
+       // console.log("云端数据返回：", res);
       };
       reportData.getHistoryLog(resCallback);
     },
