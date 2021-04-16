@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-16 17:05:04
+ * @LastEditTime: 2021-04-16 17:38:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -13,7 +13,6 @@
       <div
         class="content"
         :class="dialogTip || dialogTip1 == true ? 'marginTop' : ''"
-        :style="{height:wapperHeight}"
       >
         <!-- 产品图 -->
         <div class="banner">
@@ -273,8 +272,8 @@ export default {
       modeDisplay: "00", //刷牙模式
       logArr: [],
       getScore: "",
-      conentHeight: '',
-      wapperHeight: '',
+      conentHeight: "",
+      wapperHeight: "",
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -296,7 +295,7 @@ export default {
       //         time: "08:00:76",
       //         seconds: "1分55秒",
       //       },
-      //      
+      //
       //     ],
       //   },
       // ],
@@ -465,7 +464,7 @@ export default {
     getCloudHistory() {
       let resCallback = (res) => {
         this.getHistory(res);
-       // console.log("云端数据返回：", res);
+        // console.log("云端数据返回：", res);
       };
       reportData.getHistoryLog(resCallback);
     },
@@ -475,82 +474,27 @@ export default {
      * @return {*}
      */
     getHistory(res) {
-      //console.log(res);
-      var getArr = [],
-        dataArr = [];
+      var getArr = []
       for (var x in res) {
         var data = res[x].data.score;
         getArr.push(data);
       }
-      //console.log(getArr)
-      //var newList = getArr.slice(0, getArr.indexOf("XXXXXX"));
-      var newList = getArr
-      if (newList.length !== 0) {
-        for (var j in newList) {
-          var item = {};
-          var allData = newList[j].split("_");
-          var [dates, times, timeLen, scores] = allData;
+     // console.log('getArr',getArr)
+      var filterData = getArr.filter((item) => item !== "XXXXXX");
+      var flageData = getArr.slice(0, getArr.indexOf("XXXXXX"));
 
-          item.dates = dates;
-          item.score = scores;
-          item.brushLens = `${this.$t("index.brushLen")}`;
-          item.time = times;
-          item.seconds = this.getTimeParse(timeLen);
-          dataArr.push(item);
-
-          var newArr = []; //按日期分类后的数据
-          dataArr.forEach((item, i) => {
-            let index = -1;
-            let isExists = newArr.some((newItem, j) => {
-              if (item.dates == newItem.dates) {
-                index = j;
-                return true;
-              }
-            });
-            if (!isExists) {
-              newArr.push({
-                dates: item.dates,
-                historyArr: [item],
-              });
-            } else {
-              newArr[index].historyArr.push(item);
-            }
-          });
+       if(flageData.length !== 0){
+           //console.log(this.getArrList(flageData))
+         if(this.getArrList(flageData) !== []){
+            this.isDays = 60 - this.getArrList(flageData)[1].length
+          // console.log('天数：',this.isDays)
         }
-        this.logArr = newArr.slice(0, 2); //只展示2天的数据
-        // console.log(newArr)
-        this.getScore = dataArr[0].score;
-        this.isDays = 60 - newArr.length;
+       }else{
+          this.isDays = 60;
+          //console.log('天数：',this.isDays)
+       }
 
-        //当天数据展示
-        let date1 = "2021/04/12";
-        var todayData = this.search(newArr, date1);
-        if (todayData.length == 0) {
-          //  console.log("暂无数据");
-        } else {
-          //console.log(todayData);
-        }
-
-        //当周次数数据
-        // console.log(dataArr);
-        //  var currentIndex = (dataArr|| []).findIndex((dataArr) => dataArr.dates == date2);
-        // console.log(currentIndex)
-
-        //const results = dataArr.filter(item=>item.dates >= date2 && item.dates <=date3)
-        //  console.log(results.length)
-        let date2 = "2021/04/12";
-        let date3 = "2021/04/14";
-        let date4 = "2021/04";
-        var weekArr = this.weekTotal(dataArr, date2, date3);
-        // console.log(weekArr);
-
-        //当月数据
-        var monthArr = this.monthTotal(dataArr, date4);
-        //  console.log(monthArr);
-      } else {
-        this.getScore = 0;
-        this.isDays = 60;
-      }
+             
       //刷牙天数不足
       if (this.isDays < 10) {
         this.dialogTip1 = true;
@@ -558,6 +502,58 @@ export default {
           this.dialogVisiable = true;
         }
       }
+
+       if(filterData.length !== 0){
+           var ss = this.getArrList(filterData)[0]
+            this.getScore = ss[0].score;
+           // console.log('分数：',this.getScore)
+
+            var cc = this.getArrList(filterData)[1]
+            this.logArr = cc.slice(0, 2); 
+           // console.log('两天：',this.logArr)
+       }else{
+            this.getScore = 0;
+       }
+
+    },
+        /**
+     * @description: 数据过滤
+     * @param {*}
+     */
+    getArrList(newList) {
+      let dataArr = [];
+      for (var j in newList) {
+        var item = {};
+        var allData = newList[j].split("_");
+        var [dates, times, timeLen, scores] = allData;
+
+        item.dates = dates;
+        item.score = scores;
+        item.brushLens = `${this.$t("index.brushLen")}`;
+        item.time = times;
+        item.seconds = this.getTimeParse(timeLen);
+        dataArr.push(item);
+
+        var newArr = []; //按日期分类后的数据
+        dataArr.forEach((item, i) => {
+          let index = -1;
+          let isExists = newArr.some((newItem, j) => {
+            if (item.dates == newItem.dates) {
+              index = j;
+              return true;
+            }
+          });
+          if (!isExists) {
+            newArr.push({
+              dates: item.dates,
+              historyArr: [item],
+            });
+          } else {
+            newArr[index].historyArr.push(item);
+          }
+        });
+      }
+      return [dataArr,newArr]
     },
     /**
      * @description: 今天 星期几
@@ -600,99 +596,15 @@ export default {
      * @return {*}
      */
     getTimeParse(val) {
-      var str = val.substr(1, 1); //min
-      var str1 = val.substr(3, 2); //seconds
-      return (
+      if(val){
+        var str = val.substr(1, 1); //min
+         var str1 = val.substr(3, 2); //seconds
+        return (
         str + `${this.$t("index.minute")}` + str1 + `${this.$t("index.second")}`
       );
+      }
+      
     },
-    /**
-     * @description: 按日期查当天
-     * @param {*} keyword
-     * @return {*}
-     */
-    search(arr, date) {
-      var newList = [];
-      arr.forEach((item) => {
-        if (item.dates.indexOf(date) != -1) {
-          newList.push(item);
-        }
-      });
-      return newList;
-    },
-    /**
-     * @description: 按日期查周数据
-     * @param {*} arr
-     * @param {*} startDate
-     * @param {*} endDate
-     * @return {*}
-     */
-    weekTotal(arr, startDate, endDate) {
-      let results = arr.filter(
-        (item) => item.dates >= startDate && item.dates <= endDate
-      );
-      let total = results.length;
-      let averageNum = 0,
-        averageTime = 0,
-        s = 0,
-        t = 0,
-        j = 0;
-      results.forEach((item) => {
-        if (item.score) {
-          t += parseInt(item.score) / 6;
-          averageNum = parseInt(t);
-        }
-        if (item.seconds) {
-          let second =
-            parseInt(item.seconds.substr(0, 1)) * 60 +
-            parseInt(item.seconds.substr(2, 2));
-          s += parseInt(second) / 6;
-          j = parseInt(s);
-          averageTime =
-            Math.floor(j / 60) +
-            `${this.$t("index.minute")}` +
-            ((j % 60) / 100).toFixed(2).slice(-2) +
-            `${this.$t("index.second")}`;
-        }
-      });
-      return [total, averageNum, averageTime];
-    },
-    /**
-     * @description: 按日期查月数据
-     * @param {*} arr
-     * @return {*}
-     */
-    monthTotal(arr, date) {
-      let results = arr.filter(
-        (item) => item.dates.substr(0, item.dates.length - 3) == date
-      );
-      let total = results.length;
-      let averageNum = 0,
-        averageTime = 0,
-        s = 0,
-        t = 0,
-        j = 0;
-      results.forEach((item) => {
-        if (item.score) {
-          t += parseInt(item.score) / 30;
-          averageNum = parseInt(t);
-        }
-        if (item.seconds) {
-          let second =
-            parseInt(item.seconds.substr(0, 1)) * 60 +
-            parseInt(item.seconds.substr(2, 2));
-          s += parseInt(parseInt(second) / 30);
-          j = parseInt(s);
-          averageTime =
-            Math.floor(j / 60) +
-            `${this.$t("index.minute")}` +
-            ((j % 60) / 100).toFixed(2).slice(-2) +
-            `${this.$t("index.second")}`;
-        }
-      });
-      return [total, averageNum, averageTime];
-    },
-
     /**
      * @description: 过滤器中i18n
      * @param {*} arg
@@ -821,14 +733,14 @@ export default {
      * @description: 滑动事件
      * @param {*}
      * @return {*}
-     */    
+     */
     initScroll() {
-        this.scroll = new BScroll(document.querySelector('.index_main'), {
-            probeType: 3,
-            click: true,
-            scrollY: true,
-        })
-        },
+      this.scroll = new BScroll(document.querySelector(".index_main"), {
+        probeType: 3,
+        click: true,
+        scrollY: true,
+      });
+    },
   },
 };
 </script>
