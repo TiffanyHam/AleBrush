@@ -40,7 +40,7 @@
                         <slot name="cancle">{{$t('Hint.change')}}</slot>
                     </span>
                     <span class="line"></span>
-                    <span class="btn" @click.stop="close">
+                    <span class="btn" @click.stop="cancle">
                         <slot name="sure btn_right">{{$t('Hint.close')}}</slot>
                     </span>
                 </div>

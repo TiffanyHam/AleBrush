@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-17 10:54:48
+ * @LastEditTime: 2021-04-17 17:47:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -61,7 +61,7 @@
           >
             <div class="top">
               <div class="num c_90">
-                <span v-if="isflage == isConnect || isDays == 0">--</span
+                <span v-if="isflage == isConnect || isDays == 0">0</span
                 ><span v-else>{{ isDays }}</span>
               </div>
               <div class="unit c_60">{{ $t("index.day") }}</div>
@@ -353,13 +353,12 @@ export default {
   mounted() {
     //console.log("蓝牙初始状态：", this.bleConnected);
     //console.log("初始数据：", this.data);
-    
-    this.initData();
-    this.selectIndex1 = this.changeStatus(this.timeLength)
-    this.selectIndex = this.changeStatus(this.cleanMOde)
-        console.log('模式',this.selectIndex)
-        console.log('模式2',this.selectIndex1)
 
+    this.initData();
+    this.selectIndex1 = this.changeStatus(this.timeLength);
+    this.selectIndex = this.changeStatus(this.cleanMOde);
+    //console.log('模式',this.selectIndex)
+    //console.log('模式2',this.selectIndex1)
   },
 
   computed: {
@@ -371,7 +370,7 @@ export default {
       "cleanMOde",
     ]),
     tips1() {
-      if ([-1, -2].includes(this.isDays)) {
+      if (this.isDays >= -99 && this.isDays <= -1) {
         return this.$t("Reconnection.index1", { days: 0 });
       }
       return this.$t("Reconnection.index1", { days: this.isDays + 1 });
@@ -444,7 +443,7 @@ export default {
      */
     acceptData(data) {
       if (data.indexOf("F55F07100100") == 0) {
-       // console.log("设置成功");
+        // console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
@@ -454,7 +453,7 @@ export default {
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2)); //電量
         //电量不足
-        if (this.battery == "00") {
+        if (this.battery == "01") {
           this.dialogTip = true;
         }
       }
@@ -477,49 +476,47 @@ export default {
      * @return {*}
      */
     getHistory(res) {
-      var getArr = []
+      var getArr = [];
       for (var x in res) {
         var data = res[x].data.score;
         getArr.push(data);
       }
-     // console.log('getArr',getArr)
+      // console.log('getArr',getArr)
       var filterData = getArr.filter((item) => item !== "XXXXXX");
       var flageData = getArr.slice(0, getArr.indexOf("XXXXXX"));
 
-       if(flageData.length !== 0){
-           //console.log(this.getArrList(flageData))
-         if(this.getArrList(flageData) !== []){
-            this.isDays = 60 - this.getArrList(flageData)[1].length
+      if (flageData.length !== 0) {
+        //console.log(this.getArrList(flageData))
+        if (this.getArrList(flageData) !== []) {
+            this.isDays = 60 - this.getArrList(flageData)[1].length;
           // console.log('天数：',this.isDays)
         }
-       }else{
-          this.isDays = 60;
-          //console.log('天数：',this.isDays)
-       }
+      } else {
+        this.isDays = 60;
+        //console.log('天数：',this.isDays)
+      }
 
-             
       //刷牙天数不足
       if (this.isDays < 10) {
-        this.dialogTip1 = true;
-        if (this.isDays == -1) {
+        this.dialogTip1 = true; 
+        if (this.isDays >= -99 && this.isDays <= -1) {
           this.dialogVisiable = true;
         }
       }
 
-       if(filterData.length !== 0){
-           var ss = this.getArrList(filterData)[0]
-            this.getScore = ss[0].score;
-           // console.log('分数：',this.getScore)
+      if (filterData.length !== 0) {
+        var ss = this.getArrList(filterData)[0];
+        this.getScore = ss[0].score;
+        // console.log('分数：',this.getScore)
 
-            var cc = this.getArrList(filterData)[1]
-            this.logArr = cc.slice(0, 2); 
-           // console.log('两天：',this.logArr)
-       }else{
-            this.getScore = 0;
-       }
-
+        var cc = this.getArrList(filterData)[1];
+        this.logArr = cc.slice(0, 2);
+        // console.log('两天：',this.logArr)
+      } else {
+        this.getScore = 0;
+      }
     },
-        /**
+    /**
      * @description: 数据过滤
      * @param {*}
      */
@@ -546,6 +543,7 @@ export default {
               return true;
             }
           });
+          // if(index<10) 每天最多10条
           if (!isExists) {
             newArr.push({
               dates: item.dates,
@@ -556,7 +554,7 @@ export default {
           }
         });
       }
-      return [dataArr,newArr]
+      return [dataArr, newArr];
     },
     /**
      * @description: 今天 星期几
@@ -599,14 +597,16 @@ export default {
      * @return {*}
      */
     getTimeParse(val) {
-      if(val){
+      if (val) {
         var str = val.substr(1, 1); //min
-         var str1 = val.substr(3, 2); //seconds
+        var str1 = val.substr(3, 2); //seconds
         return (
-        str + `${this.$t("index.minute")}` + str1 + `${this.$t("index.second")}`
-      );
+          str +
+          `${this.$t("index.minute")}` +
+          str1 +
+          `${this.$t("index.second")}`
+        );
       }
-      
     },
     /**
      * @description: 过滤器中i18n
@@ -664,19 +664,17 @@ export default {
       let param = "F55F060101" + mode + last;
       this.BLE.writeData(param);
     },
-    changeStatus(val){
+    changeStatus(val) {
       switch (val) {
-        case '00':
-            return 0;
-        case '01':
-            return 1;
-        case '02':
-            return 2;
-        case '03':
-            return 3;
-        default:
-            return [];
-    }
+        case "00":
+          return 0;
+        case "01":
+          return 1;
+        case "02":
+          return 2;
+        case "03":
+          return 3;
+      }
     },
     brushModeClick() {
       this.isMode = !this.isMode;
@@ -743,7 +741,7 @@ export default {
       this.dialogVisiable = val.componentsVisiable;
       if (val.value) {
         reportData.resize(new Date().getTime() + 1000);
-        this.realValue = 60;
+        this.isDays = 60;
       }
     },
     /**

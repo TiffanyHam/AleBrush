@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 09:25:35
- * @LastEditTime: 2021-04-16 15:44:18
+ * @LastEditTime: 2021-04-17 17:12:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\Cprogress.vue
@@ -36,7 +36,7 @@ export default {
         this.changedValue = 20;
       }
       if (n < -19) {
-        this.changedValue = 99;
+        this.changedValue = 100;
       }
       this.getEchartData();
     },
