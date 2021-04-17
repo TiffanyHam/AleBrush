@@ -697,9 +697,9 @@ this.getHistory(res);
               historyArr: [item],
             });
           } else {
-           // if(i<10){  //每天最多10条
-              newArr[index].historyArr.push(item);
-          //  }
+            if(newArr[index].historyArr.length < 10){  //每天只能10条
+               newArr[index].historyArr.push(item);
+            }
           }
           
         });

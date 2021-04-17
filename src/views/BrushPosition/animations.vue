@@ -501,6 +501,16 @@ export default {
     console.log("刷牙区域:", this.initPosition);
     this.globalT(this.timeLength);
     this.init();
+//     document.addEventListener("visibilitychange", function() {
+//       var string = document.visibilityState
+//       console.log(string)
+//       if (string === 'hidden') {  // 当页面由前端运行在后端时，出发此代码
+//           console.log('我被隐藏了')
+//       }
+//       if (string === 'visible') {   // 当页面由隐藏至显示时
+//           console.log('欢迎回来')
+//       }
+// });
   },
 
   methods: {
