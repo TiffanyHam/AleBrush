@@ -231,28 +231,6 @@ export default {
       setAreas: "00",
       area: 0,
       setOriginNum: null,
-      areaArr: [
-        {
-          index: 1,
-          class: "left_down_out",
-          classN: "fingle_left",
-        },
-        {
-          index: 2,
-          class: "right_down_out",
-          classN: "fingle_right",
-        },
-        {
-          index: 3,
-          class: "right_up_out",
-          classN: "fingle_right1",
-        },
-        {
-          index: 4,
-          class: "left_up_out",
-          classN: "fingle_left1",
-        },
-      ],
       posArr: [
         {
           class: "top",
@@ -277,7 +255,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["timeLength", "data"]),
+    ...mapState(["timeLength", "data",'initPosition']),
   },
   watch: {
     timeLength(val) {
@@ -311,7 +289,7 @@ export default {
 
   mounted() {
     // console.log("isopen", this.isOpen);
-    // console.log("时长:", this.timeLength);
+    console.log("刷牙区域:", this.initPosition);
     this.globalT(this.timeLength);
     this.init();
   },

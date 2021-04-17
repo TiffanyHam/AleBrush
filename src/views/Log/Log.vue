@@ -41,6 +41,7 @@
             </div>
             <div v-if="monthOrWeek === 'day'">
               <Calendar
+                :textTop="textTop"
                 v-on:choseDay="clickDay"
                 v-on:changeMonth="changeDate">
               </Calendar>
@@ -58,7 +59,7 @@
                 </ul>
                 <div class="noData" v-else>
                   <img style="opacity: .3" src="../../assets/image/icon/light/no_log.png" alt="">
-                  <p>暂无记录</p>
+                  <p>{{$t('Log.noData')}}</p>
                 </div>
               </div>
             </div>
@@ -78,7 +79,7 @@
               :chart-data="chartData"
               @echartsClick="echartsClick"
             ></Echart>
-            <div class="statistics color90">{{ statistics }}</div>
+            <div class="statistics color90">{{ $t('Log.statistics') }}</div>
             <hi-card4 class="mt8" :cardData="cardData1"></hi-card4>
 
             </div>
@@ -98,7 +99,7 @@
               :chart-data="chartData"
               @echartsClick="echartsClick"
             ></Echart>
-            <div class="statistics color90">{{ statistics }}</div>
+            <div class="statistics color90">{{ $t('Log.statistics') }}</div>
             <hi-card4 class="mt8" :cardData="cardData2"></hi-card4>
           </div>
            <!-- 得分参考 -->
@@ -150,8 +151,9 @@ import {
 } from "@/utils/util";
 
 import { mapState, mapActions } from "vuex";
+import { getLanguage } from '../../utils/tool';
 
-const WEEKCN = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+const WEEKCN = ["一", "二", "三", "四", "五", "六", "日"];
 const WEEKEN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default {
@@ -199,39 +201,39 @@ export default {
       dialogBool: false,
       cardData1: [
           {
-              name: '周刷牙总次数',
-              unit: '次',
+              name: this.$t('Log.week_brush_times'),
+              unit: this.$t('Log.times'),
               num: '42',
           },
           {
-              name: '周平均得分',
-              unit: '分',
+              name: this.$t('Log.week_avg_score'),
+              unit: this.$t('Log.point'),
               num: '97',
           },
           {
-              name: '周平均时间',
-              unit: '分',
+              name: this.$t('Log.week_avg_time'),
+              unit: this.$t('Log.min'),
               num: '2',
-              units: '秒',
+              units: this.$t('Log.sec'),
               nums: '10',
           },
       ],
       cardData2: [
         {
-            name: '月刷牙总次数',
-            unit: '次',
+            name: this.$t('Log.month_brush_times'),
+            unit: this.$t('Log.times'),
             num: '420',
         },
         {
-            name: '月平均得分',
-            unit: '分',
+            name: this.$t('Log.month_avg_score'),
+            unit: this.$t('Log.point'),
             num: '97',
         },
         {
-            name: '月平均时间',
-            unit: '分',
+            name: this.$t('Log.month_avg_time'),
+            unit: this.$t('Log.min'),
             num: '3',
-            units: '秒',
+            units: this.$t('Log.sec'),
             nums: '10',
         },
     ],
@@ -250,7 +252,8 @@ export default {
         //   brushDuration: "1分55秒",
         // },
       ],
-      tips: "*仅保存最近3个月的刷牙记录"
+      tips: this.$t('Log.tip'),
+      textTop: ["一", "二", "三", "四", "五", "六", "日"]
     };
   },
 
@@ -265,6 +268,12 @@ export default {
     createCb(this, ["getDevHistoryCb", 'getDevHistoryOfAllCb']);
     if (window.hilink) {
       window.hilink.setTitleVisible(false);
+    }
+
+    if (getLanguage() === 'zh') {
+      this.textTop = WEEKCN
+    } else {
+      this.textTop = WEEKEN
     }
     
   },

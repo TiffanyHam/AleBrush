@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-04-08 15:07:42
+ * @LastEditTime: 2021-04-17 10:55:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -16,9 +16,10 @@ export default new Vuex.Store({
   namespaced: true,//开启命名空间
   state: {
     bleConnected: false, // 监听设备蓝牙连接结果
-    initPosition:'2',
+    initPosition:'',
     data:'',
-    timeLength:"00",
+    timeLength:"",
+    cleanMOde:'',
     cloudData:[]
   },
   mutations: {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     UPDATE_TIME(state,payload){
       state.timeLength = payload;
     },
+    UPDATE_Mode(state,payload){
+      state.cleanMOde = payload;
+    },
     'CHANGETIP' (state, data) {
       state.noMorereminders = data;    
     }
@@ -50,6 +54,9 @@ export default new Vuex.Store({
     },
     call_update_data(content,payload){
       content.commit('UPDATE_DATA',payload)
+    },
+    saveMode({commit},data){
+      commit('UPDATE_Mode', data);
     },
     setCloudData({commit},data){
       commit('UPDATE_CLOUDDATA', data);

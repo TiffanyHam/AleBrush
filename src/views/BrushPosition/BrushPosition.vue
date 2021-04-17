@@ -136,9 +136,7 @@ export default {
       this.selectedIndex = val;
       this.call_update_initPosition(this.selectedIndex);
     },
-    ...mapActions({
-      call_update_initPosition: "call_update_initPosition",
-    }),
+    ...mapActions(["call_update_initPosition"]),
     headerClick() {
       this.$router.push("/");
     },

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-16 17:38:32
+ * @LastEditTime: 2021-04-17 10:54:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -85,7 +85,7 @@
                 <span>{{ $t("index.brushmode") }}</span
                 ><br />
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ modeDisplay | brushMode(te) }}</span>
+                  <span>{{ cleanMOde | brushMode(te) }}</span>
                 </div>
                 <HiCardShift
                   class="mt8 cardP"
@@ -234,7 +234,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
 import reportData from "../../utils/reportData";
@@ -269,7 +269,7 @@ export default {
       isTime: false,
       isMode: false,
       timeLen: "",
-      modeDisplay: "00", //刷牙模式
+      modeDisplay: "", //刷牙模式
       logArr: [],
       getScore: "",
       conentHeight: "",
@@ -353,7 +353,13 @@ export default {
   mounted() {
     //console.log("蓝牙初始状态：", this.bleConnected);
     //console.log("初始数据：", this.data);
+    
     this.initData();
+    this.selectIndex1 = this.changeStatus(this.timeLength)
+    this.selectIndex = this.changeStatus(this.cleanMOde)
+        console.log('模式',this.selectIndex)
+        console.log('模式2',this.selectIndex1)
+
   },
 
   computed: {
@@ -362,7 +368,7 @@ export default {
       "initPosition",
       "data",
       "timeLength",
-      "cloudData",
+      "cleanMOde",
     ]),
     tips1() {
       if ([-1, -2].includes(this.isDays)) {
@@ -395,9 +401,6 @@ export default {
           this.isDialog = true;
         }, 30 * 1000);
       }
-    },
-    initPosition(val) {
-      //console.log("起始位置：", val);
     },
     data(value) {
       console.log("数据变化", value);
@@ -441,7 +444,7 @@ export default {
      */
     acceptData(data) {
       if (data.indexOf("F55F07100100") == 0) {
-        console.log("设置成功");
+       // console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
@@ -661,6 +664,20 @@ export default {
       let param = "F55F060101" + mode + last;
       this.BLE.writeData(param);
     },
+    changeStatus(val){
+      switch (val) {
+        case '00':
+            return 0;
+        case '01':
+            return 1;
+        case '02':
+            return 2;
+        case '03':
+            return 3;
+        default:
+            return [];
+    }
+    },
     brushModeClick() {
       this.isMode = !this.isMode;
     },
@@ -696,7 +713,7 @@ export default {
           last = "60";
           break;
       }
-
+      this.$store.dispatch("saveMode", this.modeDisplay);
       let param = "F55F060201" + mode + last;
       this.BLE.writeData(param);
     },

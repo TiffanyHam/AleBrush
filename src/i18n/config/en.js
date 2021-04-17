@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-13 15:11:50
+ * @LastEditTime: 2021-04-17 14:02:29
  */
 const en = {
     index: {
@@ -64,48 +64,48 @@ const en = {
         //     tip: '仅保留最近3个月的刷牙记录',
         // },
     },
-        //刷牙模式
-        BrushTeethModel: {
-            level1: 'clean',
-            level2: 'soft',
-            level3: 'Message',
-            level4: 'strong'
-        },
-        //刷牙时长
-        BrushTeethLen:{
-            length1:'2min',
-            length2:'2.5min',
-            length3:'3min',
-        },
-        //起始位置
-        BrushTeethPosition:{
-            position1:'Lower left area',
-            position2:'Lower right area',
-            position3:'Upper right area',
-            position4:'Upper left area',
-            header:'starting position',
-            top:'maxillary',
-            bottom:'lower jaw',
-            left:'left',
-            right:'right',
-            select:'Please select a starting position',
-            clockwise:'clockwise',
-            anticlockwise:'anticlockwise',
-            you:'You select the ',
-            as:'for',
-            initial:'starting position',
-            order:'sequence for'
-        },
-        //更多设置
-        setting: {
-            header: 'More Settings',
-            otherOptions: {
-                methodsU: 'Brush your teeth steps',
-                methodsI: 'Methods of use',
-                title2: 'common problem',
-                see:'view',
-            }
-        },
+    //刷牙模式
+    BrushTeethModel: {
+        level1: 'clean',
+        level2: 'soft',
+        level3: 'Message',
+        level4: 'strong'
+    },
+    //刷牙时长
+    BrushTeethLen:{
+        length1:'2min',
+        length2:'2.5min',
+        length3:'3min',
+    },
+    //起始位置
+    BrushTeethPosition:{
+        position1:'Lower left area',
+        position2:'Lower right area',
+        position3:'Upper right area',
+        position4:'Upper left area',
+        header:'starting position',
+        top:'maxillary',
+        bottom:'lower jaw',
+        left:'left',
+        right:'right',
+        select:'Please select a starting position',
+        clockwise:'clockwise',
+        anticlockwise:'anticlockwise',
+        you:'You select the ',
+        as:'for',
+        initial:'starting position',
+        order:'sequence for'
+    },
+    //更多设置
+    setting: {
+        header: 'More Settings',
+        otherOptions: {
+            methodsU: 'Brush your teeth steps',
+            methodsI: 'Methods of use',
+            title2: 'common problem',
+            see:'view',
+        }
+    },
     //刷牙步骤
     brushMethods: {
         headerTitle: 'steps',
@@ -245,7 +245,19 @@ const en = {
             Sun: '周日',
         },
         brushLen: '刷牙时长',
-        tip: '*hold only the last three months of brushing your teeth'
+        tip: '*hold only the last three months of brushing your teeth',
+        noData: 'No Record',
+        statistics: 'Statistics',
+        week_brush_times: 'Weekly Times',
+        times: 'times',
+        week_avg_score: 'Average Score',
+        point: 'point',
+        week_avg_time: 'Average Time',
+        min: 'min',
+        sec: 'sec',
+        month_brush_times: 'Monthly Times',
+        month_avg_score: 'Average Score',
+        month_avg_time: 'Average Time'
     },
     //评分
     LogDetail: {

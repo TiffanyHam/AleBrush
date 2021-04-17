@@ -241,7 +241,19 @@ const zh = {
             Sun: '周日',
         },
         brushLen: '刷牙时长',
-        tip: '仅保留最近3个月的刷牙记录'
+        tip: '仅保留最近3个月的刷牙记录',
+        noData: '暂无记录',
+        statistics: '数据统计',
+        week_brush_times: '周刷牙次数',
+        times: '次',
+        week_avg_score: '周平均得分',
+        point: '分',
+        week_avg_time: '周平均时间',
+        min: '分',
+        sec: '秒',
+        month_brush_times: '月刷牙次数',
+        month_avg_score: '月平均得分',
+        month_avg_time: '月平均时间'
     },
     //评分
     LogDetail: {

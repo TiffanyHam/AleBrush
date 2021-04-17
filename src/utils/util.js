@@ -41,7 +41,7 @@ export const replaceDateString = function (str) {
     return _str;
 };
 export const callHilinkFn = function (eventName, options) {
-    console.log('callHilinkFn', options)
+    // console.log('callHilinkFn', options)
     let _o = options || [];
     window.hilink && window.hilink[eventName] && window.hilink[eventName].apply(window.hilink, _o);
 };
@@ -192,7 +192,7 @@ export const formatDate = (date) => {
 
 // 将1,2,3,4,5,6,7转化为星期一到星期日
 export const changeNumToWeek = (num) => {
-    const obj = {
+    const obj_zh = {
         1: '星期一',
         2: '星期二',
         3: '星期三',
@@ -201,5 +201,20 @@ export const changeNumToWeek = (num) => {
         6: '星期六',
         0: '星期日'
     }
-    return obj[num]
+    const obj_en = {
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday',
+        0: 'Sunday'
+    }
+    const lan = getLanguage()
+    console.log('lan-getLanguage', lan)
+    if (lan === 'zh') {
+        return obj_zh[num]
+    } else {
+        return obj_en[num]
+    }
 }

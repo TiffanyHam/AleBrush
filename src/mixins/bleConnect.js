@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-04 14:13:29
- * @LastEditTime: 2021-04-06 16:12:00
+ * @LastEditTime: 2021-04-17 10:11:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
@@ -28,9 +28,7 @@ export default {
             this.getBluetoothAdapterState();
             this.openBluetoothAdapter()
          },
-      ...mapActions({
-        call_update_bleConnected: 'call_update_bleConnected',
-      }),
+      ...mapActions(["call_update_bleConnected"]),
        /**
          * @description: 蓝牙连接第一步 获取设备蓝牙模块状态
          * @param {*}
