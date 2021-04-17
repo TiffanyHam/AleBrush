@@ -182,12 +182,12 @@
             </div>
           </span>
           <!-- 无记录显示 -->
-          <div class="noLog" v-if="isflage == isConnect || logArr.length == 0">
+          <!-- <div class="noLog" v-if="isflage == isConnect || logArr.length == 0">
             <div class="logImg"></div>
             <div>{{ $t("index.nolog") }}</div>
-          </div>
+          </div> -->
           <!-- 有记录显示 -->
-          <div class="logHistory" v-else>
+          <div class="logHistory">
             <div class="log_arr" v-for="(item, index) in logArr" :key="index">
               <p class="days">
                 {{ isToday(item.dates) ? dayWeek() : item.dates }}
@@ -355,6 +355,7 @@ export default {
     //console.log("初始数据：", this.data);
 
     this.initData();
+    this.getCloudHistory();
     this.selectIndex1 = this.changeStatus(this.timeLength);
     this.selectIndex = this.changeStatus(this.cleanMOde);
     //console.log('模式',this.selectIndex)
@@ -464,11 +465,144 @@ export default {
      * @param {*}
      */
     getCloudHistory() {
-      let resCallback = (res) => {
-        this.getHistory(res);
-        // console.log("云端数据返回：", res);
-      };
-      reportData.getHistoryLog(resCallback);
+      // let resCallback = (res) => {
+      //   this.getHistory(res);
+      //   // console.log("云端数据返回：", res);
+      // };
+      // reportData.getHistoryLog(resCallback);
+
+      var res = [
+//       {
+//   ts: "20210409T145305Z",
+//   sid: "brushingHistory",
+//   data: {
+//     score: "XXXXXX",
+//   },
+// },
+      {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+   {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/15_14:53:05_00:33_80",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/14_14:53:05_00:33_80",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/14_16:53:05_00:33_80",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/14_18:53:05_00:33_80",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/12_14:53:05_00:33_90",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/11_14:53:05_01:02_60",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "XXXXXX",
+    },
+  },
+]
+
+this.getHistory(res);
+
+
     },
     /**
      * @description: 刷牙记录
@@ -544,6 +678,8 @@ export default {
             }
           });
           // if(index<10) 每天最多10条
+          if(index<10){
+
           if (!isExists) {
             newArr.push({
               dates: item.dates,
@@ -551,6 +687,7 @@ export default {
             });
           } else {
             newArr[index].historyArr.push(item);
+          }
           }
         });
       }
