@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-13 18:19:03
+ * @LastEditTime: 2021-04-17 09:07:12
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -48,11 +48,11 @@ export default new Router({
       name: "BrushPosition",
       component: () => import("../views/BrushPosition/BrushPosition.vue")
     },
-    {
-      path: "/animationsNew",
-      name: "animationsNew",
-      component: () => import("../views/BrushPosition/animationsNew.vue")
-    },
+    // {
+    //   path: "/animationsNew",
+    //   name: "animationsNew",
+    //   component: () => import("../views/BrushPosition/animationsNew.vue")
+    // },
     {
       path: "/animations",
       name: "animations",

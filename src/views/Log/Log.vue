@@ -48,7 +48,7 @@
                 <span class="">{{weekDays}}</span>
               </div>
               <div class="brushHistory">
-                <ul>
+                <ul v-if="brushRecord.length > 0">
                   <li v-for="(item, index) in brushRecord" :key="index">
                     <div class="score">{{item.score}}</div>
                     <div class="brushText">{{brushText}}</div>
@@ -56,6 +56,10 @@
                     <div class="brushDuration">{{item.brushDuration}}</div>
                   </li>
                 </ul>
+                <div class="noData" v-else>
+                  <img style="opacity: .3" src="../../assets/image/icon/light/no_log.png" alt="">
+                  <p>暂无记录</p>
+                </div>
               </div>
             </div>
             <div v-if="monthOrWeek === 'week'">
@@ -70,6 +74,7 @@
                 :score="score"
               ></ElectricLabel>
               <Echart
+              key="week"
               :chart-data="chartData"
               @echartsClick="echartsClick"
             ></Echart>
@@ -89,6 +94,7 @@
                 :score="score"
               ></ElectricLabel>
               <Echart
+              key="month"
               :chart-data="chartData"
               @echartsClick="echartsClick"
             ></Echart>
@@ -130,12 +136,17 @@
 import BScroll from "better-scroll";
 import Calendar from 'vue-calendar-component';
 import moment from "moment";
+import reportData from '@/utils/reportData.js'
 import {
   format,
   callHilinkFn,
   createCb,
   getDayCountOfMonth,
   toFixed,
+  changeSec,
+  formatDate,
+  addZero,
+  changeNumToWeek
 } from "@/utils/util";
 
 import { mapState, mapActions } from "vuex";
@@ -182,62 +193,62 @@ export default {
      // weekDay: this.$i18n.locale === "en" ? WEEKEN : WEEKCN,
       weekDay: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       // devId: '',
-      score: 70,
+      score: 0,
       statistics: "数据统计",
       maskBool: false,
       dialogBool: false,
       cardData1: [
-              {
-                  name: '周刷牙总次数',
-                  unit: '次',
-                  num: '42',
-              },
-              {
-                  name: '周平均得分',
-                  unit: '次',
-                  num: '97',
-              },
-              {
-                  name: '周平均时间',
-                  unit: '分',
-                  num: '2',
-                  units: '秒',
-                  nums: '10',
-              },
-          ],
-           cardData2: [
-              {
-                  name: '月刷牙总次数',
-                  unit: '次',
-                  num: '420',
-              },
-              {
-                  name: '月平均得分',
-                  unit: '次',
-                  num: '97',
-              },
-              {
-                  name: '月平均时间',
-                  unit: '分',
-                  num: '3',
-                  units: '秒',
-                  nums: '10',
-              },
-          ],
+          {
+              name: '周刷牙总次数',
+              unit: '次',
+              num: '42',
+          },
+          {
+              name: '周平均得分',
+              unit: '分',
+              num: '97',
+          },
+          {
+              name: '周平均时间',
+              unit: '分',
+              num: '2',
+              units: '秒',
+              nums: '10',
+          },
+      ],
+      cardData2: [
+        {
+            name: '月刷牙总次数',
+            unit: '次',
+            num: '420',
+        },
+        {
+            name: '月平均得分',
+            unit: '分',
+            num: '97',
+        },
+        {
+            name: '月平均时间',
+            unit: '分',
+            num: '3',
+            units: '秒',
+            nums: '10',
+        },
+    ],
       historyData: this.$t("history.historyData"),
       weekDays: "星期一",
       brushText: "刷牙时长",
       brushRecord: [
-        {
-          score: 70,
-          brushTime: "08:00:23",
-          brushDuration: "1分55秒",
-        },
-         {
-          score: 85,
-          brushTime: "20:00:23",
-          brushDuration: "1分55秒",
-        },
+        // {
+        //   score: 70,
+        //   brushTime: "08:00:23",
+        //   brushDuration: "1分55秒",
+        // },
+        //  {
+        //   score: 85,
+        //   brushTime: "20:00:23",
+        //   brushDuration: "1分55秒",
+        // },
       ],
       tips: "*仅保存最近3个月的刷牙记录"
     };
@@ -248,7 +259,6 @@ export default {
   },
   created() {
     // this.isDark = this.callHilinkFn('getDarkMode', [], true) === 2;
-    // //console.log('this.isDark',this.isDark);
     //卡顿原因
     // let a = new Date().getTime();
     
@@ -256,11 +266,10 @@ export default {
     if (window.hilink) {
       window.hilink.setTitleVisible(false);
     }
-    // //console.log('this.deviceId',this.deviceId);
-    // //console.log('this.devId',this.devId);
     
   },
   mounted() {
+    this.weekDays = changeNumToWeek(new Date().getDay())
     //卡顿原因
     let a = new Date().getTime();
 
@@ -268,8 +277,7 @@ export default {
       //页面加载完，获取历史记录
       this.getDevHistory();
       //页面加载完，获取所有历史数据
-      this.getDevHistoryOfAll();
-      //console.log('页面加载完，获取所有历史数据');
+      // this.getDevHistoryOfAll();
       
       this.myScroll = new BScroll(this.$refs.main, {
         scrollX: false,
@@ -286,7 +294,6 @@ export default {
       });
 
       this.myScroll.on("pullingDown", (pos) => {
-        // //console.log("下拉刷新！", pos);
         this.$nextTick(() => {
           this.myScroll.refresh(); // DOM 结构发生变化后,重新初始化BScroll
         });
@@ -294,7 +301,6 @@ export default {
       });
 
       this.myScroll.on("pullingUp", (pos) => {
-        // //console.log("上拉刷新！", pos);
         this.$nextTick(() => {
           this.myScroll.refresh(); // DOM 结构发生变化后,重新初始化BScroll
         });
@@ -303,7 +309,6 @@ export default {
     });
 
     //卡顿原因
-    //console.log('mounted加载时间=',new Date().getTime()-a); 
   },
 
   // 监听属性
@@ -343,7 +348,6 @@ export default {
           "YYYY/MM/DD"
         )} to ${this.weekArr[6].format("YYYY/MM/DD")}`;
       }
-      //console.log("");
       return `${this.weekArr[0].format(
         "YYYY/MM/DD"
       )}-${this.weekArr[6].format("YYYY/MM/DD")}`;
@@ -355,7 +359,7 @@ export default {
       return this.exerciseCounts;
     },
     totalElec() {
-      if (this.monthOrWeek) {
+      if (this.monthOrWeek === 'week') {
         let arr = this.weekChartData;
         let elec = 0;
         arr.forEach((item) => {
@@ -368,15 +372,15 @@ export default {
   }, // 监控data中的数据变化
   methods: {
     selectDayElec1(){
-      let arr = this.monthOrWeek ? this.weekChartData : this.monthChartDate;
+      let arr = this.monthOrWeek === 'week' ? this.weekChartData : this.monthChartDate;
       let date = (arr[this.selectIndex] && arr[this.selectIndex][0]) || 0;
-      //console.log('arr[this.selectIndex]',arr[this.selectIndex]);
-      //console.log('this.selectIndex22',this.selectIndex);
       this.currentDay = date;
       return date;
     },
     clickDay(data) {
-      //console.log(data); //选中某天
+      console.log(data); //选中某天
+      this.getDevHistoryOfDay(data)
+      this.weekDays = changeNumToWeek(new Date(data).getDay())
     },
     changeDate(data) {
       //console.log(data); //左右点击切换月份
@@ -384,13 +388,6 @@ export default {
     clickToday(data) {
       //console.log(data); //跳到了本月
     },
-    // getDay() {
-    //   this.timeType = 'day';
-    //   this.dayBool = true;
-    //   //console.log('timeType',this.timeType);
-    //   //console.log('dayBool',this.dayBool);
-    //   //console.log('monthOrWeek',this.monthOrWeek);
-    // },
     ...mapActions(["changeTip"]),
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
@@ -429,8 +426,6 @@ export default {
       let hh = timestamp.substr(9,2);
       let mm = timestamp.substr(11,2);
       let ss = timestamp.substr(13,2);
-      // let time = [YY,'/',MM,'/',DD,' ',hh,':',mm,':',ss].join('');
-      //console.log('time',new Date(YY,this.noZero(MM)-1,DD,hh,mm,ss));
       let time = new Date(YY,this.noZero(MM)-1,DD,hh,mm,ss);
       let date = changeTimeZone(time);
       MM = date.substr(5,2)
@@ -463,7 +458,6 @@ export default {
       }
       this.weekChartData = arr;
       this.chartData = this.weekChartData;
-      // //console.log("weekChartData", this.weekChartData);
     },
     //初始化数据 月
     initMonthChartData() {
@@ -471,8 +465,6 @@ export default {
       // let arr1 = [];
       let month = format(this.date, "M"); //月份
       let day = getDayCountOfMonth(this.date); //月份对应的天数
-      //console.log("month", month);
-      //console.log("day", day);
       for (let i = 1; i <= day; i++) {
         // arr.push([this.weekDay[i], 0]);
         arr.push([`${month}` + "/" + i, 0]);
@@ -482,8 +474,22 @@ export default {
       // });
       this.monthChartDate = arr;
       this.chartData = this.monthChartDate;
-      //console.log("monthChartDate", arr, this.monthChartDate);
       // return arr1;
+    },
+    // 获取历史记录 日
+    getDevHistoryOfDay(data) {
+      let startTime = formatDate(data) + 'T000000Z'
+      let endTime = formatDate(data) + 'T235959Z'
+      callHilinkFn("getDevHistory", [
+        reportData.devId,
+        "0",
+        "1000",
+        startTime,
+        endTime,
+        "brushingHistory",
+        "score",
+        "getDevHistoryCb",
+      ]);
     },
     //获取历史记录 周
     getDevHistoryOfWeek() {
@@ -494,19 +500,14 @@ export default {
       // `${item.format("YYYYMMDD")}T235959Z`,
       let startTime = this.weekArr[0].format("YYYYMMDD") + "T000000Z";
       let endTime = this.weekArr[6].format("YYYYMMDD") + "T235959Z";
-      //console.log('获取历史记录 周this.startTime',startTime);
-      //console.log('获取历史记录 周this.endTime',endTime);
-      //console.log('this.devId',this.devId);
-      // //console.log('this.weekArr[0].format("YYYYMMDD")',this.weekArr[0].format("YYYYMMDD"));
-      // //console.log('this.weekArr[0].format("YYYYMMDD")',this.weekArr[6].format("YYYYMMDD"));
       callHilinkFn("getDevHistory", [
-        this.devId,
+        reportData.devId,
         "0",
         "1000",
         startTime,
         endTime,
-        "WonderCodeSmart1",
-        "count",
+        "brushingHistory",
+        "score",
         "getDevHistoryCb",
       ]);
     },
@@ -514,20 +515,16 @@ export default {
     getDevHistoryOfMonth() {
       let yyyyMM = format(this.date, "yyyyMM");
       let count = getDayCountOfMonth(this.date);
-      //console.log("yyyyMM", yyyyMM);
-      //console.log("count", count);
       let startTime = yyyyMM + "01" + "T000000Z";
       let endTime = yyyyMM + count + "T235959Z";
-      //console.log("startTime", startTime);
-      //console.log("endTime", endTime);
       callHilinkFn("getDevHistory", [
-        this.devId,
+        reportData.devId,
         "0",
         "1000",
         startTime,
         endTime,
-        "WonderCodeSmart1",
-        "count",
+        "brushingHistory",
+        "score",
         "getDevHistoryCb",
       ]);
     },
@@ -564,18 +561,15 @@ export default {
       let yyyyMMdd = format(this.date, "yyyy-MM-dd");
       let startTime =  GetPreMonthDay(yyyyMMdd,2).replace(/-/g,'') + "T000000Z";
       let endTime = yyyyMM + count + "T235959Z";
-      //console.log('this.startTime',startTime);
-      //console.log('this.endTime',endTime);
-      //console.log("getDevHistoryOfAll======>this.devId;startTime;endTime", this.devId,startTime,endTime);
 
       callHilinkFn("getDevHistory", [
-        this.devId,
+        reportData.devId,
         "0",
         "1000",
         startTime,
         endTime,
-        "WonderCodeSmart1",
-        "count",
+        "brushingHistory",
+        "score",
         "getDevHistoryOfAllCb",
       ]);
     },
@@ -585,24 +579,33 @@ export default {
       this.selectIndex = 0;
       // this.selectIndex = 6;
       this.monthTotalElec = 0;
-      if (this.monthOrWeek) {
+      if (this.monthOrWeek === 'week') {
         this.initWeekChartData();
         this.getDevHistoryOfWeek();
-      } else {
+        // this.getDevHistoryOfAllCb()
+      } else if (this.monthOrWeek === 'month') {
         this.initMonthChartData();
         this.getDevHistoryOfMonth();
+        // this.getDevHistoryOfAllCb()
+      } else {
+        const newDate = new Date()
+        const yyyy = newDate.getFullYear()
+        const mm = addZero(newDate.getMonth() + 1)
+        const dd = addZero(newDate.getDate())
+        const date = `${yyyy}/${mm}/${dd}`
+        this.getDevHistoryOfDay(date)
       }
     },
     //获取历史记录回调
     getDevHistoryCb(res) {
-      //console.log('获取历史记录回调 res',res);
-      //console.log('this.currentDay',this.currentDay);//当前日期
+      console.log('getDevHistoryCb-res', res)
       if(res && res.list && res.list.length) {
-        let countArr = res.list;
-        //console.log('>>>>>',countArr);
+        let countArr = res.list.filter(item => item.data.score !== 'XXXXXX');
         let obj = {};
+        let countObj = {}
+        let totalSec = 0; // 周总用时长(s)
         //历史记录周数据
-        if (this.monthOrWeek) {
+        if (this.monthOrWeek === 'week') {
           countArr.forEach((o) => {
             let month = Number(o.timestamp.slice(4, 6)); //截取月份
             let day = Number(o.timestamp.slice(6, 8)); //截取日期
@@ -610,88 +613,143 @@ export default {
             let index = this.weekChartData.findIndex(
               (item) => item[0] === date
             );
-            let num = parseInt(o.data.count) || 0;//次数
+
+            // 累计当天分数
+            const score = o.data.score
+            let num = parseInt(score.split('_')[3]) || 0;// 分数
+            totalSec += changeSec(o.data.score.split('_')[2])
+            // let num = parseInt(o.data.score.split('_')[3]) || 0;// 分数
+            
             if(!obj[date]){
               obj[date] = 0;
             }            
             obj[date] += num;
-            this.$set(this.weekChartData, index, [date, obj[date]]);
+
+            // 累计当天次数
+            if (!countObj[date]) {
+              countObj[date] = 0
+            }
+            countObj[date]++
+
+            this.$set(this.weekChartData, index, [date, obj[date] / countObj[date]]);
           });
+
+          // 计算周刷牙总次数
+          this.cardData1[0].num = countArr.length
+
+          // 计算周平均得分
+          const totalCount = this.weekChartData.reduce((sum, item) => {
+            return sum + item[1]
+          }, 0)
+          this.cardData1[1].num = Math.round(totalCount / 7)
+
+          // 计算周平均时间
+          const avgSec = Math.round(totalSec / 7)
+          if (avgSec < 60) {
+            this.cardData1[2].num = 0
+            this.cardData1[2].nums = avgSec
+          } else {
+            this.cardData1[2].num = Math.floor(avgSec / 60)
+            this.cardData1[2].nums = avgSec % 60
+          }
+
           //获取当前日期的运动次数 
           let currentDayIndex = this.weekChartData.findIndex(
             (item)=> item[0] === this.currentDay
           )
-          //console.log('currentDayIndex',currentDayIndex);
           this.exerciseCounts = this.weekChartData[currentDayIndex][1];
-        }else {//历史记录月数据
+        } else if (this.monthOrWeek === 'month') {//历史记录月数据
           countArr.forEach(o => {
             let day = Number(o.timestamp.slice(6, 8));//截取日期
-            let num = parseInt(o.data.count) || 0;//次数
+            const score = o.data.score
+
+            let num = parseInt(score.split('_')[3]) || 0;// 分数
+            totalSec += changeSec(o.data.score.split('_')[2])
             if(!obj[day]){
               obj[day] = 0;
             }            
             obj[day] += num;
-            this.$set(this.monthChartDate, day-1, [this.monthChartDate[day-1][0], obj[day]]);
+
+            // 累计当天次数
+            if (!countObj[day]) {
+              countObj[day] = 0
+            }
+            countObj[day]++
+            this.$set(this.monthChartDate, day-1, [this.monthChartDate[day-1][0], obj[day] / countObj[day]]);
           });
+
+          // 获取当月天数
+          const date = new Date();
+          const year = date.getFullYear();
+          const month = date.getMonth()+1;
+          const d = new Date(year, month, 0);
+          const curMonDays =  d.getDate();
+
+          // 计算月刷牙总次数
+          this.cardData2[0].num = countArr.length
+
+          // 计算月平均得分
+          const totalCount = this.monthChartDate.reduce((sum, item) => {
+            return sum + item[1]
+          }, 0)
+          this.cardData2[1].num = Math.round(totalCount / curMonDays)
+
+          // 计算月平均时间
+          const avgSec = Math.round(totalSec / curMonDays)
+          if (avgSec < 60) {
+            this.cardData2[2].num = 0
+            this.cardData2[2].nums = avgSec
+          } else {
+            this.cardData2[2].num = Math.floor(avgSec / 60)
+            this.cardData2[2].nums = avgSec % 60
+          }
+
           //获取当前日期的运动次数 
           let currentDayIndex = this.monthChartDate.findIndex(
             (item)=> item[0] === this.currentDay
           )
           this.exerciseCounts = this.monthChartDate[currentDayIndex][1];
+        } else if (this.monthOrWeek === 'day') {
+          this.brushRecord = []
+          countArr.forEach(item => {
+            let obj = {}
+            obj.score = item.data.score.split('_')[3]
+            obj.brushDuration = item.data.score.split('_')[2].replace(/:/, '分') + "秒"
+            obj.brushTime = item.data.score.split('_')[1]
+            this.brushRecord.push(obj)
+          })
         }
         //  this.exerciseCounts = this.
+      } else {
+        // 日数据
+        this.brushRecord = []
+        // 周数据
+        this.cardData1[0].num = 0
+        this.cardData1[1].num = 0
+        this.cardData1[2].num = 0
+        this.cardData1[2].nums = 0
+        // 月数据
+        this.cardData2[0].num = 0
+        this.cardData2[1].num = 0
+        this.cardData2[2].num = 0
+        this.cardData2[2].nums = 0
       }
-      // //console.log('this.chartData',  this.chartData);
     },
     //获取历史记录所有回调
     getDevHistoryOfAllCb(res) {
-      //console.log('getDevHistoryOfAllCb',res);
-      if(res && res.list && res.list.length) {
-        let countArr = res.list;
-        this.historyDataArr = countArr;
-        //console.log('this.historyDataArr',this.historyDataArr);
-        let counts = 0;
-        //console.log('countArr',countArr);
-        let historyDataObj = {};
-        countArr.forEach(obj => {
-          //console.log('obj',obj);
-           let day = Number(obj.timestamp.slice(0, 8)); //截取日期
-           //console.log('day',day);
-           let count = obj.data.count;//对应的运动次数
-           //console.log('count',count);
-           counts += parseInt(count);
-          if(Object.prototype.hasOwnProperty.call(!historyDataObj,day)){
-         //  if (!historyDataObj.hasOwnProperty(day)) {
-             historyDataObj[day] = count;
-           } else {
-             if (+count > historyDataObj[day]) {
-               historyDataObj[day] = count;
-             }
-           }
-        });
-        //console.log('historyDataObj',historyDataObj);
-        // for(let i in historyDataObj) {
-        //   counts += Number(historyDataObj[i]);
-        // }
-        //console.log('counts',counts);
-        this.countValue = counts; //总收腹次数
-        this.weightValue = localStorage.getItem("weightValue") || 50; //体重
-        this.caloriesValue = Math.ceil(this.weightValue * this.countValue * this.coefficient); //总消耗热量
-      }
-
+      console.log('getDevHistoryOfAllCb-res', res)
     },
     // echarts点击事件
     echartsClick(params) {
-      //console.log('echartsClick---------', params);
       let d = new Date(this.date);
-      if (this.monthOrWeek) {
+      if (this.monthOrWeek === 'week') {
         let day = d.getDay() === 0 ? 7 : d.getDay();
         let diff = params.dataIndex - day + 1;
         this.date = new Date(d.setDate(d.getDate() + diff));
       }
       this.selectIndex = params.dataIndex;
-      // //console.log('params.dataIndex',params.dataIndex);
       this.exerciseCounts = params.value[1];//运动次数
+      this.score = params.data[1]
      
     },
     // 头部左箭头点击事件
@@ -713,20 +771,22 @@ export default {
       let d = this.date;
       this.date = new Date(d.setDate(d.getDate() + 7));
       this.getDevHistory();
-      // //console.log('this.weekArr',this.weekArr);
     },
     // 上一个月
     prevMonth() {
-      this.date = this.getPrevMonthDate();
+      // this.date = this.getPrevMonthDate();
+      let d = this.date
+      this.date = new Date(d.setDate(d.getDate() - 30));
       this.getDevHistory();
     },
     // 下一个月
     nextMonth() {
-      this.date = new Date(
-        this.date.getFullYear(),
-        this.date.getMonth() + 1,
-        1
-      );
+      // this.date = new Date(
+      //   this.date.getFullYear(),
+      //   this.date.getMonth() + 1
+      // );
+      let d = this.date
+      this.date = new Date(d.setDate(d.getDate() + 30));
       this.getDevHistory();
     },
     getPrevMonthDate() {
@@ -975,6 +1035,8 @@ export default {
       font-size:18px;
     }
     .brushHistory {
+      position: relative;
+      height: 160px;
       ul li {
         position: relative;
         height: 64px;
@@ -1015,6 +1077,23 @@ export default {
       }
       ul li:last-child {
         border-bottom: none;
+      }
+      .noData {
+        font-size: 14px;
+        position: absolute;
+        color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 80px;
+          margin-bottom: 12px;
+        }
       }
     }
   }

@@ -41,6 +41,7 @@ export const replaceDateString = function (str) {
     return _str;
 };
 export const callHilinkFn = function (eventName, options) {
+    console.log('callHilinkFn', options)
     let _o = options || [];
     window.hilink && window.hilink[eventName] && window.hilink[eventName].apply(window.hilink, _o);
 };
@@ -160,3 +161,45 @@ export const calcTotalPower = (arr) => {
 export const toFixed = (num, len) => {
     return +num.toFixed(len);
 };
+
+// 将02:45换成秒数
+export const changeSec = (time) => {
+    const $time = time
+    const min = $time.split(':')[0] * 1
+    const sec = $time.split(':')[1] * 1
+    return min * 60 + sec
+}
+
+// 小于10的数字补零
+export const addZero = (num) => {
+    const $num = num * 1
+    if ($num < 10) {
+        return '0' + $num
+    } else {
+        return $num
+    }
+}
+
+// 将2021/4/15转化为20210415
+export const formatDate = (date) => {
+    const $date = date
+    const arr = $date.split('/')
+    const yyyy = arr[0]
+    const mm = addZero(arr[1])
+    const dd = addZero(arr[2])
+    return yyyy + mm + dd
+}
+
+// 将1,2,3,4,5,6,7转化为星期一到星期日
+export const changeNumToWeek = (num) => {
+    const obj = {
+        1: '星期一',
+        2: '星期二',
+        3: '星期三',
+        4: '星期四',
+        5: '星期五',
+        6: '星期六',
+        0: '星期日'
+    }
+    return obj[num]
+}

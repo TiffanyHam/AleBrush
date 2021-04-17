@@ -27,7 +27,7 @@ export default {
         },
     },
     mounted () {
-        // this.chartInit(this.chartData);
+        this.chartInit(this.chartData);
     },
     methods: {
         chartInit (value) {
@@ -46,7 +46,6 @@ export default {
             const opts = {
                 tooltip: {
                     formatter: (value, index) => {
-                        // console.log(value, index);
                         this.echartsClick(value[0]);
                         // TODO : 告知父组件
                         return '';
@@ -76,7 +75,7 @@ export default {
                 //图表数据
                 dataset: {
                     source: data,
-                    // source: [["times", "week"], [41, '2/1'], [77, '2/2'], [99, '2/3'], [58, '2/4'], [42, '2/5'], [16, '2/6'], [70, '2/7']]
+                    // source: [['4/5', 41], ['4/6', 77], ['4/7', 99], ['4/8', 58], ['4/9', 42], ['4/10', 16], ['4/11', 76]]
                 },
                 textStyle: {
                     color: window.isDark ? 'rgba(255, 255, 255, .6)' : 'rgba(0, 0, 0, .2)',
@@ -120,7 +119,16 @@ export default {
                         barWidth: 6,
                         itemStyle: {
                             barBorderRadius: [3, 3, 0, 0],
-                            color: '#007DFF'
+                            color: function(params) {
+                                const value = params.value[1]
+                                if (value <= 59) {
+                                    return '#ff7600'
+                                } else if (value >= 60 && value <= 79) {
+                                    return '#007dff'
+                                } else {
+                                    return '#8cd600'
+                                }
+                            }
                         },
                         encode: {
                             x: "week",
