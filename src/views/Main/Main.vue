@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-17 17:47:52
+ * @LastEditTime: 2021-04-17 19:04:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -553,7 +553,21 @@ export default {
     ts: "20210409T145305Z",
     sid: "brushingHistory",
     data: {
-      score: "2021/04/15_14:53:05_00:33_80",
+      score: "2021/04/15_14:53:05_00:33_90",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/14_14:53:05_00:33_80",
+    },
+  },
+  {
+    ts: "20210409T145305Z",
+    sid: "brushingHistory",
+    data: {
+      score: "2021/04/14_14:53:05_00:33_80",
     },
   },
   {
@@ -676,19 +690,18 @@ this.getHistory(res);
               index = j;
               return true;
             }
-          });
-          // if(index<10) 每天最多10条
-          if(index<10){
-
+          });          
           if (!isExists) {
             newArr.push({
               dates: item.dates,
               historyArr: [item],
             });
           } else {
-            newArr[index].historyArr.push(item);
+           // if(i<10){  //每天最多10条
+              newArr[index].historyArr.push(item);
+          //  }
           }
-          }
+          
         });
       }
       return [dataArr, newArr];
