@@ -14,7 +14,7 @@
           {{ item.name }}
         </div>
         <!-- one --左下区逆时针 -->
-        <div class="one">
+        <div class="one" v-if="initPosition == 0">
           <!-- 左下 -->
           <div
             v-if="index == 1"
@@ -80,7 +80,7 @@
         </div>
 
         <!-- second --右上区逆时针 -->
-        <!-- <div class="second"> -->
+        <!-- <div class="second"  v-if="initPosition == 2"> -->
         <!-- 右上 -->
         <!-- <div
           v-if="index == 1"
@@ -138,7 +138,7 @@
         </div> -->
         <!-- </div> -->
         <!-- third--顺时针左上 -->
-        <!-- <div class="third"> -->
+        <!-- <div class="third"  v-if="initPosition == 3"> -->
         <!-- 左上 -->
         <!-- <div
           v-if="index == 1"
@@ -198,7 +198,7 @@
         <!-- </div> -->
 
         <!-- fourth--顺时针右下 -->
-        <!-- <div class="fourth"> -->
+        <!-- <div class="fourth"  v-if="initPosition == 1"> -->
         <!-- 右下 -->
         <!-- <div
           v-if="index == 1"
@@ -467,10 +467,10 @@ export default {
     let svgY = r * Math.sin((Math.PI / 180) * 90);
     this.rotate = [
       // 左下
-      { x: centerX - r, y: centerY },
-      { x: centerX + svgX, y: centerY + svgY },
-      { x: centerX + r, y: centerY },
-      { x: centerX - svgX, y: centerY - svgY },
+      // { x: centerX - r, y: centerY },
+      // { x: centerX + svgX, y: centerY + svgY },
+      // { x: centerX + r, y: centerY },
+      // { x: centerX - svgX, y: centerY - svgY },
       //右上
       // { x: centerX + r, y: centerY },
       // { x: centerX - svgX, y: centerY - svgY },
@@ -482,12 +482,11 @@ export default {
       // { x: centerX + svgX, y: centerY + svgY },
       // { x: centerX + r, y: centerY },
       //右下
-      // { x: centerX + svgX, y: centerY + svgY },
-      // { x: centerX + r, y: centerY },
-      // { x: centerX - svgX, y: centerY - svgY },
-      // { x: centerX - r, y: centerY },
+      { x: centerX + svgX, y: centerY + svgY },
+      { x: centerX + r, y: centerY },
+      { x: centerX - svgX, y: centerY - svgY },
+      { x: centerX - r, y: centerY },
     ];
-    console.log(this.rotate);
     this.startX = this.rotate[0].x;
     this.startY = this.rotate[0].y;
     this.endX = this.rotate[1].x;
@@ -497,7 +496,7 @@ export default {
   },
 
   mounted() {
-    // console.log("isopen", this.isOpen);
+
     console.log("刷牙区域:", this.initPosition);
     this.globalT(this.timeLength);
     this.init();
@@ -615,13 +614,38 @@ export default {
       let len = that.rotate.length;
       that.timer = setInterval(() => {
         if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
-          that.startX = that.rotate[len - count]["x"];
-          that.startY = that.rotate[len - count]["y"];
-          that.endX =
-            that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
-          that.endY =
-            that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
+          // that.startX = that.rotate[len - count]["x"];
+          // that.startY = that.rotate[len - count]["y"];
+          // that.endX =
+          //   that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
+          // that.endY =  
+          //   that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
+           if(count==4){
+              that.startX= 47.5
+              that.startY= 90
+              that.endX= 90
+              that.endY= 47.5
+          }
+          if(count==3){
+              that.startX= 5
+              that.startY= 47.5
+              that.endX= 47.5
+              that.endY= 90
+          }
+          if(count==2){
+              that.startX= 47.5
+              that.startY= 5
+              that.endX= 5
+              that.endY= 47.5
+          }
+          if(count==1){
+              that.startX= 90
+              that.startY= 47.5
+              that.endX= 47.5
+              that.endY= 5
+          }
           console.log(that.startX, that.startY, that.endX, that.endY);
+         
         
           that.seconds--;
 
