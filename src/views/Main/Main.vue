@@ -193,7 +193,7 @@
                 {{
                   isToday(item.dates)
                     ? dayWeek()
-                    : getMyDay(new Date(item.dates))
+                    : item.dates + ' '+ getMyDay(new Date(item.dates))
                 }}
               </p>
               <div
@@ -278,6 +278,7 @@ export default {
       getScore: "",
       conentHeight: "",
       wapperHeight: "",
+      isOnce:true,
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -417,6 +418,20 @@ export default {
     },
   },
   methods: {
+     /**
+     * @description: 只触发一次
+     * @param {*}
+     * @return {*}
+     */
+    once(){
+      if (this.isOnce) {
+        //获取当前时间，天数 = 60-(当前时间-x)+1 执行上报函数
+        //当前时间每次一打开app就取，x只取一次
+        this.isOnce = false;
+    } else {
+        return;
+    }
+    },
     /**
      * @description: 蓝牙连接
      * @param {*}
@@ -425,6 +440,7 @@ export default {
     initData() {
       this.BLE.init();
       if (this.bleConnected) {
+        this.once()
         this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
