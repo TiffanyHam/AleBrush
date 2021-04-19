@@ -1,6 +1,6 @@
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper wrapper-log">
     <!-- 头部start -->
       <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
           <span slot="headerTitle">{{$t('Log.header')}}</span>
@@ -10,7 +10,7 @@
             <div class="time-type">
               <div class="time-tab colorB60" @click="changeChart('day')">
                 <div class="empty"></div>
-                <div :class="{ c_007DFF: timeType === 'day' }">
+                <div class="tab-text" :class="{ c_007DFF: timeType === 'day' }">
                   {{ day }}
                 </div>
                 <div
@@ -20,7 +20,7 @@
               </div>
               <div class="time-tab colorB60" @click="changeChart('week')">
                 <div class="empty"></div>
-                <div :class="{ c_007DFF: timeType === 'week' }">
+                <div class="tab-text" :class="{ c_007DFF: timeType === 'week' }">
                   {{ week }}
                 </div>
                 <div
@@ -30,7 +30,7 @@
               </div>
               <div class="time-tab colorB60" @click="changeChart('month')">
                 <div class="empty"></div>
-                <div :class="{ c_007DFF: timeType === 'month' }">
+                <div class="tab-text" :class="{ c_007DFF: timeType === 'month' }">
                   {{ month }}
                 </div>
                 <div
@@ -46,20 +46,20 @@
                 v-on:changeMonth="changeDate">
               </Calendar>
               <div class="date">
-                <span class="">{{weekDays}}</span>
+                <span class="c_60">{{weekDays}}</span>
               </div>
               <div class="brushHistory">
                 <ul v-if="brushRecord.length > 0">
                   <li v-for="(item, index) in brushRecord" :key="index">
                     <div class="score">{{item.score}}</div>
-                    <div class="brushText">{{brushText}}</div>
-                    <div class="brushTime">{{item.brushTime}}</div>
-                    <div class="brushDuration">{{item.brushDuration}}</div>
+                    <div class="brushText c_90">{{brushText}}</div>
+                    <div class="brushTime c_60">{{item.brushTime}}</div>
+                    <div class="brushDuration c_60">{{item.brushDuration}}</div>
                   </li>
                 </ul>
                 <div class="noData" v-else>
-                  <img style="opacity: .3" src="../../assets/image/icon/light/no_log.png" alt="">
-                  <p>{{$t('Log.noData')}}</p>
+                  <div class="img"></div>
+                  <p class="c_90">{{$t('Log.noData')}}</p>
                 </div>
               </div>
             </div>
@@ -640,7 +640,7 @@ export default {
             }
             countObj[date]++
 
-            this.$set(this.weekChartData, index, [date, obj[date] / countObj[date]]);
+            this.$set(this.weekChartData, index, [date, Math.round(obj[date] / countObj[date])]);
           });
 
           // 计算周刷牙总次数
@@ -684,7 +684,7 @@ export default {
               countObj[day] = 0
             }
             countObj[day]++
-            this.$set(this.monthChartDate, day-1, [this.monthChartDate[day-1][0], obj[day] / countObj[day]]);
+            this.$set(this.monthChartDate, day-1, [this.monthChartDate[day-1][0], Math.round(obj[day] / countObj[day])]);
           });
 
           // 获取当月天数
@@ -1099,9 +1099,13 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        img {
-          width: 80px;
+        .img {
+          opacity: 0.38;
+          width: 72px;
+          height: 88px;
           margin-bottom: 12px;
+          background: url('../../assets/image/icon/light/no_log.png') no-repeat center;
+          background-size: contain;
         }
       }
     }
@@ -1128,12 +1132,74 @@ export default {
     flex-direction: row;
 }
 .theme-dark {
-  .wrapper {
+  .wrapper-log {
+    background: #000000;
     main {
       .historyData {
         ul li {
           border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
         }
+      }
+      .reference {
+        background:#000000;
+        .scoped {
+          color: rgba(255, 255, 255, 0.52)!important;
+        }
+        .scoretip {
+          color: rgba(255, 255, 255, 0.6)!important;
+        }
+      }
+      .time-type {
+        color: rgba(255, 255, 255, 0.77);
+      }
+      .statistics {
+        color: rgba(255, 255, 255, 0.52)!important;
+      }
+      // 修改日期组件暗黑模式
+      ::v-deep.wh_content_all {
+        background-color: #000;
+        .wh_top_changge {
+          display: none;
+        }
+        .wh_content {
+          .wh_content_item {
+            color: rgba(255, 255, 255, 0.86);
+            .wh_isToday {
+              background-color: #007dff;
+              color: #ffffff;
+            }
+            .wh_chose_day {
+              background-color: #000;
+              border: 1px solid #007dff;
+              color: rgba(255, 255, 255, 0.86);
+            }
+            .wh_other_dayhide {
+              display: none;
+            }
+          }
+          // .wh_content_item::after {
+          //   content: "";
+          //   position: absolute;
+          //   bottom: 0;
+          //   width: @6dp;
+          //   height: @6dp;
+          //   border-radius: 50%;
+          //   background-color: #007dff;
+          // }
+        
+        }
+      }
+      .noData {
+        .img {
+          background: url('../../assets/image/icon/dark/no_log.png') no-repeat center;
+          background-size: contain;
+        }
+      }
+    }
+    .tips {
+      background: #000000;
+      span {
+        color: rgba(255, 255, 255, 0.6);
       }
     }
   }

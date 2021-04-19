@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-13 09:27:22
+ * @LastEditTime: 2021-04-19 20:16:38
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -60,6 +60,14 @@ export default {
         window.addEventListener("beforeunload",()=>{
         localStorage.setItem("store",JSON.stringify(this.$store.state))
         })
+  },
+  mounted() {
+    console.log('app-mounted', window.isDark)
+    if (window.isDark) {
+      const $body = document.getElementsByTagName('body')[0]
+      console.log('$body', $body)
+      $body.style.background = '#000'
+    }
   },
   methods: {
     /*

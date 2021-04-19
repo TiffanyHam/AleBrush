@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-19 17:44:19
+ * @LastEditTime: 2021-04-19 20:20:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -184,7 +184,7 @@
           <!-- 无记录显示 -->
           <div class="noLog" v-if="isflage == isConnect || logArr.length == 0">
             <div class="logImg"></div>
-            <div>{{ $t("index.nolog") }}</div>
+            <div class="c_90">{{ $t("index.nolog") }}</div>
           </div>
           <!-- 有记录显示 -->
           <div class="logHistory" v-else>
@@ -359,6 +359,10 @@ export default {
     this.selectIndex = this.changeStatus(this.cleanMOde);
     //console.log('模式',this.selectIndex)
     //console.log('模式2',this.selectIndex1)
+     if (window.isDark) {
+     // console.log('asdfasdddddddddddddddddddddd')
+      window.hilink.modifyTitleBar(true, '#ffffff', 'resultCallback')
+    }
   },
 
   computed: {
@@ -1107,6 +1111,14 @@ export default {
       .banner {
         .productI {
           opacity: 0.86;
+        }
+      }
+    }
+
+    .logHistory {
+      .log_arr {
+        .days {
+          color: rgba(255, 255, 255, 0.6)!important;
         }
       }
     }

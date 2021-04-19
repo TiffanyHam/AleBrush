@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-01 11:44:06
- * @LastEditTime: 2021-04-01 11:44:25
- * @LastEditors: your name
+ * @LastEditTime: 2021-04-19 19:54:44
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\card4.vue
 -->
@@ -75,6 +75,9 @@ export default {
     border-left: 0.25px solid rgba(0, 0, 0, .2);
 }
 .theme-dark {
+    .hi-card {
+        background: #000;
+    }
     .line::before {
         border-left: 0.25px solid rgba(255, 255, 255, .2);
     }

@@ -79,7 +79,9 @@
     background: url('../assets/image/icon/light/no_log.png') center/cover;
 }
 .theme-dark {
-    
+    .logImg{
+        background: url('../assets/image/icon/dark/no_log.png') center/cover;
+    }
     .loading_icon{
         background-image: url('../assets/image/icon/dark/loading.png')
     }

@@ -80,183 +80,203 @@
         </div>
 
         <!-- second --右上区逆时针 -->
-        <div class="second"  v-if="initPosition == 2">
-        <!-- 右上 -->
-        <div
-          v-if="index == 1"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 1" class="currentA currrent_top">
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-          <div class="fingle fingle_right1"></div>
+        <div class="second" v-if="initPosition == 2">
+          <!-- 右上 -->
+          <div
+            v-if="index == 1"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 1" class="currentA currrent_top">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right1"></div>
+          </div>
+          <div
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
+            class="right_up_out posiImg"
+          ></div>
+          <!-- 左上 -->
+          <div
+            v-if="index == 2"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 2" class="currentA currrent_top">
+            <div class="fingle fingle_left1"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div
+            v-if="index == 0 || index == 3 || index == 4"
+            class="left_up_out posiImg"
+          ></div>
+          <!-- 左下 -->
+          <div
+            v-if="index == 3"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 3" class="currentA currrent_bottom">
+            <div class="fingle fingle_left"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div
+            v-if="index == 0 || index == 4"
+            class="left_down_out posiImg"
+          ></div>
+          <!-- 右下 -->
+          <div
+            v-if="index == 4"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 4" class="currentA currrent_bottom">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right"></div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="right_down_out posiImg"
+            ></div>
+          </div>
         </div>
-        <div v-if="index == 0 || index == 2 || index == 3 || index == 4" class="right_up_out posiImg"></div>
-        <!-- 左上 -->
-        <div
-          v-if="index == 2"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 2" class="currentA currrent_top">
-          <div class="fingle fingle_left1"></div>
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-        </div>
-        <div
-          v-if="index == 0 || index == 3 || index == 4"
-          class="left_up_out posiImg"
-        ></div>
-        <!-- 左下 -->
-        <div
-          v-if="index == 3"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 3" class="currentA currrent_bottom">
-          <div class="fingle fingle_left"></div>
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-        </div>
-        <div
-          v-if="index == 0 || index == 4"
-          class="left_down_out posiImg"
-        ></div>
-        <!-- 右下 -->
-        <div
-          v-if="index == 4"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 4" class="currentA currrent_bottom">
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-          <div class="fingle fingle_right"></div>
-        </div>
-        <div v-if="index == 0">
-        <div
-          v-if="index == 0 || index == 1 || index == 2"
-          class="right_down_out posiImg"
-        ></div>
-        </div> 
-         </div>
         <!-- third--顺时针左上 -->
-        <div class="third"  v-if="initPosition == 3">
-        <!-- 左上 -->
-        <div
-          v-if="index == 1"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 1" class="currentA currrent_top">
-          <div class="fingle fingle_left1"></div>
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-        </div>
-        <div
-          v-if="index == 0 || index == 2 || index == 3 || index == 4"
-          class="left_up_out posiImg"
-        ></div>
-        <!-- 右上 -->
-        <div
-          v-if="index == 2"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 2" class="currentA currrent_top">
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-          <div class="fingle fingle_right1"></div>
-        </div>
-        <div v-if="index == 0 || index == 3 || index == 4" class="right_up_out posiImg"></div>
+        <div class="third" v-if="initPosition == 3">
+          <!-- 左上 -->
+          <div
+            v-if="index == 1"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 1" class="currentA currrent_top">
+            <div class="fingle fingle_left1"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
+            class="left_up_out posiImg"
+          ></div>
+          <!-- 右上 -->
+          <div
+            v-if="index == 2"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 2" class="currentA currrent_top">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right1"></div>
+          </div>
+          <div
+            v-if="index == 0 || index == 3 || index == 4"
+            class="right_up_out posiImg"
+          ></div>
 
-        <!-- 右下 -->
-        <div
-          v-if="index == 3"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 3" class="currentA currrent_bottom">
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-          <div class="fingle fingle_right"></div>
-        </div>
-        <div
-          v-if="index == 0 || index == 4"
-          class="right_down_out posiImg"
-        ></div>
-        <!-- 左下 -->
-        <div
-          v-if="index == 4"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 4" class="currentA currrent_bottom">
-          <div class="fingle fingle_left"></div>
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-        </div>
-        <div v-if="index == 0">
-        <div
-          v-if="index == 0 || index == 1 || index == 2"
-          class="left_down_out posiImg"
-        ></div>
-        </div>
+          <!-- 右下 -->
+          <div
+            v-if="index == 3"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 3" class="currentA currrent_bottom">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right"></div>
+          </div>
+          <div
+            v-if="index == 0 || index == 4"
+            class="right_down_out posiImg"
+          ></div>
+          <!-- 左下 -->
+          <div
+            v-if="index == 4"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 4" class="currentA currrent_bottom">
+            <div class="fingle fingle_left"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="left_down_out posiImg"
+            ></div>
+          </div>
         </div>
 
         <!-- fourth--顺时针右下 -->
-        <div class="fourth"  v-if="initPosition == 1">
-        <!-- 右下 -->
-        <div
-          v-if="index == 1"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 1" class="currentA currrent_bottom">
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-          <div class="fingle fingle_right"></div>
-        </div>
-        <div
-          v-if="index == 0 || index == 2 || index == 3 || index == 4"
-          class="right_down_out posiImg"
-        ></div>
-        <!-- 左下 -->
-        <div
-          v-if="index == 2"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 2" class="currentA currrent_bottom">
-          <div class="fingle fingle_left"></div>
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-        </div>
-        <div v-if="index == 0">
-        <div
-          v-if="index == 0 || index == 3 || index == 4"
-          class="left_down_out posiImg"
-        ></div>
-        </div>
-        <!-- 左上 -->
-        <div
-          v-if="index == 3"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 3" class="currentA currrent_top">
-          <div class="fingle fingle_left1"></div>
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-        </div>
-        <div
-          v-if="index == 0 || index == 4"
-          class="left_up_out posiImg"
-        ></div>
-        <!-- 右上 -->
-        <div
-          v-if="index == 4"
-          :style="{ opacity: `${opacityVal}` }"
-          :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
-        ></div>
-        <div v-if="index == 4" class="currentA currrent_top">
-          <div>{{ $t("BrushTeethPosition.current") }}</div>
-          <div class="fingle fingle_right1"></div>
-        </div>
-         <div v-if="index == 0">
-        <div v-if="index == 0 || index == 1 || index == 2" class="right_up_out posiImg"></div>
-         </div>
-
+        <div class="fourth" v-if="initPosition == 1">
+          <!-- 右下 -->
+          <div
+            v-if="index == 1"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 1" class="currentA currrent_bottom">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right"></div>
+          </div>
+          <div
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
+            class="right_down_out posiImg"
+          ></div>
+          <!-- 左下 -->
+          <div
+            v-if="index == 2"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 2" class="currentA currrent_bottom">
+            <div class="fingle fingle_left"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 3 || index == 4"
+              class="left_down_out posiImg"
+            ></div>
+          </div>
+          <!-- 左上 -->
+          <div
+            v-if="index == 3"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 3" class="currentA currrent_top">
+            <div class="fingle fingle_left1"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div
+            v-if="index == 0 || index == 4"
+            class="left_up_out posiImg"
+          ></div>
+          <!-- 右上 -->
+          <div
+            v-if="index == 4"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 4" class="currentA currrent_top">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right1"></div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="right_up_out posiImg"
+            ></div>
+          </div>
         </div>
 
         <!-- 中心时间卷 -->
@@ -316,7 +336,7 @@
         </div>
       </div>
     </div>
-    <div class="stopB" @click="ExitDialog">{{ $t("brushing.charge") }}</div>
+    <div class="stopB" v-show="isStop">{{ $t("brushing.charge") }}</div>
     <div class="brushing">
       <div>{{ $t("brushing.charge") }}</div>
       <div style="margin-top: 4px">{{ $t("brushing.tipText") }}</div>
@@ -441,8 +461,9 @@ export default {
       ],
       isOpen: "00",
       opacityVal: 0,
-      lastSecond:'',
-      lastMinute:''
+      lastSecond: "",
+      lastMinute: "",
+      isStop:false
     };
   },
 
@@ -498,7 +519,7 @@ export default {
       case 3:
         this.rotate = [
           //左上
-          { x: centerX - svgX, y: centerY - svgY  },
+          { x: centerX - svgX, y: centerY - svgY },
           { x: centerX - r, y: centerY },
           { x: centerX + svgX, y: centerY + svgY },
           { x: centerX + r, y: centerY },
@@ -532,17 +553,30 @@ export default {
     this.endX = this.rotate[1].x;
     this.endY = this.rotate[1].y;
 
-  //   console.log(this.startX, this.startY, this.endX, this.endY);
+    //   console.log(this.startX, this.startY, this.endX, this.endY);
   },
 
   mounted() {
     console.log("刷牙区域:", this.initPosition);
     this.globalT(this.timeLength);
     this.init();
-   // this.visibilitychange()
+    window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
+    // this.visibilitychange()
+  },
+  destroyed() {
+    window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
 
   methods: {
+    /**
+     * @description: 监听页面刷新和离开
+     * @param {*} e
+     * @return {*}
+     */
+    beforeunloadFn(e) {
+      this.isStop = true
+    },
+
     /**
      * @description:  js 添加动画
      * @param {Number} pro 目标值
@@ -707,7 +741,7 @@ export default {
             }
           }
 
-         // console.log(that.startX, that.startY, that.endX, that.endY);
+          // console.log(that.startX, that.startY, that.endX, that.endY);
 
           that.seconds--;
 
@@ -763,8 +797,8 @@ export default {
         if (minute >= 60) {
           minute = 0;
         }
-        that.lastSecond = second
-        that.lastMinute = minute
+        that.lastSecond = second;
+        that.lastMinute = minute;
         if (second < 10) {
           that.total = "0" + minute + ":" + "0" + second;
           // that.record = minute + "分0" + second + "秒";
@@ -772,22 +806,22 @@ export default {
           that.total = "0" + minute + ":" + second;
           //  that.record = minute + "分" + second + "秒";
         }
-       
-       // console.log(minute,second)
+
+        // console.log(minute,second)
         that.brushLen =
           parseInt(that.total.substr(1, 1)) * 60 +
           parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
         //console.log('刷牙时长:',that.brushLen)
 
-      //  var times = formatDate(Date.parse(new Date())); //当前时间
-      // var dayY = times.split(",")[0]; //年月日
+        //  var times = formatDate(Date.parse(new Date())); //当前时间
+        // var dayY = times.split(",")[0]; //年月日
 
-      // var timeY = times.split(",")[1]; //时分秒
-      // var setLen =
-      //   parseInt(that.setTotalTime.substr(1, 1)) * 60 +
-      //   parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-      // var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
-      // console.log(that.setTotalTime,setLen,score)
+        // var timeY = times.split(",")[1]; //时分秒
+        // var setLen =
+        //   parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+        //   parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+        // var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+        // console.log(that.setTotalTime,setLen,score)
 
         sessionStorage.removeItem("previousMi");
         sessionStorage.removeItem("previousSec");
@@ -834,9 +868,8 @@ export default {
      * @description: 恢复动画
      * @param {*}
      * @return {*}
-     */    
-    recover(){
-
+     */
+    recover() {
       let Mi = parseInt(sessionStorage.getItem("previousMi"));
       let Sec = parseInt(sessionStorage.getItem("previousSec"));
       this.totalTime(Mi, Sec);
@@ -847,46 +880,53 @@ export default {
       this.showAnimate();
     },
     /**
-     * @description:动画后台运行 
+     * @description:动画后台运行
      * @param {*}
      * @return {*}
-     */    
-    visibilitychange(){
-      let that  = this
-      let start,end,s;
-       document.addEventListener("visibilitychange", function() {
-        var string = document.visibilityState
-       // console.log(string)
-        if (string === 'hidden') {  // 当页面由前端运行在后端时
-             start = new Date().getTime();
-           }
-        if (string === 'visible') {   // 当页面由隐藏至显示时
-             end = new Date().getTime();
-             s =Math.floor((parseInt(end) - parseInt(start))/1000);
-             console.log('s',s) //时间差
-
-            let totalSeconds = parseInt(that.lastMinute) *60 +parseInt(that.lastSecond)
-            console.log('totalSeconds:',totalSeconds)
-            var dd = totalSeconds + s  //时间差+暂停时间 秒数
-            console.log(dd)
-            let ss = parseInt(that.setTotalTime.substr(0,2)) *60 + parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2))
-            console.log('ss',ss)
-             //如果后台停留时间小于总时间
-             if(dd < ss){
-               let ddf = Math.floor(dd/60)+":"+(dd % 60/100).toFixed(2).slice(-2)
-               console.log('ddf',ddf)
-               let kk = ddf.split(":")
-               clearInterval(that.timer1);
-               clearInterval(that.timer2);
-               that.seconds = that.seconds - s
-               console.log('that.seconds',that.seconds)
-               that.totalTime(parseInt(kk[0]), parseInt(kk[1]))
-             }else{
-               that.totalTime(0, 0)
-             }
-            
+     */
+    visibilitychange() {
+      let that = this;
+      let start, end, s;
+      document.addEventListener("visibilitychange", function () {
+        var string = document.visibilityState;
+        // console.log(string)
+        if (string === "hidden") {
+          // 当页面由前端运行在后端时
+          start = new Date().getTime();
         }
-    });
+        if (string === "visible") {
+          // 当页面由隐藏至显示时
+          end = new Date().getTime();
+          s = Math.floor((parseInt(end) - parseInt(start)) / 1000);
+          console.log("s", s); //时间差
+
+          let totalSeconds =
+            parseInt(that.lastMinute) * 60 + parseInt(that.lastSecond);
+          console.log("totalSeconds:", totalSeconds);
+          var dd = totalSeconds + s; //时间差+暂停时间 秒数
+          console.log(dd);
+          let ss =
+            parseInt(that.setTotalTime.substr(0, 2)) * 60 +
+            parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2));
+          console.log("ss", ss);
+          //如果后台停留时间小于总时间
+          if (dd < ss) {
+            let ddf =
+              Math.floor(dd / 60) +
+              ":" +
+              ((dd % 60) / 100).toFixed(2).slice(-2);
+            console.log("ddf", ddf);
+            let kk = ddf.split(":");
+            clearInterval(that.timer1);
+            clearInterval(that.timer2);
+            that.seconds = that.seconds - s;
+            console.log("that.seconds", that.seconds);
+            that.totalTime(parseInt(kk[0]), parseInt(kk[1]));
+          } else {
+            that.totalTime(0, 0);
+          }
+        }
+      });
     },
     // 数据解析
     acceptData(data) {
@@ -901,7 +941,7 @@ export default {
 
           clearInterval(this.timer4);
           this.time = 30;
-          this.recover()  //恢复动画
+          this.recover(); //恢复动画
 
           // let Mi = parseInt(sessionStorage.getItem("previousMi"));
           // let Sec = parseInt(sessionStorage.getItem("previousSec"));
@@ -944,13 +984,13 @@ export default {
      * @return {*}
      */
     Exit() {
-        this.clearInter();
-        clearInterval(this.timer4);
-        if (this.brushLen > 30 || this.brushLen == 30) {
-          this.historyArr();
-        }
-        this.$router.push({ name: "Main" });
-        //console.log(this.brushLen)
+      this.clearInter();
+      clearInterval(this.timer4);
+      if (this.brushLen > 30 || this.brushLen == 30) {
+        this.historyArr();
+      }
+      this.$router.push({ name: "Main" });
+      //console.log(this.brushLen)
     },
 
     /**
@@ -968,7 +1008,7 @@ export default {
         parseInt(that.setTotalTime.substr(1, 1)) * 60 +
         parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
       var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
-    //  console.log(that.setTotalTime,setLen,score)
+      //  console.log(that.setTotalTime,setLen,score)
 
       //数据上报
       let resCallback = (res) => {

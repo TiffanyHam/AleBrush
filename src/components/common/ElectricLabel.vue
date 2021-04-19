@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-01 11:14:31
- * @LastEditTime: 2021-04-01 16:10:59
+ * @LastEditTime: 2021-04-19 19:54:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\ElectricLabel.vue
@@ -62,6 +62,14 @@ export default {
       font-size: 35px;
        line-height: 1.29305556rem;
       margin-right: 2px;
+    }
+  }
+}
+.theme-dark {
+  .electric-label {
+    color: rgba(255, 255, 255, .6);
+    .num {
+      color: rgba(255, 255, 255, .86);
     }
   }
 }
