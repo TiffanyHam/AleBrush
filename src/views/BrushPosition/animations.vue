@@ -80,9 +80,9 @@
         </div>
 
         <!-- second --右上区逆时针 -->
-        <!-- <div class="second"  v-if="initPosition == 2"> -->
+        <div class="second"  v-if="initPosition == 2">
         <!-- 右上 -->
-        <!-- <div
+        <div
           v-if="index == 1"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
@@ -91,9 +91,9 @@
           <div>{{ $t("BrushTeethPosition.current") }}</div>
           <div class="fingle fingle_right1"></div>
         </div>
-        <div v-if="index == 0 || index == 2 || index == 3 || index == 4" class="right_up_out posiImg"></div> -->
+        <div v-if="index == 0 || index == 2 || index == 3 || index == 4" class="right_up_out posiImg"></div>
         <!-- 左上 -->
-        <!-- <div
+        <div
           v-if="index == 2"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
@@ -105,9 +105,9 @@
         <div
           v-if="index == 0 || index == 3 || index == 4"
           class="left_up_out posiImg"
-        ></div> -->
+        ></div>
         <!-- 左下 -->
-        <!-- <div
+        <div
           v-if="index == 3"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
@@ -119,9 +119,9 @@
         <div
           v-if="index == 0 || index == 4"
           class="left_down_out posiImg"
-        ></div> -->
+        ></div>
         <!-- 右下 -->
-        <!-- <div
+        <div
           v-if="index == 4"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
@@ -135,12 +135,12 @@
           v-if="index == 0 || index == 1 || index == 2"
           class="right_down_out posiImg"
         ></div>
-        </div> -->
-        <!-- </div> -->
+        </div> 
+         </div>
         <!-- third--顺时针左上 -->
-        <!-- <div class="third"  v-if="initPosition == 3"> -->
+        <div class="third"  v-if="initPosition == 3">
         <!-- 左上 -->
-        <!-- <div
+        <div
           v-if="index == 1"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
@@ -152,9 +152,9 @@
         <div
           v-if="index == 0 || index == 2 || index == 3 || index == 4"
           class="left_up_out posiImg"
-        ></div> -->
+        ></div>
         <!-- 右上 -->
-        <!-- <div
+        <div
           v-if="index == 2"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
@@ -163,10 +163,10 @@
           <div>{{ $t("BrushTeethPosition.current") }}</div>
           <div class="fingle fingle_right1"></div>
         </div>
-        <div v-if="index == 0 || index == 3 || index == 4" class="right_up_out posiImg"></div> -->
+        <div v-if="index == 0 || index == 3 || index == 4" class="right_up_out posiImg"></div>
 
         <!-- 右下 -->
-        <!-- <div
+        <div
           v-if="index == 3"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
@@ -178,9 +178,9 @@
         <div
           v-if="index == 0 || index == 4"
           class="right_down_out posiImg"
-        ></div> -->
+        ></div>
         <!-- 左下 -->
-        <!-- <div
+        <div
           v-if="index == 4"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
@@ -194,13 +194,13 @@
           v-if="index == 0 || index == 1 || index == 2"
           class="left_down_out posiImg"
         ></div>
-        </div> -->
-        <!-- </div> -->
+        </div>
+        </div>
 
         <!-- fourth--顺时针右下 -->
-        <!-- <div class="fourth"  v-if="initPosition == 1"> -->
+        <div class="fourth"  v-if="initPosition == 1">
         <!-- 右下 -->
-        <!-- <div
+        <div
           v-if="index == 1"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''"
@@ -212,9 +212,9 @@
         <div
           v-if="index == 0 || index == 2 || index == 3 || index == 4"
           class="right_down_out posiImg"
-        ></div> -->
+        ></div>
         <!-- 左下 -->
-        <!-- <div
+        <div
           v-if="index == 2"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''"
@@ -228,9 +228,9 @@
           v-if="index == 0 || index == 3 || index == 4"
           class="left_down_out posiImg"
         ></div>
-        </div> -->
+        </div>
         <!-- 左上 -->
-        <!-- <div
+        <div
           v-if="index == 3"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
@@ -242,9 +242,9 @@
         <div
           v-if="index == 0 || index == 4"
           class="left_up_out posiImg"
-        ></div> -->
+        ></div>
         <!-- 右上 -->
-        <!-- <div
+        <div
           v-if="index == 4"
           :style="{ opacity: `${opacityVal}` }"
           :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
@@ -255,9 +255,9 @@
         </div>
          <div v-if="index == 0">
         <div v-if="index == 0 || index == 1 || index == 2" class="right_up_out posiImg"></div>
-         </div> -->
+         </div>
 
-        <!-- </div> -->
+        </div>
 
         <!-- 中心时间卷 -->
         <div class="circle">
@@ -441,6 +441,8 @@ export default {
       ],
       isOpen: "00",
       opacityVal: 0,
+      lastSecond:'',
+      lastMinute:''
     };
   },
 
@@ -465,51 +467,79 @@ export default {
     let centerY = 47.5;
     let svgX = r * Math.cos((Math.PI / 180) * 90);
     let svgY = r * Math.sin((Math.PI / 180) * 90);
-    this.rotate = [
-      // 左下
-      // { x: centerX - r, y: centerY },
-      // { x: centerX + svgX, y: centerY + svgY },
-      // { x: centerX + r, y: centerY },
-      // { x: centerX - svgX, y: centerY - svgY },
-      //右上
-      // { x: centerX + r, y: centerY },
-      // { x: centerX - svgX, y: centerY - svgY },
-      // { x: centerX - r, y: centerY },
-      // { x: centerX + svgX, y: centerY + svgY },
-      //左上
-      // { x: centerX + svgX, y: centerY + svgY },
-      // { x: centerX - r, y: centerY },
-      // { x: centerX + svgX, y: centerY + svgY },
-      // { x: centerX + r, y: centerY },
-      //右下
-      { x: centerX + svgX, y: centerY + svgY },
-      { x: centerX + r, y: centerY },
-      { x: centerX - svgX, y: centerY - svgY },
-      { x: centerX - r, y: centerY },
-    ];
+    switch (this.initPosition) {
+      case 0:
+        this.rotate = [
+          // 左下
+          { x: centerX - r, y: centerY },
+          { x: centerX + svgX, y: centerY + svgY },
+          { x: centerX + r, y: centerY },
+          { x: centerX - svgX, y: centerY - svgY },
+        ];
+        break;
+      case 1:
+        this.rotate = [
+          //右下
+          { x: centerX + svgX, y: centerY + svgY },
+          { x: centerX + r, y: centerY },
+          { x: centerX - svgX, y: centerY - svgY },
+          { x: centerX - r, y: centerY },
+        ];
+        break;
+      case 2:
+        this.rotate = [
+          //右上
+          { x: centerX + r, y: centerY },
+          { x: centerX - svgX, y: centerY - svgY },
+          { x: centerX - r, y: centerY },
+          { x: centerX + svgX, y: centerY + svgY },
+        ];
+        break;
+      case 3:
+        this.rotate = [
+          //左上
+          { x: centerX - svgX, y: centerY - svgY  },
+          { x: centerX - r, y: centerY },
+          { x: centerX + svgX, y: centerY + svgY },
+          { x: centerX + r, y: centerY },
+        ];
+        break;
+    }
+    // this.rotate = [
+    // 左下
+    // { x: centerX - r, y: centerY },
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX + r, y: centerY },
+    // { x: centerX - svgX, y: centerY - svgY },
+    //右上
+    // { x: centerX + r, y: centerY },
+    // { x: centerX - svgX, y: centerY - svgY },
+    // { x: centerX - r, y: centerY },
+    // { x: centerX + svgX, y: centerY + svgY },
+    //左上
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX - r, y: centerY },
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX + r, y: centerY },
+    //右下
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX + r, y: centerY },
+    // { x: centerX - svgX, y: centerY - svgY },
+    // { x: centerX - r, y: centerY },
+    // ];
     this.startX = this.rotate[0].x;
     this.startY = this.rotate[0].y;
     this.endX = this.rotate[1].x;
     this.endY = this.rotate[1].y;
 
-    console.log(this.startX, this.startY, this.endX, this.endY);
+  //   console.log(this.startX, this.startY, this.endX, this.endY);
   },
 
   mounted() {
-
     console.log("刷牙区域:", this.initPosition);
     this.globalT(this.timeLength);
     this.init();
-//     document.addEventListener("visibilitychange", function() {
-//       var string = document.visibilityState
-//       console.log(string)
-//       if (string === 'hidden') {  // 当页面由前端运行在后端时，出发此代码
-//           console.log('我被隐藏了')
-//       }
-//       if (string === 'visible') {   // 当页面由隐藏至显示时
-//           console.log('欢迎回来')
-//       }
-// });
+   // this.visibilitychange()
   },
 
   methods: {
@@ -614,39 +644,71 @@ export default {
       let len = that.rotate.length;
       that.timer = setInterval(() => {
         if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
-          // that.startX = that.rotate[len - count]["x"];
-          // that.startY = that.rotate[len - count]["y"];
-          // that.endX =
-          //   that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
-          // that.endY =  
-          //   that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
-           if(count==4){
-              that.startX= 47.5
-              that.startY= 90
-              that.endX= 90
-              that.endY= 47.5
+          if (this.initPosition == 0 || this.initPosition == 2) {
+            that.startX = that.rotate[len - count]["x"];
+            that.startY = that.rotate[len - count]["y"];
+            that.endX =
+              that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
+            that.endY =
+              that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
           }
-          if(count==3){
-              that.startX= 5
-              that.startY= 47.5
-              that.endX= 47.5
-              that.endY= 90
+
+          if (this.initPosition == 1) {
+            if (count == 4) {
+              that.startX = 47.5;
+              that.startY = 90;
+              that.endX = 90;
+              that.endY = 47.5;
+            }
+            if (count == 3) {
+              that.startX = 5;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 90;
+            }
+            if (count == 2) {
+              that.startX = 47.5;
+              that.startY = 5;
+              that.endX = 5;
+              that.endY = 47.5;
+            }
+            if (count == 1) {
+              that.startX = 90;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 5;
+            }
           }
-          if(count==2){
-              that.startX= 47.5
-              that.startY= 5
-              that.endX= 5
-              that.endY= 47.5
+
+          if (this.initPosition == 3) {
+            if (count == 4) {
+              that.startX = 47.5;
+              that.startY = 5;
+              that.endX = 5;
+              that.endY = 47.5;
+            }
+            if (count == 3) {
+              that.startX = 90;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 5;
+            }
+            if (count == 2) {
+              that.startX = 47.5;
+              that.startY = 90;
+              that.endX = 90;
+              that.endY = 47.5;
+            }
+            if (count == 1) {
+              that.startX = 5;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 90;
+            }
           }
-          if(count==1){
-              that.startX= 90
-              that.startY= 47.5
-              that.endX= 47.5
-              that.endY= 5
-          }
-          console.log(that.startX, that.startY, that.endX, that.endY);
-         
-        
+
+         // console.log(that.startX, that.startY, that.endX, that.endY);
+
           that.seconds--;
 
           //透明度切换
@@ -701,6 +763,8 @@ export default {
         if (minute >= 60) {
           minute = 0;
         }
+        that.lastSecond = second
+        that.lastMinute = minute
         if (second < 10) {
           that.total = "0" + minute + ":" + "0" + second;
           // that.record = minute + "分0" + second + "秒";
@@ -708,10 +772,22 @@ export default {
           that.total = "0" + minute + ":" + second;
           //  that.record = minute + "分" + second + "秒";
         }
+       
+       // console.log(minute,second)
         that.brushLen =
           parseInt(that.total.substr(1, 1)) * 60 +
           parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
         //console.log('刷牙时长:',that.brushLen)
+
+      //  var times = formatDate(Date.parse(new Date())); //当前时间
+      // var dayY = times.split(",")[0]; //年月日
+
+      // var timeY = times.split(",")[1]; //时分秒
+      // var setLen =
+      //   parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+      //   parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+      // var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+      // console.log(that.setTotalTime,setLen,score)
 
         sessionStorage.removeItem("previousMi");
         sessionStorage.removeItem("previousSec");
@@ -754,6 +830,64 @@ export default {
         sessionStorage.setItem("previousArea", that.area);
       }, 1000);
     },
+    /**
+     * @description: 恢复动画
+     * @param {*}
+     * @return {*}
+     */    
+    recover(){
+
+      let Mi = parseInt(sessionStorage.getItem("previousMi"));
+      let Sec = parseInt(sessionStorage.getItem("previousSec"));
+      this.totalTime(Mi, Sec);
+
+      this.flag = true;
+      this.countDown();
+
+      this.showAnimate();
+    },
+    /**
+     * @description:动画后台运行 
+     * @param {*}
+     * @return {*}
+     */    
+    visibilitychange(){
+      let that  = this
+      let start,end,s;
+       document.addEventListener("visibilitychange", function() {
+        var string = document.visibilityState
+       // console.log(string)
+        if (string === 'hidden') {  // 当页面由前端运行在后端时
+             start = new Date().getTime();
+           }
+        if (string === 'visible') {   // 当页面由隐藏至显示时
+             end = new Date().getTime();
+             s =Math.floor((parseInt(end) - parseInt(start))/1000);
+             console.log('s',s) //时间差
+
+            let totalSeconds = parseInt(that.lastMinute) *60 +parseInt(that.lastSecond)
+            console.log('totalSeconds:',totalSeconds)
+            var dd = totalSeconds + s  //时间差+暂停时间 秒数
+            console.log(dd)
+            let ss = parseInt(that.setTotalTime.substr(0,2)) *60 + parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2))
+            console.log('ss',ss)
+             //如果后台停留时间小于总时间
+             if(dd < ss){
+               let ddf = Math.floor(dd/60)+":"+(dd % 60/100).toFixed(2).slice(-2)
+               console.log('ddf',ddf)
+               let kk = ddf.split(":")
+               clearInterval(that.timer1);
+               clearInterval(that.timer2);
+               that.seconds = that.seconds - s
+               console.log('that.seconds',that.seconds)
+               that.totalTime(parseInt(kk[0]), parseInt(kk[1]))
+             }else{
+               that.totalTime(0, 0)
+             }
+            
+        }
+    });
+    },
     // 数据解析
     acceptData(data) {
       if (data.indexOf("F55F070401") == 0) {
@@ -767,15 +901,16 @@ export default {
 
           clearInterval(this.timer4);
           this.time = 30;
+          this.recover()  //恢复动画
 
-          let Mi = parseInt(sessionStorage.getItem("previousMi"));
-          let Sec = parseInt(sessionStorage.getItem("previousSec"));
-          this.totalTime(Mi, Sec);
+          // let Mi = parseInt(sessionStorage.getItem("previousMi"));
+          // let Sec = parseInt(sessionStorage.getItem("previousSec"));
+          // this.totalTime(Mi, Sec);
 
-          this.flag = true;
-          this.countDown();
+          // this.flag = true;
+          // this.countDown();
 
-          this.showAnimate();
+          // this.showAnimate();
         }
         if (this.isOpen == "03") {
           //结束
@@ -809,7 +944,6 @@ export default {
      * @return {*}
      */
     Exit() {
-      if (this.$route.path == "/animations") {
         this.clearInter();
         clearInterval(this.timer4);
         if (this.brushLen > 30 || this.brushLen == 30) {
@@ -817,9 +951,6 @@ export default {
         }
         this.$router.push({ name: "Main" });
         //console.log(this.brushLen)
-      } else {
-        console.log("");
-      }
     },
 
     /**
@@ -837,6 +968,7 @@ export default {
         parseInt(that.setTotalTime.substr(1, 1)) * 60 +
         parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
       var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+    //  console.log(that.setTotalTime,setLen,score)
 
       //数据上报
       let resCallback = (res) => {

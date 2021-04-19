@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-04 14:13:29
- * @LastEditTime: 2021-04-16 11:05:53
+ * @LastEditTime: 2021-04-19 17:15:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
@@ -33,6 +33,7 @@ function getBluetoothAdapterState() {
       searchDevices();
     } else {
       console.log("555");
+      store.commit("UPDATED_BLECONNECTED", false);
     }
   };
 }
@@ -152,7 +153,7 @@ function onBLEServicesDiscovered() {
         if (status === 0) {
           //监听低功耗蓝牙设备的特征值变化
           onBLECharacteristicValueChange();
-          writeData("f55f080102");
+          writeData("f55f0801025f");
         }
       }
     } else {
@@ -168,11 +169,11 @@ function onBLEServicesDiscovered() {
             g.readCharacteristicId,
             true
           );
-         // console.log('notify',status)
+       //  console.log('notify',status)
 
         if (status == 0) {
           onBLECharacteristicValueChange();
-          writeData("f55f080102");
+          writeData("f55f0801025f");
         }
       }
     }

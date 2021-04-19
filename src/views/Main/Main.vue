@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-17 19:04:22
+ * @LastEditTime: 2021-04-19 17:44:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -182,12 +182,12 @@
             </div>
           </span>
           <!-- 无记录显示 -->
-          <!-- <div class="noLog" v-if="isflage == isConnect || logArr.length == 0">
+          <div class="noLog" v-if="isflage == isConnect || logArr.length == 0">
             <div class="logImg"></div>
             <div>{{ $t("index.nolog") }}</div>
-          </div> -->
+          </div>
           <!-- 有记录显示 -->
-          <div class="logHistory">
+          <div class="logHistory" v-else>
             <div class="log_arr" v-for="(item, index) in logArr" :key="index">
               <p class="days">
                 {{ isToday(item.dates) ? dayWeek() : item.dates }}
@@ -351,11 +351,10 @@ export default {
     },
   },
   mounted() {
-    //console.log("蓝牙初始状态：", this.bleConnected);
+    console.log("蓝牙初始状态：", this.bleConnected);
     //console.log("初始数据：", this.data);
 
     this.initData();
-    this.getCloudHistory();
     this.selectIndex1 = this.changeStatus(this.timeLength);
     this.selectIndex = this.changeStatus(this.cleanMOde);
     //console.log('模式',this.selectIndex)
@@ -465,158 +464,11 @@ export default {
      * @param {*}
      */
     getCloudHistory() {
-      // let resCallback = (res) => {
-      //   this.getHistory(res);
-      //   // console.log("云端数据返回：", res);
-      // };
-      // reportData.getHistoryLog(resCallback);
-
-      var res = [
-//       {
-//   ts: "20210409T145305Z",
-//   sid: "brushingHistory",
-//   data: {
-//     score: "XXXXXX",
-//   },
-// },
-      {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_80",
-    },
-  },
-   {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/15_14:53:05_00:33_90",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/14_14:53:05_00:33_80",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/14_14:53:05_00:33_80",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/14_14:53:05_00:33_80",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/14_16:53:05_00:33_80",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/14_18:53:05_00:33_80",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/12_14:53:05_00:33_90",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "2021/04/11_14:53:05_01:02_60",
-    },
-  },
-  {
-    ts: "20210409T145305Z",
-    sid: "brushingHistory",
-    data: {
-      score: "XXXXXX",
-    },
-  },
-]
-
-this.getHistory(res);
-
-
+      let resCallback = (res) => {
+        this.getHistory(res);
+        console.log("云端数据返回：", res);
+      };
+      reportData.getHistoryLog(resCallback);
     },
     /**
      * @description: 刷牙记录
@@ -636,7 +488,7 @@ this.getHistory(res);
       if (flageData.length !== 0) {
         //console.log(this.getArrList(flageData))
         if (this.getArrList(flageData) !== []) {
-            this.isDays = 60 - this.getArrList(flageData)[1].length;
+          this.isDays = 60 - this.getArrList(flageData)[1].length;
           // console.log('天数：',this.isDays)
         }
       } else {
@@ -646,7 +498,7 @@ this.getHistory(res);
 
       //刷牙天数不足
       if (this.isDays < 10) {
-        this.dialogTip1 = true; 
+        this.dialogTip1 = true;
         if (this.isDays >= -99 && this.isDays <= -1) {
           this.dialogVisiable = true;
         }
@@ -659,6 +511,10 @@ this.getHistory(res);
 
         var cc = this.getArrList(filterData)[1];
         this.logArr = cc.slice(0, 2);
+        this.logArr.forEach((item) => {
+          item.historyArr = item.historyArr.slice(0, 10);
+        });
+
         // console.log('两天：',this.logArr)
       } else {
         this.getScore = 0;
@@ -690,18 +546,15 @@ this.getHistory(res);
               index = j;
               return true;
             }
-          });          
+          });
           if (!isExists) {
             newArr.push({
               dates: item.dates,
               historyArr: [item],
             });
           } else {
-            if(newArr[index].historyArr.length < 10){  //每天只能10条
-               newArr[index].historyArr.push(item);
-            }
+            newArr[index].historyArr.push(item);
           }
-          
         });
       }
       return [dataArr, newArr];
@@ -1205,53 +1058,56 @@ this.getHistory(res);
 }
 // 暗黑模式
 .theme-dark {
-  .index_main {
-    .itemPlay,
-    .connectState {
-      background-color: #262626;
-      color: rgba(255, 255, 255, 0.86);
-    }
-    .itemPlay1 {
-      color: rgba(255, 255, 255, 0.86);
-    }
-    .contentList {
-      .text_color {
-        color: #3f97e9;
+  .page {
+     background-color: #000;
+    .index_main {
+      .itemPlay,
+      .connectState {
+        background-color: #262626;
+        color: rgba(255, 255, 255, 0.86);
       }
-    }
-    .line::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 40px;
-      width: 1px;
-      border-left: 0.00694rem solid rgba(255, 255, 255, 0.2);
-    }
-    .moreLog {
-      .fontStyle {
-        color: rgba(255, 255, 255, 0.66);
+      .itemPlay1 {
+        color: rgba(255, 255, 255, 0.86);
       }
-      .hi-timeitem {
-        //  border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
-        .seconds {
-          color: rgba(255, 255, 255, 0.6);
+      .contentList {
+        .text_color {
+          color: #3f97e9;
         }
       }
-      .detail_bor {
-        border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
+      .line::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 40px;
+        width: 1px;
+        border-left: 0.00694rem solid rgba(255, 255, 255, 0.2);
       }
-      .log_arr {
-        .days {
-          color: rgba(255, 255, 255, 0.6);
+      .moreLog {
+        .fontStyle {
+          color: rgba(255, 255, 255, 0.66);
+        }
+        .hi-timeitem {
+          //  border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
+          .seconds {
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+        .detail_bor {
+          border-bottom: 0.00694rem solid rgba(255, 255, 255, 0.2);
+        }
+        .log_arr {
+          .days {
+            color: rgba(255, 255, 255, 0.6);
+          }
         }
       }
-    }
 
-    .banner {
-      .productI {
-        opacity: 0.86;
+      .banner {
+        .productI {
+          opacity: 0.86;
+        }
       }
     }
   }
