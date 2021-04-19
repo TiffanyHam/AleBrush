@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-19 20:20:03
+ * @LastEditTime: 2021-04-19 20:28:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -190,7 +190,11 @@
           <div class="logHistory" v-else>
             <div class="log_arr" v-for="(item, index) in logArr" :key="index">
               <p class="days">
-                {{ isToday(item.dates) ? dayWeek() : item.dates }}
+                {{
+                  isToday(item.dates)
+                    ? dayWeek()
+                    : getMyDay(new Date(item.dates))
+                }}
               </p>
               <div
                 v-for="(itemA, index) in item.historyArr"
@@ -359,9 +363,9 @@ export default {
     this.selectIndex = this.changeStatus(this.cleanMOde);
     //console.log('模式',this.selectIndex)
     //console.log('模式2',this.selectIndex1)
-     if (window.isDark) {
-     // console.log('asdfasdddddddddddddddddddddd')
-      window.hilink.modifyTitleBar(true, '#ffffff', 'resultCallback')
+    if (window.isDark) {
+      // console.log('asdfasdddddddddddddddddddddd')
+      window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
     }
   },
 
@@ -582,7 +586,22 @@ export default {
       var str = `${this.$t("index.weeks.today")}` + a[week];
       return str;
     },
-
+    /**
+     * @description:根据日期判断星期几
+     * @param {*} date
+     * @return {*}
+     */
+    getMyDay(date) {
+      var week;
+      if (date.getDay() == 0) week = `${this.$t("Log.week.Sun")}`;
+      if (date.getDay() == 1) week = `${this.$t("Log.week.Mon")}`;
+      if (date.getDay() == 2) week = `${this.$t("Log.week.Tue")}`;
+      if (date.getDay() == 3) week = `${this.$t("Log.week.Wed")}`;
+      if (date.getDay() == 4) week = `${this.$t("Log.week.Thu")}`;
+      if (date.getDay() == 5) week = `${this.$t("Log.week.Fri")}`;
+      if (date.getDay() == 6) week = `${this.$t("Log.week.Sat")}`;
+      return week;
+    },
     /**
      * @description: 根据日期判断是否为今天
      * @param {*}
@@ -1063,7 +1082,7 @@ export default {
 // 暗黑模式
 .theme-dark {
   .page {
-     background-color: #000;
+    background-color: #000;
     .index_main {
       .itemPlay,
       .connectState {
@@ -1118,7 +1137,7 @@ export default {
     .logHistory {
       .log_arr {
         .days {
-          color: rgba(255, 255, 255, 0.6)!important;
+          color: rgba(255, 255, 255, 0.6) !important;
         }
       }
     }
