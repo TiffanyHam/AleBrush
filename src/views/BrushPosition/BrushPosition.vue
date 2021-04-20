@@ -57,11 +57,12 @@ export default {
   data() {
     return {
       positionName: "",
-      selectedIndex: "",
+      selectedIndex: 0,
       bgImg: "",
       selfB: true,
       backC: window.isDark ? "#007dff" : "#3f97e9",
       header_rightIcon: false,
+      isPosition:0,
       poArr: [
         {
           class: "position1",
@@ -129,8 +130,8 @@ export default {
     },
   },
   mounted() {
-    this.initPosition == null ? '0' : this.initPosition
-    this.selectedIndex = this.initPosition;
+     this.isPosition = this.initPosition
+     this.selectedIndex = this.isPosition;
   },
   methods: {
     selectArea(val) {
