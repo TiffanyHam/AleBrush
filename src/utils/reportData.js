@@ -364,6 +364,7 @@ reportData.getHistoryLog = (func = null) => {
 
 // 特殊数据 用于分割重置后的刷牙历史数据
 reportData.resize = (time) => {
+  var times = reportData.formatDate1(Date.parse(new Date())); //当前时间
   let specialData = {
     status: "online",
     services: [
@@ -371,7 +372,7 @@ reportData.resize = (time) => {
         ts: reportData.formatTime(time),
         sid: "brushingHistory",
         data: {
-          score: "XXXXXX",
+          score: "XXXXXX_"+times,
         },
       },
     ],
@@ -379,6 +380,29 @@ reportData.resize = (time) => {
   console.log("重置数据：", specialData);
   reportData.report(reportData.devId, specialData);
 };
+
+/**
+ * @description: 日期格式化 2021/4/20
+ * @param {*} dd
+ * @return {*}
+ */
+ reportData.formatDate1 = (dd) => {
+  var date = new Date(dd);
+  var YY = date.getFullYear() + "/";
+  var MM =
+    (date.getMonth() + 1 < 10
+      ? "0" + (date.getMonth() + 1)
+      : date.getMonth() + 1) + "/";
+  var DD = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  var hh =
+    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+  var mm =
+    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+    ":";
+  var ss =
+    date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+  return YY + MM + DD;
+}
 
 reportData.getDevId();
 export default reportData;

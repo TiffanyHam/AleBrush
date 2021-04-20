@@ -129,6 +129,7 @@ export default {
     },
   },
   mounted() {
+    this.initPosition == null ? '0' : this.initPosition
     this.selectedIndex = this.initPosition;
   },
   methods: {

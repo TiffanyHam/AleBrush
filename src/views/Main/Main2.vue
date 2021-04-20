@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-20 17:08:29
+ * @LastEditTime: 2021-04-20 10:03:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -33,7 +33,7 @@
         </div>
         <div class="connectState flexR" v-show="!isflage && isConnect">
           <div>{{ $t("index.connected") }}</div>
-          <div v-show="recharge">
+          <div>
             <!-- 电池 -->
             <div class="cell1" v-if="battery == '00'"></div>
             <div class="cell2" v-if="battery == '01'"></div>
@@ -41,12 +41,6 @@
             <div class="cell4" v-if="battery == '03'"></div>
             <div class="cell5" v-if="battery == '04'"></div>
             <div class="cell6" v-if="battery == '05'"></div>
-          </div>
-          <div v-show="!recharge">
-            <!-- 充电中动画 -->
-            <div class="posiImg" :style=" isDarks == true ? {  backgroundImage: 'url(' + imgBooth_dark[booth_index] + ')'
-              } : { backgroundImage: 'url(' + imgBooth[booth_index] + ')' }"
-            ></div>
           </div>
         </div>
         <!-- one -->
@@ -91,7 +85,7 @@
                 <span>{{ $t("index.brushmode") }}</span
                 ><br />
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ modeDisplay | brushMode(te) }}</span>
+                  <span>{{ cleanMOde | brushMode(te) }}</span>
                 </div>
                 <HiCardShift
                   class="mt8 cardP"
@@ -120,7 +114,7 @@
               <div>
                 <span>{{ $t("index.brushLen") }}</span>
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ timeLength == '' ? "00" : timeLength | brushLength(te) }}</span>
+                  <span>{{ timeLength | brushLength(te) }}</span>
                 </div>
               </div>
               <div class="icon_width">
@@ -153,7 +147,7 @@
                 <span>{{ $t("index.inPosition") }}</span
                 ><br />
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ initPosition == null ? 0 : initPosition | formatStata(te) }}</span>
+                  <span>{{ initPosition | formatStata(te) }}</span>
                 </div>
               </div>
               <div class="icon_width">
@@ -199,7 +193,7 @@
                 {{
                   isToday(item.dates)
                     ? dayWeek()
-                    : item.dates + " " + getMyDay(new Date(item.dates))
+                    : item.dates + ' '+ getMyDay(new Date(item.dates))
                 }}
               </p>
               <div
@@ -251,12 +245,10 @@ import reportData from "../../utils/reportData";
 import Dialog from "../RemainTime/ResetDialog.vue";
 
 export default {
-  inject: ['isDarks'],
   data() {
     return {
       deviceId: null,
       isflage: true,
-      recharge:true, //判断是否充电
       isConnect: true,
       isDialog: false, //弹窗 连接超时
       battery: "05",
@@ -278,34 +270,15 @@ export default {
         { name: this.$t("BrushTeethModel.level3"), index: 2 },
         { name: this.$t("BrushTeethModel.level4"), index: 3 },
       ],
-      // 充电动画
-      imgBooth: [
-          require("../../assets/image/icon/light/cell1.png"),
-          require("../../assets/image/icon/light/cell8.png"),
-          require("../../assets/image/icon/light/cell3.png"),
-          require("../../assets/image/icon/light/cell4.png"),
-          require("../../assets/image/icon/light/cell5.png"),
-          require("../../assets/image/icon/light/cell6.png"),
-      ],
-      booth_index: 0,
-      imgBooth_dark: [
-          require("../../assets/image/icon/dark/cell1.png"),
-          require("../../assets/image/icon/dark/cell8.png"),
-          require("../../assets/image/icon/dark/cell3.png"),
-          require("../../assets/image/icon/dark/cell4.png"),
-          require("../../assets/image/icon/dark/cell5.png"),
-          require("../../assets/image/icon/dark/cell6.png"),
-      ],
       isTime: false,
       isMode: false,
       timeLen: "",
-      modeDisplay: "00", //刷牙模式
+      modeDisplay: "", //刷牙模式
       logArr: [],
       getScore: "",
       conentHeight: "",
       wapperHeight: "",
-      //isOnce: true,
-      timers:null,
+      isOnce:true,
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -383,13 +356,18 @@ export default {
     },
   },
   mounted() {
-
+    var dd = this.getDays('2021/4/19','2021/4/22')
+    console.log(dd)
     console.log("蓝牙初始状态：", this.bleConnected);
-   // console.log("timeLength", this.cleanMOde);
+    //console.log("初始数据：", this.data);
 
     this.initData();
-    
+    this.selectIndex1 = this.changeStatus(this.timeLength);
+    this.selectIndex = this.changeStatus(this.cleanMOde);
+    //console.log('模式',this.selectIndex)
+    //console.log('模式2',this.selectIndex1)
     if (window.isDark) {
+      // console.log('asdfasdddddddddddddddddddddd')
       window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
     }
   },
@@ -440,73 +418,35 @@ export default {
         this.acceptData(value);
       }
     },
-    recharge(n) {
-      if (n == false) {
-          this.booth_index = 0;
-          this.chargePro()
-      } else {
-          clearInterval(this.timers);
-          this.booth_index = 0;
-          this.timers = null;
-      }
-    }
   },
   methods: {
-    /**
-     * @description: 电池充电状态动画
-     * @param {*}
-     * @return {*}
-     */    
-    chargePro() {
-        let that = this;
-        this.timers = setInterval(() => {
-            that.booth_index++;
-            if (that.booth_index == 6) {
-                that.booth_index = 0;
-            }
-        }, 1000);
-    },
-    /**
-     * 使用test方法实现模糊查询
-     * @param  {Array}  list     原数组
-     * @param  {String} keyWord  查询的关键词
-     * @return {Array}           查询的结果
-     */
-    fuzzyQuery(list, keyWord) {
-      var reg = new RegExp(keyWord);
-      var arr = [];
-      for (var i = 0; i < list.length; i++) {
-        if (reg.test(list[i])) {
-          arr.push(list[i]);
-        }
-      }
-      return arr;
-    },
     /**
      * @description: 根据日期计算天数
      * @param {*} date1
      * @param {*} date2
      * @return {*}
-     */
-    getDays(date1, date2) {
-      var a1 = Date.parse(new Date(date1));
-      var a2 = Date.parse(new Date(date2));
-      var day = parseInt((a2 - a1) / (1000 * 60 * 60 * 24)); //核心：时间戳相减，然后除以天数
-      return day;
+     */    
+    getDays(date1,date2) {
+        var a1 = Date.parse(new Date(date1));
+        var a2 = Date.parse(new Date(date2));
+        var day = parseInt((a2-a1)/ (1000 * 60 * 60 * 24));//核心：时间戳相减，然后除以天数
+        return day
     },
-    /**
+     /**
      * @description: 只触发一次
      * @param {*}
      * @return {*}
      */
-    // once() {
-    //   if (this.isOnce) {
-    //     this.isOnce = false;
-    //     reportData.resize(new Date().getTime() + 1000);
-    //   } else {
-    //     return;
-    //   }
-    // },
+    once(){
+      if (this.isOnce) {
+        //获取当前时间，天数 = 60-(当前时间-x) 执行上报函数
+        //当前时间每次一打开app就取，x只取一次
+        this.isOnce = false;
+        reportData.resize(new Date().getTime() + 1000);
+      } else {
+          return;
+      }
+    },
     /**
      * @description: 蓝牙连接
      * @param {*}
@@ -515,7 +455,7 @@ export default {
     initData() {
       this.BLE.init();
       if (this.bleConnected) {
-       // this.once();
+        this.once()
         this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
@@ -541,7 +481,6 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
         // console.log("设置成功");
       }
@@ -549,10 +488,6 @@ export default {
         //刷牙模式
         this.modeDisplay = data.substr(10, 2);
         //console.log(this.modeDisplay)
-        this.selectIndex1 = this.changeStatus(this.timeLength);
-        this.selectIndex = this.changeStatus(this.modeDisplay);
-       // console.log('模式',this.selectIndex)
-       // console.log('模式2',this.selectIndex1)
       }
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2)); //電量
@@ -560,14 +495,6 @@ export default {
         if (this.battery == "01") {
           this.dialogTip = true;
         }
-      }
-      if (data.indexOf("F55F07050101") == 0) {
-        //充电
-        this.recharge = false
-        this.chargePro()
-      }else{
-        this.recharge = true
-        clearInterval(this.timers);
       }
     },
 
@@ -588,18 +515,26 @@ export default {
      * @return {*}
      */
     getHistory(res) {
-      if(res.length == 0){  //历史记录为空时上报第一次日期
-          reportData.resize(new Date().getTime() + 1000);
-      }else{
-      var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
-      if (fuzzyArr.length !== 0) {
-        let fixDate = fuzzyArr[0].split("_")[1];
-        // console.log(fixDate)
-        let currentDate = reportData.formatDate1(Date.parse(new Date()));
-        this.isDays = 60 - this.getDays(fixDate, currentDate);
+      var getArr = [];
+      for (var x in res) {
+        var data = res[x].data.score;
+        getArr.push(data);
+      }
+      // console.log('getArr',getArr)
+      var filterData = getArr.filter((item) => item !== "XXXXXX");
+      var flageData = getArr.slice(0, getArr.indexOf("XXXXXX"));
+
+      if (flageData.length !== 0) {
+        //console.log(this.getArrList(flageData))
+        if (this.getArrList(flageData) !== []) {
+          this.isDays = 60 - this.getArrList(flageData)[1].length;
+          // console.log('天数：',this.isDays)
+        }
       } else {
         this.isDays = 60;
+        //console.log('天数：',this.isDays)
       }
+
       //刷牙天数不足
       if (this.isDays < 10) {
         this.dialogTip1 = true;
@@ -607,15 +542,7 @@ export default {
           this.dialogVisiable = true;
         }
       }
-      }
-      var getArr = [];
-      for (var x in res) {
-        var data = res[x].data.score;
-        getArr.push(data);
-      }
-       console.log('getArr',getArr)   
-      var filterData = getArr.filter((item) => !(new RegExp('XXXXXX_').test(item)));
-      console.log("filterData:", filterData);
+
       if (filterData.length !== 0) {
         var ss = this.getArrList(filterData)[0];
         this.getScore = ss[0].score;
@@ -939,13 +866,6 @@ export default {
       border-radius: 8px;
       font-size: 16px;
       color: rgba(0, 0, 0, 0.9);
-    }
-    //充电图片位置
-    .posiImg {
-        width: 24px;
-        height: 24px;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
     }
     .moreLog {
       //background-color: #fff;
