@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-01 11:44:06
- * @LastEditTime: 2021-04-19 19:54:44
+ * @LastEditTime: 2021-04-20 17:43:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\card4.vue
 -->
 <template>
     <div class="hi-card bg_card">
-        <div class="item" :class="{line: index !== 0}" v-for="(item, index) in cardData" :key="index">
+        <div class="item" :class="{line: index === 1}" v-for="(item, index) in cardData" :key="index">
             <div class="top">
                 <div class="num c_90">{{item.num}}</div>
                 <div class="unit c_60" v-if="item.unit">{{item.unit}}</div>
@@ -64,22 +64,17 @@ export default {
         }
     }
 }
-.line::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 40px;
-    width: 1px;
+.line{
     border-left: 0.25px solid rgba(0, 0, 0, .2);
+    border-right: 0.25px solid rgba(0, 0, 0, .2);
 }
 .theme-dark {
     .hi-card {
         background: #000;
     }
-    .line::before {
+    .line {
         border-left: 0.25px solid rgba(255, 255, 255, .2);
+        border-right: 0.25px solid rgba(255, 255, 255, .2);
     }
 }
 </style>

@@ -42,6 +42,7 @@
             <div v-if="monthOrWeek === 'day'">
               <Calendar
                 :textTop="textTop"
+                :isDataDays="isDataDays"
                 v-on:choseDay="clickDay"
                 v-on:changeMonth="changeDate">
               </Calendar>
@@ -126,16 +127,16 @@
               </div>
             </div>
     </main>
-    <div class="tips">
+    <!-- <div class="tips">
       <span>{{tips}}</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 // import 导入其他文件
 import BScroll from "better-scroll";
-import Calendar from 'vue-calendar-component';
+import Calendar from '../../components/calendar';
 import moment from "moment";
 import reportData from '@/utils/reportData.js'
 import {
@@ -253,7 +254,8 @@ export default {
         // },
       ],
       tips: this.$t('Log.tip'),
-      textTop: ["一", "二", "三", "四", "五", "六", "日"]
+      textTop: ["一", "二", "三", "四", "五", "六", "日"],
+      isDataDays: [], // 当月有数据的天数
     };
   },
 
@@ -387,7 +389,6 @@ export default {
       return date;
     },
     clickDay(data) {
-      console.log(data); //选中某天
       this.getDevHistoryOfDay(data)
       this.weekDays = changeNumToWeek(new Date(data).getDay())
     },
@@ -537,6 +538,23 @@ export default {
         "getDevHistoryCb",
       ]);
     },
+    // 获取当前月的数据
+    getDevHistoryCurMoth() {
+      let yyyyMM = format(new Date(), "yyyyMM");
+      let count = getDayCountOfMonth(this.date);
+      let startTime = yyyyMM + "01" + "T000000Z";
+      let endTime = yyyyMM + count + "T235959Z";
+      callHilinkFn("getDevHistory", [
+        reportData.devId,
+        "0",
+        "1000",
+        startTime,
+        endTime,
+        "brushingHistory",
+        "score",
+        "getDevHistoryOfAllCb",
+      ]);
+    },
     //获取历史记录所有的
     getDevHistoryOfAll() {
       let yyyyMM = format(this.date, "yyyyMM");
@@ -591,11 +609,9 @@ export default {
       if (this.monthOrWeek === 'week') {
         this.initWeekChartData();
         this.getDevHistoryOfWeek();
-        // this.getDevHistoryOfAllCb()
       } else if (this.monthOrWeek === 'month') {
         this.initMonthChartData();
         this.getDevHistoryOfMonth();
-        // this.getDevHistoryOfAllCb()
       } else {
         const newDate = new Date()
         const yyyy = newDate.getFullYear()
@@ -603,11 +619,11 @@ export default {
         const dd = addZero(newDate.getDate())
         const date = `${yyyy}/${mm}/${dd}`
         this.getDevHistoryOfDay(date)
+        this.getDevHistoryCurMoth()
       }
     },
     //获取历史记录回调
     getDevHistoryCb(res) {
-      console.log('getDevHistoryCb-res', res)
       if(res && res.list && res.list.length) {
         let countArr = res.list.filter(item => item.data.score !== 'XXXXXX');
         let obj = {};
@@ -721,14 +737,16 @@ export default {
         } else if (this.monthOrWeek === 'day') {
           this.brushRecord = []
           countArr.forEach(item => {
-            let obj = {}
-            obj.score = item.data.score.split('_')[3]
-            obj.brushDuration = item.data.score.split('_')[2].replace(/:/, '分') + "秒"
-            obj.brushTime = item.data.score.split('_')[1]
-            this.brushRecord.push(obj)
+            if (this.brushRecord.length <= 10) {
+              let obj = {}
+              obj.score = item.data.score.split('_')[3]
+              obj.brushDuration = item.data.score.split('_')[2].replace(/:/, '分') + "秒"
+              obj.brushTime = item.data.score.split('_')[1]
+              this.brushRecord.push(obj)
+            }
+            
           })
         }
-        //  this.exerciseCounts = this.
       } else {
         // 日数据
         this.brushRecord = []
@@ -746,7 +764,20 @@ export default {
     },
     //获取历史记录所有回调
     getDevHistoryOfAllCb(res) {
-      console.log('getDevHistoryOfAllCb-res', res)
+      if (res && res.list && res.list.length) {
+        let arr = []
+        let copyArr = []
+        let countArr = res.list.filter(item => item.data.score !== 'XXXXXX');
+        countArr.forEach(item => {
+          arr.push(item.data.score.split('_')[0])
+        })
+        copyArr = arr.map(item => {
+          const $arr = item.split('/')
+          const str = $arr[0] + '/' + parseInt($arr[1]) + '/' + parseInt($arr[2])
+          return str
+        })
+        this.isDataDays = Array.from(new Set(copyArr))
+      }
     },
     // echarts点击事件
     echartsClick(params) {
@@ -1002,42 +1033,6 @@ export default {
       }
     }
     //修改日历组件样式
-    ::v-deep.wh_content_all {
-      background-color: #ffffff;
-      .wh_top_changge {
-        display: none;
-        // .wh_content_li {
-        //   color: #000000;
-        // }
-      }
-      .wh_content {
-        .wh_content_item {
-          color: #000000;
-          .wh_isToday {
-            background-color: #007dff;
-            color: #ffffff;
-          }
-          .wh_chose_day {
-            background-color: #ffffff;
-             border: 1px solid #007dff;
-            color: #000000;
-          }
-          .wh_other_dayhide {
-            display: none;
-          }
-        }
-        // .wh_content_item::after {
-        //   content: "";
-        //   position: absolute;
-        //   bottom: 0;
-        //   width: @6dp;
-        //   height: @6dp;
-        //   border-radius: 50%;
-        //   background-color: #007dff;
-        // }
-       
-      }
-    }
     .date {
       height: 48px;
       line-height:48px;
@@ -1156,39 +1151,6 @@ export default {
         color: rgba(255, 255, 255, 0.52)!important;
       }
       // 修改日期组件暗黑模式
-      ::v-deep.wh_content_all {
-        background-color: #000;
-        .wh_top_changge {
-          display: none;
-        }
-        .wh_content {
-          .wh_content_item {
-            color: rgba(255, 255, 255, 0.86);
-            .wh_isToday {
-              background-color: #007dff;
-              color: #ffffff;
-            }
-            .wh_chose_day {
-              background-color: #000;
-              border: 1px solid #007dff;
-              color: rgba(255, 255, 255, 0.86);
-            }
-            .wh_other_dayhide {
-              display: none;
-            }
-          }
-          // .wh_content_item::after {
-          //   content: "";
-          //   position: absolute;
-          //   bottom: 0;
-          //   width: @6dp;
-          //   height: @6dp;
-          //   border-radius: 50%;
-          //   background-color: #007dff;
-          // }
-        
-        }
-      }
       .noData {
         .img {
           background: url('../../assets/image/icon/dark/no_log.png') no-repeat center;

@@ -211,7 +211,6 @@ export const changeNumToWeek = (num) => {
         0: 'Sunday'
     }
     const lan = getLanguage()
-    console.log('lan-getLanguage', lan)
     if (lan === 'zh') {
         return obj_zh[num]
     } else {
