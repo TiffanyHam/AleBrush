@@ -383,7 +383,7 @@ export default {
       endY: 0,
       index: 1,
       seconds:30,//每块区域倒计时秒
-      total:150, //倒计时总时间--秒数--设备取数据
+      total:148, //倒计时总时间--秒数--设备取数据
       totalNum:'', //秒数格式化
       setTotalTime: "02:00",
       setOriginNum: 37,
@@ -591,11 +591,17 @@ export default {
         let mins = Math.floor(that.total / 60)
         let sec = ((that.total % 60) / 100).toFixed(2).slice(-2)
         that.totalNum = (mins< 10 ? '0' + mins : mins) + ":" + sec
-
-        if(that.total == that.setOriginNum * 3){
-          this.Exit()
+        
+        if(that.setOriginNum == 37){
+            if(that.total == (that.setOriginNum * 4) + 2){
+                this.Exit()
+             }
+        }else{
+            if(that.total == that.setOriginNum * 4){
+                this.Exit()
+             }
         }
-      
+       
     },
     /**
      * @description: 监听页面刷新和离开
@@ -677,6 +683,9 @@ export default {
    
     // 数据解析
     acceptData(data) {
+      if(data.indexOf("F55F070601") == 0){
+        //  this.total = data.substr(10, 1);
+      }
       if (data.indexOf("F55F070401") == 0) {
         this.isOpen = data.substr(10, 2);
         console.log("开启状态：", this.isOpen);
