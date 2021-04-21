@@ -13,193 +13,269 @@
         >
           {{ item.name }}
         </div>
-         <!-- one --左下区逆时针 -->
+        <!-- one --左下区逆时针 -->
         <div class="one" v-if="isPosition == 0">
           <!-- 左下 -->
           <div
             v-if="index == 1"
             :style="{ opacity: `${opacityVal}` }"
-            class="left_down_out posiImg"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
           ></div>
           <div v-if="index == 1" class="currentA currrent_bottom">
             <div class="fingle fingle_left"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
           </div>
-          <div v-if="total1 >= 1 * 30" class="left_down_out posiImg"></div>
-         
-          <!-- 右下 -->
           <div
-            v-if="index == 2"
-            :style="{ opacity: `${opacityVal}` }"
-            class="right_down_out posiImg"
-          ></div>
-          <div v-if="index == 2" class="currentA currrent_bottom">
-            <div>{{ $t("BrushTeethPosition.current") }}</div>
-            <div class="fingle fingle_right"></div>
-          </div>
-          <div v-if="total1 >= 2 * 30" class="right_down_out posiImg"></div>
-         
-          <!-- 右上 -->
-          <div
-            v-if="index == 3"
-            :style="{ opacity: `${opacityVal}` }"
-            class="right_up_out posiImg"
-          ></div>
-          <div v-if="index == 3" class="currentA currrent_top">
-            <div>{{ $t("BrushTeethPosition.current") }}</div>
-            <div class="fingle fingle_right1"></div>
-          </div>
-          <div v-if="total1 >= 3 * 30" class="right_up_out posiImg"></div>
-         
-          <!-- 左上 -->
-          <div
-            v-if="index == 4"
-            :style="{ opacity: `${opacityVal}` }"
-            class="left_up_out posiImg"
-          ></div>
-          <div v-if="index == 4" class="currentA currrent_top">
-            <div class="fingle fingle_left1"></div>
-            <div>{{ $t("BrushTeethPosition.current") }}</div>
-          </div>
-          <div v-if="total1 == 4 * 30" class="left_up_out posiImg"></div>
-         
-        </div>
-         <!-- fourth--顺时针右下 -->
-        <div class="fourth" v-if="isPosition == 1">
-          <!-- 右下 -->
-          <div
-            v-if="index == 1"
-            :style="{ opacity: `${opacityVal}` }"
-            class="right_down_out posiImg"
-          ></div>
-          <div v-if="index == 1" class="currentA currrent_bottom">
-            <div>{{ $t("BrushTeethPosition.current") }}</div>
-            <div class="fingle fingle_right"></div>
-          </div>
-          <!-- 左下 -->
-          <div
-            v-if="index == 2"
-            :style="{ opacity: `${opacityVal}` }"
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
             class="left_down_out posiImg"
           ></div>
+          <!-- 右下 -->
+          <div
+            v-if="index == 2"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
+          ></div>
           <div v-if="index == 2" class="currentA currrent_bottom">
-            <div class="fingle fingle_left"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right"></div>
           </div>
-        
-          <!-- 左上 -->
+          <div
+            v-if="index == 0 || index == 3 || index == 4"
+            class="right_down_out posiImg"
+          ></div>
+          <!-- 右上 -->
           <div
             v-if="index == 3"
             :style="{ opacity: `${opacityVal}` }"
-            class="left_up_out posiImg"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
           ></div>
           <div v-if="index == 3" class="currentA currrent_top">
-            <div class="fingle fingle_left1"></div>
-            <div>{{ $t("BrushTeethPosition.current") }}</div>
-          </div>
-         
-          <!-- 右上 -->
-          <div
-            v-if="index == 4"
-            :style="{ opacity: `${opacityVal}` }"
-            class="right_up_out posiImg"
-          ></div>
-          <div v-if="index == 4" class="currentA currrent_top">
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right1"></div>
           </div>
-         
+          <div
+            v-if="index == 0 || index == 4"
+            class="right_up_out posiImg"
+          ></div>
+          <!-- 左上 -->
+          <div
+            v-if="index == 4"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 4" class="currentA currrent_top">
+            <div class="fingle fingle_left1"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="left_up_out posiImg"
+            ></div>
+          </div>
         </div>
+
         <!-- second --右上区逆时针 -->
         <div class="second" v-if="isPosition == 2">
           <!-- 右上 -->
           <div
             v-if="index == 1"
             :style="{ opacity: `${opacityVal}` }"
-            class="right_up_out posiImg"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
           ></div>
           <div v-if="index == 1" class="currentA currrent_top">
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right1"></div>
           </div>
+          <div
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
+            class="right_up_out posiImg"
+          ></div>
           <!-- 左上 -->
           <div
             v-if="index == 2"
             :style="{ opacity: `${opacityVal}` }"
-            class="left_up_out posiImg"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
           ></div>
           <div v-if="index == 2" class="currentA currrent_top">
             <div class="fingle fingle_left1"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
           </div>
-         
+          <div
+            v-if="index == 0 || index == 3 || index == 4"
+            class="left_up_out posiImg"
+          ></div>
           <!-- 左下 -->
           <div
             v-if="index == 3"
             :style="{ opacity: `${opacityVal}` }"
-            class="left_down_out posiImg"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
           ></div>
           <div v-if="index == 3" class="currentA currrent_bottom">
             <div class="fingle fingle_left"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
           </div>
-          
+          <div
+            v-if="index == 0 || index == 4"
+            class="left_down_out posiImg"
+          ></div>
           <!-- 右下 -->
           <div
             v-if="index == 4"
             :style="{ opacity: `${opacityVal}` }"
-            class="right_down_out posiImg"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
           ></div>
           <div v-if="index == 4" class="currentA currrent_bottom">
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right"></div>
           </div>
-        
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="right_down_out posiImg"
+            ></div>
+          </div>
         </div>
         <!-- third--顺时针左上 -->
         <div class="third" v-if="isPosition == 3">
           <!-- 左上 -->
-             <div
+          <div
             v-if="index == 1"
-             :style="{ opacity: `${opacityVal}` }"
-            class="left_up_out posiImg"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
           ></div>
           <div v-if="index == 1" class="currentA currrent_top">
             <div class="fingle fingle_left1"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
           </div>
-       
+          <div
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
+            class="left_up_out posiImg"
+          ></div>
           <!-- 右上 -->
           <div
             v-if="index == 2"
             :style="{ opacity: `${opacityVal}` }"
-             class="right_up_out posiImg"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
           ></div>
           <div v-if="index == 2" class="currentA currrent_top">
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right1"></div>
           </div>
-         
+          <div
+            v-if="index == 0 || index == 3 || index == 4"
+            class="right_up_out posiImg"
+          ></div>
 
           <!-- 右下 -->
           <div
             v-if="index == 3"
             :style="{ opacity: `${opacityVal}` }"
-           class="right_down_out posiImg"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
           ></div>
           <div v-if="index == 3" class="currentA currrent_bottom">
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right"></div>
           </div>
+          <div
+            v-if="index == 0 || index == 4"
+            class="right_down_out posiImg"
+          ></div>
           <!-- 左下 -->
           <div
             v-if="index == 4"
             :style="{ opacity: `${opacityVal}` }"
-             class="left_down_out posiImg"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
           ></div>
           <div v-if="index == 4" class="currentA currrent_bottom">
             <div class="fingle fingle_left"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="left_down_out posiImg"
+            ></div>
+          </div>
+        </div>
+
+        <!-- fourth--顺时针右下 -->
+        <div class="fourth" v-if="isPosition == 1">
+          <!-- 右下 -->
+          <div
+            v-if="index == 1"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'right_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 1" class="currentA currrent_bottom">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right"></div>
+          </div>
+          <div
+            v-if="index == 0 || index == 2 || index == 3 || index == 4"
+            class="right_down_out posiImg"
+          ></div>
+          <!-- 左下 -->
+          <div
+            v-if="index == 2"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="
+              ['00', '02'].includes(isOpen) ? 'left_down_out posiImg' : ''
+            "
+          ></div>
+          <div v-if="index == 2" class="currentA currrent_bottom">
+            <div class="fingle fingle_left"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 3 || index == 4"
+              class="left_down_out posiImg"
+            ></div>
+          </div>
+          <!-- 左上 -->
+          <div
+            v-if="index == 3"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'left_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 3" class="currentA currrent_top">
+            <div class="fingle fingle_left1"></div>
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+          </div>
+          <div
+            v-if="index == 0 || index == 4"
+            class="left_up_out posiImg"
+          ></div>
+          <!-- 右上 -->
+          <div
+            v-if="index == 4"
+            :style="{ opacity: `${opacityVal}` }"
+            :class="['00', '02'].includes(isOpen) ? 'right_up_out posiImg' : ''"
+          ></div>
+          <div v-if="index == 4" class="currentA currrent_top">
+            <div>{{ $t("BrushTeethPosition.current") }}</div>
+            <div class="fingle fingle_right1"></div>
+          </div>
+          <div v-if="index == 0">
+            <div
+              v-if="index == 0 || index == 1 || index == 2"
+              class="right_up_out posiImg"
+            ></div>
           </div>
         </div>
 
@@ -236,7 +312,7 @@
               y="40.5"
               style="dominant-baseline: middle; text-anchor: middle"
             >
-              {{ seconds1 }}
+              {{ seconds }}
             </text>
             <text
               class="font16 second"
@@ -254,7 +330,7 @@
               y="65.5"
               style="dominant-baseline: middle; text-anchor: middle"
             >
-              {{ total1 }}
+              {{ total }}
             </text>
           </svg>
         </div>
@@ -340,9 +416,6 @@ export default {
       sixFace: 4,
       // 中间区域 30s 时间
       seconds: null,
-
-      
-
       isEnough: false, //false 30S
       isAppear: false,
       isShow: true, //弹窗的显示
@@ -363,9 +436,6 @@ export default {
       endY: 0,
       // 动画下标
       index: null,
-      seconds1:0,
-      total1:91,
-
       setTotalTime: "02:00",
       // timer5:null,
       setAreas: "00",
@@ -394,8 +464,7 @@ export default {
       lastSecond: "",
       lastMinute: "",
       isStop:false,
-      isPosition:0,
-      times:null
+      isPosition:0
     };
   },
 
@@ -415,188 +484,94 @@ export default {
     },
   },
   created() {
-    // let r = 42.5;
-    // let centerX = 47.5;
-    // let centerY = 47.5;
-    // let svgX = r * Math.cos((Math.PI / 180) * 90);
-    // let svgY = r * Math.sin((Math.PI / 180) * 90);
-   // this.isPosition = this.initPosition
-    // switch (this.isPosition) {
-    //   case 0:
-    //     this.rotate = [
-    //       // 左下
-    //       { x: centerX - r, y: centerY },
-    //       { x: centerX + svgX, y: centerY + svgY },
-    //       { x: centerX + r, y: centerY },
-    //       { x: centerX - svgX, y: centerY - svgY },
-    //     ];
-    //     break;
-    //   case 1:
-    //     this.rotate = [
-    //       //右下
-    //       { x: centerX + svgX, y: centerY + svgY },
-    //       { x: centerX + r, y: centerY },
-    //       { x: centerX - svgX, y: centerY - svgY },
-    //       { x: centerX - r, y: centerY },
-    //     ];
-    //     break;
-    //   case 2:
-    //     this.rotate = [
-    //       //右上
-    //       { x: centerX + r, y: centerY },
-    //       { x: centerX - svgX, y: centerY - svgY },
-    //       { x: centerX - r, y: centerY },
-    //       { x: centerX + svgX, y: centerY + svgY },
-    //     ];
-    //     break;
-    //   case 3:
-    //     this.rotate = [
-    //       //左上
-    //       { x: centerX - svgX, y: centerY - svgY },
-    //       { x: centerX - r, y: centerY },
-    //       { x: centerX + svgX, y: centerY + svgY },
-    //       { x: centerX + r, y: centerY },
-    //     ];
-    //     break;
-    // }
-    // this.startX = this.rotate[0].x;
-    // this.startY = this.rotate[0].y;
-    // this.endX = this.rotate[1].x;
-    // this.endY = this.rotate[1].y;
+    let r = 42.5;
+    let centerX = 47.5;
+    let centerY = 47.5;
+    let svgX = r * Math.cos((Math.PI / 180) * 90);
+    let svgY = r * Math.sin((Math.PI / 180) * 90);
+    this.isPosition = this.initPosition
+    switch (this.isPosition) {
+      case 0:
+        this.rotate = [
+          // 左下
+          { x: centerX - r, y: centerY },
+          { x: centerX + svgX, y: centerY + svgY },
+          { x: centerX + r, y: centerY },
+          { x: centerX - svgX, y: centerY - svgY },
+        ];
+        break;
+      case 1:
+        this.rotate = [
+          //右下
+          { x: centerX + svgX, y: centerY + svgY },
+          { x: centerX + r, y: centerY },
+          { x: centerX - svgX, y: centerY - svgY },
+          { x: centerX - r, y: centerY },
+        ];
+        break;
+      case 2:
+        this.rotate = [
+          //右上
+          { x: centerX + r, y: centerY },
+          { x: centerX - svgX, y: centerY - svgY },
+          { x: centerX - r, y: centerY },
+          { x: centerX + svgX, y: centerY + svgY },
+        ];
+        break;
+      case 3:
+        this.rotate = [
+          //左上
+          { x: centerX - svgX, y: centerY - svgY },
+          { x: centerX - r, y: centerY },
+          { x: centerX + svgX, y: centerY + svgY },
+          { x: centerX + r, y: centerY },
+        ];
+        break;
+    }
+    // this.rotate = [
+    // 左下
+    // { x: centerX - r, y: centerY },
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX + r, y: centerY },
+    // { x: centerX - svgX, y: centerY - svgY },
+    //右上
+    // { x: centerX + r, y: centerY },
+    // { x: centerX - svgX, y: centerY - svgY },
+    // { x: centerX - r, y: centerY },
+    // { x: centerX + svgX, y: centerY + svgY },
+    //左上
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX - r, y: centerY },
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX + r, y: centerY },
+    //右下
+    // { x: centerX + svgX, y: centerY + svgY },
+    // { x: centerX + r, y: centerY },
+    // { x: centerX - svgX, y: centerY - svgY },
+    // { x: centerX - r, y: centerY },
+    // ];
+    this.startX = this.rotate[0].x;
+    this.startY = this.rotate[0].y;
+    this.endX = this.rotate[1].x;
+    this.endY = this.rotate[1].y;
 
     //   console.log(this.startX, this.startY, this.endX, this.endY);
   },
 
   mounted() {
-    this.reStart()
     //  this.timeLength == '' ? '00' : this.timeLength
     // this.initPosition == '' ? 0 : this.initPosition
     console.log("刷牙区域:", this.isPosition);
     this.globalT(this.timeLength);
+    this.init();
     window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
+    this.visibilitychange()
   },
   destroyed() {
     window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
 
   methods: {
-    positionSet1(){ //左上
-      this.startX = 47.5;
-      this.startY = 5;
-      this.endX = 5;
-      this.endY = 47.5;
-    },
-    positionSet2(){ //右上
-      this.startX = 90;
-      this.startY = 47.5;
-      this.endX = 47.5;
-      this.endY = 5;
-    },
-    positionSet3(){ //右下
-       this.startX = 47.5;
-        this.startY = 90;
-        this.endX = 90;
-        this.endY = 47.5;
-    },
-    positionSet4(){ //左下
-      this.startX = 5;
-      this.startY = 47.5;
-      this.endX = 47.5;
-      this.endY = 90;
-    },
-    reStart(){
-      let that = this
-      if(that.isPosition == 0){ //逆时针
-        if(that.total1 <= 30){
-          that.index = 1
-          that.positionSet4()
-          this.seconds1 = that.total1
-        }
-         if(that.total1 > 30 * 1){
-          that.index = 2
-          that.positionSet3()
-          this.seconds1 = that.total1 % 30
-        }
-        if(that.total1 > 30 * 2){
-          that.index = 3
-          that.positionSet2()
-          this.seconds1 = that.total1 % (30*2)
-        }
-        if(that.total1 > 30 * 3){
-          that.index = 4
-          that.positionSet1()
-          this.seconds1 = that.total1 % (30*3)
-        }      
-        
-      }
-       if(that.isPosition == 1){//顺时针
-         if(that.total1 <= 30){
-          that.index = 1
-          that.positionSet3()
-        }
-         if(that.total1 > 30 * 1){
-          that.index = 2
-          that.positionSet4()
-        }
-        if(that.total1 > 30 * 2){
-          that.index = 3
-          that.positionSet1()
-        }
-        if(that.total1 > 30 * 3){
-          that.index = 4
-          that.positionSet2()
-        }      
-       }
-      if(that.isPosition == 2){//逆时针
-         if(that.total1 <= 30){
-          that.index = 1
-          that.positionSet2()
-        }
-         if(that.total1 > 30 * 1){
-          that.index = 2
-          that.positionSet1()
-        }
-        if(that.total1 > 30 * 2){
-          that.index = 3
-          that.positionSet4()
-        }
-        if(that.total1 > 30 * 3){
-          that.index = 4
-          that.positionSet3()
-        }      
-      }
-      if(that.isPosition == 3){ //顺时针
-        if(that.total1 <= 30){
-          that.index = 1
-          that.positionSet1()
-        }
-         if(that.total1 > 30 * 1){
-          that.index = 2
-          that.positionSet2()
-        }
-        if(that.total1 > 30 * 2){
-          that.index = 3
-          that.positionSet3()
-        }
-        if(that.total1 > 30 * 3){
-          that.index = 4
-          that.positionSet4()
-        }      
-        
-      }
-
-    
-       that.times = setInterval(() => {
-            //透明度切换
-          if (!that.opacityVal) {
-            that.opacityVal = 1;
-          } else {
-            that.opacityVal = 0;
-          }
-         }, 1000);
-         
-      
-    },
     ...mapActions(["setCloudData"]),
     /**
      * @description: 监听页面刷新和离开
@@ -684,7 +659,283 @@ export default {
      * @param {*}
      * @return {*}
      */
-   
+    init() {
+      this.totalTime(0, 0);
+      this.countDown();
+      this.showAnimate();
+    },
+    /**
+     * @description: 时间倒计时
+     * @param {*}
+     * @return {*}
+     */
+    countDown() {
+      let that = this;
+      //  const TIME_COUNT = that.setOriginNum;
+      // if (!that.timer) {
+      if (that.flag == true) {
+        let Sec1 = parseInt(sessionStorage.getItem("previousSeconds"));
+        that.seconds = Sec1;
+      } else {
+        that.seconds = that.setOriginNum;
+      }
+      let count = that.sixFace;
+      let len = that.rotate.length;
+      that.timer = setInterval(() => {
+        if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
+          if (this.isPosition == 0 || this.isPosition == 2) {
+            that.startX = that.rotate[len - count]["x"];
+            that.startY = that.rotate[len - count]["y"];
+            that.endX =
+              that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["x"];
+            that.endY =
+              that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
+          }
+
+          if (this.isPosition == 1) {
+            if (count == 4) {
+              that.startX = 47.5;
+              that.startY = 90;
+              that.endX = 90;
+              that.endY = 47.5;
+            }
+            if (count == 3) {
+              that.startX = 5;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 90;
+            }
+            if (count == 2) {
+              that.startX = 47.5;
+              that.startY = 5;
+              that.endX = 5;
+              that.endY = 47.5;
+            }
+            if (count == 1) {
+              that.startX = 90;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 5;
+            }
+          }
+
+          if (this.isPosition == 3) {
+            if (count == 4) {
+              that.startX = 47.5;
+              that.startY = 5;
+              that.endX = 5;
+              that.endY = 47.5;
+            }
+            if (count == 3) {
+              that.startX = 90;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 5;
+            }
+            if (count == 2) {
+              that.startX = 47.5;
+              that.startY = 90;
+              that.endX = 90;
+              that.endY = 47.5;
+            }
+            if (count == 1) {
+              that.startX = 5;
+              that.startY = 47.5;
+              that.endX = 47.5;
+              that.endY = 90;
+            }
+          }
+
+          // console.log(that.startX, that.startY, that.endX, that.endY);
+
+          that.seconds--;
+
+          //透明度切换
+          if (!that.opacityVal) {
+            that.opacityVal = 1;
+          } else {
+            that.opacityVal = 0;
+          }
+
+          if (that.seconds == 0) {
+            if (that.setAreas == 2 && that.index == 3) {
+              that.seconds = that.setOriginNum + 2;
+            } else {
+              that.seconds = that.setOriginNum;
+            }
+            count--;
+            that.sixFace = count;
+          }
+          if (that.total == that.setTotalTime) {
+            that.seconds = 0;
+            that.index = 0;
+            clearInterval(that.timer);
+            return false;
+          }
+          sessionStorage.removeItem("previousSeconds");
+          sessionStorage.setItem("previousSeconds", that.seconds);
+        } else {
+          clearInterval(that.timer);
+          that.timer = null;
+        }
+      }, 1000);
+      // }
+    },
+    /**
+     * @description: 刷牙总时间
+     * @param {*}
+     * @return {*}
+     */
+    totalTime(minute, second) {
+      let that = this;
+      // let minute, second;
+      // minute = second = 0;
+
+      that.timer1 = setInterval(function () {
+        if (second >= 0) {
+          second = second + 1;
+        }
+        if (second >= 60) {
+          second = 0;
+          minute = minute + 1;
+        }
+        if (minute >= 60) {
+          minute = 0;
+        }
+        that.lastSecond = second;
+        that.lastMinute = minute;
+        if (second < 10) {
+          that.total = "0" + minute + ":" + "0" + second;
+          // that.record = minute + "分0" + second + "秒";
+        } else {
+          that.total = "0" + minute + ":" + second;
+          //  that.record = minute + "分" + second + "秒";
+        }
+
+        // console.log(minute,second)
+        that.brushLen =
+          parseInt(that.total.substr(1, 1)) * 60 +
+          parseInt(that.total.substr(that.total.length - 2)); //刷牙时长
+        //console.log('刷牙时长:',that.brushLen)
+
+        //  var times = formatDate(Date.parse(new Date())); //当前时间
+        // var dayY = times.split(",")[0]; //年月日
+
+        // var timeY = times.split(",")[1]; //时分秒
+        // var setLen =
+        //   parseInt(that.setTotalTime.substr(1, 1)) * 60 +
+        //   parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+        // var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+        // console.log(that.setTotalTime,setLen,score)
+
+        sessionStorage.removeItem("previousMi");
+        sessionStorage.removeItem("previousSec");
+        sessionStorage.setItem("previousMi", minute);
+        sessionStorage.setItem("previousSec", second);
+
+        if (that.total == that.setTotalTime) {
+          clearInterval(that.timer1);
+          that.Exit();
+        }
+      }, 1000);
+    },
+    /**
+     * @description: 动画
+     * @param {*}
+     * @return {*}
+     */
+    showAnimate() {
+      let that = this;
+      let count = this.seconds;
+      if (that.flag == true) {
+        let Sec2 = parseInt(sessionStorage.getItem("previousArea"));
+        that.area = Sec2;
+      } else {
+        that.area = that.sixFace;
+      }
+      that.timer2 = setInterval(() => {
+        if (that.area) {
+          count == that.setOriginNum ? that.index++ : "";
+          count--;
+          if (count == 0) {
+            count = that.setOriginNum;
+            that.area--;
+          }
+        }
+        if (that.area == 0) {
+          clearInterval(that.timer2);
+        }
+        sessionStorage.removeItem("previousArea");
+        sessionStorage.setItem("previousArea", that.area);
+      }, 1000);
+    },
+    /**
+     * @description: 恢复动画
+     * @param {*}
+     * @return {*}
+     */
+    recover() {
+      let Mi = parseInt(sessionStorage.getItem("previousMi"));
+      let Sec = parseInt(sessionStorage.getItem("previousSec"));
+      this.totalTime(Mi, Sec);
+
+      this.flag = true;
+      this.countDown();
+
+      this.showAnimate();
+    },
+    /**
+     * @description:动画后台运行
+     * @param {*}
+     * @return {*}
+     */
+    visibilitychange() {
+      // let that = this;
+      // let start, end, s;
+      document.addEventListener("visibilitychange", function () {
+        var string = document.visibilityState;
+        // console.log(string)
+        if (string =="hidden") {
+         // console.log(string)
+          // 当页面由前端运行在后端时
+         // start = new Date().getTime();
+        //  退回九宫格
+          window.hilink.finishDeviceActivity();
+        }
+        // if (string === "visible") {
+        //   // 当页面由隐藏至显示时
+        //   end = new Date().getTime();
+        //   s = Math.floor((parseInt(end) - parseInt(start)) / 1000);
+        //   console.log("s", s); //时间差
+
+        //   let totalSeconds =
+        //     parseInt(that.lastMinute) * 60 + parseInt(that.lastSecond);
+        //   console.log("totalSeconds:", totalSeconds);
+        //   var dd = totalSeconds + s; //时间差+暂停时间 秒数
+        //   console.log(dd);
+        //   let ss =
+        //     parseInt(that.setTotalTime.substr(0, 2)) * 60 +
+        //     parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2));
+        //   console.log("ss", ss);
+        //   //如果后台停留时间小于总时间
+        //   if (dd < ss) {
+        //     let ddf =
+        //       Math.floor(dd / 60) +
+        //       ":" +
+        //       ((dd % 60) / 100).toFixed(2).slice(-2);
+        //     console.log("ddf", ddf);
+        //     let kk = ddf.split(":");
+        //     clearInterval(that.timer1);
+        //     clearInterval(that.timer2);
+        //     that.seconds = that.seconds - s;
+        //     console.log("that.seconds", that.seconds);
+        //     that.totalTime(parseInt(kk[0]), parseInt(kk[1]));
+        //   } else {
+        //     that.totalTime(0, 0);
+        //   }
+        // }
+      });
+    },
     // 数据解析
     acceptData(data) {
       if (data.indexOf("F55F070401") == 0) {
