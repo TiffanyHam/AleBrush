@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-17 14:02:29
+ * @LastEditTime: 2021-04-21 10:56:12
  */
 const en = {
     index: {
@@ -68,7 +68,7 @@ const en = {
     BrushTeethModel: {
         level1: 'clean',
         level2: 'soft',
-        level3: 'Message',
+        level3: 'Massage',
         level4: 'strong'
     },
     //刷牙时长
@@ -227,13 +227,13 @@ const en = {
         score: '分',
         second: '秒',
         week: {
-            Mon: '星期一',
-            Tus: '星期二',
-            Wed: '星期三',
-            Thu: '星期四',
-            Fri: '星期五',
-            Sat: '星期六',
-            Sun: '星期天',
+            Mon: 'Monday',
+            Tue: 'Tuesday',
+            Wed: 'Wednesday',
+            Thu: 'Thursday',
+            Fri: 'Friday',
+            Sat: 'Saturday',
+            Sun: 'Sunday',
         },
         day: {
             Mon: '周一',

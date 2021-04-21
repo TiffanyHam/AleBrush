@@ -625,7 +625,7 @@ export default {
     //获取历史记录回调
     getDevHistoryCb(res) {
       if(res && res.list && res.list.length) {
-        let countArr = res.list.filter(item => item.data.score !== 'XXXXXX');
+        let countArr = res.list.filter((item) => !(new RegExp('XXXXXX_').test(item)));
         let obj = {};
         let countObj = {}
         let totalSec = 0; // 周总用时长(s)

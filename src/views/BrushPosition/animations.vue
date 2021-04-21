@@ -398,7 +398,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState,mapActions } from "vuex";
 import reportData from "../../utils/reportData";
 import { formatDate } from "../../utils/tool";
 
@@ -565,13 +565,14 @@ export default {
     this.globalT(this.timeLength);
     this.init();
     window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
-    // this.visibilitychange()
+    this.visibilitychange()
   },
   destroyed() {
     window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
 
   methods: {
+    ...mapActions(["setCloudData"]),
     /**
      * @description: 监听页面刷新和离开
      * @param {*} e
@@ -889,47 +890,50 @@ export default {
      * @return {*}
      */
     visibilitychange() {
-      let that = this;
-      let start, end, s;
+      // let that = this;
+      // let start, end, s;
       document.addEventListener("visibilitychange", function () {
         var string = document.visibilityState;
         // console.log(string)
-        if (string === "hidden") {
+        if (string =="hidden") {
+         // console.log(string)
           // 当页面由前端运行在后端时
-          start = new Date().getTime();
+         // start = new Date().getTime();
+        //  退回九宫格
+          window.hilink.finishDeviceActivity();
         }
-        if (string === "visible") {
-          // 当页面由隐藏至显示时
-          end = new Date().getTime();
-          s = Math.floor((parseInt(end) - parseInt(start)) / 1000);
-          console.log("s", s); //时间差
+        // if (string === "visible") {
+        //   // 当页面由隐藏至显示时
+        //   end = new Date().getTime();
+        //   s = Math.floor((parseInt(end) - parseInt(start)) / 1000);
+        //   console.log("s", s); //时间差
 
-          let totalSeconds =
-            parseInt(that.lastMinute) * 60 + parseInt(that.lastSecond);
-          console.log("totalSeconds:", totalSeconds);
-          var dd = totalSeconds + s; //时间差+暂停时间 秒数
-          console.log(dd);
-          let ss =
-            parseInt(that.setTotalTime.substr(0, 2)) * 60 +
-            parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2));
-          console.log("ss", ss);
-          //如果后台停留时间小于总时间
-          if (dd < ss) {
-            let ddf =
-              Math.floor(dd / 60) +
-              ":" +
-              ((dd % 60) / 100).toFixed(2).slice(-2);
-            console.log("ddf", ddf);
-            let kk = ddf.split(":");
-            clearInterval(that.timer1);
-            clearInterval(that.timer2);
-            that.seconds = that.seconds - s;
-            console.log("that.seconds", that.seconds);
-            that.totalTime(parseInt(kk[0]), parseInt(kk[1]));
-          } else {
-            that.totalTime(0, 0);
-          }
-        }
+        //   let totalSeconds =
+        //     parseInt(that.lastMinute) * 60 + parseInt(that.lastSecond);
+        //   console.log("totalSeconds:", totalSeconds);
+        //   var dd = totalSeconds + s; //时间差+暂停时间 秒数
+        //   console.log(dd);
+        //   let ss =
+        //     parseInt(that.setTotalTime.substr(0, 2)) * 60 +
+        //     parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2));
+        //   console.log("ss", ss);
+        //   //如果后台停留时间小于总时间
+        //   if (dd < ss) {
+        //     let ddf =
+        //       Math.floor(dd / 60) +
+        //       ":" +
+        //       ((dd % 60) / 100).toFixed(2).slice(-2);
+        //     console.log("ddf", ddf);
+        //     let kk = ddf.split(":");
+        //     clearInterval(that.timer1);
+        //     clearInterval(that.timer2);
+        //     that.seconds = that.seconds - s;
+        //     console.log("that.seconds", that.seconds);
+        //     that.totalTime(parseInt(kk[0]), parseInt(kk[1]));
+        //   } else {
+        //     that.totalTime(0, 0);
+        //   }
+        // }
       });
     },
     // 数据解析
@@ -996,7 +1000,17 @@ export default {
       this.$router.push({ name: "Main" });
       //console.log(this.brushLen)
     },
-
+    /**
+     * @description: 云端取数据
+     * @param {*}
+     */
+    getCloudHistory() {
+      let resCallback = (res) => {
+        console.log("云端数据返回：", res);
+        this.setCloudData(res)
+      };
+      reportData.getHistoryLog(resCallback);
+    },
     /**
      * @description: 历史数据计算
      * @param {*}
@@ -1016,9 +1030,10 @@ export default {
 
       //数据上报
       let resCallback = (res) => {
-        // console.log('hhh:',res.errcode);
+       // console.log('hhh:',res.errcode);
         if (res.errcode == 200) {
           console.log("上报成功");
+          //this.getCloudHistory()
         }
       };
       var formatdata = reportData.formatDataFromMachine(
@@ -1027,7 +1042,7 @@ export default {
         that.total,
         score
       );
-      // console.log('99:',formatdata)
+      //console.log('99:',formatdata)
       reportData.getDevId();
       reportData.report(reportData.devId, formatdata, resCallback);
     },

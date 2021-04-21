@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-20 17:08:29
+ * @LastEditTime: 2021-04-21 11:30:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -121,7 +121,7 @@
               <div>
                 <span>{{ $t("index.brushLen") }}</span>
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ timeShow | brushLength(te) }}</span>
+                  <span>{{ timeLen | brushLength(te) }}</span>
                 </div>
               </div>
               <div class="icon_width">
@@ -245,7 +245,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState,mapActions } from "vuex";
 import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
 import reportData from "../../utils/reportData";
@@ -300,8 +300,7 @@ export default {
       ],
       isTime: false,
       isMode: false,
-      timeLen: "",
-      timeShow:'00',
+      timeLen: "00",
       modeDisplay: "00", //刷牙模式
       logArr: [],
       getScore: "",
@@ -387,8 +386,8 @@ export default {
   },
   mounted() {
     
-    console.log("蓝牙初始状态：", this.bleConnected);
-    console.log("timeLength", this.timeLength);
+    console.log("this.cloudData", this.cloudData);
+    //console.log("timeLength", this.timeLength);
 
     this.initData();
     
@@ -404,6 +403,7 @@ export default {
       "data",
       "timeLength",
       "cleanMOde",
+      "cloudData"
     ]),
     tips1() {
       if (this.isDays >= -99 && this.isDays <= -1) {
@@ -418,6 +418,7 @@ export default {
       console.log("蓝牙状态：", status);
       //  监听蓝牙连接状态
       if (status) {
+       // this.getHistory(this.cloudData);
         this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
@@ -443,6 +444,11 @@ export default {
         this.acceptData(value);
       }
     },
+    cloudData(val){
+      if (val) {
+        this.getHistory(val);
+      }
+    }
     // isCharge(n) {
     //   if (n == "01") {
     //       this.booth_index = 0;
@@ -455,6 +461,8 @@ export default {
     // }
   },
   methods: {
+    ...mapActions(["setCloudData"]),
+ 
     /**
      * @description: 蓝牙连接
      * @param {*}
@@ -462,10 +470,12 @@ export default {
      */
     initData() {
       this.isPosition = this.initPosition
-      this.timeShow = this.timeLength
+      this.timeLen = this.timeLength
+      this.selectIndex1 = this.changeStatus(this.timeLength);
       this.BLE.init();
       if (this.bleConnected) {
-        this.getCloudHistory();
+       // this.getHistory(this.cloudData);
+       this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -490,9 +500,9 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      if(this.timeLength == ''){
-        this.BLE.writeData('F55F060101005C'); //默认时长2分钟
-      }
+      // if(this.timeLength == ''){
+      //   this.BLE.writeData('F55F060101005C'); //默认时长2分钟
+      // }
      // console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
          console.log("设置成功");
@@ -501,7 +511,6 @@ export default {
         //刷牙模式
         this.modeDisplay = data.substr(10, 2);
         //console.log(this.modeDisplay)
-        this.selectIndex1 = this.changeStatus(this.timeLength);
         this.selectIndex = this.changeStatus(this.modeDisplay);
        // console.log('模式',this.selectIndex)
        // console.log('模式2',this.selectIndex1)
@@ -529,10 +538,11 @@ export default {
      */
     getCloudHistory() {
       let resCallback = (res) => {
-        this.getHistory(res);
+        this.setCloudData(res)
         console.log("云端数据返回：", res);
       };
       reportData.getHistoryLog(resCallback);
+      this.getHistory(this.cloudData);
     },
     /**
      * @description: 刷牙记录
@@ -540,7 +550,7 @@ export default {
      * @return {*}
      */
     getHistory(res) {
-      if(res.length == 0){  //历史记录为空时上报第一次日期
+      if(this.cloudData.length == 0 && res.length == 0){  //历史记录为空时上报第一次日期
           reportData.resize(new Date().getTime() + 1000);
       }else{
       var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
@@ -565,9 +575,9 @@ export default {
         var data = res[x].data.score;
         getArr.push(data);
       }
-       console.log('getArr',getArr)   
+      // console.log('getArr',getArr)   
       var filterData = getArr.filter((item) => !(new RegExp('XXXXXX_').test(item)));
-      console.log("filterData:", filterData);
+      //console.log("filterData:", filterData);
       if (filterData.length !== 0) {
         var ss = this.getArrList(filterData)[0];
         this.getScore = ss[0].score;
@@ -651,7 +661,7 @@ export default {
       var week;
       if (date.getDay() == 0) week = `${this.$t("Log.week.Sun")}`;
       if (date.getDay() == 1) week = `${this.$t("Log.week.Mon")}`;
-      if (date.getDay() == 2) week = `${this.$t("Log.week.Tue")}`;
+      if (date.getDay() == 2) week = `${this.$t("Log.week.Tus")}`;
       if (date.getDay() == 3) week = `${this.$t("Log.week.Wed")}`;
       if (date.getDay() == 4) week = `${this.$t("Log.week.Thu")}`;
       if (date.getDay() == 5) week = `${this.$t("Log.week.Fri")}`;
@@ -933,13 +943,6 @@ export default {
       font-size: 16px;
       color: rgba(0, 0, 0, 0.9);
     }
-    //充电图片位置
-    .posiImg {
-        width: 24px;
-        height: 24px;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-    }
     .moreLog {
       //background-color: #fff;
       width: 100%;
@@ -1049,7 +1052,8 @@ export default {
     .cell3,
     .cell4,
     .cell5,
-    .cell6 {
+    .cell6,
+    .posiImg {
       width: 24px;
       height: 24px;
       background-size: 100% 100%;
