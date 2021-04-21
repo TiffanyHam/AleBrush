@@ -711,9 +711,6 @@ export default {
         //记录数据
         that.isEnough = true;
       }
-
-      that.clearInter();
-      clearInterval(that.timer1);
     },
 
     /**
@@ -725,7 +722,7 @@ export default {
       if (this.brushLen > 30 || this.brushLen == 30) {
         this.historyArr();
       }
-      this.clearInterval(this.timer)
+      clearInterval(this.timer)
       clearInterval(this.timer4);
       this.$router.push({ name: "Main" });
       //console.log(this.brushLen)
@@ -755,6 +752,9 @@ export default {
       var setLen =
         parseInt(that.setTotalTime.substr(1, 1)) * 60 +
         parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
+         that.brushLen =
+          parseInt(that.totalNum.substr(1, 1)) * 60 +
+          parseInt(that.totalNum.substr(that.total.length - 2)); //刷牙时长
       var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
       //  console.log(that.setTotalTime,setLen,score)
 
