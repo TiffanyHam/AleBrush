@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-21 11:30:10
+ * @LastEditTime: 2021-04-21 15:23:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -500,9 +500,8 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      // if(this.timeLength == ''){
-      //   this.BLE.writeData('F55F060101005C'); //默认时长2分钟
-      // }
+      console.log('this.timeLength',this.timeLength)
+      this.timeEvent(this.timeLength)  //重置时长
      // console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
          console.log("设置成功");
@@ -755,6 +754,22 @@ export default {
       this.$store.dispatch("save_time", this.timeLen);
       let param = "F55F060101" + mode + last;
       this.BLE.writeData(param);
+    },
+    timeEvent(index){
+      let para = ''
+      switch (index) {
+        case "00":
+          para = 'F55F060101005C'
+          break;
+        case "01":
+          para = 'F55F060101015D'
+          break;
+        case "02":
+          para = 'F55F060101025E'
+          break;
+      }
+      this.BLE.writeData(para);
+
     },
     changeStatus(val) {
       switch (val) {
