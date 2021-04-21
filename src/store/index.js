@@ -16,7 +16,7 @@ export default new Vuex.Store({
   namespaced: true,//开启命名空间
   state: {
     bleConnected: false, // 监听设备蓝牙连接结果
-    initPosition:null,
+    initPosition:0,
     data:'',
     timeLength:"",
     cleanMOde:'',

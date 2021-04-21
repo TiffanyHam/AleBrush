@@ -14,7 +14,7 @@
           {{ item.name }}
         </div>
         <!-- one --左下区逆时针 -->
-        <div class="one" v-if="initPosition == 0">
+        <div class="one" v-if="isPosition == 0">
           <!-- 左下 -->
           <div
             v-if="index == 1"
@@ -80,7 +80,7 @@
         </div>
 
         <!-- second --右上区逆时针 -->
-        <div class="second" v-if="initPosition == 2">
+        <div class="second" v-if="isPosition == 2">
           <!-- 右上 -->
           <div
             v-if="index == 1"
@@ -145,7 +145,7 @@
           </div>
         </div>
         <!-- third--顺时针左上 -->
-        <div class="third" v-if="initPosition == 3">
+        <div class="third" v-if="isPosition == 3">
           <!-- 左上 -->
           <div
             v-if="index == 1"
@@ -212,7 +212,7 @@
         </div>
 
         <!-- fourth--顺时针右下 -->
-        <div class="fourth" v-if="initPosition == 1">
+        <div class="fourth" v-if="isPosition == 1">
           <!-- 右下 -->
           <div
             v-if="index == 1"
@@ -436,11 +436,11 @@ export default {
       endY: 0,
       // 动画下标
       index: null,
-      setTotalTime: "",
+      setTotalTime: "02:00",
       // timer5:null,
       setAreas: "00",
       area: 0,
-      setOriginNum: null,
+      setOriginNum: 30,
       posArr: [
         {
           class: "top",
@@ -463,7 +463,8 @@ export default {
       opacityVal: 0,
       lastSecond: "",
       lastMinute: "",
-      isStop:false
+      isStop:false,
+      isPosition:0
     };
   },
 
@@ -488,7 +489,8 @@ export default {
     let centerY = 47.5;
     let svgX = r * Math.cos((Math.PI / 180) * 90);
     let svgY = r * Math.sin((Math.PI / 180) * 90);
-    switch (this.initPosition) {
+    this.isPosition = this.initPosition
+    switch (this.isPosition) {
       case 0:
         this.rotate = [
           // 左下
@@ -557,9 +559,9 @@ export default {
   },
 
   mounted() {
-    console.log("刷牙区域:", this.initPosition);
-    this.timeLength == '' ? '00' : this.timeLength
-    this.initPosition == null ? '0' : this.initPosition
+    //  this.timeLength == '' ? '00' : this.timeLength
+    // this.initPosition == '' ? 0 : this.initPosition
+    console.log("刷牙区域:", this.isPosition);
     this.globalT(this.timeLength);
     this.init();
     window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
@@ -680,7 +682,7 @@ export default {
       let len = that.rotate.length;
       that.timer = setInterval(() => {
         if (that.seconds > 0 && that.seconds <= that.setOriginNum + 2) {
-          if (this.initPosition == 0 || this.initPosition == 2) {
+          if (this.isPosition == 0 || this.isPosition == 2) {
             that.startX = that.rotate[len - count]["x"];
             that.startY = that.rotate[len - count]["y"];
             that.endX =
@@ -689,7 +691,7 @@ export default {
               that.rotate[len + 1 - count == 4 ? 0 : len + 1 - count]["y"];
           }
 
-          if (this.initPosition == 1) {
+          if (this.isPosition == 1) {
             if (count == 4) {
               that.startX = 47.5;
               that.startY = 90;
@@ -716,7 +718,7 @@ export default {
             }
           }
 
-          if (this.initPosition == 3) {
+          if (this.isPosition == 3) {
             if (count == 4) {
               that.startX = 47.5;
               that.startY = 5;

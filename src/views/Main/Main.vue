@@ -33,7 +33,13 @@
         </div>
         <div class="connectState flexR" v-show="!isflage && isConnect">
           <div>{{ $t("index.connected") }}</div>
-          <div v-show="recharge">
+          <div v-if="isCharge == '01'">
+            <!-- 充电中动画 -->
+            <div class="posiImg" :style="isDarks == true ? {  backgroundImage: 'url(' + imgBooth_dark[booth_index] + ')'
+              } : { backgroundImage: 'url(' + imgBooth[booth_index] + ')' }"
+            ></div>
+          </div>
+          <div v-else>
             <!-- 电池 -->
             <div class="cell1" v-if="battery == '00'"></div>
             <div class="cell2" v-if="battery == '01'"></div>
@@ -42,12 +48,7 @@
             <div class="cell5" v-if="battery == '04'"></div>
             <div class="cell6" v-if="battery == '05'"></div>
           </div>
-          <div v-show="!recharge">
-            <!-- 充电中动画 -->
-            <div class="posiImg" :style=" isDarks == true ? {  backgroundImage: 'url(' + imgBooth_dark[booth_index] + ')'
-              } : { backgroundImage: 'url(' + imgBooth[booth_index] + ')' }"
-            ></div>
-          </div>
+          
         </div>
         <!-- one -->
         <div class="hi-card bg_card">
@@ -120,7 +121,7 @@
               <div>
                 <span>{{ $t("index.brushLen") }}</span>
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ timeLength == '' ? "00" : timeLength | brushLength(te) }}</span>
+                  <span>{{ timeShow | brushLength(te) }}</span>
                 </div>
               </div>
               <div class="icon_width">
@@ -153,7 +154,7 @@
                 <span>{{ $t("index.inPosition") }}</span
                 ><br />
                 <div class="text_color" v-if="isflage !== isConnect">
-                  <span>{{ initPosition == null ? 0 : initPosition | formatStata(te) }}</span>
+                  <span>{{ isPosition | formatStata(te) }}</span>
                 </div>
               </div>
               <div class="icon_width">
@@ -255,8 +256,9 @@ export default {
   data() {
     return {
       deviceId: null,
+      isPosition:0,
       isflage: true,
-      recharge:true, //判断是否充电
+      isCharge:'', //判断是否充电
       isConnect: true,
       isDialog: false, //弹窗 连接超时
       battery: "05",
@@ -299,6 +301,7 @@ export default {
       isTime: false,
       isMode: false,
       timeLen: "",
+      timeShow:'00',
       modeDisplay: "00", //刷牙模式
       logArr: [],
       getScore: "",
@@ -383,9 +386,9 @@ export default {
     },
   },
   mounted() {
-
+    
     console.log("蓝牙初始状态：", this.bleConnected);
-   // console.log("timeLength", this.cleanMOde);
+    console.log("timeLength", this.timeLength);
 
     this.initData();
     
@@ -440,82 +443,28 @@ export default {
         this.acceptData(value);
       }
     },
-    recharge(n) {
-      if (n == false) {
-          this.booth_index = 0;
-          this.chargePro()
-      } else {
-          clearInterval(this.timers);
-          this.booth_index = 0;
-          this.timers = null;
-      }
-    }
+    // isCharge(n) {
+    //   if (n == "01") {
+    //       this.booth_index = 0;
+    //       this.chargePro()
+    //   } else {
+    //       clearInterval(this.timers);
+    //       this.booth_index = 0;
+    //       this.timers = null;
+    //   }
+    // }
   },
   methods: {
-    /**
-     * @description: 电池充电状态动画
-     * @param {*}
-     * @return {*}
-     */    
-    chargePro() {
-        let that = this;
-        this.timers = setInterval(() => {
-            that.booth_index++;
-            if (that.booth_index == 6) {
-                that.booth_index = 0;
-            }
-        }, 1000);
-    },
-    /**
-     * 使用test方法实现模糊查询
-     * @param  {Array}  list     原数组
-     * @param  {String} keyWord  查询的关键词
-     * @return {Array}           查询的结果
-     */
-    fuzzyQuery(list, keyWord) {
-      var reg = new RegExp(keyWord);
-      var arr = [];
-      for (var i = 0; i < list.length; i++) {
-        if (reg.test(list[i])) {
-          arr.push(list[i]);
-        }
-      }
-      return arr;
-    },
-    /**
-     * @description: 根据日期计算天数
-     * @param {*} date1
-     * @param {*} date2
-     * @return {*}
-     */
-    getDays(date1, date2) {
-      var a1 = Date.parse(new Date(date1));
-      var a2 = Date.parse(new Date(date2));
-      var day = parseInt((a2 - a1) / (1000 * 60 * 60 * 24)); //核心：时间戳相减，然后除以天数
-      return day;
-    },
-    /**
-     * @description: 只触发一次
-     * @param {*}
-     * @return {*}
-     */
-    // once() {
-    //   if (this.isOnce) {
-    //     this.isOnce = false;
-    //     reportData.resize(new Date().getTime() + 1000);
-    //   } else {
-    //     return;
-    //   }
-    // },
     /**
      * @description: 蓝牙连接
      * @param {*}
      * @return {*}
      */
     initData() {
+      this.isPosition = this.initPosition
+      this.timeShow = this.timeLength
       this.BLE.init();
       if (this.bleConnected) {
-       // this.once();
         this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
@@ -541,9 +490,12 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      console.log(data)
+      if(this.timeLength == ''){
+        this.BLE.writeData('F55F060101005C'); //默认时长2分钟
+      }
+     // console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
-        // console.log("设置成功");
+         console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
@@ -561,13 +513,13 @@ export default {
           this.dialogTip = true;
         }
       }
-      if (data.indexOf("F55F07050101") == 0) {
-        //充电
-        this.recharge = false
-        this.chargePro()
-      }else{
-        this.recharge = true
-        clearInterval(this.timers);
+      if (data.indexOf("F55F070501") == 0) {
+        this.isCharge = String(data.substr(10, 2));
+        if(this.isCharge == '01'){  //充电中
+            this.chargePro()
+        }else{
+          clearInterval(this.timers);
+        }
       }
     },
 
@@ -845,7 +797,48 @@ export default {
       let param = "F55F060201" + mode + last;
       this.BLE.writeData(param);
     },
-
+   /**
+     * @description: 电池充电状态动画
+     * @param {*}
+     * @return {*}
+     */    
+    chargePro() {
+        let that = this;
+        this.timers = setInterval(() => {
+            that.booth_index++;
+            if (that.booth_index == 6) {
+                that.booth_index = 0;
+            }
+        }, 1000);
+    },
+    /**
+     * 使用test方法实现模糊查询
+     * @param  {Array}  list     原数组
+     * @param  {String} keyWord  查询的关键词
+     * @return {Array}           查询的结果
+     */
+    fuzzyQuery(list, keyWord) {
+      var reg = new RegExp(keyWord);
+      var arr = [];
+      for (var i = 0; i < list.length; i++) {
+        if (reg.test(list[i])) {
+          arr.push(list[i]);
+        }
+      }
+      return arr;
+    },
+    /**
+     * @description: 根据日期计算天数
+     * @param {*} date1
+     * @param {*} date2
+     * @return {*}
+     */
+    getDays(date1, date2) {
+      var a1 = Date.parse(new Date(date1));
+      var a2 = Date.parse(new Date(date2));
+      var day = parseInt((a2 - a1) / (1000 * 60 * 60 * 24)); //核心：时间戳相减，然后除以天数
+      return day;
+    },
     // 设置---跳转
     setting() {
       this.$router.push("Setting");
