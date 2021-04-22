@@ -383,7 +383,7 @@ export default {
       endY: 0,
       index: 1,
       seconds:30,//每块区域倒计时秒
-      total:148, //倒计时总时间--秒数--设备取数据
+      total:128, //倒计时总时间--秒数--设备取数据
       totalNum:'', //秒数格式化
       setTotalTime: "02:00",
       setOriginNum: 37,
