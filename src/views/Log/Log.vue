@@ -767,7 +767,7 @@ export default {
       if (res && res.list && res.list.length) {
         let arr = []
         let copyArr = []
-        let countArr = res.list.filter(item => item.data.score !== 'XXXXXX');
+        let countArr = res.list.filter((item) => !(new RegExp('XXXXXX_').test(item.data.score)));
         countArr.forEach(item => {
           arr.push(item.data.score.split('_')[0])
         })
