@@ -752,8 +752,8 @@ export default {
         that.time--;
         //console.log(that.time);
         if (that.time == 1) {
-          that.time = 0;
-          clearInterval(that.timer4);
+         // that.time = 0;
+         // clearInterval(that.timer4);
           that.Exit();
         }
       }, 1000);
@@ -854,6 +854,7 @@ export default {
       if (this.total > 30 || this.total == 30) {
         this.historyArr();
       }
+      this.time = 0;
       clearInterval(this.timer)
       clearInterval(this.timer4);
       this.BLE.writeData('F55F060101005C');
