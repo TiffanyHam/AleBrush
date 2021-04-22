@@ -400,7 +400,8 @@ export default {
       "data",
       "timeLength",
       "cleanMOde",
-      "cloudData"
+      "cloudData",
+      'electric'
     ]),
     tips1() {
       if (this.isDays >= -99 && this.isDays <= -1) {
@@ -415,9 +416,9 @@ export default {
       //console.log("蓝牙状态：", status);
       //  监听蓝牙连接状态
       if (status) {
-        this.getHistory(this.cloudData);
+       // this.getHistory(this.cloudData);
         //this.getCloudHistory();
-        this.acceptData(this.data); //初始化数据
+        //this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
@@ -458,7 +459,7 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(["setCloudData"]),
+    ...mapActions(["setCloudData",'save_elec']),
  
     /**
      * @description: 蓝牙连接
@@ -503,21 +504,25 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-     // console.log(data)
+      if(data.indexOf("F55F070601") == 0){
+         let total = parseInt(data.substr(10, 2), 16)
+         console.log('hi', total)
+      }
       if (data.indexOf("F55F07100100") == 0) {
         // console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
         this.modeDisplay = data.substr(10, 2);
-        //console.log(this.modeDisplay)
         this.selectIndex = this.changeStatus(this.modeDisplay);
-       // console.log('模式',this.selectIndex)
-       // console.log('模式2',this.selectIndex1)
       }
       if (data.indexOf("F55F070301") == 0) {
-        this.battery = String(data.substr(10, 2)); //電量
-        console.log('电量：',this.battery)
+        let _electric = String(data.substr(10, 2))
+        this.save_elec(_electric)  //存储电量
+
+        //this.battery = String(data.substr(10, 2)); //電量
+       // console.log('电量：',this.battery)
+        this.battery = this.electric
         //电量不足
         if (this.battery == "01") {
           this.dialogTip = true;
@@ -899,19 +904,7 @@ export default {
         reportData.resize(new Date().getTime() + 1000);
         this.isDays = 60;
       }
-    },
-    /**
-     * @description: 滑动事件
-     * @param {*}
-     * @return {*}
-     */
-    initScroll() {
-      this.scroll = new BScroll(document.querySelector(".index_main"), {
-        probeType: 3,
-        click: true,
-        scrollY: true,
-      });
-    },
+    }
   },
 };
 </script>

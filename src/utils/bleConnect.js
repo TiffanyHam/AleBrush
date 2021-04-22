@@ -195,7 +195,7 @@ function onBLECharacteristicValueChange() {
       let openStatus = result.data.substr(10, 2);
       if (["00", "02"].includes(openStatus)) {
         //开始
-        route.push({ name: "animations" });
+       // route.push({ name: "animations" });
       }
     }
    // console.log(result.data)

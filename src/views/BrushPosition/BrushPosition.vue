@@ -132,6 +132,7 @@ export default {
   mounted() {
      this.isPosition = this.initPosition
      this.selectedIndex = this.isPosition;
+     
   },
   methods: {
     ...mapActions(["call_update_initPosition"]),

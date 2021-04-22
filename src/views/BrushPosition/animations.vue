@@ -560,34 +560,27 @@ export default {
      * @param {*}
      * @return {*}
      */
-    firstArea(){
+    firstArea(total){
       this.index = 1
-      this.seconds = this.setOriginNum - this.total
+      this.seconds = this.setOriginNum - total
       if(this.seconds == 0){
         this.seconds = this.setOriginNum
       }
     },
-    secondArea(){
+    secondArea(total){
       this.index = 2
-      this.seconds = this.setOriginNum - (this.total % this.setOriginNum)
-      // if(this.seconds == 0){
-      //      this.seconds = this.setOriginNum
-      //   }
-      // }
+      this.seconds = this.setOriginNum - (total % this.setOriginNum)
     },
-    thirdArea(){
+    thirdArea(total){
       this.index = 3
-      this.seconds = this.setOriginNum - (this.total % (this.setOriginNum*2))
-      // if(this.seconds == 0){
-      //   this.seconds = this.setOriginNum
-      // }
+      this.seconds = this.setOriginNum - (total % (this.setOriginNum*2))
     },
-    fourArea(){
+    fourArea(total){
        this.index = 4
        if(this.setOriginNum == 37){
-         this.seconds = this.setOriginNum - (this.total % (this.setOriginNum*3)-2)
+         this.seconds = this.setOriginNum - (total % (this.setOriginNum*3)-2)
        }else{
-         this.seconds = this.setOriginNum - (this.total % (this.setOriginNum*3))
+         this.seconds = this.setOriginNum - (total % (this.setOriginNum*3))
        }
     },
      /**
@@ -600,19 +593,19 @@ export default {
      // that.isPosition = that.initPosition
       if(that.isPosition == 0){ //逆时针 左下
         if(total <= that.setOriginNum){
-          that.firstArea()
+          that.firstArea(total)
           that.positionSet4()
         }
          if(total > that.setOriginNum * 1){
-          that.secondArea()
+          that.secondArea(total)
           that.positionSet3()
         }
         if(total > that.setOriginNum * 2){
-          that.thirdArea()
+          that.thirdArea(total)
           that.positionSet2()
         }
         if(total > that.setOriginNum * 3){
-          that.fourArea()
+          that.fourArea(total)
           that.positionSet1()
         }      
         if(that.setOriginNum == 37){
@@ -768,11 +761,8 @@ export default {
     use(w){
      if(w !== undefined){
        this.total = w
+     //  this.countDown(this.total)
      }
-     //console.log('this.total',this.total)
-     //this.countDown()
-     //console.log('this.setOriginNum',this.setOriginNum)
-     //this.countDown(this.total)
     },
     totalTime(second) {
       let that = this;
@@ -802,7 +792,7 @@ export default {
           break;
       }
       //this.totalTime(0)
-     // this.use()
+      // this.use()
       
     },
   

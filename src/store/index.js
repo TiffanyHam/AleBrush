@@ -20,7 +20,8 @@ export default new Vuex.Store({
     data:'',
     timeLength:"",
     cleanMOde:'',
-    cloudData:[]
+    cloudData:[],
+    electric:''
   },
   mutations: {
     UPDATED_BLECONNECTED(state,payload) {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
     },
     UPDATE_Mode(state,payload){
       state.cleanMOde = payload;
+    },
+    UPDATE_ELEC(state,payload){
+      state.electric = payload;
     },
     'CHANGETIP' (state, data) {
       state.noMorereminders = data;    
@@ -64,6 +68,9 @@ export default new Vuex.Store({
     save_time ({commit},data) {
       commit('UPDATE_TIME', data);
    },
+   save_elec ({commit},data) {
+      commit('UPDATE_ELEC', data);
+    },
     resetVuex({ commit }) {
       commit("UPDATED_POSITION", null);
     },
