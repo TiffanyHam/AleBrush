@@ -66,7 +66,7 @@ export default {
     created() {
     },
     mounted() {
-        this.realValue = parseInt(this.$route.params.day)
+        this.realValue = parseInt(this.$route.query.day)
     },
 
     methods: {

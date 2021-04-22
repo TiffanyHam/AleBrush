@@ -69,7 +69,7 @@
             <div class="fingle fingle_left1"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
           </div>
-          <div v-if="setOriginNum == 37 ? (total == (4 * setOriginNum + 2)):(total == 4 * setOriginNum)" class="left_up_out posiImg"></div>
+          <div v-if="setOriginNum == 37 ? (total == 4 * setOriginNum + 2):(total == 4 * setOriginNum)" class="left_up_out posiImg"></div>
          
         </div>
          <!-- fourth--顺时针右下 -->
@@ -125,7 +125,7 @@
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right1"></div>
           </div>
-          <div v-if="setOriginNum == 37 ? (total == (4 * setOriginNum + 2)):(total == 4 * setOriginNum)" class="right_up_out posiImg"></div>
+          <div v-if="setOriginNum == 37 ? (total == 4 * setOriginNum + 2):(total == 4 * setOriginNum)" class="right_up_out posiImg"></div>
         </div>
         <!-- second --右上区逆时针 -->
         <div class="second" v-if="isPosition == 2">
@@ -180,7 +180,7 @@
             <div>{{ $t("BrushTeethPosition.current") }}</div>
             <div class="fingle fingle_right"></div>
           </div>
-          <div v-if="setOriginNum == 37 ? (total == (4 * setOriginNum + 2)):(total == 4 * setOriginNum)" class="right_down_out posiImg"></div>
+          <div v-if="setOriginNum == 37 ? (total == 4 * setOriginNum + 2):(total == 4 * setOriginNum)" class="right_down_out posiImg"></div>
         </div>
         <!-- third--顺时针左上 -->
         <div class="third" v-if="isPosition == 3">
@@ -236,7 +236,7 @@
             <div class="fingle fingle_left"></div>
             <div>{{ $t("BrushTeethPosition.current") }}</div>
           </div>
-          <div v-if="setOriginNum == 37 ? (total == (4 * setOriginNum + 2)):(total == 4 * setOriginNum)" class="left_down_out posiImg"></div>
+          <div v-if="setOriginNum == 37 ? (total == 4 * setOriginNum + 2):(total == 4 * setOriginNum)" class="left_down_out posiImg"></div>
         </div>
 
         <!-- 中心时间卷 -->
@@ -370,6 +370,7 @@ export default {
       isAppear: false,
       isShow: true, //弹窗的显示
       time: 30,
+      timer4: null,
       isBg: window.isDark ? "#3F97E9" : "#007dff",
       brushLen: "",
       record: "",
@@ -381,20 +382,17 @@ export default {
       endX: 0,
       endY: 0,
       index: 1,
-      seconds:0,//每块区域倒计时秒
-      total:0, //总时间--秒数--设备取数据
-      totalNum:'00:00', //秒数格式化
+      seconds:30,//每块区域倒计时秒
+      total:128, //倒计时总时间--秒数--设备取数据
+      totalNum:'', //秒数格式化
       setTotalTime: "02:00",
-      setOriginNum: 0,
+      setOriginNum: 37,
       isOpen: "00",
       opacityVal: 0,
       isStop:false,
       isPosition:0,
       timer:null,
-      timer1:null,
-      timer4: null,
       timeL:'00',
-      num:0,
       posArr: [
         {
           class: "top",
@@ -422,7 +420,7 @@ export default {
   },
   watch: {
     timeLength(val) {
-     // console.log("时长wwww:", val);
+      console.log("时长wwww:", val);
     },
     data(value) {
       //console.log("數據來了", value);
@@ -432,100 +430,18 @@ export default {
       this.time = n;
     },
   },
-    created() {
-    let r = 42.5;
-    let centerX = 47.5;
-    let centerY = 47.5;
-    let svgX = r * Math.cos((Math.PI / 180) * 90);
-    let svgY = r * Math.sin((Math.PI / 180) * 90);
-    this.isPosition = this.initPosition
-    switch (this.isPosition) {
-      case 0:
-        this.rotate = [
-          // 左下
-          { x: centerX - r, y: centerY },
-          { x: centerX + svgX, y: centerY + svgY },
-          { x: centerX + r, y: centerY },
-          { x: centerX - svgX, y: centerY - svgY },
-        ];
-        break;
-      case 1:
-        this.rotate = [
-          //右下
-          { x: centerX + svgX, y: centerY + svgY },
-          { x: centerX + r, y: centerY },
-          { x: centerX - svgX, y: centerY - svgY },
-          { x: centerX - r, y: centerY },
-        ];
-        break;
-      case 2:
-        this.rotate = [
-          //右上
-          { x: centerX + r, y: centerY },
-          { x: centerX - svgX, y: centerY - svgY },
-          { x: centerX - r, y: centerY },
-          { x: centerX + svgX, y: centerY + svgY },
-        ];
-        break;
-      case 3:
-        this.rotate = [
-          //左上
-          { x: centerX - svgX, y: centerY - svgY },
-          { x: centerX - r, y: centerY },
-          { x: centerX + svgX, y: centerY + svgY },
-          { x: centerX + r, y: centerY },
-        ];
-        break;
-    }
-    this.startX = this.rotate[0].x;
-    this.startY = this.rotate[0].y;
-    this.endX = this.rotate[1].x;
-    this.endY = this.rotate[1].y;
-
-    //   console.log(this.startX, this.startY, this.endX, this.endY);
-    if(this.timeLength == ''){
-      this.timeL = "00"
-    }else{
-      this.timeL = this.timeLength
-    }
-     this.globalT(this.timeL);
-   
-
-    //console.log("刷牙区域:", this.timeL);
-  },
   mounted() {
-    this.animation()
+    this.timeL = this.timeLength
+    //console.log("刷牙区域:", this.timeL);
+    this.globalT(this.timeL);
     window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
   destroyed() {
     window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
-  beforeDestroy() {
-      clearInterval(this.timer1); 
-      clearInterval(this.timer);
-      clearInterval(this.timer4);        
-      this.timer1 = null;
-      this.timer = null;
-      this.timer4 = null;
-  },
+
   methods: {
     ...mapActions(["setCloudData"]),
-    /**
-     * @description: 动画闪烁
-     * @param {*}
-     * @return {*}
-     */    
-    animation(){
-       clearInterval(this.timer)
-       this.timer = setInterval(() => {
-            //透明度切换
-          if (!this.opacityVal) {
-            this.opacityVal = 1;
-          } else {
-            this.opacityVal = 0;
-          }
-         }, 1000);
-    },
      /**
      * @description:SVG角度
      * @param {*}
@@ -563,24 +479,14 @@ export default {
     firstArea(){
       this.index = 1
       this.seconds = this.setOriginNum - this.total
-      if(this.seconds == 0){
-        this.seconds = this.setOriginNum
-      }
     },
     secondArea(){
       this.index = 2
       this.seconds = this.setOriginNum - (this.total % this.setOriginNum)
-      // if(this.seconds == 0){
-      //      this.seconds = this.setOriginNum
-      //   }
-      // }
     },
     thirdArea(){
       this.index = 3
       this.seconds = this.setOriginNum - (this.total % (this.setOriginNum*2))
-      // if(this.seconds == 0){
-      //   this.seconds = this.setOriginNum
-      // }
     },
     fourArea(){
        this.index = 4
@@ -595,123 +501,107 @@ export default {
      * @param {*}
      * @return {*}
      */
-    countDown(total){
+    countDown(){
       let that = this
-     // that.isPosition = that.initPosition
+      that.isPosition = that.initPosition
       if(that.isPosition == 0){ //逆时针 左下
-        if(total <= that.setOriginNum){
+        if(that.total <= that.setOriginNum){
           that.firstArea()
           that.positionSet4()
         }
-         if(total > that.setOriginNum * 1){
+         if(that.total > that.setOriginNum * 1){
           that.secondArea()
           that.positionSet3()
         }
-        if(total > that.setOriginNum * 2){
+        if(that.total > that.setOriginNum * 2){
           that.thirdArea()
           that.positionSet2()
         }
-        if(total > that.setOriginNum * 3){
+        if(that.total > that.setOriginNum * 3){
           that.fourArea()
           that.positionSet1()
         }      
-        if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
-                that.Exit()
-             }
-        }else{
-            if(total == that.setOriginNum * 4){
-                that.Exit()
-             }
-        }
         
       }
        if(that.isPosition == 1){//顺时针  右下
-         if(total <= that.setOriginNum){
+         if(that.total <= that.setOriginNum){
           that.firstArea()
           that.positionSet3()
         }
-         if(total > that.setOriginNum * 1){
+         if(that.total > that.setOriginNum * 1){
          that.secondArea()
           that.positionSet4()
         }
-        if(total > that.setOriginNum * 2){
+        if(that.total > that.setOriginNum * 2){
           that.thirdArea()
           that.positionSet1()
         }
-        if(total > that.setOriginNum * 3){
+        if(that.total > that.setOriginNum * 3){
           that.fourArea()
           that.positionSet2()
-        }   
-        if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
-                that.Exit()
-             }
-        }else{
-            if(total == that.setOriginNum * 4){
-                that.Exit()
-             }
-        }   
+        }      
        }
       if(that.isPosition == 2){//逆时针  右上
-         if(total <= that.setOriginNum){
+         if(that.total <= that.setOriginNum){
           that.firstArea()
           that.positionSet2()
         }
-         if(total > that.setOriginNum * 1){
+         if(that.total > that.setOriginNum * 1){
           that.secondArea()
           that.positionSet1()
         }
-        if(total > that.setOriginNum * 2){
+        if(that.total > that.setOriginNum * 2){
           that.thirdArea()
           that.positionSet4()
         }
-        if(total > that.setOriginNum * 3){
+        if(that.total > that.setOriginNum * 3){
           that.fourArea()
           that.positionSet3()
         }      
-        if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
-                that.Exit()
-             }
-        }else{
-            if(total == that.setOriginNum * 4){
-                that.Exit()
-             }
-        }
       }
       if(that.isPosition == 3){ //顺时针  左上
-        if(total <= that.setOriginNum){
+        if(that.total <= that.setOriginNum){
           that.firstArea()
           that.positionSet1()
         }
-         if(total > that.setOriginNum * 1){
+         if(that.total > that.setOriginNum * 1){
           that.secondArea()
           that.positionSet2()
         }
-        if(total > that.setOriginNum * 2){
+        if(that.total > that.setOriginNum * 2){
           that.thirdArea()
           that.positionSet3()
         }
-        if(total > that.setOriginNum * 3){
+        if(that.total > that.setOriginNum * 3){
           that.fourArea()
           that.positionSet4()
-        }    
-        if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
-                that.Exit()
-             }
-        }else{
-            if(total == that.setOriginNum * 4){
-                that.Exit()
-             }
-        }  
+        }      
         
       }
-       
-        let mins = Math.floor(total / 60)
-        let sec = ((total % 60) / 100).toFixed(2).slice(-2)
+
+       that.timer = setInterval(() => {
+            //透明度切换
+          if (!that.opacityVal) {
+            that.opacityVal = 1;
+          } else {
+            that.opacityVal = 0;
+          }
+         }, 1000);
+          
+        let mins = Math.floor(that.total / 60)
+        let sec = ((that.total % 60) / 100).toFixed(2).slice(-2)
         that.totalNum = (mins< 10 ? '0' + mins : mins) + ":" + sec
+        
+        if(that.setOriginNum == 37){
+            if(that.total == (that.setOriginNum * 4) + 2){
+                this.Exit()
+             }
+        }else{
+            if(that.total == that.setOriginNum * 4){
+                this.Exit()
+             }
+        }
+       
     },
     /**
      * @description: 监听页面刷新和离开
@@ -765,25 +655,6 @@ export default {
         }
       }, 1000);
     },
-    use(w){
-     if(w !== undefined){
-       this.total = w
-     }
-     //console.log('this.total',this.total)
-     //this.countDown()
-     //console.log('this.setOriginNum',this.setOriginNum)
-     //this.countDown(this.total)
-    },
-    totalTime(second) {
-      let that = this;
-       clearInterval(that.timer1)
-       that.timer1 = setInterval(function () {
-          if (second == 0 || second>0) {
-           second = second + 1;
-           that.use(second)
-          }
-       },1000)
-    },
     /**
      * @description: 时间设定
      * @param {*} val
@@ -801,9 +672,7 @@ export default {
           (this.setTotalTime = "03:00"), (this.setOriginNum = 45);
           break;
       }
-      //this.totalTime(0)
-     // this.use()
-      
+      this.countDown()
     },
   
     /**
@@ -815,13 +684,11 @@ export default {
     // 数据解析
     acceptData(data) {
       if(data.indexOf("F55F070601") == 0){
-         this.total = parseInt(data.substr(10, 2), 16)
-         //console.log('hi', l)
-         this.countDown(this.total)
+        //  this.total = data.substr(10, 1);
       }
       if (data.indexOf("F55F070401") == 0) {
         this.isOpen = data.substr(10, 2);
-      //  console.log("开启状态：", this.isOpen);
+        console.log("开启状态：", this.isOpen);
         if (this.isOpen == "01") {
           this.ExitDialog(); //暂停  弹窗出现
         }
@@ -861,53 +728,21 @@ export default {
      * @return {*}
      */
     Exit() {
-      if (this.total > 30 || this.total == 30) {
+      if (this.brushLen > 30 || this.brushLen == 30) {
         this.historyArr();
       }
       clearInterval(this.timer)
       clearInterval(this.timer4);
-
-      // //重置时长
-      // var timeLen = ''
-      // if(this.timeLength == ''){
-      //     timeLen = '00'
-      // }else{
-      //     timeLen = this.timeLength
-      // }
-      // this.timeEvent(timeLen)  
-      // console.log(timeLen)
-
       this.$router.push({ name: "Main" });
       //console.log(this.brushLen)
     },
-    /**
-     * @description: 重置时长
-     * @param {*} index
-     * @return {*}
-     */    
-    // timeEvent(index){
-    //   let para = ''
-    //   switch (index) {
-    //     case "00":
-    //       para = 'F55F060101005C'
-    //       break;
-    //     case "01":
-    //       para = 'F55F060101015D'
-    //       break;
-    //     case "02":
-    //       para = 'F55F060101025E'
-    //       break;
-    //   }
-    //   this.BLE.writeData(para);
-
-    // },
     /**
      * @description: 云端取数据
      * @param {*}
      */
     getCloudHistory() {
       let resCallback = (res) => {
-        //console.log("云端数据返回：", res);
+        console.log("云端数据返回：", res);
         this.setCloudData(res)
       };
       reportData.getHistoryLog(resCallback);
@@ -926,19 +761,18 @@ export default {
       var setLen =
         parseInt(that.setTotalTime.substr(1, 1)) * 60 +
         parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-       // console.log('刷牙时长',that.setTotalTime)
-        //  that.brushLen =
-        //   parseInt(that.totalNum.substr(1, 1)) * 60 +
-        //   parseInt(that.totalNum.substr(that.total.length - 2)); // that.total 刷牙时长
-      var score = parseInt((that.total / setLen) * 100); //刷牙分数
-       // console.log(that.setTotalTime,setLen,score)
+         that.brushLen =
+          parseInt(that.totalNum.substr(1, 1)) * 60 +
+          parseInt(that.totalNum.substr(that.total.length - 2)); //刷牙时长
+      var score = parseInt((that.brushLen / setLen) * 100); //刷牙分数
+      //  console.log(that.setTotalTime,setLen,score)
 
       //数据上报
       let resCallback = (res) => {
        // console.log('hhh:',res.errcode);
         if (res.errcode == 200) {
-         // console.log("上报成功");
-          this.getCloudHistory()
+          console.log("上报成功");
+          //this.getCloudHistory()
         }
       };
       var formatdata = reportData.formatDataFromMachine(

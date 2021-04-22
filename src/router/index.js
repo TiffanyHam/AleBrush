@@ -4,12 +4,18 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-17 09:07:12
+ * @LastEditTime: 2021-04-22 12:08:17
  */
 import Vue from "vue";
 import Router from "vue-router";
 
 Vue.use(Router);
+
+// 解决路由访问重复时报错问题：
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default new Router({
   routes: [

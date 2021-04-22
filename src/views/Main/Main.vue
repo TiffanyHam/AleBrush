@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-21 15:23:42
+ * @LastEditTime: 2021-04-22 15:18:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -385,12 +385,8 @@ export default {
     },
   },
   mounted() {
-    
-    console.log("this.cloudData", this.cloudData);
-    //console.log("timeLength", this.timeLength);
-
+   // console.log("this.cloudData", this.cloudData);
     this.initData();
-    
     if (window.isDark) {
       window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
     }
@@ -415,11 +411,11 @@ export default {
 
   watch: {
     bleConnected(status) {
-      console.log("蓝牙状态：", status);
+      //console.log("蓝牙状态：", status);
       //  监听蓝牙连接状态
       if (status) {
-       // this.getHistory(this.cloudData);
-        this.getCloudHistory();
+        this.getHistory(this.cloudData);
+        //this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -470,12 +466,17 @@ export default {
      */
     initData() {
       this.isPosition = this.initPosition
-      this.timeLen = this.timeLength
+      if(this.timeLength == ''){
+         this.timeLen = '00'
+      }else{
+         this.timeLen = this.timeLength
+      }
+     // this.timeEvent(this.timeLen)  //重置时长
       this.selectIndex1 = this.changeStatus(this.timeLength);
       this.BLE.init();
       if (this.bleConnected) {
-       // this.getHistory(this.cloudData);
-       this.getCloudHistory();
+        this.getHistory(this.cloudData);
+      // this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -500,11 +501,9 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      console.log('this.timeLength',this.timeLength)
-      this.timeEvent(this.timeLength)  //重置时长
      // console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
-         console.log("设置成功");
+        // console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
@@ -525,6 +524,7 @@ export default {
         this.isCharge = String(data.substr(10, 2));
         if(this.isCharge == '01'){  //充电中
             this.chargePro()
+            this.dialogTip = false
         }else{
           clearInterval(this.timers);
         }
@@ -535,21 +535,21 @@ export default {
      * @description: 云端取数据
      * @param {*}
      */
-    getCloudHistory() {
-      let resCallback = (res) => {
-        this.setCloudData(res)
-        console.log("云端数据返回：", res);
-      };
-      reportData.getHistoryLog(resCallback);
-      this.getHistory(this.cloudData);
-    },
+    // getCloudHistory() {
+    //   let resCallback = (res) => {
+    //     this.setCloudData(res)
+    //    // console.log("云端数据返回：", res);
+    //   };
+    //   reportData.getHistoryLog(resCallback);
+    //   this.getHistory(this.cloudData);
+    // },
     /**
      * @description: 刷牙记录
      * @param {*}
      * @return {*}
      */
     getHistory(res) {
-      if(this.cloudData.length == 0 && res.length == 0){  //历史记录为空时上报第一次日期
+      if(this.cloudData.length == 0){  //历史记录为空时上报第一次日期
           reportData.resize(new Date().getTime() + 1000);
       }else{
       var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
@@ -755,22 +755,27 @@ export default {
       let param = "F55F060101" + mode + last;
       this.BLE.writeData(param);
     },
-    timeEvent(index){
-      let para = ''
-      switch (index) {
-        case "00":
-          para = 'F55F060101005C'
-          break;
-        case "01":
-          para = 'F55F060101015D'
-          break;
-        case "02":
-          para = 'F55F060101025E'
-          break;
-      }
-      this.BLE.writeData(para);
+    /**
+     * @description: 重置时长
+     * @param {*} index
+     * @return {*}
+     */    
+    // timeEvent(index){
+    //   let para = ''
+    //   switch (index) {
+    //     case "00":
+    //       para = 'F55F060101005C'
+    //       break;
+    //     case "01":
+    //       para = 'F55F060101015D'
+    //       break;
+    //     case "02":
+    //       para = 'F55F060101025E'
+    //       break;
+    //   }
+    //   this.BLE.writeData(para);
 
-    },
+    // },
     changeStatus(val) {
       switch (val) {
         case "00":
@@ -870,7 +875,7 @@ export default {
     },
     //天数
     remain() {
-      this.$router.push({ name: "RemainTime", params: { day: this.isDays } });
+      this.$router.push({ path: "RemainTime", query: { day: this.isDays } });
     },
     //起始位置
     toPosition() {
