@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-22 15:18:31
+ * @LastEditTime: 2021-04-22 17:38:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -68,7 +68,7 @@
           >
             <div class="top">
               <div class="num c_90">
-                <span v-if="isflage == isConnect || isDays == 0">0</span
+                <span v-if="isflage == isConnect">0</span
                 ><span v-else>{{ isDays }}</span>
               </div>
               <div class="unit c_60">{{ $t("index.day") }}</div>
@@ -261,11 +261,11 @@ export default {
       isCharge:'', //判断是否充电
       isConnect: true,
       isDialog: false, //弹窗 连接超时
-      battery: "05",
+      battery: "",
       dialogTip: false, //低电量
       dialogTip1: false, //天数不足
       tips: this.$t("Reconnection.index"),
-      isDays: 0,
+      isDays: 60,
       selectIndex: 0,
       selectIndex1: 0,
       dialogVisiable: false,
@@ -385,7 +385,8 @@ export default {
     },
   },
   mounted() {
-   // console.log("this.cloudData", this.cloudData);
+    this.BLE.writeData('F55F060101005C');
+    console.log("this.cloudData", this.cloudData);
     this.initData();
     if (window.isDark) {
       window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
@@ -465,6 +466,7 @@ export default {
      * @return {*}
      */
     initData() {
+      console.log(22)
       this.isPosition = this.initPosition
       if(this.timeLength == ''){
          this.timeLen = '00'
@@ -515,6 +517,7 @@ export default {
       }
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2)); //電量
+        console.log('电量：',this.battery)
         //电量不足
         if (this.battery == "01") {
           this.dialogTip = true;

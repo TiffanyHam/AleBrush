@@ -816,12 +816,12 @@ export default {
     acceptData(data) {
       if(data.indexOf("F55F070601") == 0){
          this.total = parseInt(data.substr(10, 2), 16)
-         //console.log('hi', l)
+         console.log('hi', this.total)
          this.countDown(this.total)
       }
       if (data.indexOf("F55F070401") == 0) {
         this.isOpen = data.substr(10, 2);
-      //  console.log("开启状态：", this.isOpen);
+        console.log("开启状态：", this.isOpen);
         if (this.isOpen == "01") {
           this.ExitDialog(); //暂停  弹窗出现
         }
@@ -866,6 +866,7 @@ export default {
       }
       clearInterval(this.timer)
       clearInterval(this.timer4);
+      this.BLE.writeData('F55F060101005C');
 
       // //重置时长
       // var timeLen = ''
@@ -937,7 +938,7 @@ export default {
       let resCallback = (res) => {
        // console.log('hhh:',res.errcode);
         if (res.errcode == 200) {
-         // console.log("上报成功");
+          console.log("上报成功");
           this.getCloudHistory()
         }
       };
