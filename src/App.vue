@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-19 20:16:38
+ * @LastEditTime: 2021-04-23 15:07:52
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -15,6 +15,7 @@
 </template>
 <script>
 import { getLanguage } from "./utils/tool";
+import reportData from "./utils/reportData";
 // import mixin from "@/mixins/bleConnect"; // 引入mixin文件
 
 export default {
@@ -33,6 +34,7 @@ export default {
     };
   },
   created() {
+     reportData.getDevId();
      this.$router.beforeEach((to, from, next) => {
             const routeDeep = [];
 

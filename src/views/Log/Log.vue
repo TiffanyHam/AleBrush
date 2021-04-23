@@ -52,7 +52,7 @@
               <div class="brushHistory">
                 <ul v-if="brushRecord.length > 0">
                   <li v-for="(item, index) in brushRecord" :key="index">
-                    <div class="score">{{item.score}}</div>
+                    <div class="score" :style="{ backgroundColor: brushingHistory(item.score) }">{{item.score}}</div>
                     <div class="brushText c_90">{{brushText}}</div>
                     <div class="brushTime c_60">{{item.brushTime}}</div>
                     <div class="brushDuration c_60">{{item.brushDuration}}</div>
@@ -150,6 +150,7 @@ import {
   addZero,
   changeNumToWeek
 } from "@/utils/util";
+import { brushingHistory } from "../../utils/tool";
 
 import { mapState, mapActions } from "vuex";
 import { getLanguage } from '../../utils/tool';
@@ -625,127 +626,142 @@ export default {
     //获取历史记录回调
     getDevHistoryCb(res) {
       if(res && res.list && res.list.length) {
-        let countArr = res.list.filter((item) => !(new RegExp('XXXXXX_').test(item)));
-        let obj = {};
-        let countObj = {}
-        let totalSec = 0; // 周总用时长(s)
-        //历史记录周数据
-        if (this.monthOrWeek === 'week') {
-          countArr.forEach((o) => {
-            let month = Number(o.timestamp.slice(4, 6)); //截取月份
-            let day = Number(o.timestamp.slice(6, 8)); //截取日期
-            let date = month + "/" + day; //拼接日期2/12
-            let index = this.weekChartData.findIndex(
-              (item) => item[0] === date
-            );
+        let countArr = res.list.filter((item) => !(new RegExp('XXXXXX_').test(item.data.score)));
+        if (countArr.length > 0) {
+          let obj = {};
+          let countObj = {}
+          let totalSec = 0; // 周总用时长(s)
+          //历史记录周数据
+          if (this.monthOrWeek === 'week') {
+            countArr.forEach((o) => {
+              let month = Number(o.timestamp.slice(4, 6)); //截取月份
+              let day = Number(o.timestamp.slice(6, 8)); //截取日期
+              let date = month + "/" + day; //拼接日期2/12
+              let index = this.weekChartData.findIndex(
+                (item) => item[0] === date
+              );
 
-            // 累计当天分数
-            const score = o.data.score
-            let num = parseInt(score.split('_')[3]) || 0;// 分数
-            totalSec += changeSec(o.data.score.split('_')[2])
-            // let num = parseInt(o.data.score.split('_')[3]) || 0;// 分数
-            
-            if(!obj[date]){
-              obj[date] = 0;
-            }            
-            obj[date] += num;
+              // 累计当天分数
+              const score = o.data.score
+              let num = parseInt(score.split('_')[3]) || 0;// 分数
+              totalSec += changeSec(o.data.score.split('_')[2])
+              // let num = parseInt(o.data.score.split('_')[3]) || 0;// 分数
+              
+              if(!obj[date]){
+                obj[date] = 0;
+              }            
+              obj[date] += num;
 
-            // 累计当天次数
-            if (!countObj[date]) {
-              countObj[date] = 0
+              // 累计当天次数
+              if (!countObj[date]) {
+                countObj[date] = 0
+              }
+              countObj[date]++
+
+              this.$set(this.weekChartData, index, [date, Math.round(obj[date] / countObj[date])]);
+            });
+
+            // 计算周刷牙总次数
+            this.cardData1[0].num = countArr.length
+
+            // 计算周平均得分
+            const totalCount = this.weekChartData.reduce((sum, item) => {
+              return sum + item[1]
+            }, 0)
+            this.cardData1[1].num = Math.round(totalCount / 7)
+
+            // 计算周平均时间
+            const avgSec = Math.round(totalSec / 7)
+            if (avgSec < 60) {
+              this.cardData1[2].num = 0
+              this.cardData1[2].nums = avgSec
+            } else {
+              this.cardData1[2].num = Math.floor(avgSec / 60)
+              this.cardData1[2].nums = avgSec % 60
             }
-            countObj[date]++
 
-            this.$set(this.weekChartData, index, [date, Math.round(obj[date] / countObj[date])]);
-          });
+            //获取当前日期的运动次数 
+            let currentDayIndex = this.weekChartData.findIndex(
+              (item)=> item[0] === this.currentDay
+            )
+            this.exerciseCounts = this.weekChartData[currentDayIndex][1];
+          } else if (this.monthOrWeek === 'month') {//历史记录月数据
+            countArr.forEach(o => {
+              let day = Number(o.timestamp.slice(6, 8));//截取日期
+              const score = o.data.score
 
-          // 计算周刷牙总次数
-          this.cardData1[0].num = countArr.length
+              let num = parseInt(score.split('_')[3]) || 0;// 分数
+              totalSec += changeSec(o.data.score.split('_')[2])
+              if(!obj[day]){
+                obj[day] = 0;
+              }            
+              obj[day] += num;
 
-          // 计算周平均得分
-          const totalCount = this.weekChartData.reduce((sum, item) => {
-            return sum + item[1]
-          }, 0)
-          this.cardData1[1].num = Math.round(totalCount / 7)
+              // 累计当天次数
+              if (!countObj[day]) {
+                countObj[day] = 0
+              }
+              countObj[day]++
+              this.$set(this.monthChartDate, day-1, [this.monthChartDate[day-1][0], Math.round(obj[day] / countObj[day])]);
+            });
 
-          // 计算周平均时间
-          const avgSec = Math.round(totalSec / 7)
-          if (avgSec < 60) {
-            this.cardData1[2].num = 0
-            this.cardData1[2].nums = avgSec
-          } else {
-            this.cardData1[2].num = Math.floor(avgSec / 60)
-            this.cardData1[2].nums = avgSec % 60
-          }
+            // 获取当月天数
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth()+1;
+            const d = new Date(year, month, 0);
+            const curMonDays =  d.getDate();
 
-          //获取当前日期的运动次数 
-          let currentDayIndex = this.weekChartData.findIndex(
-            (item)=> item[0] === this.currentDay
-          )
-          this.exerciseCounts = this.weekChartData[currentDayIndex][1];
-        } else if (this.monthOrWeek === 'month') {//历史记录月数据
-          countArr.forEach(o => {
-            let day = Number(o.timestamp.slice(6, 8));//截取日期
-            const score = o.data.score
+            // 计算月刷牙总次数
+            this.cardData2[0].num = countArr.length
 
-            let num = parseInt(score.split('_')[3]) || 0;// 分数
-            totalSec += changeSec(o.data.score.split('_')[2])
-            if(!obj[day]){
-              obj[day] = 0;
-            }            
-            obj[day] += num;
+            // 计算月平均得分
+            const totalCount = this.monthChartDate.reduce((sum, item) => {
+              return sum + item[1]
+            }, 0)
+            this.cardData2[1].num = Math.round(totalCount / curMonDays)
 
-            // 累计当天次数
-            if (!countObj[day]) {
-              countObj[day] = 0
+            // 计算月平均时间
+            const avgSec = Math.round(totalSec / curMonDays)
+            if (avgSec < 60) {
+              this.cardData2[2].num = 0
+              this.cardData2[2].nums = avgSec
+            } else {
+              this.cardData2[2].num = Math.floor(avgSec / 60)
+              this.cardData2[2].nums = avgSec % 60
             }
-            countObj[day]++
-            this.$set(this.monthChartDate, day-1, [this.monthChartDate[day-1][0], Math.round(obj[day] / countObj[day])]);
-          });
 
-          // 获取当月天数
-          const date = new Date();
-          const year = date.getFullYear();
-          const month = date.getMonth()+1;
-          const d = new Date(year, month, 0);
-          const curMonDays =  d.getDate();
-
-          // 计算月刷牙总次数
-          this.cardData2[0].num = countArr.length
-
-          // 计算月平均得分
-          const totalCount = this.monthChartDate.reduce((sum, item) => {
-            return sum + item[1]
-          }, 0)
-          this.cardData2[1].num = Math.round(totalCount / curMonDays)
-
-          // 计算月平均时间
-          const avgSec = Math.round(totalSec / curMonDays)
-          if (avgSec < 60) {
-            this.cardData2[2].num = 0
-            this.cardData2[2].nums = avgSec
-          } else {
-            this.cardData2[2].num = Math.floor(avgSec / 60)
-            this.cardData2[2].nums = avgSec % 60
+            //获取当前日期的运动次数 
+            let currentDayIndex = this.monthChartDate.findIndex(
+              (item)=> item[0] === this.currentDay
+            )
+            this.exerciseCounts = this.monthChartDate[currentDayIndex][1];
+          } else if (this.monthOrWeek === 'day') {
+            this.brushRecord = []
+            countArr.forEach(item => {
+              if (this.brushRecord.length <= 10) {
+                let obj = {}
+                obj.score = item.data.score.split('_')[3]
+                obj.brushDuration = item.data.score.split('_')[2].replace(/:/, '分') + "秒"
+                obj.brushTime = item.data.score.split('_')[1]
+                this.brushRecord.push(obj)
+              }
+              
+            })
           }
-
-          //获取当前日期的运动次数 
-          let currentDayIndex = this.monthChartDate.findIndex(
-            (item)=> item[0] === this.currentDay
-          )
-          this.exerciseCounts = this.monthChartDate[currentDayIndex][1];
-        } else if (this.monthOrWeek === 'day') {
+        } else {
+          // 日数据
           this.brushRecord = []
-          countArr.forEach(item => {
-            if (this.brushRecord.length <= 10) {
-              let obj = {}
-              obj.score = item.data.score.split('_')[3]
-              obj.brushDuration = item.data.score.split('_')[2].replace(/:/, '分') + "秒"
-              obj.brushTime = item.data.score.split('_')[1]
-              this.brushRecord.push(obj)
-            }
-            
-          })
+          // 周数据
+          this.cardData1[0].num = 0
+          this.cardData1[1].num = 0
+          this.cardData1[2].num = 0
+          this.cardData1[2].nums = 0
+          // 月数据
+          this.cardData2[0].num = 0
+          this.cardData2[1].num = 0
+          this.cardData2[2].num = 0
+          this.cardData2[2].nums = 0
         }
       } else {
         // 日数据
@@ -768,15 +784,17 @@ export default {
         let arr = []
         let copyArr = []
         let countArr = res.list.filter((item) => !(new RegExp('XXXXXX_').test(item.data.score)));
-        countArr.forEach(item => {
-          arr.push(item.data.score.split('_')[0])
-        })
-        copyArr = arr.map(item => {
-          const $arr = item.split('/')
-          const str = $arr[0] + '/' + parseInt($arr[1]) + '/' + parseInt($arr[2])
-          return str
-        })
-        this.isDataDays = Array.from(new Set(copyArr))
+        if (countArr.length > 0) {
+          countArr.forEach(item => {
+            arr.push(item.data.score.split('_')[0])
+          })
+          copyArr = arr.map(item => {
+            const $arr = item.split('/')
+            const str = $arr[0] + '/' + parseInt($arr[1]) + '/' + parseInt($arr[2])
+            return str
+          })
+          this.isDataDays = Array.from(new Set(copyArr))
+        }
       }
     },
     // echarts点击事件
@@ -860,6 +878,14 @@ export default {
     },
     leftBtnEvent() {
       this.styleSelect.visible = false;
+    },
+    /**
+     * @description: 获取颜色值
+     * @param {*} val
+     * @return {*}
+     */
+    brushingHistory(val) {
+      return brushingHistory.getColor(val);
     },
   },
 };
@@ -948,11 +974,11 @@ export default {
                   height: 4px;
               }
               .l {
-                  background-color: #ff7600; //  "#ff7600", "#8cd600", "#007dff"
+                  background-color: #ff7500; //  "#ff7600", "#8cd600", "#007dff"
                   border-radius: 2px 0 0 2px;
               }
               .c {
-                  background-color: #007dff;
+                  background-color: #00aaef;
               }
               .r {
                   background-color: #8cd600;

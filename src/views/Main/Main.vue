@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-22 17:38:16
+ * @LastEditTime: 2021-04-23 15:23:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -246,7 +246,6 @@
 </template>
 <script>
 import { mapState,mapActions } from "vuex";
-import BScroll from "better-scroll";
 import { brushingHistory } from "../../utils/tool";
 import reportData from "../../utils/reportData";
 import Dialog from "../RemainTime/ResetDialog.vue";
@@ -385,8 +384,18 @@ export default {
     },
   },
   mounted() {
-    this.BLE.writeData('F55F060101005C');
-    console.log("this.cloudData", this.cloudData);
+     console.log('蓝牙状态：',this.bleConnected)
+    console.log('vuex云端数据：',this.cloudData)
+    setTimeout (() => {
+           this.getCloudHistory();
+    },300)
+    
+    console.log("this.electric", this.electric);
+    if(this.electric == ''){
+      this.battery = '05'
+    }else{
+      this.battery = this.electric
+    }
     this.initData();
     if (window.isDark) {
       window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
@@ -412,12 +421,16 @@ export default {
   },
 
   watch: {
+    electric(n){
+      console.log('电量监听',n)
+      this.battery = n
+    },
     bleConnected(status) {
-      //console.log("蓝牙状态：", status);
+      console.log("蓝牙状态监听：", status);
       //  监听蓝牙连接状态
       if (status) {
-       // this.getHistory(this.cloudData);
-        //this.getCloudHistory();
+        // this.getHistory(this.cloudData);
+       // this.getCloudHistory();
         //this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -467,7 +480,6 @@ export default {
      * @return {*}
      */
     initData() {
-      console.log(22)
       this.isPosition = this.initPosition
       if(this.timeLength == ''){
          this.timeLen = '00'
@@ -478,8 +490,8 @@ export default {
       this.selectIndex1 = this.changeStatus(this.timeLength);
       this.BLE.init();
       if (this.bleConnected) {
-        this.getHistory(this.cloudData);
-      // this.getCloudHistory();
+        //this.getHistory(this.cloudData);
+       //this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
@@ -504,10 +516,11 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      if(data.indexOf("F55F070601") == 0){
-         let total = parseInt(data.substr(10, 2), 16)
-         console.log('hi', total)
-      }
+      console.log(data)
+      // if(data.indexOf("F55F070601") == 0){
+      //    let total = parseInt(data.substr(10, 2), 16)
+      //    console.log('hi', total)
+      // }
       if (data.indexOf("F55F07100100") == 0) {
         // console.log("设置成功");
       }
@@ -517,12 +530,10 @@ export default {
         this.selectIndex = this.changeStatus(this.modeDisplay);
       }
       if (data.indexOf("F55F070301") == 0) {
-        let _electric = String(data.substr(10, 2))
-        this.save_elec(_electric)  //存储电量
-
-        //this.battery = String(data.substr(10, 2)); //電量
-       // console.log('电量：',this.battery)
-        this.battery = this.electric
+        this.battery = String(data.substr(10, 2))
+        console.log('电量',this.battery)
+        this.save_elec(this.battery)  //存储电量
+        
         //电量不足
         if (this.battery == "01") {
           this.dialogTip = true;
@@ -530,11 +541,12 @@ export default {
       }
       if (data.indexOf("F55F070501") == 0) {
         this.isCharge = String(data.substr(10, 2));
+        console.log('充电中',this.isCharge)
         if(this.isCharge == '01'){  //充电中
             this.chargePro()
             this.dialogTip = false
-        }else{
-          clearInterval(this.timers);
+        }else{  //电池
+            clearInterval(this.timers);
         }
       }
     },
@@ -543,24 +555,29 @@ export default {
      * @description: 云端取数据
      * @param {*}
      */
-    // getCloudHistory() {
-    //   let resCallback = (res) => {
-    //     this.setCloudData(res)
-    //    // console.log("云端数据返回：", res);
-    //   };
-    //   reportData.getHistoryLog(resCallback);
-    //   this.getHistory(this.cloudData);
-    // },
+    getCloudHistory() {
+      let resCallback = (res) => {
+       console.log("云端数据返回：", res);
+       if(res == undefined || res.length <= 0){ //数组为空
+          reportData.resize(new Date().getTime() + 1000);
+       }else{
+            this.getHistory(res);
+           //this.setCloudData(res)W
+       }
+      };
+      reportData.getHistoryLog(resCallback);
+    },
     /**
      * @description: 刷牙记录
      * @param {*}
      * @return {*}
      */
     getHistory(res) {
-      if(this.cloudData.length == 0){  //历史记录为空时上报第一次日期
-          reportData.resize(new Date().getTime() + 1000);
-      }else{
+      // if(res.length == 0){  //历史记录为空时上报第一次日期
+      //     reportData.resize(new Date().getTime() + 1000);
+      // }else{
       var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
+      console.log('fuzzyArr',fuzzyArr)
       if (fuzzyArr.length !== 0) {
         let fixDate = fuzzyArr[0].split("_")[1];
         // console.log(fixDate)
@@ -576,7 +593,7 @@ export default {
           this.dialogVisiable = true;
         }
       }
-      }
+     // }
       var getArr = [];
       for (var x in res) {
         var data = res[x].data.score;
@@ -596,7 +613,7 @@ export default {
           item.historyArr = item.historyArr.slice(0, 10);
         });
 
-        // console.log('两天：',this.logArr)
+        console.log('两天：',this.logArr)
       } else {
         this.getScore = 0;
       }
@@ -859,7 +876,7 @@ export default {
       var reg = new RegExp(keyWord);
       var arr = [];
       for (var i = 0; i < list.length; i++) {
-        if (reg.test(list[i])) {
+        if (new RegExp(keyWord).test(list[i])) {
           arr.push(list[i]);
         }
       }

@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-01 11:44:06
- * @LastEditTime: 2021-04-20 17:43:04
+ * @LastEditTime: 2021-04-23 11:48:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\card4.vue
 -->
 <template>
     <div class="hi-card bg_card">
-        <div class="item" :class="{line: index === 1}" v-for="(item, index) in cardData" :key="index">
+        <div class="item" :class="{line: index !== 0}" v-for="(item, index) in cardData" :key="index">
             <div class="top">
                 <div class="num c_90">{{item.num}}</div>
                 <div class="unit c_60" v-if="item.unit">{{item.unit}}</div>
@@ -39,14 +39,15 @@ export default {
     align-items: center;
     height: 88px;
     .item {
-        flex: 1;
+        // flex: 1;
+        width: calc(100% / 3);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         position: relative;
         padding: 0 8px;
-        line-height: 1.33;
+        line-height: 1.25;
         .top {
             display: flex;
             align-items: baseline;
@@ -64,17 +65,22 @@ export default {
         }
     }
 }
-.line{
-    border-left: 0.25px solid rgba(0, 0, 0, .2);
-    border-right: 0.25px solid rgba(0, 0, 0, .2);
+.line::before{
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background-color: rgba(0,0,0,.2);
+    transform: scaleX(0.25);
 }
 .theme-dark {
     .hi-card {
         background: #000;
     }
-    .line {
-        border-left: 0.25px solid rgba(255, 255, 255, .2);
-        border-right: 0.25px solid rgba(255, 255, 255, .2);
+    .line::before {
+       background-color: rgba(255,255,255,.2)!important;
     }
 }
 </style>

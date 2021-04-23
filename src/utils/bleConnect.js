@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-04 14:13:29
- * @LastEditTime: 2021-04-19 17:15:36
+ * @LastEditTime: 2021-04-23 16:19:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo\src\mixins\bleConnect.js
@@ -61,6 +61,7 @@ function getCurrentRegisteredDevice() {
     let data;
     if (window.ios) {
       data = getIOSDevid(res);
+      console.log('2',data)
     } else {
       data = JSON.parse(res);
     }
@@ -195,7 +196,7 @@ function onBLECharacteristicValueChange() {
       let openStatus = result.data.substr(10, 2);
       if (["00", "02"].includes(openStatus)) {
         //开始
-       // route.push({ name: "animations" });
+        route.push({ name: "animations" });
       }
     }
    // console.log(result.data)
@@ -214,11 +215,10 @@ function onBLECharacteristicValueChange() {
  * @return {*}
  */
 function searchDevices() {
-  let _ = this;
   window.onBluetoothDeviceFoundCallback = (res) => {
     let data;
     if (window.ios) {
-      data = _.getIOSDevid(res);
+      data = getIOSDevid(res);
       if (g.deviceId == data.deviceId) {
         // ios
         window.hilink &&
@@ -265,6 +265,7 @@ function getIOSDevid(res) {
   dataStr = dataStr.replace(/}"/g, "}");
   dataStr = dataStr.replace(/\\|\n|\r|\t|\f|\t/g, "");
   data = JSON.parse(dataStr);
+ // console.log('1',data)
   return data;
 }
 /**

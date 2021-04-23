@@ -122,11 +122,11 @@ export default {
                             color: function(params) {
                                 const value = params.value[1]
                                 if (value <= 59) {
-                                    return '#ff7600'
+                                    return '#fbc495'
                                 } else if (value >= 60 && value <= 79) {
-                                    return '#007dff'
+                                    return '#95d9f4'
                                 } else {
-                                    return '#8cd600'
+                                    return '#cdeb95'
                                 }
                             }
                         },

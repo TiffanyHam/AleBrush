@@ -806,7 +806,7 @@ export default {
     acceptData(data) {
       if(data.indexOf("F55F070601") == 0){
          this.total = parseInt(data.substr(10, 2), 16)
-         console.log('hi', this.total)
+         console.log('计时开始：', this.total)
          this.countDown(this.total)
       }
       if (data.indexOf("F55F070401") == 0) {
@@ -856,20 +856,9 @@ export default {
       }
       clearInterval(this.timer)
       clearInterval(this.timer4);
-      this.BLE.writeData('F55F060101005C');
-
-      // //重置时长
-      // var timeLen = ''
-      // if(this.timeLength == ''){
-      //     timeLen = '00'
-      // }else{
-      //     timeLen = this.timeLength
-      // }
-      // this.timeEvent(timeLen)  
-      // console.log(timeLen)
+      this.BLE.writeData('F55F060301005E');//清空计时指令
 
       this.$router.push({ name: "Main" });
-      //console.log(this.brushLen)
     },
     /**
      * @description: 重置时长
@@ -929,7 +918,7 @@ export default {
        // console.log('hhh:',res.errcode);
         if (res.errcode == 200) {
           console.log("上报成功");
-          this.getCloudHistory()
+          //this.getCloudHistory()
         }
       };
       var formatdata = reportData.formatDataFromMachine(
@@ -939,7 +928,7 @@ export default {
         score
       );
       //console.log('99:',formatdata)
-      reportData.getDevId();
+      // reportData.getDevId();
       reportData.report(reportData.devId, formatdata, resCallback);
     },
   },
