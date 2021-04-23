@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 18:42:29
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-14 16:25:54
+ * @LastEditTime: 2021-04-23 11:52:20
  */
 export const getLanguage = () => {
   let language;
@@ -48,9 +48,7 @@ export const brushingHistory = {
    * @return {*}
    */
   getColor: (s) => {
-      let colors = window.isDark
-          ? ["#ba5500", "#007aac", "#4e7700"]
-          : ["#ff7600", "#007dff", "#8cd600"];
+      let colors = ["#ff7500", "#00aaef", "#8cd600"];
       let color = "";
       if (s >= 80) {
           color = colors[2];
