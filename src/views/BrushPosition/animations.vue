@@ -488,9 +488,9 @@ export default {
     }else{
       this.timeL = this.timeLength
     }
-     this.globalT(this.timeL);
+    console.log('timeL:',this.timeL)
+    this.globalT(this.timeL);
    
-
     //console.log("刷牙区域:", this.timeL);
   },
   mounted() {
@@ -570,10 +570,21 @@ export default {
     secondArea(total){
       this.index = 2
       this.seconds = this.setOriginNum - (total % this.setOriginNum)
+      if(this.seconds == 0){
+        this.seconds = this.setOriginNum
+      }
     },
     thirdArea(total){
       this.index = 3
       this.seconds = this.setOriginNum - (total % (this.setOriginNum*2))
+      if(this.seconds == 0){
+          if(this.setOriginNum == 37){
+              this.seconds = this.setOriginNum + 2
+          }else{
+              this.seconds = this.setOriginNum
+          }
+        }
+     
     },
     fourArea(total){
        this.index = 4
@@ -621,19 +632,19 @@ export default {
       }
        if(that.isPosition == 1){//顺时针  右下
          if(total <= that.setOriginNum){
-          that.firstArea()
+          that.firstArea(total)
           that.positionSet3()
         }
          if(total > that.setOriginNum * 1){
-         that.secondArea()
+         that.secondArea(total)
           that.positionSet4()
         }
         if(total > that.setOriginNum * 2){
-          that.thirdArea()
+          that.thirdArea(total)
           that.positionSet1()
         }
         if(total > that.setOriginNum * 3){
-          that.fourArea()
+          that.fourArea(total)
           that.positionSet2()
         }   
         if(that.setOriginNum == 37){
@@ -648,19 +659,19 @@ export default {
        }
       if(that.isPosition == 2){//逆时针  右上
          if(total <= that.setOriginNum){
-          that.firstArea()
+          that.firstArea(total)
           that.positionSet2()
         }
          if(total > that.setOriginNum * 1){
-          that.secondArea()
+          that.secondArea(total)
           that.positionSet1()
         }
         if(total > that.setOriginNum * 2){
-          that.thirdArea()
+          that.thirdArea(total)
           that.positionSet4()
         }
         if(total > that.setOriginNum * 3){
-          that.fourArea()
+          that.fourArea(total)
           that.positionSet3()
         }      
         if(that.setOriginNum == 37){
@@ -675,19 +686,19 @@ export default {
       }
       if(that.isPosition == 3){ //顺时针  左上
         if(total <= that.setOriginNum){
-          that.firstArea()
+          that.firstArea(total)
           that.positionSet1()
         }
          if(total > that.setOriginNum * 1){
-          that.secondArea()
+          that.secondArea(total)
           that.positionSet2()
         }
         if(total > that.setOriginNum * 2){
-          that.thirdArea()
+          that.thirdArea(total)
           that.positionSet3()
         }
         if(total > that.setOriginNum * 3){
-          that.fourArea()
+          that.fourArea(total)
           that.positionSet4()
         }    
         if(that.setOriginNum == 37){
@@ -705,6 +716,7 @@ export default {
         let mins = Math.floor(total / 60)
         let sec = ((total % 60) / 100).toFixed(2).slice(-2)
         that.totalNum = (mins< 10 ? '0' + mins : mins) + ":" + sec
+        
     },
     /**
      * @description: 监听页面刷新和离开
@@ -752,8 +764,8 @@ export default {
         that.time--;
         //console.log(that.time);
         if (that.time == 1) {
-         // that.time = 0;
-         // clearInterval(that.timer4);
+          that.time = 0;
+          clearInterval(that.timer4);
           that.Exit();
         }
       }, 1000);
@@ -761,14 +773,14 @@ export default {
     use(w){
      if(w !== undefined){
        this.total = w
-     //  this.countDown(this.total)
+       //this.countDown(this.total)
      }
     },
     totalTime(second) {
       let that = this;
        clearInterval(that.timer1)
        that.timer1 = setInterval(function () {
-          if (second == 0 || second>0) {
+          if (second == 0 || second > 0) {
            second = second + 1;
            that.use(second)
           }
@@ -791,7 +803,10 @@ export default {
           (this.setTotalTime = "03:00"), (this.setOriginNum = 45);
           break;
       }
-      //this.totalTime(0)
+      if(this.seconds == 0){
+        this.seconds = this.setOriginNum
+       }
+      // this.totalTime(0)
       // this.use()
       
     },
@@ -854,39 +869,17 @@ export default {
       if (this.total > 30 || this.total == 30) {
         this.historyArr();
       }
-      this.time = 0;
       clearInterval(this.timer)
       clearInterval(this.timer4);
-      this.BLE.writeData('F55F060301005E');//清空计时指令
-
+      window.hiLinkBle.send('F55F060301005E');//清空计时指令
       this.$router.push({ name: "Main" });
     },
-    /**
-     * @description: 重置时长
-     * @param {*} index
-     * @return {*}
-     */    
-    // timeEvent(index){
-    //   let para = ''
-    //   switch (index) {
-    //     case "00":
-    //       para = 'F55F060101005C'
-    //       break;
-    //     case "01":
-    //       para = 'F55F060101015D'
-    //       break;
-    //     case "02":
-    //       para = 'F55F060101025E'
-    //       break;
-    //   }
-    //   this.BLE.writeData(para);
 
-    // },
     /**
      * @description: 云端取数据
      * @param {*}
      */
-    getCloudHistory() {
+    getCloudHistory(){
       let resCallback = (res) => {
         //console.log("云端数据返回：", res);
         this.setCloudData(res)
@@ -907,29 +900,27 @@ export default {
       var setLen =
         parseInt(that.setTotalTime.substr(1, 1)) * 60 +
         parseInt(that.setTotalTime.substr(that.setTotalTime.length - 2)); //设定时长
-       // console.log('刷牙时长',that.setTotalTime)
-        //  that.brushLen =
-        //   parseInt(that.totalNum.substr(1, 1)) * 60 +
-        //   parseInt(that.totalNum.substr(that.total.length - 2)); // that.total 刷牙时长
-      var score = parseInt((that.total / setLen) * 100); //刷牙分数
-       // console.log(that.setTotalTime,setLen,score)
-
+      var score = parseInt(( that.total / setLen) * 100); //刷牙分数 =（刷牙时长/总时长）*100
+      //console.log(that.total,setLen,score)
+      let mins = Math.floor(that.total / 60)
+      let sec = ((that.total % 60) / 100).toFixed(2).slice(-2)
+      let totalNum = (mins< 10 ? '0' + mins : mins) + ":" + sec
+      //console.log(totalNum)
       //数据上报
       let resCallback = (res) => {
        // console.log('hhh:',res.errcode);
         if (res.errcode == 200) {
-          console.log("上报成功");
+         // console.log("上报成功");
           //this.getCloudHistory()
         }
       };
       var formatdata = reportData.formatDataFromMachine(
         dayY,
         timeY,
-        that.totalNum,
+        totalNum,
         score
       );
-      //console.log('99:',formatdata)
-      // reportData.getDevId();
+     // console.log('上报数据:',formatdata)
       reportData.report(reportData.devId, formatdata, resCallback);
     },
   },

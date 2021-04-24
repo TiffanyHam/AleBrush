@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-23 18:18:35
+ * @LastEditTime: 2021-04-23 15:23:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -23,7 +23,7 @@
         <!-- 连接状态 -->
         <div class="connectState flexR" v-show="isflage">
           <div>{{ $t("index.noConnect") }}</div>
-          <div class="c_007DFF again" @click="reConnect">
+          <div class="c_007DFF again" @click="initData">
             {{ $t("index.again") }}
           </div>
         </div>
@@ -254,6 +254,7 @@ export default {
   inject: ['isDarks'],
   data() {
     return {
+      deviceId: null,
       isPosition:0,
       isflage: true,
       isCharge:'', //判断是否充电
@@ -383,18 +384,18 @@ export default {
     },
   },
   mounted() {
-    console.log('蓝牙状态：',this.bleConnected)
+     console.log('蓝牙状态：',this.bleConnected)
     console.log('vuex云端数据：',this.cloudData)
-    console.log("this.electric", this.electric);
     setTimeout (() => {
-        this.getCloudHistory();
+           this.getCloudHistory();
     },300)
     
-    // if(this.electric == ''){
-    //   this.battery = '05'
-    // }else{
+    console.log("this.electric", this.electric);
+    if(this.electric == ''){
+      this.battery = '05'
+    }else{
       this.battery = this.electric
-  //  }
+    }
     this.initData();
     if (window.isDark) {
       window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
@@ -427,25 +428,25 @@ export default {
     bleConnected(status) {
       console.log("蓝牙状态监听：", status);
       //  监听蓝牙连接状态
-      if(status == 1){
-          //连接中
-          this.isflage = false;
-          this.isConnect = false;
-          this.isDialog = false;
-      }
-      if (status == 2) {
-        //this.getHistory(this.cloudData);
-       //this.getCloudHistory();
-        this.acceptData(this.data); //初始化数据
+      if (status) {
+        // this.getHistory(this.cloudData);
+       // this.getCloudHistory();
+        //this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
-      } 
-       if(status == 3){
+      } else {
+        setTimeout(() => {
+          //连接中
+          this.isflage = false;
+          this.isConnect = false;
+        }, 500);
+        setTimeout(() => {
           //连接超时
           this.isflage = true;
           this.isConnect = true;
           this.isDialog = true;
+        }, 30 * 1000);
       }
     },
     data(value) {
@@ -454,11 +455,11 @@ export default {
         this.acceptData(value);
       }
     },
-    // cloudData(val){
-    //   if (val) {
-    //     this.getHistory(val);
-    //   }
-    // }
+    cloudData(val){
+      if (val) {
+        this.getHistory(val);
+      }
+    }
     // isCharge(n) {
     //   if (n == "01") {
     //       this.booth_index = 0;
@@ -472,9 +473,9 @@ export default {
   },
   methods: {
     ...mapActions(["setCloudData",'save_elec']),
-    
+ 
     /**
-     * @description: 初始化数据
+     * @description: 蓝牙连接
      * @param {*}
      * @return {*}
      */
@@ -485,44 +486,43 @@ export default {
       }else{
          this.timeLen = this.timeLength
       }
+     // this.timeEvent(this.timeLen)  //重置时长
       this.selectIndex1 = this.changeStatus(this.timeLength);
-      if(this.bleConnected == 1){
-          //连接中
-          this.isflage = false;
-          this.isConnect = false;
-          this.isDialog = false;
-      }
-      if (this.bleConnected == 2) {
+      this.BLE.init();
+      if (this.bleConnected) {
         //this.getHistory(this.cloudData);
+       //this.getCloudHistory();
         this.acceptData(this.data); //初始化数据
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
-      } 
-       if(this.bleConnected == 3){
+      } else {
+        setTimeout(() => {
+          //连接中
+          this.isflage = false;
+          this.isConnect = false;
+        }, 500);
+        setTimeout(() => {
           //连接超时
           this.isflage = true;
           this.isConnect = true;
           this.isDialog = true;
+        }, 60 * 1000);
       }
     },
-     /**
-     * @description: 重新连接
-     * @param {*}
-     * @return {*}
-     */
-     reConnect(){
-       window.hiLinkBle.reConnect();
-     },
     /**
      * @description: 数据解析
      * @param {*} data
      * @return {*}
      */
     acceptData(data) {
-      //console.log(data)
+      console.log(data)
+      // if(data.indexOf("F55F070601") == 0){
+      //    let total = parseInt(data.substr(10, 2), 16)
+      //    console.log('hi', total)
+      // }
       if (data.indexOf("F55F07100100") == 0) {
-         console.log("设置成功");
+        // console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
@@ -558,11 +558,11 @@ export default {
     getCloudHistory() {
       let resCallback = (res) => {
        console.log("云端数据返回：", res);
-       if(res == undefined || res.length <= 0){ //历史记录为空时上报第一次日期
+       if(res == undefined || res.length <= 0){ //数组为空
           reportData.resize(new Date().getTime() + 1000);
        }else{
             this.getHistory(res);
-           //this.setCloudData(res)
+           //this.setCloudData(res)W
        }
       };
       reportData.getHistoryLog(resCallback);
@@ -577,7 +577,7 @@ export default {
       //     reportData.resize(new Date().getTime() + 1000);
       // }else{
       var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
-      //console.log('fuzzyArr',fuzzyArr)
+      console.log('fuzzyArr',fuzzyArr)
       if (fuzzyArr.length !== 0) {
         let fixDate = fuzzyArr[0].split("_")[1];
         // console.log(fixDate)
@@ -613,7 +613,7 @@ export default {
           item.historyArr = item.historyArr.slice(0, 10);
         });
 
-        //console.log('两天：',this.logArr)
+        console.log('两天：',this.logArr)
       } else {
         this.getScore = 0;
       }
@@ -778,8 +778,29 @@ export default {
       // console.log("选择", this.timeLen);
       this.$store.dispatch("save_time", this.timeLen);
       let param = "F55F060101" + mode + last;
-      window.hiLinkBle.send(param);
+      this.BLE.writeData(param);
     },
+    /**
+     * @description: 重置时长
+     * @param {*} index
+     * @return {*}
+     */    
+    // timeEvent(index){
+    //   let para = ''
+    //   switch (index) {
+    //     case "00":
+    //       para = 'F55F060101005C'
+    //       break;
+    //     case "01":
+    //       para = 'F55F060101015D'
+    //       break;
+    //     case "02":
+    //       para = 'F55F060101025E'
+    //       break;
+    //   }
+    //   this.BLE.writeData(para);
+
+    // },
     changeStatus(val) {
       switch (val) {
         case "00":
@@ -829,7 +850,7 @@ export default {
       }
       this.$store.dispatch("saveMode", this.modeDisplay);
       let param = "F55F060201" + mode + last;
-      window.hiLinkBle.send(param);
+      this.BLE.writeData(param);
     },
    /**
      * @description: 电池充电状态动画

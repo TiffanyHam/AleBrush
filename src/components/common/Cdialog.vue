@@ -78,7 +78,7 @@ export default {
   },
   methods:{
       handleClick(){
-          this.BLE.init()
+          window.hiLinkBle.reConnect();
       },
       close(){
           this.show = false

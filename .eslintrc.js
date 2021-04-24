@@ -23,5 +23,6 @@ module.exports = {
     "no-irregular-whitespace": "off",
     "block-no-empty": 'off',
     "no-empty": 0,
+    'no-undef': 'off',
   }
 };

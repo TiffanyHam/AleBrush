@@ -378,7 +378,7 @@ reportData.resize = (time) => {
       },
     ],
   };
-  console.log("重置数据：", specialData);
+  //console.log("重置数据：", specialData);
   reportData.report(reportData.devId, specialData);
 };
 

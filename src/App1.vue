@@ -4,82 +4,36 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-23 18:38:13
+ * @LastEditTime: 2021-04-23 15:07:52
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
     <transition name="fade-transform" mode="out-in">
-        <router-view class="animate"></router-view>
-        <!-- <keep-alive>
-          <router-view v-if="$route.meta.keepAlive"  class="animate"></router-view>
-       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"  class="animate"></router-view> -->
-     </transition>
+        <router-view v-if="isRouterAlive" class="animate"></router-view>
+    </transition>
   </div>
 </template>
 <script>
 import { getLanguage } from "./utils/tool";
 import reportData from "./utils/reportData";
-import {mapState,mapActions} from 'vuex';
-import Ble from './utils/ble';
+// import mixin from "@/mixins/bleConnect"; // 引入mixin文件
+
 export default {
+//   mixins: [mixin],
   provide(){
         return {
+            reload: this.reload,
             isDarks: this.isDark
         }
     },
   data() {
     return {
-        isDark: false
+        //transitionName: "", //跳转方向!!!!
+        isDark: false,
+        isRouterAlive: true
     };
   },
-   computed: {
-        ...mapState(["bleConnected"])
-    },
   created() {
-        /**
-         * serviceId  蓝牙协议id  必传
-         * characteristicId 蓝牙协议读取id  必传
-         * writeCharacteristicId 蓝牙协议写入id 必传
-         * watchStatus 监听蓝牙连接状态函数
-         * watchVal 监听蓝牙特征值改变
-         * getDevInfo 获取设备信息
-         * reConnect 重新连接函数
-         * init 连接初始化函数
-         * send  发送数据函数
-         */
-        let that = this;
-         window.hiLinkBle = new Ble({
-            serviceId: '0000ffb0-0000-1000-8000-00805f9b34fb',
-            characteristicId: '0000ffb2-0000-1000-8000-00805f9b34fb',
-            writeCharacteristicId: '0000ffb1-0000-1000-8000-00805f9b34fb',
-            getDevInfo: res => {
-                //console.log(res, '设备信息');
-            },
-            watchStatus: val => {
-                // 0：初始未连接状态 1：连接中 2：已连接 3: 连接超时
-               // console.log('status===============', val);
-                that.call_update_bleConnected(val);
-                if(val === 2) {//连接成功,获取设备状态信息         
-                    that.writeData();
-                }
-            },
-            watchVal: res => { // 监听蓝牙特征值
-               // console.log('res',res);
-                that.call_update_data(res.data)
-                      //工作状态
-               if (res.data.indexOf("F55F070401") == 0) {
-                  //工作状态
-                  let openStatus = res.data.substr(10, 2);
-                  if (["00", "02"].includes(openStatus)) {
-                    //开始
-                    that.$router.push({ name: "animations" });
-                  }
-                }
-            }
-        });
-        window.hiLinkBle.init();
-
      reportData.getDevId();
      this.$router.beforeEach((to, from, next) => {
             const routeDeep = [];
@@ -87,6 +41,10 @@ export default {
             for (let i = 0; i < this.$router.options.routes.length; i++) {
                 routeDeep.push(this.$router.options.routes[i].name);
             }
+            const toDep = routeDeep.indexOf(to.name);
+            const fromDep = routeDeep.indexOf(from.name);
+            //toDep的值大于fromDep的值往右移动
+            //this.transitionName = toDep > fromDep ? "back" : "to";
             next();
         });
         // 设置语言
@@ -106,38 +64,38 @@ export default {
         })
   },
   mounted() {
+    console.log('app-mounted', window.isDark)
     if (window.isDark) {
       const $body = document.getElementsByTagName('body')[0]
-      //console.log('$body', $body)
+      console.log('$body', $body)
       $body.style.background = '#000'
     }
   },
   methods: {
-    ...mapActions(['call_update_bleConnected','call_update_data']), 
-    writeData() {
-        let data = 'f55f0801025f';
-        setTimeout(function() {
-            window.hiLinkBle.send(data);
-        },500)
-    },
     /*
-      * 获取手机系统信息
-    */
-  getSystemInfo() {
-        window.hilink && window.hilink.getSystemInfoSync && window.hilink.getSystemInfoSync('getSystemInfoSyncCallBack')
-        window.getSystemInfoSyncCallBack = info => {
-            let data = JSON.parse(info);
-            if(data.platform == "iOS") {
-                //console.log("iOS设备")
-                window.ios = true;
-            } else {
-                //console.log("andorid设备")
-                window.ios = false;
-                this.isDark = window.hilink && window.hilink.getDarkMode && window.hilink.getDarkMode() === 2;
-                window.isDark = this.isDark;
+         * 获取手机系统信息
+        */
+      getSystemInfo() {
+            window.hilink && window.hilink.getSystemInfoSync && window.hilink.getSystemInfoSync('getSystemInfoSyncCallBack')
+            window.getSystemInfoSyncCallBack = info => {
+                let data = JSON.parse(info);
+                if(data.platform == "iOS") {
+                    //console.log("iOS设备")
+                    window.ios = true;
+                } else {
+                    //console.log("andorid设备")
+                    window.ios = false;
+                    this.isDark = window.hilink && window.hilink.getDarkMode && window.hilink.getDarkMode() === 2;
+                    window.isDark = this.isDark;
+                }
             }
+        },
+        reload(){
+            this.isRouterAlive = false;
+            this.$nextTick(()=>{
+                this.isRouterAlive = true;
+            })
         }
-    }
   }
 };
 </script>
