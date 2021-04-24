@@ -20,7 +20,7 @@
 <script>
 import { getLanguage } from "./utils/tool";
 import reportData from "./utils/reportData";
-import {mapState,mapActions} from 'vuex';
+import {mapActions} from 'vuex';
 import Ble from './utils/ble';
 export default {
   provide(){
@@ -33,9 +33,6 @@ export default {
         isDark: false
     };
   },
-   computed: {
-        ...mapState(["bleConnected"])
-    },
   created() {
         /**
          * serviceId  蓝牙协议id  必传

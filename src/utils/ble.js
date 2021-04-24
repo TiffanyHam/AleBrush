@@ -93,7 +93,6 @@
                     _this.getRegisteredDevice();
                 } else {
                     _this.isBleAdapterOpened = false;
-                   // store.commit("UPDATED_BLECONNECTED", false);
                     _this.changeStatus(0);
                     _this.clearTimer();
                 }
