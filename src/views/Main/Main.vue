@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-25 21:15:21
+ * @LastEditTime: 2021-04-25 21:27:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -767,9 +767,9 @@ export default {
         var str = val.substr(1, 1); //min
         var str1 = val.substr(3, 2); //seconds
         return (
-          str +
-          `${this.$t("index.minute")}` +
-          str1 +
+          str+' '+
+          `${this.$t("index.minute")}`+' '+
+          str1+
           `${this.$t("index.second")}`
         );
       }

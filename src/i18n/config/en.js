@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 20:59:31
+ * @LastEditTime: 2021-04-25 21:26:40
  */
 const en = {
     index: {
@@ -94,7 +94,8 @@ const en = {
         you:'You select the ',
         as:'for',
         initial:'starting position',
-        order:'sequence for'
+        order:'sequence for',
+        current:'current',
     },
     //更多设置
     setting: {

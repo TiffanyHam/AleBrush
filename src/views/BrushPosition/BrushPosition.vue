@@ -31,7 +31,7 @@
               class="init_po"
               width="100%"
             />
-            <span class="position_in"
+            <span :class="$i18n.locale === 'zh' ? 'position_in' : 'position_enin'" 
               >{{ $t("BrushTeethPosition.you") }}{{ item.dd
               }}{{ $t("BrushTeethPosition.as") }}<br />
               {{ $t("BrushTeethPosition.initial") }}<br />
@@ -172,6 +172,11 @@ export default {
         .position_in {
           position: relative;
           bottom: 64px;
+          left: 0px;
+        }
+        .position_enin{
+          position: relative;
+          bottom: 78px;
           left: 0px;
         }
       }
