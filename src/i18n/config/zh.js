@@ -7,7 +7,7 @@ const zh = {
         score: '分',
         day: '天',
         lastScore: '上次刷牙评分',
-        restDay: '刷牙剩余',
+        restDay: '刷头剩余',
         brushmode: '刷牙模式',
         brushLen:'刷牙时长',
         inPosition:'起始位置',

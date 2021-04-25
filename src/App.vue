@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-23 18:38:13
+ * @LastEditTime: 2021-04-25 11:16:17
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -56,6 +56,9 @@ export default {
             watchStatus: val => {
                 // 0：初始未连接状态 1：连接中 2：已连接 3: 连接超时
                // console.log('status===============', val);
+                // if(val == 0){  //未连接状态
+                //     window.hiLinkBle.openBlueTooth();
+                //  }
                 that.call_update_bleConnected(val);
                 if(val === 2) {//连接成功,获取设备状态信息         
                     that.writeData();

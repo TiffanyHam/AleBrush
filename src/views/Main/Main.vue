@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-23 18:18:35
+ * @LastEditTime: 2021-04-25 11:43:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -35,8 +35,16 @@
           <div>{{ $t("index.connected") }}</div>
           <div v-if="isCharge == '01'">
             <!-- 充电中动画 -->
-            <div class="posiImg" :style="isDarks == true ? {  backgroundImage: 'url(' + imgBooth_dark[booth_index] + ')'
-              } : { backgroundImage: 'url(' + imgBooth[booth_index] + ')' }"
+            <div
+              class="posiImg"
+              :style="
+                isDarks == true
+                  ? {
+                      backgroundImage:
+                        'url(' + imgBooth_dark[booth_index] + ')',
+                    }
+                  : { backgroundImage: 'url(' + imgBooth[booth_index] + ')' }
+              "
             ></div>
           </div>
           <div v-else>
@@ -48,7 +56,6 @@
             <div class="cell5" v-if="battery == '04'"></div>
             <div class="cell6" v-if="battery == '05'"></div>
           </div>
-          
         </div>
         <!-- one -->
         <div class="hi-card bg_card">
@@ -73,7 +80,8 @@
               </div>
               <div class="unit c_60">{{ $t("index.day") }}</div>
             </div>
-            <div class="name c_60">{{ $t("index.restDay") }}</div>
+            <div class="name c_60 flexR"><span>{{ $t("index.restDay") }}</span><div class="log_right"></div></div>
+            
           </div>
         </div>
         <div>
@@ -245,18 +253,18 @@
   </div>
 </template>
 <script>
-import { mapState,mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { brushingHistory } from "../../utils/tool";
 import reportData from "../../utils/reportData";
 import Dialog from "../RemainTime/ResetDialog.vue";
 
 export default {
-  inject: ['isDarks'],
+  inject: ["isDarks"],
   data() {
     return {
-      isPosition:0,
+      isPosition: 0,
       isflage: true,
-      isCharge:'', //判断是否充电
+      isCharge: "", //判断是否充电
       isConnect: true,
       isDialog: false, //弹窗 连接超时
       battery: "",
@@ -280,21 +288,21 @@ export default {
       ],
       // 充电动画
       imgBooth: [
-          require("../../assets/image/icon/light/cell1.png"),
-          require("../../assets/image/icon/light/cell8.png"),
-          require("../../assets/image/icon/light/cell3.png"),
-          require("../../assets/image/icon/light/cell4.png"),
-          require("../../assets/image/icon/light/cell5.png"),
-          require("../../assets/image/icon/light/cell6.png"),
+        require("../../assets/image/icon/light/cell1.png"),
+        require("../../assets/image/icon/light/cell8.png"),
+        require("../../assets/image/icon/light/cell3.png"),
+        require("../../assets/image/icon/light/cell4.png"),
+        require("../../assets/image/icon/light/cell5.png"),
+        require("../../assets/image/icon/light/cell6.png"),
       ],
       booth_index: 0,
       imgBooth_dark: [
-          require("../../assets/image/icon/dark/cell1.png"),
-          require("../../assets/image/icon/dark/cell8.png"),
-          require("../../assets/image/icon/dark/cell3.png"),
-          require("../../assets/image/icon/dark/cell4.png"),
-          require("../../assets/image/icon/dark/cell5.png"),
-          require("../../assets/image/icon/dark/cell6.png"),
+        require("../../assets/image/icon/dark/cell1.png"),
+        require("../../assets/image/icon/dark/cell8.png"),
+        require("../../assets/image/icon/dark/cell3.png"),
+        require("../../assets/image/icon/dark/cell4.png"),
+        require("../../assets/image/icon/dark/cell5.png"),
+        require("../../assets/image/icon/dark/cell6.png"),
       ],
       isTime: false,
       isMode: false,
@@ -305,7 +313,7 @@ export default {
       conentHeight: "",
       wapperHeight: "",
       //isOnce: true,
-      timers:null,
+      timers: null,
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -383,22 +391,22 @@ export default {
     },
   },
   mounted() {
-    console.log('蓝牙状态：',this.bleConnected)
-    console.log('vuex云端数据：',this.cloudData)
+    console.log("蓝牙状态：", this.bleConnected);
+    console.log("vuex云端数据：", this.cloudData);
     console.log("this.electric", this.electric);
-    setTimeout (() => {
-        this.getCloudHistory();
-    },300)
-    
+    setTimeout(() => {
+      this.getCloudHistory();
+    }, 300);
+
     // if(this.electric == ''){
     //   this.battery = '05'
     // }else{
-      this.battery = this.electric
-  //  }
+    this.battery = this.electric;
+    // }
     this.initData();
-    if (window.isDark) {
-      window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
-    }
+    // if (window.isDark) {
+    //   window.hilink.modifyTitleBar(true, "#ffffff", "resultCallback");
+    // }
   },
 
   computed: {
@@ -409,7 +417,7 @@ export default {
       "timeLength",
       "cleanMOde",
       "cloudData",
-      'electric'
+      "electric",
     ]),
     tips1() {
       if (this.isDays >= -99 && this.isDays <= -1) {
@@ -420,32 +428,44 @@ export default {
   },
 
   watch: {
-    electric(n){
-      console.log('电量监听',n)
-      this.battery = n
+    electric(n) {
+      console.log("电量监听", n);
+      this.battery = n;
     },
     bleConnected(status) {
       console.log("蓝牙状态监听：", status);
       //  监听蓝牙连接状态
-      if(status == 1){
-          //连接中
-          this.isflage = false;
-          this.isConnect = false;
-          this.isDialog = false;
-      }
-      if (status == 2) {
-        //this.getHistory(this.cloudData);
-       //this.getCloudHistory();
-        this.acceptData(this.data); //初始化数据
-        this.isflage = false; //已连接
-        this.isConnect = true;
-        this.isDialog = false;
-      } 
-       if(status == 3){
-          //连接超时
+      if (status == 0) {
+        //未连接状态
+        window.hiLinkBle.openBlueTooth();
+        this.isflage = false;
+        this.isConnect = false;
+        setTimeout (() =>{
           this.isflage = true;
           this.isConnect = true;
           this.isDialog = true;
+        },30*1000)
+      }
+      if (status == 1) {
+        //连接中
+        this.isflage = false;
+        this.isConnect = false;
+        this.isDialog = false;
+      }
+      if (status == 2) {
+        //已连接
+        //this.getHistory(this.cloudData);
+        //this.getCloudHistory();
+        this.acceptData(this.data); //初始化数据
+        this.isflage = false; 
+        this.isConnect = true;
+        this.isDialog = false;
+      }
+      if (status == 3) {
+        //连接超时
+        this.isflage = true;
+        this.isConnect = true;
+        this.isDialog = true;
       }
     },
     data(value) {
@@ -471,26 +491,37 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(["setCloudData",'save_elec']),
-    
+    ...mapActions(["setCloudData", "save_elec"]),
+
     /**
      * @description: 初始化数据
      * @param {*}
      * @return {*}
      */
     initData() {
-      this.isPosition = this.initPosition
-      if(this.timeLength == ''){
-         this.timeLen = '00'
-      }else{
-         this.timeLen = this.timeLength
+      this.isPosition = this.initPosition;
+      if (this.timeLength == "") {
+        this.timeLen = "00";
+      } else {
+        this.timeLen = this.timeLength;
       }
       this.selectIndex1 = this.changeStatus(this.timeLength);
-      if(this.bleConnected == 1){
-          //连接中
-          this.isflage = false;
-          this.isConnect = false;
-          this.isDialog = false;
+      if (this.bleConnected == 0) {
+        //未连接状态
+        window.hiLinkBle.openBlueTooth();
+        this.isflage = false;
+        this.isConnect = false;
+        setTimeout (() =>{
+          this.isflage = true;
+          this.isConnect = true;
+          this.isDialog = true;
+        },30*1000)
+      }
+      if (this.bleConnected == 1) {
+        //连接中
+        this.isflage = false;
+        this.isConnect = false;
+        this.isDialog = false;
       }
       if (this.bleConnected == 2) {
         //this.getHistory(this.cloudData);
@@ -498,22 +529,22 @@ export default {
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
-      } 
-       if(this.bleConnected == 3){
-          //连接超时
-          this.isflage = true;
-          this.isConnect = true;
-          this.isDialog = true;
+      }
+      if (this.bleConnected == 3) {
+        //连接超时
+        this.isflage = true;
+        this.isConnect = true;
+        this.isDialog = true;
       }
     },
-     /**
+    /**
      * @description: 重新连接
      * @param {*}
      * @return {*}
      */
-     reConnect(){
-       window.hiLinkBle.reConnect();
-     },
+    reConnect() {
+      window.hiLinkBle.reConnect();
+    },
     /**
      * @description: 数据解析
      * @param {*} data
@@ -522,7 +553,7 @@ export default {
     acceptData(data) {
       //console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
-         console.log("设置成功");
+        console.log("设置成功");
       }
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
@@ -530,10 +561,10 @@ export default {
         this.selectIndex = this.changeStatus(this.modeDisplay);
       }
       if (data.indexOf("F55F070301") == 0) {
-        this.battery = String(data.substr(10, 2))
-        console.log('电量',this.battery)
-        this.save_elec(this.battery)  //存储电量
-        
+        this.battery = String(data.substr(10, 2));
+        console.log("电量", this.battery);
+        this.save_elec(this.battery); //存储电量
+
         //电量不足
         if (this.battery == "01") {
           this.dialogTip = true;
@@ -541,12 +572,14 @@ export default {
       }
       if (data.indexOf("F55F070501") == 0) {
         this.isCharge = String(data.substr(10, 2));
-        console.log('充电中',this.isCharge)
-        if(this.isCharge == '01'){  //充电中
-            this.chargePro()
-            this.dialogTip = false
-        }else{  //电池
-            clearInterval(this.timers);
+        console.log("充电中", this.isCharge);
+        if (this.isCharge == "01") {
+          //充电中
+          this.chargePro();
+          this.dialogTip = false;
+        } else {
+          //电池
+          clearInterval(this.timers);
         }
       }
     },
@@ -557,13 +590,14 @@ export default {
      */
     getCloudHistory() {
       let resCallback = (res) => {
-       console.log("云端数据返回：", res);
-       if(res == undefined || res.length <= 0){ //历史记录为空时上报第一次日期
+        console.log("云端数据返回：", res);
+        if (res == undefined || res.length <= 0) {
+          //历史记录为空时上报第一次日期
           reportData.resize(new Date().getTime() + 1000);
-       }else{
-            this.getHistory(res);
-           //this.setCloudData(res)
-       }
+        } else {
+          this.getHistory(res);
+          //this.setCloudData(res)
+        }
       };
       reportData.getHistoryLog(resCallback);
     },
@@ -593,14 +627,16 @@ export default {
           this.dialogVisiable = true;
         }
       }
-     // }
+      // }
       var getArr = [];
       for (var x in res) {
         var data = res[x].data.score;
         getArr.push(data);
       }
-      // console.log('getArr',getArr)   
-      var filterData = getArr.filter((item) => !(new RegExp('XXXXXX_').test(item)));
+      // console.log('getArr',getArr)
+      var filterData = getArr.filter(
+        (item) => !new RegExp("XXXXXX_").test(item)
+      );
       //console.log("filterData:", filterData);
       if (filterData.length !== 0) {
         var ss = this.getArrList(filterData)[0];
@@ -831,19 +867,19 @@ export default {
       let param = "F55F060201" + mode + last;
       window.hiLinkBle.send(param);
     },
-   /**
+    /**
      * @description: 电池充电状态动画
      * @param {*}
      * @return {*}
-     */    
+     */
     chargePro() {
-        let that = this;
-        this.timers = setInterval(() => {
-            that.booth_index++;
-            if (that.booth_index == 6) {
-                that.booth_index = 0;
-            }
-        }, 1000);
+      let that = this;
+      this.timers = setInterval(() => {
+        that.booth_index++;
+        if (that.booth_index == 6) {
+          that.booth_index = 0;
+        }
+      }, 1000);
     },
     /**
      * 使用test方法实现模糊查询
@@ -900,7 +936,7 @@ export default {
         reportData.resize(new Date().getTime() + 1000);
         this.isDays = 60;
       }
-    }
+    },
   },
 };
 </script>
@@ -1034,14 +1070,7 @@ export default {
         font-size: 16px;
         color: rgba(0, 0, 0, 0.6);
       }
-      .log_right {
-        width: 6px;
-        height: 10px;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        margin: 0 0 1px 4px;
-        opacity: 0.38;
-      }
+      
     }
     .flexR {
       display: flex;
@@ -1049,6 +1078,14 @@ export default {
       align-items: center;
       justify-content: space-between;
     }
+    .log_right {
+        width: 6px;
+        height: 10px;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        margin: 0 0 1px 4px;
+        opacity: 0.38;
+      }
     .banner {
       .productI {
         width: 252px;

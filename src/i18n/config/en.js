@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-21 10:56:12
+ * @LastEditTime: 2021-04-25 10:59:39
  */
 const en = {
     index: {
@@ -26,7 +26,7 @@ const en = {
         minute: 'min',
         second: 's',
         weeks:{
-            today:'Today',
+            today:'Today ',
             Mon: 'Monday',
             Tue: 'Tuesday',
             Wed: 'Wednesday',
