@@ -145,11 +145,38 @@ export default {
                     dataIndex: 0
                 });
             });
-            // myChart.on("click", (params) => {
-            //     // this.echartsClick(params);
-            // });
         },
         echartsClick (params) {
+            console.log('echartsClick', params.value)
+            const dataArr = params.value
+            this.chartObj.setOption({
+                series: [
+                    {
+                        itemStyle: {
+                            color: function(params) {
+                                const paramsArr = params.value
+                                if (paramsArr[0] === dataArr[0] && paramsArr[1] === dataArr[1]) {
+                                    if (paramsArr[1] <= 59) {
+                                        return '#ff7500'
+                                    } else if (paramsArr[1] >= 60 && paramsArr[1] <= 79) {
+                                        return '#00aaef'
+                                    } else {
+                                        return '#8cd600'
+                                    }
+                                } else {
+                                    if (paramsArr[1] <= 59) {
+                                        return '#fbc495'
+                                    } else if (paramsArr[1] >= 60 && paramsArr[1] <= 79) {
+                                        return '#95d9f4'
+                                    } else {
+                                        return '#cdeb95'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            })
             this.$emit("echartsClick", params);
         }
     },

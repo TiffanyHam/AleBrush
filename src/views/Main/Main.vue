@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-25 16:16:51
+ * @LastEditTime: 2021-04-25 19:28:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -314,6 +314,7 @@ export default {
       wapperHeight: "",
       //isOnce: true,
       timers: null,
+      currentTime:'',
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -391,9 +392,9 @@ export default {
     },
   },
   mounted() {
-    console.log("蓝牙状态：", this.bleConnected);
-    console.log("vuex云端数据：", this.cloudData);
-    console.log("this.electric", this.electric);
+   // console.log("蓝牙状态：", this.bleConnected);
+   // console.log("vuex云端数据：", this.cloudData);
+   // console.log("this.electric", this.electric);
     setTimeout(() => {
       this.getCloudHistory();
     }, 300);
@@ -430,11 +431,11 @@ export default {
 
   watch: {
     electric(n) {
-      console.log("电量监听", n);
+     // console.log("电量监听", n);
       this.battery = n;
     },
     bleConnected(status) {
-      console.log("蓝牙状态监听：", status);
+     // console.log("蓝牙状态监听：", status);
       //  监听蓝牙连接状态
       if (status == 0) {
         //未连接状态
@@ -552,7 +553,7 @@ export default {
      * @return {*}
      */
     acceptData(data) {
-      //console.log(data)
+      console.log(data)
       if (data.indexOf("F55F07100100") == 0) {
         console.log("设置成功");
       }
@@ -564,7 +565,7 @@ export default {
       }
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2));
-        console.log("电量", this.battery);
+       // console.log("电量", this.battery);
         this.save_elec(this.battery); //存储电量
 
         //电量不足
@@ -574,7 +575,7 @@ export default {
       }
       if (data.indexOf("F55F070501") == 0) {
         this.isCharge = String(data.substr(10, 2));
-        console.log("充电中", this.isCharge);
+      //  console.log("充电中", this.isCharge);
         if (this.isCharge == "01") {
           //充电中
           this.chargePro();
@@ -592,10 +593,10 @@ export default {
      */
     getCloudHistory() {
       let resCallback = (res) => {
-        console.log("云端数据返回：", res);
-        if (res == undefined || res.length <= 0) {
+      //  console.log("云端数据返回：", res);
+        if ((res == undefined || res.length <= 0) && (localStorage.getItem('current_time') == null)) {
           //历史记录为空时上报第一次日期
-          reportData.resize(new Date().getTime() + 1000);
+            reportData.resize(new Date().getTime() + 1000);
         } else {
           this.getHistory(res);
           //this.setCloudData(res)
@@ -609,16 +610,18 @@ export default {
      * @return {*}
      */
     getHistory(res) {
-      // if(res.length == 0){  //历史记录为空时上报第一次日期
-      //     reportData.resize(new Date().getTime() + 1000);
-      // }else{
       var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
       //console.log('fuzzyArr',fuzzyArr)
       if (fuzzyArr.length !== 0) {
         let fixDate = fuzzyArr[0].split("_")[1];
-        // console.log(fixDate)
+        let currentTime = localStorage.getItem('current_time');
+        // console.log(fixDate,currentTime)
         let currentDate = reportData.formatDate1(Date.parse(new Date()));
-        this.isDays = 60 - this.getDays(fixDate, currentDate);
+        if(currentTime){
+          this.isDays = 60 - this.getDays(currentTime, currentDate);
+        }else{
+          this.isDays = 60 - this.getDays(fixDate, currentDate);
+        }
       } else {
         this.isDays = 60;
       }
@@ -629,7 +632,6 @@ export default {
           this.dialogVisiable = true;
         }
       }
-      // }
       var getArr = [];
       for (var x in res) {
         var data = res[x].data.score;

@@ -4,14 +4,14 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 15:53:48
+ * @LastEditTime: 2021-04-25 17:19:02
  */
 const en = {
     index: {
         noConnect: 'Disconnect',
         connect: 'Connecting',
         connected: 'Connected',
-        again:'Even choose again',
+        again:'Reconnect',
         score: 'points',
         day: 'day',
         lastScore: 'score',
@@ -165,8 +165,8 @@ const en = {
         tipText1: '1.please make sure the toothbrush power enough,and was turned off；',
         tipText2: '2.sieve the toothbrush is close to connect mobile phone(10 meters)；',
         tipText3: '3.tuen off the phone bluetooth,open again(especially android devices).',
-        sure: 'Continue to use',
-        conn:'Immediate connection',
+        sure: 'Continue',
+        conn:'Reconnect',
 
         tipTitle1: 'Brush replace',
         tipText4: 'Your smart toothbrush head has been used for more than 60 days. Please replace the brush head immediately.',

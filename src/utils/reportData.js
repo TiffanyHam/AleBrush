@@ -365,7 +365,12 @@ reportData.getHistoryLog = (func = null) => {
 
 // 特殊数据 用于分割重置后的刷牙历史数据
 reportData.resize = (time) => {
+  if(localStorage.getItem('current_time')){
+    localStorage.removeItem('current_time');
+ }
   var times = reportData.formatDate1(Date.parse(new Date())); //当前时间
+  localStorage.setItem('current_time', times);
+
   let specialData = {
     status: "online",
     services: [
@@ -373,7 +378,7 @@ reportData.resize = (time) => {
         ts: reportData.formatTime(time),
         sid: "brushingHistory",
         data: {
-          score: "XXXXXX_"+times,
+          score: "XXXXXX_"+ times,
         },
       },
     ],

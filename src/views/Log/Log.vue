@@ -53,9 +53,9 @@
                 <ul v-if="brushRecord.length > 0">
                   <li v-for="(item, index) in brushRecord" :key="index">
                     <div class="score" :style="{ backgroundColor: brushingHistory(item.score) }">{{item.score}}</div>
-                    <div class="brushText c_90">{{brushText}}</div>
+                    <div class="brushText c_90">{{$t('Log.brushLen')}}</div>
                     <div class="brushTime c_60">{{item.brushTime}}</div>
-                    <div class="brushDuration c_60">{{item.brushDuration}}</div>
+                    <div class="brushDuration c_60">{{brushDurationFn(item.brushDuration)}}</div>
                   </li>
                 </ul>
                 <div class="noData" v-else>
@@ -241,7 +241,6 @@ export default {
     ],
       historyData: this.$t("history.historyData"),
       weekDays: "星期一",
-      brushText: "刷牙时长",
       brushRecord: [
         // {
         //   score: 70,
@@ -887,6 +886,15 @@ export default {
     brushingHistory(val) {
       return brushingHistory.getColor(val);
     },
+    /** 刷牙时长中英文 */
+    brushDurationFn(val) {
+      let strTime = val
+      if (getLanguage() === 'zh') {
+        return  strTime;
+      } else {
+        return strTime.replace('分', ' min ').replace('秒', ' sec ')
+      }
+    }
   },
 };
 </script>
@@ -1076,7 +1084,7 @@ export default {
           left: 0;
           top: 50%;
           transform: translateY(-50%);
-          font-size: 24px;
+          font-size: 18px;
           background-color: #47CC47;
           width: 40px;
           height: 40px;
