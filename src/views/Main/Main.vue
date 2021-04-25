@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-25 19:28:34
+ * @LastEditTime: 2021-04-25 21:15:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -307,7 +307,7 @@ export default {
       isTime: false,
       isMode: false,
       timeLen: "00",
-      modeDisplay: "00", //刷牙模式
+      modeDisplay: "", //刷牙模式
       logArr: [],
       getScore: "",
       conentHeight: "",
@@ -392,7 +392,7 @@ export default {
     },
   },
   mounted() {
-   // console.log("蓝牙状态：", this.bleConnected);
+   console.log("cleanMOde:", this.cleanMOde);
    // console.log("vuex云端数据：", this.cloudData);
    // console.log("this.electric", this.electric);
     setTimeout(() => {
@@ -419,7 +419,6 @@ export default {
       "cleanMOde",
       "cloudData",
       "electric",
-      "cleanMOde"
     ]),
     tips1() {
       if (this.isDays >= -99 && this.isDays <= -1) {
@@ -433,6 +432,10 @@ export default {
     electric(n) {
      // console.log("电量监听", n);
       this.battery = n;
+    },
+    cleanMOde(n){
+       this.modeDisplay = n
+       this.selectIndex = this.changeStatus(n);
     },
     bleConnected(status) {
      // console.log("蓝牙状态监听：", status);
@@ -508,6 +511,13 @@ export default {
         this.timeLen = this.timeLength;
       }
       this.selectIndex1 = this.changeStatus(this.timeLength);
+
+    
+       this.modeDisplay = this.cleanMOde;
+      this.selectIndex = this.changeStatus(this.cleanMOde);
+     // this.selectIndex = this.changeStatus(this.modeDisplay);
+
+
       if (this.bleConnected == 0) {
         //未连接状态
         window.hiLinkBle.openBlueTooth();
@@ -561,7 +571,7 @@ export default {
         //刷牙模式
         this.modeDisplay = data.substr(10, 2);
         console.log('刷牙模式:',this.modeDisplay)
-        this.selectIndex = this.changeStatus(this.modeDisplay);
+        this.saveMode(this.modeDisplay)
       }
       if (data.indexOf("F55F070301") == 0) {
         this.battery = String(data.substr(10, 2));
@@ -867,7 +877,7 @@ export default {
           last = "60";
           break;
       }
-     // this.$store.dispatch("saveMode", this.modeDisplay);
+      
       this.saveMode(this.modeDisplay)
       //console.log('vuex---cleanMOde',this.cleanMOde)
       let param = "F55F060201" + mode + last;

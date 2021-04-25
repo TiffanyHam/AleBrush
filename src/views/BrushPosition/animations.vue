@@ -495,10 +495,6 @@ export default {
   },
   mounted() {
     this.animation()
-    window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
-  },
-  destroyed() {
-    window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
   beforeDestroy() {
       clearInterval(this.timer1); 
@@ -718,14 +714,6 @@ export default {
         that.totalNum = (mins< 10 ? '0' + mins : mins) + ":" + sec
         
     },
-    /**
-     * @description: 监听页面刷新和离开
-     * @param {*} e
-     * @return {*}
-     */
-    beforeunloadFn(e) {
-      this.isStop = true
-    },
 
     /**
      * @description:  js 添加动画
@@ -821,7 +809,7 @@ export default {
     acceptData(data) {
       if(data.indexOf("F55F070601") == 0){
          this.total = parseInt(data.substr(10, 2), 16)
-         console.log('计时开始：', this.total)
+        // console.log('计时开始：', this.total)
          this.countDown(this.total)
       }
       if (data.indexOf("F55F070401") == 0) {

@@ -190,7 +190,7 @@ function analysisMac(str) { // 解析mac地址
 	str = str.slice(0, 6) + str.slice(-6)
 	str = hexArarryAddSpace(str, 2)
 	let arr = str.split(' ')
-	arr.reverse()
+	//arr.reverse()
 	let result = '';
 	arr.map(item => {
 		result += item + ':'

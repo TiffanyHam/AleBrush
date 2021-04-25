@@ -48,7 +48,7 @@ export default {
                     formatter: (value, index) => {
                         this.echartsClick(value[0]);
                         // TODO : 告知父组件
-                        return '';
+                        return;
                     },
                     trigger: 'axis',
                     showContent: true,
@@ -147,7 +147,7 @@ export default {
             });
         },
         echartsClick (params) {
-            console.log('echartsClick', params.value)
+            // console.log('echartsClick', params.value)
             const dataArr = params.value
             this.chartObj.setOption({
                 series: [
@@ -156,6 +156,7 @@ export default {
                             color: function(params) {
                                 const paramsArr = params.value
                                 if (paramsArr[0] === dataArr[0] && paramsArr[1] === dataArr[1]) {
+                                    // console.log('5566')
                                     if (paramsArr[1] <= 59) {
                                         return '#ff7500'
                                     } else if (paramsArr[1] >= 60 && paramsArr[1] <= 79) {
@@ -164,6 +165,7 @@ export default {
                                         return '#8cd600'
                                     }
                                 } else {
+                                    // console.log('7788')
                                     if (paramsArr[1] <= 59) {
                                         return '#fbc495'
                                     } else if (paramsArr[1] >= 60 && paramsArr[1] <= 79) {

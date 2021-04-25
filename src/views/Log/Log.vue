@@ -5,131 +5,125 @@
       <Header :selfB='selfB' :isRight="header_rightIcon" :backC='backC'>
           <span slot="headerTitle">{{$t('Log.header')}}</span>
       </Header>
-    <main ref="main">
-      <div class="content">
-            <div class="time-type">
-              <div class="time-tab colorB60" @click="changeChart('day')">
-                <div class="empty"></div>
-                <div class="tab-text" :class="{ c_007DFF: timeType === 'day' }">
-                  {{ day }}
-                </div>
-                <div
-                  class="empty"
-                  :class="{ 'bg_007DFF': timeType === 'day' }"
-                ></div>
-              </div>
-              <div class="time-tab colorB60" @click="changeChart('week')">
-                <div class="empty"></div>
-                <div class="tab-text" :class="{ c_007DFF: timeType === 'week' }">
-                  {{ week }}
-                </div>
-                <div
-                  class="empty"
-                  :class="{ 'bg_007DFF': timeType === 'week' }"
-                ></div>
-              </div>
-              <div class="time-tab colorB60" @click="changeChart('month')">
-                <div class="empty"></div>
-                <div class="tab-text" :class="{ c_007DFF: timeType === 'month' }">
-                  {{ month }}
-                </div>
-                <div
-                  class="empty"
-                  :class="{ 'bg_007DFF': timeType === 'month' }"
-                ></div>
-              </div>
-            </div>
-            <div v-if="monthOrWeek === 'day'">
-              <Calendar
-                :textTop="textTop"
-                :isDataDays="isDataDays"
-                v-on:choseDay="clickDay"
-                v-on:changeMonth="changeDate">
-              </Calendar>
-              <div class="date">
-                <span class="c_60">{{weekDays}}</span>
-              </div>
-              <div class="brushHistory">
-                <ul v-if="brushRecord.length > 0">
-                  <li v-for="(item, index) in brushRecord" :key="index">
-                    <div class="score" :style="{ backgroundColor: brushingHistory(item.score) }">{{item.score}}</div>
-                    <div class="brushText c_90">{{$t('Log.brushLen')}}</div>
-                    <div class="brushTime c_60">{{item.brushTime}}</div>
-                    <div class="brushDuration c_60">{{brushDurationFn(item.brushDuration)}}</div>
-                  </li>
-                </ul>
-                <div class="noData" v-else>
-                  <div class="img"></div>
-                  <p class="c_90">{{$t('Log.noData')}}</p>
-                </div>
-              </div>
-            </div>
-            <div v-if="monthOrWeek === 'week'">
-              <DateTitle
-                :time-title="weekTimeTitle"
-                @prev-btn="prevWeek"
-                @next-btn="nextWeek"
-              ></DateTitle>
-              <ElectricLabel
-                :title="forWeekTitle"
-                :value="selectDayElec"
-                :score="score"
-              ></ElectricLabel>
-              <Echart
-              key="week"
-              :chart-data="chartData"
-              @echartsClick="echartsClick"
-            ></Echart>
-            <div class="statistics color90">{{ $t('Log.statistics') }}</div>
-            <hi-card4 class="mt8" :cardData="cardData1"></hi-card4>
-
-            </div>
-            <div v-if="monthOrWeek === 'month'">
-              <DateTitle
-                :time-title="monthTimeTitle"
-                @prev-btn="prevMonth"
-                @next-btn="nextMonth"
-              ></DateTitle>
-              <ElectricLabel
-                :title="forMonthTitle"
-                :value="selectDayElec"
-                :score="score"
-              ></ElectricLabel>
-              <Echart
-              key="month"
-              :chart-data="chartData"
-              @echartsClick="echartsClick"
-            ></Echart>
-            <div class="statistics color90">{{ $t('Log.statistics') }}</div>
-            <hi-card4 class="mt8" :cardData="cardData2"></hi-card4>
+    <main>
+      <div class="time-type">
+        <div class="time-tab colorB60" @click="changeChart('day')">
+          <div class="empty"></div>
+          <div class="tab-text" :class="{ c_007DFF: timeType === 'day' }">
+            {{ day }}
           </div>
-           <!-- 得分参考 -->
-            <div  v-if="monthOrWeek === 'week' || monthOrWeek === 'month' " class="reference flexC">
-                <div class="cen8"></div>
-                <div class="scoped">{{$t('LogDetail.range')}}</div>
-                <div class="scoped_point">
-                    <div class="point_item flex">
-                        <div class="scoretip flex">{{$t('LogDetail.level.low.title')}}</div>
-                        <div class="scoretip flex">{{$t('LogDetail.level.mid.title')}}</div>
-                        <div class="scoretip flex">{{$t('LogDetail.level.hig.title')}}</div>
-                    </div>
-                    <div class="point_item flex">
-                        <div class="color l"></div>
-                        <div class="color c"></div>
-                        <div class="color r"></div>
-                    </div>
-                    <div class="point_item flex">
-                        <div class="max scoretip">{{$t('LogDetail.level.low.price')}}</div>
-                        <div class="max scoretip">{{$t('LogDetail.level.mid.price')}}</div>
-                        <div class="max scoretip">{{$t('LogDetail.level.hig.price')}}</div>
-                    </div>
-                </div>
-              </div>
-            </div>
+          <div
+            class="empty"
+            :class="{ 'bg_007DFF': timeType === 'day' }"
+          ></div>
+        </div>
+        <div class="time-tab colorB60" @click="changeChart('week')">
+          <div class="empty"></div>
+          <div class="tab-text" :class="{ c_007DFF: timeType === 'week' }">
+            {{ week }}
+          </div>
+          <div
+            class="empty"
+            :class="{ 'bg_007DFF': timeType === 'week' }"
+          ></div>
+        </div>
+        <div class="time-tab colorB60" @click="changeChart('month')">
+          <div class="empty"></div>
+          <div class="tab-text" :class="{ c_007DFF: timeType === 'month' }">
+            {{ month }}
+          </div>
+          <div
+            class="empty"
+            :class="{ 'bg_007DFF': timeType === 'month' }"
+          ></div>
+        </div>
+      </div>
+      <div v-if="monthOrWeek === 'day'">
+        <Calendar
+          :textTop="textTop"
+          :isDataDays="isDataDays"
+          v-on:choseDay="clickDay"
+          v-on:changeMonth="changeDate">
+        </Calendar>
+        <div class="date">
+          <span class="c_60">{{weekDays}}</span>
+        </div>
+        <div class="brushHistory">
+          <ul v-if="brushRecord.length > 0">
+            <li v-for="(item, index) in brushRecord" :key="index">
+              <div class="score" :style="{ backgroundColor: brushingHistory(item.score) }">{{item.score}}</div>
+              <div class="brushText c_90">{{$t('Log.brushLen')}}</div>
+              <div class="brushTime c_60">{{item.brushTime}}</div>
+              <div class="brushDuration c_60">{{brushDurationFn(item.brushDuration)}}</div>
+            </li>
+          </ul>
+          <div class="noData" v-else>
+            <div class="img"></div>
+            <p class="c_90">{{$t('Log.noData')}}</p>
+          </div>
+        </div>
+      </div>
+      <div v-if="monthOrWeek === 'week'">
+        <DateTitle
+          :time-title="weekTimeTitle"
+          @prev-btn="prevWeek"
+          @next-btn="nextWeek"
+        ></DateTitle>
+        <ElectricLabel
+          :title="forWeekTitle"
+          :value="selectDayElec"
+          :score="score"
+        ></ElectricLabel>
+        <Echart
+        key="week"
+        :chart-data="chartData"
+        @echartsClick="echartsClick"
+        ></Echart>
+        <div class="statistics color90">{{ $t('Log.statistics') }}</div>
+        <hi-card4 class="mt8" :cardData="cardData1"></hi-card4>
+      </div>
+      <div v-if="monthOrWeek === 'month'">
+        <DateTitle
+          :time-title="monthTimeTitle"
+          @prev-btn="prevMonth"
+          @next-btn="nextMonth"
+        ></DateTitle>
+        <ElectricLabel
+          :title="forMonthTitle"
+          :value="selectDayElec"
+          :score="score"
+        ></ElectricLabel>
+        <Echart
+        key="month"
+        :chart-data="chartData"
+        @echartsClick="echartsClick"
+        ></Echart>
+        <div class="statistics color90">{{ $t('Log.statistics') }}</div>
+        <hi-card4 class="mt8" :cardData="cardData2"></hi-card4>
+      </div>
+      <!-- 得分参考 -->
+      <div  v-if="monthOrWeek === 'week' || monthOrWeek === 'month' " class="reference flexC">
+        <div class="cen8"></div>
+        <div class="scoped">{{$t('LogDetail.range')}}</div>
+        <div class="scoped_point">
+          <div class="point_item flex">
+            <div class="scoretip flex">{{$t('LogDetail.level.low.title')}}</div>
+            <div class="scoretip flex">{{$t('LogDetail.level.mid.title')}}</div>
+            <div class="scoretip flex">{{$t('LogDetail.level.hig.title')}}</div>
+          </div>
+          <div class="point_item flex">
+            <div class="color l"></div>
+            <div class="color c"></div>
+            <div class="color r"></div>
+          </div>
+          <div class="point_item flex">
+            <div class="max scoretip">{{$t('LogDetail.level.low.price')}}</div>
+            <div class="max scoretip">{{$t('LogDetail.level.mid.price')}}</div>
+            <div class="max scoretip">{{$t('LogDetail.level.hig.price')}}</div>
+          </div>
+        </div>
+      </div>
     </main>
-    <!-- <div class="tips">
-      <span>{{tips}}</span>
-    </div> -->
   </div>
 </template>
 
@@ -243,7 +237,7 @@ export default {
       weekDays: "星期一",
       brushRecord: [
         // {
-        //   score: 70,
+        //   score: 100,
         //   brushTime: "08:00:23",
         //   brushDuration: "1分55秒",
         // },
@@ -290,33 +284,33 @@ export default {
       //页面加载完，获取所有历史数据
       // this.getDevHistoryOfAll();
       
-      this.myScroll = new BScroll(this.$refs.main, {
-        scrollX: false,
-        scrollY: true,
-        click: true,
-        taps: true,
-        pullDownRefresh: {
-          threshold: 50,
-          probeType: 3,
-        },
-        pullUpLoad: {
-          threshold: 744,
-        },
-      });
+      // this.myScroll = new BScroll(this.$refs.main, {
+      //   scrollX: false,
+      //   scrollY: true,
+      //   click: true,
+      //   taps: true,
+      //   pullDownRefresh: {
+      //     threshold: 50,
+      //     probeType: 3,
+      //   },
+      //   pullUpLoad: {
+      //     threshold: 744,
+      //   },
+      // });
 
-      this.myScroll.on("pullingDown", (pos) => {
-        this.$nextTick(() => {
-          this.myScroll.refresh(); // DOM 结构发生变化后,重新初始化BScroll
-        });
-        this.myScroll.finishPullDown(); // 下拉刷新动作完成后调用此方法告诉BScroll完成一次下拉动作
-      });
+      // this.myScroll.on("pullingDown", (pos) => {
+      //   this.$nextTick(() => {
+      //     this.myScroll.refresh(); // DOM 结构发生变化后,重新初始化BScroll
+      //   });
+      //   this.myScroll.finishPullDown(); // 下拉刷新动作完成后调用此方法告诉BScroll完成一次下拉动作
+      // });
 
-      this.myScroll.on("pullingUp", (pos) => {
-        this.$nextTick(() => {
-          this.myScroll.refresh(); // DOM 结构发生变化后,重新初始化BScroll
-        });
-        this.myScroll.finishPullUp(); // 上拉加载动作完成后调用此方法告诉BScroll完成一次上拉动作
-      });
+      // this.myScroll.on("pullingUp", (pos) => {
+      //   this.$nextTick(() => {
+      //     this.myScroll.refresh(); // DOM 结构发生变化后,重新初始化BScroll
+      //   });
+      //   this.myScroll.finishPullUp(); // 上拉加载动作完成后调用此方法告诉BScroll完成一次上拉动作
+      // });
     });
 
     //卡顿原因
@@ -892,7 +886,7 @@ export default {
       if (getLanguage() === 'zh') {
         return  strTime;
       } else {
-        return strTime.replace('分', ' min ').replace('秒', ' sec ')
+        return strTime.replace('分', 'min').replace('秒', 's')
       }
     }
   },
@@ -904,13 +898,13 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding-bottom: 16px;
+  // padding-bottom: 16px;
   background: #fff;
   main {
-    overflow: hidden;
+    overflow: auto;
     flex: 1;
     padding: 0 24px;
-    padding-bottom: 16px;
+    // padding-bottom: 16px;
     .time-type {
       display: flex;
       justify-content: center;
@@ -1074,7 +1068,7 @@ export default {
     }
     .brushHistory {
       position: relative;
-      height: 160px;
+      min-height: 160px;
       ul li {
         position: relative;
         height: 64px;

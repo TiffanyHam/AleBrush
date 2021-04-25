@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 16:54:05
+ * @LastEditTime: 2021-04-25 20:11:43
  */
 import Vue from "vue";
 import App from "./App.vue";
@@ -21,7 +21,7 @@ Vue.use(component);
 import eruda from "eruda/eruda.js"; // 测试工具
 import globalData from "@/utils/index"; //引入全局组件
 // 引入国际化
-import i18n from "./i18n/index";
+import i18n from "./i18n/index"; 
 Vue.prototype.GLOBAL = globalData; //修改原型
 
 // echarts

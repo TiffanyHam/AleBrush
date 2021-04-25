@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 17:19:02
+ * @LastEditTime: 2021-04-25 20:59:31
  */
 const en = {
     index: {
@@ -118,7 +118,7 @@ const en = {
         subtip6: 'after brushing teeth, gargle with water, please.',
         headerTitle2: 'use method',
         tip7: '1、to understand our oral cavity',
-        subtip7: 'HYSPIN according to the scientific Pasteur brushing hair,the oral cavity is divided into 6 areas 16 dental surfaces. Real-time voice guidance,help you clean each tooth surface,protect the health of teeth. ',
+        subtip7: 'HYSPIN according to the scientific Pasteur brushing hair,the oral cavity is divided into 6 areas 16 dental surfaces.help you clean each tooth surface,protect the health of teeth. ',
         tip8: '2、intelligent toothbrush use process',
         subtip8: '① toothbrush after the connection is successful, start the toothbrush can real-time guide into the interface.',
         subtip9: '② put the toothbrush on the initial tooth area began to clean tooth area each tooth surface. Tang teeth to distinguish 3, tooth surface, incisor to distinguish the two tooth surface. Each tooth surface evenly clean, to the qing. Clean teeth get higher scores.',
@@ -244,7 +244,7 @@ const en = {
             Sat: '周六',
             Sun: '周日',
         },
-        brushLen: '刷牙时长',
+        brushLen: 'time',
         tip: '*hold only the last three months of brushing your teeth',
         noData: 'No Record',
         statistics: 'Statistics',
