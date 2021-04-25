@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 22:00:44
+ * @LastEditTime: 2021-04-25 22:23:43
  */
 const en = {
     index: {
@@ -14,17 +14,17 @@ const en = {
         again:'Reconnect',
         score: 'points',
         day: 'day',
-        lastScore: 'score',
+        lastScore: 'Score',
         restDay: 'Brush head rest',
-        brushmode: 'model',
-        brushLen:'time',
-        inPosition:'starting',
+        brushmode: 'Model',
+        brushLen:'Brush Time',
+        inPosition:'Starting',
         MoreSet:'More',
-        brushLog: 'record',
+        brushLog: 'Record',
         more: 'More',
-        nolog:'No record',
+        nolog:'No Record',
         minute: 'min',
-        second: 's',
+        second: 'sec',
         weeks:{
             today:'Today ',
             Mon: 'Monday',
@@ -66,10 +66,10 @@ const en = {
     },
     //刷牙模式
     BrushTeethModel: {
-        level1: 'clean',
-        level2: 'soft',
+        level1: 'Clean',
+        level2: 'Soft',
         level3: 'Massage',
-        level4: 'strong'
+        level4: 'Strong'
     },
     //刷牙时长
     BrushTeethLen:{
@@ -103,46 +103,46 @@ const en = {
         otherOptions: {
             methodsU: 'Brush your teeth steps',
             methodsI: 'Methods of use',
-            title2: 'common problem',
+            title2: 'Common problem',
             see:'view',
         }
     },
     //刷牙步骤
     brushMethods: {
-        headerTitle: 'steps',
+        headerTitle: 'Steps',
         subtip: 'Insert the toothbrush head in the right direction input shaft, brush a head sh need to keep some gap between main body, so as not to aect the vibration eect.',
         subtip2: 'To prevent toothbrush splash, recommend a small amount of tooth brush in the brush head.',
         subtip3: 'It soaks into the mouth, and then start the toothbrush.',
-        subtipMore:'* need to start the toothbrush, and then in your mouth.',
-        subtip4: 'the bristles should be moved at a 45-degree Angle to the gum line.',
+        subtipMore:'* Need to start the toothbrush, and then in your mouth.',
+        subtip4: 'The bristles should be moved at a 45-degree Angle to the gum line.',
         subtip5: "Light hold a toothbrush body, moves in the weeks to move slowly, don't you push hard on the or scrub.",
-        subtip6: 'after brushing teeth, gargle with water, please.',
-        headerTitle2: 'use method',
-        tip7: '1、to understand our oral cavity',
+        subtip6: 'After brushing teeth, gargle with water, please.',
+        headerTitle2: 'Use method',
+        tip7: '1、To understand our oral cavity',
         subtip7: 'HYSPIN according to the scientific Pasteur brushing hair,the oral cavity is divided into 6 areas 16 dental surfaces.help you clean each tooth surface,protect the health of teeth. ',
-        tip8: '2、intelligent toothbrush use process',
-        subtip8: '① toothbrush after the connection is successful, start the toothbrush can real-time guide into the interface.',
-        subtip9: '② put the toothbrush on the initial tooth area began to clean tooth area each tooth surface. Tang teeth to distinguish 3, tooth surface, incisor to distinguish the two tooth surface. Each tooth surface evenly clean, to the qing. Clean teeth get higher scores.',
-        subtip10:'③ tooth surface cleaning, please in the current tooth brushing your teeth.',
+        tip8: '2、Intelligent toothbrush use process',
+        subtip8: '① Toothbrush after the connection is successful, start the toothbrush can real-time guide into the interface.',
+        subtip9: '② Put the toothbrush on the initial tooth area began to clean tooth area each tooth surface. Tang teeth to distinguish 3, tooth surface, incisor to distinguish the two tooth surface. Each tooth surface evenly clean, to the qing. Clean teeth get higher scores.',
+        subtip10:'③ Tooth surface cleaning, please in the current tooth brushing your teeth.',
         subtip11:'④ According to clean tooth area direction and prompt switch a tooth area, suspended toothbrush can end after brushing your teeth, settle the score brushing your teeth.',
-        subtip12:'PS: each time you brush your teeth to keep more than 2 minutes time, less than 30 seconds of brushing the results will not be calculated.'
+        subtip12:'PS:Each time you brush your teeth to keep more than 2 minutes time, less than 30 seconds of brushing the results will not be calculated.'
 
     },
     //常见问题
     CommonProbl: {
-        title2: 'common problems',
-        tip: "1、bluetooth has open, can't search the bluetooth",
+        title2: 'Common problems',
+        tip: "1、Bluetooth has open, can't search the bluetooth",
         subtip: 'The same account in the search a toothbrush,has been the account binding toothbrush will not be able to once again in the search list.',
-        tip2: '2、lack of data',
+        tip2: '2、Lack of data',
         subtip2: 'Time less than 30 seconds to brush your teeth brushing your teeth brushing their teeth as invalid data, unable to save and synchronization',
-        tip3: '3、historical data storage and reserved',
+        tip3: '3、Historical data storage and reserved',
         subtip3: 'To protect user privacy,has been binding toothbrush was another account binding, will remove the fuselage offline data: brushing your teeth in the same account in delete binding toothbrush,brushing their teeth will remove all the cloud history data',
-        tip4: "4、why didn't the APP data",
-        subtip4: '1、the APP does not connect bluetooth: please make sure that the bluetooth when open',
-        subtipMore:'2、please make sure that mobile phone bluetooth to connect to other bluetooth device',
-        tip5: '5、real-time guidance note',
+        tip4: "4、Why didn't the APP data",
+        subtip4: '1、The APP does not connect bluetooth: please make sure that the bluetooth when open',
+        subtipMore:'2、Please make sure that mobile phone bluetooth to connect to other bluetooth device',
+        tip5: '5、Real-time guidance note',
         subtip5: 'Real-time guidance when it is notrecommended to put intelligent life APP runs in the background this behavior will lead to brush your teeth do not tally with the actual time,real-time guidance period if you want toleave the toothbrush can be suspended after brushing your teeth.',
-        tip6: '6、special remind',
+        tip6: '6、Special remind',
         subtip6: 'Please do not in modied mobile phone system date/time connect the toothbrush after use, this approach can lead to chaos, recording time to brush your teeth or oine data cannot be synchronized. In case of this problem by removing equipment after calibration system time, please add',
 
     },
@@ -178,7 +178,7 @@ const en = {
         tipText5: 'restart the toothbrush may continue to brush your teeth',
         tipText6: "or haven't reached you to set the time",
         tipText7: 'time is less than 30 s, the data will not be saved',
-        tipText8: 'After the end of the countdown,the exit pages',
+        tipText8: 'After the end of the countdown,then exit pages',
         quit:'quit the page',
         seconds:'seconds'
         
@@ -203,9 +203,9 @@ const en = {
         titleName: 'history record',
         tabs: ["day","week","month"],
         delete: "delete",
-        day: "day",
-        week: "week",
-        month: "month",
+        day: "Day",
+        week: "Week",
+        month: "Month",
         exerciseTimes: "Workouts",
         exerciseUnit: "X",
         statistics: "statistics",
@@ -219,7 +219,7 @@ const en = {
     },
     //历史记录
     Log: {
-        header: 'record',
+        header: 'Record',
         year: '年',
         month: '月',
         date: '日',
@@ -245,7 +245,7 @@ const en = {
             Sat: '周六',
             Sun: '周日',
         },
-        brushLen: 'time',
+        brushLen: 'Brush Time',
         tip: '*hold only the last three months of brushing your teeth',
         noData: 'No Record',
         statistics: 'Statistics',
@@ -266,14 +266,14 @@ const en = {
         minute: '分',
         brushLen: '刷牙时长：',
         brushTime: '刷牙时间：',
-        range: 'score reference range',
+        range: 'Score reference range',
         level: {
             low: {
                 title: 'To change it',
                 price: '0-59'
             },
             mid: {
-                title: 'normal',
+                title: 'Normal',
                 price: '60-79'
             },
             hig: {

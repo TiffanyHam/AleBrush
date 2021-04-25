@@ -886,7 +886,7 @@ export default {
       if (getLanguage() === 'zh') {
         return  strTime;
       } else {
-        return strTime.replace('分', 'min').replace('秒', 's')
+        return strTime.replace('分', ' min ').replace('秒', ' sec ')
       }
     }
   },

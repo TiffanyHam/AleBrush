@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-25 21:27:28
+ * @LastEditTime: 2021-04-25 22:16:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -663,7 +663,7 @@ export default {
           item.historyArr = item.historyArr.slice(0, 10);
         });
 
-        //console.log('两天：',this.logArr)
+        console.log('两天：',this.logArr)
       } else {
         this.getScore = 0;
       }
@@ -767,10 +767,10 @@ export default {
         var str = val.substr(1, 1); //min
         var str1 = val.substr(3, 2); //seconds
         return (
-          str+' '+
-          `${this.$t("index.minute")}`+' '+
-          str1+
-          `${this.$t("index.second")}`
+          str +
+          ` ${this.$t("index.minute")} ` +
+          str1 +
+          ` ${this.$t("index.second")} `
         );
       }
     },
