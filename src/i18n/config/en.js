@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 21:26:40
+ * @LastEditTime: 2021-04-25 22:00:44
  */
 const en = {
     index: {
@@ -176,7 +176,7 @@ const en = {
 
         tipTitle2: 'Suspend the countdown',
         tipText5: 'restart the toothbrush may continue to brush your teeth',
-        tipText6: "Oh haven't reached you to set the time",
+        tipText6: "or haven't reached you to set the time",
         tipText7: 'time is less than 30 s, the data will not be saved',
         tipText8: 'After the end of the countdown,the exit pages',
         quit:'quit the page',
@@ -188,7 +188,7 @@ const en = {
         header: 'Real-time guide',
         tipTextI30: 'More than 30 s is recorded as a valid time',
         charge: 'Please pause the toothbrush after exiting the page',
-        tipText: 'Please stop the toothbrush after exit pagesManual return or background will cause data loss. Brushing your teeth',
+        tipText: 'Manual return or running in the background will cause tooth brushing data loss',
         top:'up',
         bottom:'below',
         left:'left',

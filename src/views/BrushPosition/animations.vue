@@ -409,7 +409,7 @@ export default {
           name: this.$t("BrushTeethPosition.left"),
         },
         {
-          class: "right",
+          class: this.$i18n.locale === "zh" ? "right" :"right1",
           name: this.$t("BrushTeethPosition.right"),
         },
       ],
@@ -983,6 +983,11 @@ export default {
       }
       .right {
         right: 3%;
+        top: 50%;
+      }
+      .right1{
+        position: absolute;
+        right:-5%;
         top: 50%;
       }
       .top {
