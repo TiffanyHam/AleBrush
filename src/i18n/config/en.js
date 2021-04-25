@@ -4,13 +4,13 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 10:59:39
+ * @LastEditTime: 2021-04-25 15:53:48
  */
 const en = {
     index: {
-        noConnect: 'not connected',
-        connect: 'are connected',
-        connected: 'The connected',
+        noConnect: 'Disconnect',
+        connect: 'Connecting',
+        connected: 'Connected',
         again:'Even choose again',
         score: 'points',
         day: 'day',

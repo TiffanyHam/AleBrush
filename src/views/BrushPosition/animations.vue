@@ -620,7 +620,7 @@ export default {
           that.positionSet1()
         }      
         if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
+            if(total == (that.setOriginNum * 4 + 2)){
                 that.Exit()
              }
         }else{
@@ -648,7 +648,7 @@ export default {
           that.positionSet2()
         }   
         if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
+            if(total == (that.setOriginNum * 4 + 2)){
                 that.Exit()
              }
         }else{
@@ -675,7 +675,7 @@ export default {
           that.positionSet3()
         }      
         if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
+            if(total == (that.setOriginNum * 4 + 2)){
                 that.Exit()
              }
         }else{
@@ -702,7 +702,7 @@ export default {
           that.positionSet4()
         }    
         if(that.setOriginNum == 37){
-            if(total == (that.setOriginNum * 4) + 2){
+            if(total == (that.setOriginNum * 4 + 2)){
                 that.Exit()
              }
         }else{
@@ -763,7 +763,7 @@ export default {
       that.timer4 = setInterval(() => {
         that.time--;
         //console.log(that.time);
-        if (that.time == 1) {
+        if (that.time == 0) {
           that.time = 0;
           clearInterval(that.timer4);
           that.Exit();
@@ -852,7 +852,7 @@ export default {
       let that = this;
       that.isAppear = true;
       that.getTime30();
-      if (that.brushLen < 30) {
+      if (that.total < 30) {
         that.isEnough = false;
       } else {
         //记录数据
@@ -871,6 +871,7 @@ export default {
       }
       clearInterval(this.timer)
       clearInterval(this.timer4);
+
       window.hiLinkBle.send('F55F060301005E');//清空计时指令
       this.$router.push({ name: "Main" });
     },

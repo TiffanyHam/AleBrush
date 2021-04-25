@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 11:16:17
+ * @LastEditTime: 2021-04-25 16:21:42
 -->
 <template>
   <div id="app" :class="{'theme-dark': isDark}">
@@ -65,12 +65,12 @@ export default {
                 }
             },
             watchVal: res => { // 监听蓝牙特征值
-               // console.log('res',res);
-                that.call_update_data(res.data)
+                let deviceData = res.data.toUpperCase()
+                that.call_update_data(deviceData)
                       //工作状态
-               if (res.data.indexOf("F55F070401") == 0) {
+               if (deviceData.indexOf("F55F070401") == 0) {
                   //工作状态
-                  let openStatus = res.data.substr(10, 2);
+                  let openStatus = deviceData.substr(10, 2);
                   if (["00", "02"].includes(openStatus)) {
                     //开始
                     that.$router.push({ name: "animations" });
@@ -95,15 +95,15 @@ export default {
         this.getSystemInfo()   
 
         //在页面加载时读取sessionStorage里的状态信息
-        if (localStorage.getItem("store") ) {
-        this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(localStorage.getItem("store"))));
-        localStorage.removeItem('store');
-        }
+        // if (localStorage.getItem("store") ) {
+        // this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(localStorage.getItem("store"))));
+        // localStorage.removeItem('store');
+        // }
     
         //在页面刷新时将vuex里的信息保存到sessionStorage里
-        window.addEventListener("beforeunload",()=>{
-        localStorage.setItem("store",JSON.stringify(this.$store.state))
-        })
+        // window.addEventListener("beforeunload",()=>{
+        // localStorage.setItem("store",JSON.stringify(this.$store.state))
+        // })
   },
   mounted() {
     if (window.isDark) {

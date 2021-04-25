@@ -41,6 +41,7 @@
           <!-- 旋转方向 -->
           <img
             :src="selectedIndex == index ? item.src1 : ''"
+            style="border:0"
             class="position_center"
             width="60%"
           />

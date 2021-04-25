@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-25 11:43:17
+ * @LastEditTime: 2021-04-25 16:16:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -418,6 +418,7 @@ export default {
       "cleanMOde",
       "cloudData",
       "electric",
+      "cleanMOde"
     ]),
     tips1() {
       if (this.isDays >= -99 && this.isDays <= -1) {
@@ -491,7 +492,7 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(["setCloudData", "save_elec"]),
+    ...mapActions(["setCloudData", "save_elec", "saveMode"]),
 
     /**
      * @description: 初始化数据
@@ -558,6 +559,7 @@ export default {
       if (data.indexOf("F55F070201") == 0) {
         //刷牙模式
         this.modeDisplay = data.substr(10, 2);
+        console.log('刷牙模式:',this.modeDisplay)
         this.selectIndex = this.changeStatus(this.modeDisplay);
       }
       if (data.indexOf("F55F070301") == 0) {
@@ -863,7 +865,9 @@ export default {
           last = "60";
           break;
       }
-      this.$store.dispatch("saveMode", this.modeDisplay);
+     // this.$store.dispatch("saveMode", this.modeDisplay);
+      this.saveMode(this.modeDisplay)
+      //console.log('vuex---cleanMOde',this.cleanMOde)
       let param = "F55F060201" + mode + last;
       window.hiLinkBle.send(param);
     },
