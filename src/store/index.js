@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-04-19 09:20:10
+ * @LastEditTime: 2021-04-27 09:35:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -21,7 +21,8 @@ export default new Vuex.Store({
     timeLength:"",
     cleanMOde:'',
     cloudData:[],
-    electric:''
+    electric:'',
+    isDark: false // 是否是暗黑模式
   },
   mutations: {
     UPDATED_BLECONNECTED(state,payload) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     'CHANGETIP' (state, data) {
       state.noMorereminders = data;    
+    },
+    UPDATEISDARK (state, payload) {
+      state.isDark = payload
     }
   },
   actions: {

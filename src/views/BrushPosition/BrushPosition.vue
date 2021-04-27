@@ -31,12 +31,12 @@
               class="init_po"
               width="100%"
             />
-            <span :class="$i18n.locale === 'zh' ? 'position_in' : 'position_enin'" 
-              >{{ $t("BrushTeethPosition.you") }}{{ item.dd
+             <span :class="$i18n.locale === 'zh' ? 'position_in' : 'position_enin'"
+             >{{ $t("BrushTeethPosition.you") }}<br />{{ item.dd
               }}{{ $t("BrushTeethPosition.as") }}<br />
               {{ $t("BrushTeethPosition.initial") }}<br />
-              {{ $t("BrushTeethPosition.order") }}{{ item.ff }}</span
-            >
+              {{ $t("BrushTeethPosition.order") }}<br />{{ item.ff }}</span
+             >
           </span>
           <!-- 旋转方向 -->
           <img
@@ -171,7 +171,7 @@ export default {
         line-height: 15px;
         .position_in {
           position: relative;
-          bottom: 64px;
+          bottom: 78px;
           left: 0px;
         }
         .position_enin{

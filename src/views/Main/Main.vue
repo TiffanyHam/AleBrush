@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-25 22:16:35
+ * @LastEditTime: 2021-04-27 09:36:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -38,7 +38,7 @@
             <div
               class="posiImg"
               :style="
-                isDarks == true
+                isDark == true
                   ? {
                       backgroundImage:
                         'url(' + imgBooth_dark[booth_index] + ')',
@@ -259,7 +259,6 @@ import reportData from "../../utils/reportData";
 import Dialog from "../RemainTime/ResetDialog.vue";
 
 export default {
-  inject: ["isDarks"],
   data() {
     return {
       isPosition: 0,
@@ -315,6 +314,7 @@ export default {
       //isOnce: true,
       timers: null,
       currentTime:'',
+      connectTimer: null // 连接倒计时30秒
       // logArr: [
       //   {
       //     dates: "今天 星期三",
@@ -419,6 +419,7 @@ export default {
       "cleanMOde",
       "cloudData",
       "electric",
+      'isDark'
     ]),
     tips1() {
       if (this.isDays >= -99 && this.isDays <= -1) {
@@ -445,29 +446,30 @@ export default {
         window.hiLinkBle.openBlueTooth();
         this.isflage = false;
         this.isConnect = false;
-        setTimeout (() =>{
-          this.isflage = true;
-          this.isConnect = true;
-          this.isDialog = true;
-        },30*1000)
+        this.connectTimerFn()
       }
       if (status == 1) {
         //连接中
         this.isflage = false;
         this.isConnect = false;
         this.isDialog = false;
+        this.connectTimerFn()
       }
       if (status == 2) {
         //已连接
         //this.getHistory(this.cloudData);
-        //this.getCloudHistory();
+        setTimeout(() => {
+          this.getCloudHistory();
+        }, 300);
         this.acceptData(this.data); //初始化数据
         this.isflage = false; 
         this.isConnect = true;
         this.isDialog = false;
+        clearTimeout(this.connectTimer)
       }
       if (status == 3) {
         //连接超时
+        clearTimeout(this.connectTimer)
         this.isflage = true;
         this.isConnect = true;
         this.isDialog = true;
@@ -523,17 +525,14 @@ export default {
         window.hiLinkBle.openBlueTooth();
         this.isflage = false;
         this.isConnect = false;
-        setTimeout (() =>{
-          this.isflage = true;
-          this.isConnect = true;
-          this.isDialog = true;
-        },30*1000)
+        this.connectTimerFn()
       }
       if (this.bleConnected == 1) {
         //连接中
         this.isflage = false;
         this.isConnect = false;
         this.isDialog = false;
+        this.connectTimerFn()
       }
       if (this.bleConnected == 2) {
         //this.getHistory(this.cloudData);
@@ -541,9 +540,11 @@ export default {
         this.isflage = false; //已连接
         this.isConnect = true;
         this.isDialog = false;
+        clearTimeout(this.connectTimer)
       }
       if (this.bleConnected == 3) {
         //连接超时
+        clearTimeout(this.connectTimer)
         this.isflage = true;
         this.isConnect = true;
         this.isDialog = true;
@@ -579,7 +580,7 @@ export default {
         this.save_elec(this.battery); //存储电量
 
         //电量不足
-        if (this.battery == "01") {
+        if (this.battery === "01" || this.battery === '00') {
           this.dialogTip = true;
         }
       }
@@ -603,8 +604,8 @@ export default {
      */
     getCloudHistory() {
       let resCallback = (res) => {
-      //  console.log("云端数据返回：", res);
-        if ((res == undefined || res.length <= 0) && (localStorage.getItem('current_time') == null)) {
+       console.log("云端数据返回：", res);
+        if (res && res.length <= 0 && (localStorage.getItem('current_time') == null)) {
           //历史记录为空时上报第一次日期
             reportData.resize(new Date().getTime() + 1000);
         } else {
@@ -620,13 +621,17 @@ export default {
      * @return {*}
      */
     getHistory(res) {
+      console.log('getHistory-res', res)
+      if (!res) return
       var fuzzyArr = this.fuzzyQuery(res, "XXXXXX_");
-      //console.log('fuzzyArr',fuzzyArr)
+      console.log('fuzzyArr',fuzzyArr)
       if (fuzzyArr.length !== 0) {
-        let fixDate = fuzzyArr[0].split("_")[1];
+        let fixDate = fuzzyArr[0].data.score.split("_")[1];
         let currentTime = localStorage.getItem('current_time');
-        // console.log(fixDate,currentTime)
         let currentDate = reportData.formatDate1(Date.parse(new Date()));
+        console.log('fixDate: ',fixDate)
+        console.log('currentTime: ', currentTime)
+        console.log('currentDate: ', currentDate)
         if(currentTime){
           this.isDays = 60 - this.getDays(currentTime, currentDate);
         }else{
@@ -904,10 +909,10 @@ export default {
      * @return {Array}           查询的结果
      */
     fuzzyQuery(list, keyWord) {
-      var reg = new RegExp(keyWord);
+      console.log
       var arr = [];
       for (var i = 0; i < list.length; i++) {
-        if (new RegExp(keyWord).test(list[i])) {
+        if (new RegExp(keyWord).test(list[i].data.score)) {
           arr.push(list[i]);
         }
       }
@@ -953,7 +958,22 @@ export default {
         this.isDays = 60;
       }
     },
+    /** 连接倒计时 */
+    connectTimerFn () {
+      if (this.connectTimer) {
+        clearTimeout(this.connectTimer)
+        this.connectTimer = null
+      }
+      this.connectTimer = setTimeout (() =>{
+        this.isflage = true;
+        this.isConnect = true;
+        this.isDialog = true;
+      },30*1000)
+    }
   },
+  beforeDestroy() {
+    clearTimeout(this.connectTimer)
+  }
 };
 </script>
 

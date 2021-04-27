@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-25 22:23:43
+ * @LastEditTime: 2021-04-27 09:34:27
  */
 const en = {
     index: {
@@ -13,7 +13,7 @@ const en = {
         connected: 'Connected',
         again:'Reconnect',
         score: 'points',
-        day: 'day',
+        day: 'days',
         lastScore: 'Score',
         restDay: 'Brush head rest',
         brushmode: 'Model',
@@ -79,11 +79,11 @@ const en = {
     },
     //起始位置
     BrushTeethPosition:{
-        position1:'Lower left area',
+        position1:'Lower left area ',
         position2:'Lower right area',
         position3:'Upper right area',
         position4:'Upper left area',
-        header:'starting position',
+        header:'Starting position',
         top:'maxillary',
         bottom:'lower jaw',
         left:'left',
@@ -94,7 +94,7 @@ const en = {
         you:'You select the ',
         as:'for',
         initial:'starting position',
-        order:'sequence for',
+        order:'sequence for ',
         current:'current',
     },
     //更多设置
@@ -103,23 +103,23 @@ const en = {
         otherOptions: {
             methodsU: 'Brush your teeth steps',
             methodsI: 'Methods of use',
-            title2: 'Common problem',
+            title2: 'Common problems',
             see:'view',
         }
     },
     //刷牙步骤
     brushMethods: {
-        headerTitle: 'Steps',
-        subtip: 'Insert the toothbrush head in the right direction input shaft, brush a head sh need to keep some gap between main body, so as not to aect the vibration eect.',
+        headerTitle: 'Brush your teeth steps',
+        subtip: 'Insert the toothbrush head in the right direction input shaft, brush head resh need to keep some gap between main body, so as not to affect the vibration effect.',
         subtip2: 'To prevent toothbrush splash, recommend a small amount of tooth brush in the brush head.',
         subtip3: 'It soaks into the mouth, and then start the toothbrush.',
         subtipMore:'* Need to start the toothbrush, and then in your mouth.',
         subtip4: 'The bristles should be moved at a 45-degree Angle to the gum line.',
         subtip5: "Light hold a toothbrush body, moves in the weeks to move slowly, don't you push hard on the or scrub.",
         subtip6: 'After brushing teeth, gargle with water, please.',
-        headerTitle2: 'Use method',
+        headerTitle2: 'Methods of use',
         tip7: '1、To understand our oral cavity',
-        subtip7: 'HYSPIN according to the scientific Pasteur brushing hair,the oral cavity is divided into 6 areas 16 dental surfaces.help you clean each tooth surface,protect the health of teeth. ',
+        subtip7: 'HYSPIN according to the scientific Pasteur brushing hair,the oral cavity is divided into 4 areas 16 dental surfaces.help you clean each tooth surface,protect the health of teeth. ',
         tip8: '2、Intelligent toothbrush use process',
         subtip8: '① Toothbrush after the connection is successful, start the toothbrush can real-time guide into the interface.',
         subtip9: '② Put the toothbrush on the initial tooth area began to clean tooth area each tooth surface. Tang teeth to distinguish 3, tooth surface, incisor to distinguish the two tooth surface. Each tooth surface evenly clean, to the qing. Clean teeth get higher scores.',
@@ -149,15 +149,15 @@ const en = {
     // 刷牙剩余使用时间 重置
     RemainTime: {
         header: 'Brush head rest',
-        day: 'day',
+        day: 'days',
         doctorWord: 'The dentist suggested that once every 2 to 3 months replacement brush head!',
-        proposal:'Each brush for more than 30 seconds was recorded as a valid number of brushing your teeth, each brush head can be used 120 times a day (twice or 60 days),the numberof days used over time change the brush head',
-        rest: 'Brush a head rest',
+        proposal:'Each brush for more than 30 seconds was recorded as a valid number of brushing your teeth, each brush head can be used 120 times a day (twice or 60 days),the number of days used over time change the brush head',
+        rest: 'Brush head rest',
 
         resetDay: 'Reset the time',
-        btnTip: 'After a reset, brush a head to use the remaining days will return from 60 days, reset?',
-        cancle: 'cancel',
-        sure: 'determine',
+        btnTip: 'After a reset, brush head to use the remaining days will return from 60 days, reset?',
+        cancle: 'Cancel',
+        sure: 'Determine',
     },
     // 倒计时  超时弹窗  
     Hint: {
@@ -175,18 +175,18 @@ const en = {
         close:'close',
 
         tipTitle2: 'Suspend the countdown',
-        tipText5: 'restart the toothbrush may continue to brush your teeth',
-        tipText6: "or haven't reached you to set the time",
-        tipText7: 'time is less than 30 s, the data will not be saved',
+        tipText5: 'Restart the toothbrush may continue to brush your teeth',
+        tipText6: "or haven't reached you to set the time.",
+        tipText7: 'time is less than 30s, the data will not be saved.',
         tipText8: 'After the end of the countdown,then exit pages',
-        quit:'quit the page',
+        quit:'Quit the page',
         seconds:'seconds'
         
     },
     //实时引导
     brushing: {
         header: 'Real-time guide',
-        tipTextI30: 'More than 30 s is recorded as a valid time',
+        tipTextI30: 'More than 30s is recorded as a valid time',
         charge: 'Please pause the toothbrush after exiting the page',
         tipText: 'Manual return or running in the background will cause tooth brushing data loss',
         top:'up',

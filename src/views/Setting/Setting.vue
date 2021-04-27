@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-20 11:50:34
+ * @LastEditTime: 2021-04-27 09:37:44
 -->
 <template>
     <div class="setting flexC">
@@ -37,7 +37,7 @@
 <script>
 export default {
     name: "Setting",
-    inject: ['isDarks', 'reload'],
+    inject: ['isDarks'],
     data() {
         return {
             selfB: true,
