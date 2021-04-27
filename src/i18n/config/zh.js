@@ -186,6 +186,7 @@ const zh = {
         bottom:'下',
         left:'左',
         right:'右',
+        music:'语音引导'
     },
     //充电提示
     Reconnection: {
