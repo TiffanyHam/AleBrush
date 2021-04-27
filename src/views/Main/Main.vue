@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-27 09:36:25
+ * @LastEditTime: 2021-04-27 09:50:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -909,7 +909,7 @@ export default {
      * @return {Array}           查询的结果
      */
     fuzzyQuery(list, keyWord) {
-      console.log
+     // console.log
       var arr = [];
       for (var i = 0; i < list.length; i++) {
         if (new RegExp(keyWord).test(list[i].data.score)) {
