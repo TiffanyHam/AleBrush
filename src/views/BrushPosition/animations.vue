@@ -363,14 +363,14 @@
         autoplay
         muted
       ></audio> -->
-      <audio ref="player" autoplay
+      <audio v-if="index == 1" ref="player" autoplay
         muted src="../../assets/image/music/one.mp3"></audio>
-        <!-- <audio ref="player2" autoplay
-      muted src="../../assets/image/music/two.mp3"></audio>
-        <audio ref="player3" autoplay
-      muted src="../../assets/image/music/three.mp3"></audio>
-        <audio ref="player4" autoplay
-      muted src="../../assets/image/music/one.mp3"></audio> -->
+      <audio v-if="index == 2" ref="player" autoplay
+        muted src="../../assets/image/music/two.mp3"></audio>
+      <audio v-if="index == 3" ref="player" autoplay
+        muted src="../../assets/image/music/three.mp3"></audio>
+      <audio v-if="index == 4" ref="player" autoplay
+        muted src="../../assets/image/music/four.mp3"></audio>
     </div>
     <!-- 倒计时弹窗 -->
     <!-- <DialogTime :isEnough="isEnough" v-show="isShow"> </DialogTime> -->
