@@ -626,12 +626,12 @@ export default {
       if (this.isPlay) {
         this.isPlay = false;
         player.pause();
-        console.log(player.currentTime);
+      //  console.log(player.currentTime);
         return;
       } else {
         this.isPlay = true;
         player.play();
-        console.log(player.currentTime);
+       // console.log(player.currentTime);
       }
     },
     /**
