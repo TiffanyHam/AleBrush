@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-11-11 11:25:24
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-27 09:34:27
+ * @LastEditTime: 2021-04-28 11:37:06
  */
 const en = {
     index: {
@@ -105,7 +105,9 @@ const en = {
             methodsI: 'Methods of use',
             title2: 'Common problems',
             see:'view',
-        }
+        },
+        audio:'语音引导',
+        switchOn:'开启时，启动牙刷进入实时引导页面会有语音提示',
     },
     //刷牙步骤
     brushMethods: {

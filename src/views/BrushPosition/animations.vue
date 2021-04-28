@@ -346,9 +346,9 @@
     <div class="stopB" v-show="isStop">{{ $t("brushing.charge") }}</div>
     <div class="music" @click="togglePlay">
       <!-- 音乐开关切换 -->
-      <span class="musicOn" v-show="isPlay"></span>
-      <span class="musicOff" v-show="!isPlay"></span>
-      <span>{{ $t("brushing.music") }}</span>
+      <span class="musicOn" v-show="isAudio"></span>
+      <span class="musicOff" v-show="!isAudio"></span>
+      <span>{{ $t("setting.audio") }}</span>
     </div>
     <div class="brushing">
       <div>{{ $t("brushing.charge") }}</div>
@@ -356,24 +356,16 @@
     </div>
     <!-- music -->
     <div>
-      <!-- <audio
-        v-for="(item, index) in audio" :key= "'info1-' + index"
-        :src="item.src"
-        :ref="'player' + item.index"
-        autoplay
-        muted
-      ></audio> -->
-      <audio v-if="index == 1" ref="player" autoplay
+      <audio v-if="index == 1 && isAudio" ref="player" autoplay
         muted src="../../assets/image/music/one.mp3"></audio>
-      <audio v-if="index == 2" ref="player" autoplay
+      <audio v-if="index == 2 && isAudio" ref="player" autoplay
         muted src="../../assets/image/music/two.mp3"></audio>
-      <audio v-if="index == 3" ref="player" autoplay
+      <audio v-if="index == 3 && isAudio" ref="player" autoplay
         muted src="../../assets/image/music/three.mp3"></audio>
-      <audio v-if="index == 4" ref="player" autoplay
+      <audio v-if="index == 4 && isAudio" ref="player" autoplay
         muted src="../../assets/image/music/four.mp3"></audio>
     </div>
     <!-- 倒计时弹窗 -->
-    <!-- <DialogTime :isEnough="isEnough" v-show="isShow"> </DialogTime> -->
     <div class="bleDialog" v-show="isAppear">
       <!-- 蒙版 -->
       <div
@@ -502,12 +494,13 @@ export default {
           index:4,
           src:"../../assets/image/music/four.mp3"
         }
-      ]
+      ],
+      isAudio:true
     };
   },
 
   computed: {
-    ...mapState(["timeLength", "data", "initPosition"]),
+    ...mapState(["timeLength", "data", "initPosition","isMusic"]),
   },
   watch: {
     timeLength(val) {
@@ -517,9 +510,17 @@ export default {
       //console.log("數據來了", value);
       this.acceptData(value);
     },
-    time(n, o) {
+    time(n) {
       this.time = n;
     },
+    isMusic(val){
+      this.isAudio = val
+      if(val){
+        this.$nextTick(() => {
+         this.onendedEvent()
+        })
+      }
+    }
   },
   created() {
     let r = 42.5;
@@ -584,7 +585,13 @@ export default {
   },
   mounted() {
     this.animation();
-    this.onendedEvent()
+    this.isAudio = this.isMusic
+    //console.log('this.isAudio',this.isMusic)
+    if(this.isAudio){
+      this.$nextTick(() => {
+        this.onendedEvent()
+       })
+    }
   },
   beforeDestroy() {
     clearInterval(this.timer1);
@@ -595,7 +602,7 @@ export default {
     this.timer4 = null;
   },
   methods: {
-    ...mapActions(["setCloudData"]),
+    ...mapActions(["setCloudData","saveMusic"]),
     /**
      * @description: 根据四个面播放不同音乐
      * @param {*}
@@ -623,15 +630,15 @@ export default {
      */
     togglePlay() {
       let player = this.$refs.player;
-      if (this.isPlay) {
-        this.isPlay = false;
+      if (this.isAudio) {
+        this.isAudio = false;
+        this.saveMusic(this.isAudio)
         player.pause();
-      //  console.log(player.currentTime);
         return;
       } else {
-        this.isPlay = true;
+        this.isAudio = true;
+        this.saveMusic(this.isAudio)
         player.play();
-       // console.log(player.currentTime);
       }
     },
     /**

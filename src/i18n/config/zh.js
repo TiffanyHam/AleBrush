@@ -98,7 +98,9 @@ const zh = {
                 methodsI: '使用方法',
                 title2: '常见问题',
                 see:'查看',
-            }
+            },
+            audio:'语音引导',
+            switchOn:'开启时，启动牙刷进入实时引导页面会有语音提示',
         },
     //刷牙步骤
     brushMethods: {
@@ -186,7 +188,6 @@ const zh = {
         bottom:'下',
         left:'左',
         right:'右',
-        music:'语音引导'
     },
     //充电提示
     Reconnection: {

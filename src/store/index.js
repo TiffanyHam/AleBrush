@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-04-27 09:35:43
+ * @LastEditTime: 2021-04-28 10:56:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -22,7 +22,8 @@ export default new Vuex.Store({
     cleanMOde:'',
     cloudData:[],
     electric:'',
-    isDark: false // 是否是暗黑模式
+    isDark: false, // 是否是暗黑模式
+    isMusic:true
   },
   mutations: {
     UPDATED_BLECONNECTED(state,payload) {
@@ -51,6 +52,9 @@ export default new Vuex.Store({
     },
     UPDATEISDARK (state, payload) {
       state.isDark = payload
+    },
+    UPDATEMUSIC (state, payload) {
+      state.isMusic = payload
     }
   },
   actions: {
@@ -72,6 +76,9 @@ export default new Vuex.Store({
     save_time ({commit},data) {
       commit('UPDATE_TIME', data);
    },
+   saveMusic ({commit},data) {
+    commit('UPDATEMUSIC', data);
+   },
    save_elec ({commit},data) {
       commit('UPDATE_ELEC', data);
     },
@@ -81,6 +88,7 @@ export default new Vuex.Store({
     changeTip ({commit},data) {
       commit('CHANGETIP', data);
    },
+   
   },
   getters: {
      
