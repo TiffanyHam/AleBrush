@@ -498,7 +498,6 @@ export default {
       isAudio:true
     };
   },
-
   computed: {
     ...mapState(["timeLength", "data", "initPosition","isMusic"]),
   },
@@ -592,6 +591,11 @@ export default {
         this.onendedEvent()
        })
     }
+    // history.pushState(null, null, document.URL);
+    //  window.addEventListener('popstate', function () {
+    //  this.isStop = true
+    //  history.pushState(null, null, document.URL);
+  //});
   },
   beforeDestroy() {
     clearInterval(this.timer1);
