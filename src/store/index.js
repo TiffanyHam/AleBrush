@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-04-28 10:56:52
+ * @LastEditTime: 2021-04-28 16:44:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -19,7 +19,8 @@ export default new Vuex.Store({
     initPosition:0,
     data:'',
     timeLength:"",
-    cleanMOde:'',
+    cleanMOde:0,
+    vigor:0,
     cloudData:[],
     electric:'',
     isDark: false, // 是否是暗黑模式
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     UPDATE_Mode(state,payload){
       state.cleanMOde = payload;
+    },
+    UPDATE_VIGOR(state,payload){
+      state.vigor = payload;
     },
     UPDATE_ELEC(state,payload){
       state.electric = payload;
@@ -70,6 +74,9 @@ export default new Vuex.Store({
     saveMode({commit},data){
       commit('UPDATE_Mode', data);
     },
+    saveVigo({commit},data){
+      commit('UPDATE_VIGOR', data);
+      },
     setCloudData({commit},data){
       commit('UPDATE_CLOUDDATA', data);
     },

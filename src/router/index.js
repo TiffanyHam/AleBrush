@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-23 18:29:29
+ * @LastEditTime: 2021-04-28 16:42:52
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -91,6 +91,14 @@ export default new Router({
         keepAlive: false, 
       }
     },
+    {
+        path: "/BrushTeethModel",
+        name: "BrushTeethModel",
+        component: () => import("../views/BrushTeethModel/BrushTeethModel.vue"),
+        meta: {
+          keepAlive: false, 
+        }
+      }
   ]
 });
 // Router.beforeEach((to, from, next) => {
