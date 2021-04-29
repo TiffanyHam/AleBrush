@@ -456,6 +456,7 @@ export default {
       timer: null,
       timer1: null,
       timer4: null,
+      timer2:null,
       timeL: "00",
       num: 0,
       isPlay: true, //音频播放状态
@@ -591,21 +592,33 @@ export default {
         this.onendedEvent()
        })
     }
-    // history.pushState(null, null, document.URL);
-    //  window.addEventListener('popstate', function () {
-    //  this.isStop = true
-    //  history.pushState(null, null, document.URL);
-  //});
+    if (window.history && window.history.pushState) {
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', this.backChange, false);//false阻止默认事件
+      }
   },
+  destroyed(){
+     window.removeEventListener('popstate', this.backChange, false);//false阻止默认事件
+   },
   beforeDestroy() {
     clearInterval(this.timer1);
     clearInterval(this.timer);
     clearInterval(this.timer4);
+    clearInterval(this.timer2);
     this.timer1 = null;
     this.timer = null;
     this.timer4 = null;
+    this.timer2 = null
   },
   methods: {
+    backChange(){
+      console.log("监听到了");
+      this.isStop = true
+      history.pushState(null, null, document.URL);
+      this.timer2 = setTimeout(() =>{
+        this.isStop = false
+      },200)
+     },
     ...mapActions(["setCloudData","saveMusic"]),
     /**
      * @description: 根据四个面播放不同音乐
@@ -961,10 +974,12 @@ export default {
         if (this.isOpen == "01") {
           this.ExitDialog(); //暂停  弹窗出现
           this.$refs.player.pause()
+          window.removeEventListener('popstate', this.backChange, false);//false阻止默认事件
         }
         if (this.isOpen == "02") {
           this.isAppear = false; //恢复  弹窗关闭
           this.$refs.player.play()
+          history.pushState(null, null, document.URL);
 
           clearInterval(this.timer4);
           this.time = 30;
@@ -1077,11 +1092,15 @@ export default {
     line-height: 36px;
     margin: 0 auto;
     font-size: 12px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    bottom: 13%;
   }
   .music {
     text-align: center;
     color: #fff;
-    margin-bottom: 10px;
+    margin: 10px 0;
     position: relative;
     .musicOn,
     .musicOff {
