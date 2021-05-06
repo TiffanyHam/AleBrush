@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-04-27 09:50:57
+ * @LastEditTime: 2021-05-06 10:52:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -214,25 +214,27 @@
               <div
                 v-for="(itemA, index) in item.historyArr"
                 :key="index"
-                :class="
-                  index < item.historyArr.length - 1
-                    ? 'detail_bor hi-timeitem'
-                    : 'hi-timeitem'
-                "
+                class="hi-timeitem"
               >
-                <div class="hi-timeitem">
-                  <div
+               <div
                     class="grade"
                     :style="{ backgroundColor: brushingHistory(itemA.score) }"
                   >
                     {{ itemA.score }}
                   </div>
+                <div :class="
+                  index < item.historyArr.length - 1
+                    ? 'detail_bor hi-timeitem1'
+                    : 'hi-timeitem1'
+                ">
+                 
                   <div class="timeitemMain">
                     <span class="size16 c_90">{{ itemA.brushLens }}</span>
                     <span class="size14 c_60">{{ itemA.time }}</span>
                   </div>
+                                  <div class="seconds">{{ itemA.seconds }}</div>
+
                 </div>
-                <div class="seconds">{{ itemA.seconds }}</div>
               </div>
             </div>
           </div>
@@ -1053,7 +1055,7 @@ export default {
         line-height: 1.77;
         font-size: 0.388rem;
         .log_arr {
-          margin: 0 0 20px 0;
+          margin: 0 0 10px 0;
           .days {
             color: rgba(0, 0, 0, 0.86);
             margin-top: 4px;
@@ -1062,15 +1064,21 @@ export default {
         }
       }
       .detail_bor {
-        padding-bottom: 11px;
+       // padding-bottom: 11px;
         border-bottom: 0.00694rem solid rgba(0, 0, 0, 0.2);
       }
       .hi-timeitem {
         display: flex;
+        //justify-content: space-between;
+        align-items: center;
+        height: 1.77rem;
+        .hi-timeitem1{
+        display: flex;
         justify-content: space-between;
         align-items: center;
         height: 1.77rem;
-        //  border-bottom: 0.00694rem solid rgba(0, 0, 0, 0.2);
+        flex: 1;
+          }
         .grade {
           width: 40px;
           height: 40px;
