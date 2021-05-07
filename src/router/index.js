@@ -4,7 +4,7 @@
  * @Author: Tiffany
  * @Date: 2020-08-26 17:41:01
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-28 16:42:52
+ * @LastEditTime: 2021-05-07 09:28:25
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -95,6 +95,15 @@ export default new Router({
         path: "/BrushTeethModel",
         name: "BrushTeethModel",
         component: () => import("../views/BrushTeethModel/BrushTeethModel.vue"),
+        meta: {
+          keepAlive: false, 
+        }
+      }
+      ,
+    {
+        path: "/video",
+        name: "video",
+        component: () => import("../views/video/video.vue"),
         meta: {
           keepAlive: false, 
         }
