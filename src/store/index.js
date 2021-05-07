@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 16:14:25
- * @LastEditTime: 2021-04-28 16:44:44
+ * @LastEditTime: 2021-05-07 10:47:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \brood-pressure-demo - one\src\store\common.js
@@ -11,7 +11,10 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-
+window.isHilinkDark =
+  (window.hilink &&
+    window.hilink.getDarkMode &&
+    window.hilink.getDarkMode()) === 2;
 export default new Vuex.Store({
   namespaced: true,//开启命名空间
   state: {
@@ -23,7 +26,7 @@ export default new Vuex.Store({
     vigor:0,
     cloudData:[],
     electric:'',
-    isDark: false, // 是否是暗黑模式
+    isDark: window.isHilinkDark, // 是否是暗黑模式
     isMusic:true
   },
   mutations: {
@@ -53,9 +56,6 @@ export default new Vuex.Store({
     },
     'CHANGETIP' (state, data) {
       state.noMorereminders = data;    
-    },
-    UPDATEISDARK (state, payload) {
-      state.isDark = payload
     },
     UPDATEMUSIC (state, payload) {
       state.isMusic = payload
