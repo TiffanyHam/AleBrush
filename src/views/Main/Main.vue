@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-05-12 09:51:34
+ * @LastEditTime: 2021-05-12 09:58:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -1030,9 +1030,10 @@ export default {
       color: rgba(0, 0, 0, 0.9);
     }
     .moreLog {
-      //background-color: #fff;
+      background-color: #fff;
       width: 100%;
       height: auto;
+      min-height:230px;
       border-radius: 8px;
       //flex: 1;
       margin-bottom: 8px;
@@ -1051,7 +1052,7 @@ export default {
       }
 
       .logHistory {
-        //  padding: 0 24px;
+        padding: 0 24px;
         line-height: 1.77;
         font-size: 0.388rem;
         .log_arr {
@@ -1109,6 +1110,7 @@ export default {
       }
       .logTab {
         height: 48px;
+        padding: 0 24px;
       }
       .fontStyle {
         font-size: 14px;
@@ -1309,6 +1311,7 @@ export default {
         border-left: 0.00694rem solid rgba(255, 255, 255, 0.2);
       }
       .moreLog {
+        background-color: #262626;
         .fontStyle {
           color: rgba(255, 255, 255, 0.66);
         }
