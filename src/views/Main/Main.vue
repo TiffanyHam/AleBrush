@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-22 17:06:40
- * @LastEditTime: 2021-05-06 10:52:45
+ * @LastEditTime: 2021-05-12 09:51:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\views\index.vue
@@ -1111,7 +1111,7 @@ export default {
         height: 48px;
       }
       .fontStyle {
-        font-size: 16px;
+        font-size: 14px;
         color: rgba(0, 0, 0, 0.6);
       }
       
@@ -1123,8 +1123,8 @@ export default {
       justify-content: space-between;
     }
     .log_right {
-        width: 6px;
-        height: 10px;
+        width: 12px;
+        height: 24px;
         background-size: 100% 100%;
         background-repeat: no-repeat;
         margin: 0 0 1px 4px;
