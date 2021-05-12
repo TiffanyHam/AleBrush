@@ -75,7 +75,7 @@ export default {
     background-color: #fff;
     width: 100%;
     height: 100%;
-    padding: 0 8px;
+   // padding: 0 8px;
     .mar {
         height: 16px;
     }

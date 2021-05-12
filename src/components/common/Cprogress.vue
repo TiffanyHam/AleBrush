@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-03-25 09:25:35
- * @LastEditTime: 2021-04-17 17:12:46
+ * @LastEditTime: 2021-05-12 09:33:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \AleBrush\src\components\common\Cprogress.vue
@@ -14,48 +14,27 @@
 
 <script>
 export default {
-  props: {
-    realValue: {
-      type: Number,
-      required: true,
-      default: 25,
-    },
-  },
+  props: ["realValue"],
   name: "Cprogress",
   data() {
     return {
-      changedValue:20
+      temp: this.realValue,
     };
   },
 
   components: {},
   watch: {
-    realValue(n, o) {
-      this.realValue = n;
-      if (n > 0 || n < 61) {
-        this.changedValue = 20;
+    realValue(n) {
+      this.temp = n;
+      if (n > 60) {
+        this.temp = 60;
       }
-      if (n < -19) {
-        this.changedValue = 100;
+      if (n < 0) {
+        this.temp = 0;
       }
       this.getEchartData();
     },
   },
-  computed: {
-    // changedValue() {
-    //   let data = "";
-    //   if (this.realValue > 0 && this.realValue < 61) {
-    //     data = 20;
-    //   }
-    //   if (this.realValue < -19) {
-    //     data = 99;
-    //   }
-    //   return data;
-    // },
-  },
-
-  created() {},
-
   mounted() {
     this.$nextTick(() => {
       this.getEchartData();
@@ -86,39 +65,123 @@ export default {
      */
     setOptions() {
       let that = this;
-      var placeHolderStyle = {
-        normal: {
-          label: {
+      let option = {
+        backgroundColor: window.isDark ? "#000" : "#fff",
+        angleAxis: {
+          show: false,
+          max: (60 * 360) / 270, //-45度到225度，二者偏移值是270度除360度
+          type: "value",
+          startAngle: 225, //极坐标初始角度
+          splitLine: {
             show: false,
           },
-          labelLine: {
-            show: false,
-          },
-          color: "rgba(0,0,0,0)",
-          borderWidth: 0,
         },
-        emphasis: {
-          color: "rgba(0,0,0,0)",
-          borderWidth: 0,
+        barMaxWidth: 16, //圆环宽度
+        radiusAxis: {
+          show: false,
+          type: "category",
         },
-      };
-
-      var dataStyle = {
-        normal: {
-          formatter: function (e) {
-            return (
-              that.realValue +
-              "{d|" +
-              that.$t("RemainTime.day")  +
-              "}" +
-              "\n" +
-              "{a|" +
-              that.$t("RemainTime.rest") +
-              "}"
-            );
+        //圆环位置和大小
+        polar: {
+          center: ["50%", "50%"],
+          radius: ["83%", "98%"],
+        },
+        series: [
+          {
+            type: "bar",
+            data: [
+              {
+                //上层圆环，显示数据
+                value: that.temp,
+                itemStyle: {
+                  color: {
+                    //图形渐变颜色方法，四个数字分别代表，右，下，左，上，offset表示0%到100%
+                    type: "linear",
+                    x: 0,
+                    y: 0,
+                    x2: 1, //从左到右 0-1
+                    y2: 0,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: window.isDark ? "#3f97e9" : "#007dff",
+                      },
+                      {
+                        offset: 1,
+                        color: window.isDark ? "#3f97e9" : "#007dff",
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            barGap: "-100%", //柱间距离,上下两层圆环重合
+            coordinateSystem: "polar",
+            roundCap: true, //顶端圆角从 v4.5.0 开始支持
+            z: 2, //圆环层级，同zindex
           },
-          rich: {
-            d: {  //天
+          {
+            //下层圆环，显示最大值
+            type: "bar",
+            data: [
+              {
+                value: 60,
+                itemStyle: {
+                  color: "rgba(204,204,204,0.4)",
+                },
+              },
+            ],
+            barGap: "-100%",
+            coordinateSystem: "polar",
+            roundCap: true,
+            z: 1,
+          },
+          //仪表盘
+          {
+            name: "AQI",
+            type: "gauge",
+            startAngle: 225, //起始角度，同极坐标
+            endAngle: -45, //终止角度，同极坐标
+            axisLine: {
+              show: false,
+            },
+            splitLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              show: false,
+            },
+            splitLabel: {
+              show: false,
+            },
+            pointer: {
+              show: false,
+            },
+            title: {
+              offsetCenter: [-10, 10],
+              color: window.isDark
+                ? "rgba(255,255,255,0.86)"
+                : "rgba(0,0,0,0.9)",
+              fontSize: 45,
+              fontWeight: 500,
+              rich: {
+                a: {
+                  fontWeight: "normal",
+                  fontSize: 16,
+                  color: window.isDark
+                    ? "rgba(255,255,255,0.6)"
+                    : "rgba(0,0,0,0.6)",
+                  padding: [10, 0, 0, 20],
+                },
+              },
+            },
+            detail: {
+              formatter: function (e) {
+                return that.$t("RemainTime.day");
+              },
               color: window.isDark
                 ? "rgba(255,255,255,0.9)"
                 : "rgba(0,0,0,0.9)",
@@ -126,91 +189,11 @@ export default {
               offsetCenter: [that.$i18n.locale === "zh" ? 30 : 35, 5],
               padding: [4, 3],
             },
-            a: {  //刷头剩余
-              fontWeight: "normal",
-              fontSize: 16,
-              color: window.isDark
-                ? "rgba(255,255,255,0.6)"
-                : "rgba(0,0,0,0.6)",
-              padding: [20, 0, 0, 0],
-            },
-          },
-
-          position: "center",
-          show: true,
-          textStyle: {
-            offsetCenter: [-10, 20],
-            color: window.isDark ? "rgba(255,255,255,0.86)" : "rgba(0,0,0,0.9)",
-            fontSize: 45,
-            fontWeight: 500,
-          },
-        },
-      };
-
-      let option = {
-        backgroundColor: window.isDark ? "#000" : "#fff",
-        series: [
-          {
-            type: "pie",
-            hoverAnimation: false,
-            radius: ["85%", "100%"],
-            center: ["50%", "50%"],
-            startAngle: 225,
-            labelLine: {
-              normal: {
-                show: false,
-              },
-            },
-            label: {
-              normal: {
-                position: "center",
-              },
-            },
             data: [
               {
-                value: 60,
-                itemStyle: {
-                  normal: {
-                    color: "#E1E8EE",
-                  },
-                },
-              },
-              {
-                value: 20,
-                itemStyle: placeHolderStyle,
-              },
-            ],
-          },
-          //上层环形配置
-          {
-            type: "pie",
-            hoverAnimation: false, //鼠标经过的特效
-            radius: ["85%", "100%"],
-            center: ["50%", "50%"],
-            startAngle: 225,
-            labelLine: {
-              normal: {
-                show: false,
-              },
-            },
-            label: {
-              normal: {
-                position: "center",
-              },
-            },
-            data: [
-              {
-                value: that.realValue,
-                itemStyle: {
-                  normal: {
-                    color: window.isDark ? "#3f97e9" : "#007dff",
-                  },
-                },
-                label: dataStyle,
-              },
-              {
-                value: that.changedValue,
-                itemStyle: placeHolderStyle,
+                value: that.temp,
+                name:
+                  that.temp + "\n" + "{a|" + that.$t("RemainTime.rest") + "}",
               },
             ],
           },

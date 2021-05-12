@@ -4,7 +4,7 @@
  * @Author: HeZhen
  * @Date: 2020-10-23 14:40:40
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-04-27 09:37:12
+ * @LastEditTime: 2021-05-12 09:40:36
 -->
 <!--  -->
 <template>
@@ -120,16 +120,16 @@ export default {
             // border: 1px solid red;
             width: 100%;
             text-align: center;
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.9);
-            margin-top: 32px;
-            margin-bottom: 25px;
+            font-size: 16px;
+            color: rgba(0, 0, 0);
+            margin-top: 0px;
+            margin-bottom: 8px;
         }
         .proposal {
             margin: 0 16px;
             line-height: 20px;
             font-size: 14px;
-            color: rgba(0, 0, 0, 0.9);
+            color: rgba(0, 0, 0, 0.6);
         }
         .footer {
             width: 100%;
@@ -177,8 +177,11 @@ button :focus {
         background-color: #000;
         .main {
             background-color: #000;
-            .doctorWord,.proposal {
+            .doctorWord{
                 color: rgba(255, 255, 255, 0.86);
+            }
+            .proposal {
+                color: rgba(255, 255, 255, 0.6);
             }
             .footer {
                 background-color: #000;
